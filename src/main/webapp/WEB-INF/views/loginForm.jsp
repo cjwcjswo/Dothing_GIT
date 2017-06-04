@@ -6,10 +6,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>loginForm.jsp입니다.</title>
-<link rel="stylesheet" href="resources/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet" href="resources/fonts/ionicons.min.css">
-<link rel="stylesheet" href="resources/css/Login-Form-Dark.css">
-<link rel="stylesheet" href="resources/css/styles.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/fonts/ionicons.min.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/Login-Form-Dark.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/styles.css">
 
 </head>
 
@@ -35,8 +35,8 @@
 			<a href="#" class="forgot">Forgot your email or password?</a>
 		</form>
 	</div>
-	<script src="resources/js/jquery.min.js"></script>
-	<script src="resources/bootstrap/js/bootstrap.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/bootstrap/js/bootstrap.min.js"></script>
 </body>
 
 
