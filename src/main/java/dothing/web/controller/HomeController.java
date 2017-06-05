@@ -22,5 +22,7 @@ public class HomeController {
 	public String loginForm() {
 		return "loginForm";
 	}
-
+	
+	@RequestMapping("mapTest")
+	public void a(){}
 }

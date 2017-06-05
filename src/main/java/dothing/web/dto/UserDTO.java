@@ -1,5 +1,7 @@
 package dothing.web.dto;
 
+import java.util.List;
+
 import org.springframework.web.multipart.MultipartFile;
 
 public class UserDTO {
@@ -18,16 +20,9 @@ public class UserDTO {
 	MultipartFile ssnImgFile;
 	
 	private PointDTO point;
+
 	
-	private GPADTO gpa;
-	
-	
-	public GPADTO getGpa() {
-		return gpa;
-	}
-	public void setGpa(GPADTO gpa) {
-		this.gpa = gpa;
-	}
+
 	public PointDTO getPoint() {
 		return point;
 	}
