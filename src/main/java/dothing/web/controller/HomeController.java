@@ -23,10 +23,17 @@ public class HomeController {
 		return "loginForm";
 	}
 	
+<<<<<<< HEAD
 	@RequestMapping("mapTest")
 	public void a(){}
+=======
+>>>>>>> 42f3cf7c418456e7be38f50dec8e780ca6628bff
 	@RequestMapping("signIn")
 	public String signIn(){
 		return "signIn" ; 
 	}
+<<<<<<< HEAD
+=======
+
+>>>>>>> 42f3cf7c418456e7be38f50dec8e780ca6628bff
 }
