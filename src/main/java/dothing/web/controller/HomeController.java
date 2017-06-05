@@ -25,4 +25,8 @@ public class HomeController {
 	
 	@RequestMapping("mapTest")
 	public void a(){}
+	@RequestMapping("signIn")
+	public String signIn(){
+		return "signIn" ; 
+	}
 }

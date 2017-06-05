@@ -1,0 +1,21 @@
+diff a/src/main/java/dothing/web/dto/UserDTO.java b/src/main/java/dothing/web/dto/UserDTO.java	(rejected hunks)
+@@ -21,14 +21,14 @@
+ 	
+ 	private PointDTO point;
+ 	
+-	private GPADTO gpa;
++	private List<GPADTO> gpaList;
+ 	
+ 	
+-	public GPADTO getGpa() {
+-		return gpa;
++	public List<GPADTO> getGpaList() {
++		return gpaList;
+ 	}
+-	public void setGpa(GPADTO gpa) {
+-		this.gpa = gpa;
++	public void setGpaList(List<GPADTO> gpaList) {
++		this.gpaList = gpaList;
+ 	}
+ 	public PointDTO getPoint() {
+ 		return point;
