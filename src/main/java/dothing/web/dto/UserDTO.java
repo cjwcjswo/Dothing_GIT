@@ -1,5 +1,7 @@
 package dothing.web.dto;
 
+import java.util.List;
+
 import org.springframework.web.multipart.MultipartFile;
 
 public class UserDTO {
@@ -19,14 +21,14 @@ public class UserDTO {
 	
 	private PointDTO point;
 	
-	private GPADTO gpa;
+	private List<GPADTO> gpaList;
 	
 	
-	public GPADTO getGpa() {
-		return gpa;
+	public List<GPADTO> getGpaList() {
+		return gpaList;
 	}
-	public void setGpa(GPADTO gpa) {
-		this.gpa = gpa;
+	public void setGpaList(List<GPADTO> gpaList) {
+		this.gpaList = gpaList;
 	}
 	public PointDTO getPoint() {
 		return point;
