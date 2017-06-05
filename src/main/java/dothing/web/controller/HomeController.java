@@ -22,5 +22,10 @@ public class HomeController {
 	public String loginForm() {
 		return "loginForm";
 	}
+	
+	@RequestMapping("signIn")
+	public String signIn(){
+		return "signIn" ; 
+	}
 
 }

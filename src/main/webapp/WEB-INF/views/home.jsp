@@ -14,5 +14,7 @@
 
 
 <a href="loginForm">로그인폼</a>
+
+<a href="signIn">회원가입폼</a>
 </body>
 </html>
