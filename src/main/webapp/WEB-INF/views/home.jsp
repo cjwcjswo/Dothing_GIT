@@ -15,13 +15,13 @@
 
 
 
-<a href="loginForm">로그인폼</a>
+<a href="user/loginForm">로그인폼</a>
 
-<a href="mapTest">맵테스트</a>
+<a href="errand/mapTest">맵테스트</a>
 
 
-<a href="signIn">회원가입폼</a>
+<a href="user/signIn">회원가입폼</a>
 
-<a href="chat">채팅</a>
+<a href="errand/chat">채팅</a>
 </body>
 </html>

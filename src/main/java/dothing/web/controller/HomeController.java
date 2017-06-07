@@ -15,23 +15,25 @@ public class HomeController {
 		return "home";
 	}
 
-	@RequestMapping("loginForm")
+	@RequestMapping("/user/loginForm")
 	public String loginForm() {
-		return "loginForm";
+		return "/user/loginForm";
 	}
 	
-	@RequestMapping("mapTest")
-	public void a(){}
+	@RequestMapping("/errand/mapTest")
+	public String a(){
+		return "/errand/mapTest";
+	}
 
-	@RequestMapping("signIn")
+	@RequestMapping("/user/signIn")
 	public String signIn(){
-		return "signIn" ; 
+		return "/user/signIn" ; 
 	}
 
 	
-	@RequestMapping("chat")
+	@RequestMapping("/errand/chat")
 	public String chat(){
-		return "chat" ; 
+		return "/errand/chat" ; 
 	}
 
 }

@@ -8,7 +8,13 @@
 		<put-attribute name="footer" value="/WEB-INF/views/tiles/footer.jsp"/>
 	</definition>
 	<!-- 컨트롤러에서 viewName을 */* 식으로 리턴하면 실행되도록 설정. -->
-	<definition name="*/*" extends="layout">
+	<definition name="/*/*" extends="layout">
 		<put-attribute name="content" value="/WEB-INF/views/{1}/{2}.jsp"></put-attribute>
 	</definition>
+	
+		<!-- 컨트롤러에서 viewName을 */* 식으로 리턴하면 실행되도록 설정. -->
+	<definition name="*" extends="layout">
+		<put-attribute name="content" value="/WEB-INF/views/{1}.jsp"></put-attribute>
+	</definition>
+	
 </tiles-definitions> 
