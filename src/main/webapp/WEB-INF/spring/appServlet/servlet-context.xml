@@ -17,14 +17,14 @@
 	<resources mapping="/resources/**" location="/resources/" />
 
 	<!-- tiles 등록하기 -->
-<!-- 	<beans:bean class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+	<beans:bean class="org.springframework.web.servlet.view.UrlBasedViewResolver">
 		<beans:property name="viewClass"
 			value="org.springframework.web.servlet.view.tiles3.TilesView" />
 		<beans:property name="order" value="2" />
 	</beans:bean>
- -->
+
 	<!-- tiles를 위한 ViewResolver를 등록 -->
-<!-- 	<beans:bean
+	<beans:bean
 		class="org.springframework.web.servlet.view.tiles3.TilesViewResolver"
 		id="tilesViewResolver" />
 	<beans:bean
@@ -35,7 +35,7 @@
 				<beans:value>/WEB-INF/tiles/tiles.xml</beans:value>
 			</beans:list>
 		</beans:property>
-	</beans:bean> -->
+	</beans:bean> 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources 
 		in the /WEB-INF/views directory -->
 	<beans:bean
