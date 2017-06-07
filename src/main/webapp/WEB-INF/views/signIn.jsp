@@ -19,7 +19,7 @@
                 <h2 class="text-center"><strong>Create</strong> an account.</h2>
 
                 <div class="form-group">
-                    <input class="form-control" type="id" name="id" placeholder="id">
+                    <input class="form-control" type="id" name="id" placeholder="id를 입력하세요">
                 </div>
 
 

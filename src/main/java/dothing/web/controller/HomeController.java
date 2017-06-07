@@ -34,7 +34,7 @@ public class HomeController {
 	
 	@RequestMapping("chat")
 	public String chat(){
-		return "chat" ; 
+		return "chat" ;
 	}
 
 }
