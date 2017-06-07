@@ -2,7 +2,7 @@ package dothing.web.dto;
 
 public class GPADTO {
 	private ErrandsDTO errands;
-	private UserDTO user;
+	private MemberDTO user;
 	private int responseAccuracy;
 	private int responseSpeed;
 	private int responseKindness;
@@ -16,10 +16,10 @@ public class GPADTO {
 	public void setErrands(ErrandsDTO errands) {
 		this.errands = errands;
 	}
-	public UserDTO getUser() {
+	public MemberDTO getUser() {
 		return user;
 	}
-	public void setUser(UserDTO user) {
+	public void setUser(MemberDTO user) {
 		this.user = user;
 	}
 	public int getResponseAccuracy() {

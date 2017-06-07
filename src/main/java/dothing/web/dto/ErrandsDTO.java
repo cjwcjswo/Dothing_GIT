@@ -6,8 +6,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class ErrandsDTO {
 	private int errandsNum;
-	private UserDTO requestUser;
-	private UserDTO responseUser;
+	private MemberDTO requestUser;
+	private MemberDTO responseUser;
 	private String startTime;
 	private String endTime;
 	private String arrivalTime;
@@ -68,19 +68,19 @@ public class ErrandsDTO {
 		this.errandsNum = errandsNum;
 	}
 
-	public UserDTO getRequestUser() {
+	public MemberDTO getRequestUser() {
 		return requestUser;
 	}
 
-	public void setRequestUser(UserDTO requestUser) {
+	public void setRequestUser(MemberDTO requestUser) {
 		this.requestUser = requestUser;
 	}
 
-	public UserDTO getResponseUser() {
+	public MemberDTO getResponseUser() {
 		return responseUser;
 	}
 
-	public void setResponseUser(UserDTO responseUser) {
+	public void setResponseUser(MemberDTO responseUser) {
 		this.responseUser = responseUser;
 	}
 
