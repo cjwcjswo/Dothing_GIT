@@ -6,7 +6,7 @@
 .register-photo .image-holder {
   display:table-cell;
   width:auto;
-  background:url(${pageContext.request.contextPath}/resources/img/meeting.jpg);
+  background:url(../../resources/img/meeting.jpg);
   background-size:cover;
 }
 
