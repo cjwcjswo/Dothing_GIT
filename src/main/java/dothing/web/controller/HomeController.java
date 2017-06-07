@@ -1,9 +1,6 @@
 package dothing.web.controller;
 
-import java.util.Locale;
-
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -23,7 +20,6 @@ public class HomeController {
 		return "loginForm";
 	}
 	
-
 	@RequestMapping("mapTest")
 	public void a(){}
 
@@ -31,6 +27,7 @@ public class HomeController {
 	public String signIn(){
 		return "signIn" ; 
 	}
+
 	
 	@RequestMapping("chat")
 	public String chat(){

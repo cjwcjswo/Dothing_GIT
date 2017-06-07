@@ -4,7 +4,7 @@ import java.util.List;
 
 public class BoardDTO {
 	private int boardNum;
-	private UserDTO user;
+	private MemberDTO user;
 	private String boardTitle;
 	private String boardContent;
 	private String boardDate;
@@ -19,11 +19,11 @@ public class BoardDTO {
 		this.boardNum = boardNum;
 	}
 
-	public UserDTO getUser() {
+	public MemberDTO getUser() {
 		return user;
 	}
 
-	public void setUser(UserDTO user) {
+	public void setUser(MemberDTO user) {
 		this.user = user;
 	}
 

@@ -6,7 +6,7 @@ public class ErrandsReplyDTO {
 	private String replyContent;
 	private String arrivalTime;
 	private String replyDate;
-	private UserDTO user;
+	private MemberDTO user;
 	public int getReplyNum() {
 		return replyNum;
 	}
@@ -37,10 +37,10 @@ public class ErrandsReplyDTO {
 	public void setReplyDate(String replyDate) {
 		this.replyDate = replyDate;
 	}
-	public UserDTO getUser() {
+	public MemberDTO getUser() {
 		return user;
 	}
-	public void setUser(UserDTO user) {
+	public void setUser(MemberDTO user) {
 		this.user = user;
 	}
 	

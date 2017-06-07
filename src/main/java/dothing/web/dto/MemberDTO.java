@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
-public class UserDTO {
+public class MemberDTO {
 	private String userId;
 	private String name;
 	private String password;
@@ -20,9 +20,17 @@ public class UserDTO {
 	MultipartFile ssnImgFile;
 	
 	private PointDTO point;
-
+	private List<GPADTO> gpaList;
+	
+	
 	
 
+	public List<GPADTO> getGpaList() {
+		return gpaList;
+	}
+	public void setGpaList(List<GPADTO> gpaList) {
+		this.gpaList = gpaList;
+	}
 	public PointDTO getPoint() {
 		return point;
 	}

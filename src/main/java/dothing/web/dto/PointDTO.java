@@ -1,16 +1,16 @@
 package dothing.web.dto;
 
 public class PointDTO {
-	private UserDTO user;
+	private MemberDTO user;
 	private int currentPoint;
 	private int requestPoint;
 	
 	
 	
-	public UserDTO getUser() {
+	public MemberDTO getUser() {
 		return user;
 	}
-	public void setUser(UserDTO user) {
+	public void setUser(MemberDTO user) {
 		this.user = user;
 	}
 	public int getCurrentPoint() {
