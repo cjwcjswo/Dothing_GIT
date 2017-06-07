@@ -31,5 +31,10 @@ public class HomeController {
 	public String signIn(){
 		return "signIn" ; 
 	}
+	
+	@RequestMapping("chat")
+	public String chat(){
+		return "chat" ; 
+	}
 
 }

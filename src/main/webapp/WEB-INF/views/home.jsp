@@ -21,5 +21,7 @@
 
 
 <a href="signIn">회원가입폼</a>
+
+<a href="chat">채팅</a>
 </body>
 </html>
