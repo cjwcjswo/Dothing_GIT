@@ -18,4 +18,15 @@ public class HomeController {
 		return "home";
 	}
 
+	@RequestMapping("loginForm")
+	public String loginForm() {
+		return "loginForm";
+	}
+	
+	@RequestMapping("mapTest")
+	public void a(){}
+	@RequestMapping("signIn")
+	public String signIn(){
+		return "signIn" ; 
+	}
 }
