@@ -30,10 +30,12 @@
 			</div>
 			<div class="collapse navbar-collapse" id="navcol-1">
 				<ul class="nav navbar-nav">
-					<li role="presentation"><a href="${pageContext.request.contextPath}/errand/errand">심부름 신청하기</a></li>
-					<li role="presentation"><a href="#">심부름 신청하기</a></li>
+					<li role="presentation"><a href="${pageContext.request.contextPath}/errand/errand">심부름 하기</a></li>
+					<li role="presentation"><a href="${pageContext.request.contextPath}/errand/register">심부름 신청하기</a></li>
+					
+					
 
-				</ul>
+				</ul> 
 				<p class="navbar-text navbar-right actions">
 					<a href="${pageContext.request.contextPath}/user/loginForm"
 						class="navbar-link login">로그인</a> <a
