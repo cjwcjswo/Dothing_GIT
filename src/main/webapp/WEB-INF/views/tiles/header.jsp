@@ -39,7 +39,7 @@
 				<p class="navbar-text navbar-right actions">
 					<a href="${pageContext.request.contextPath}/user/loginForm"
 						class="navbar-link login">·Î±×ÀÎ</a> <a
-						class="btn btn-default action-button" role="button" href="">Sign
+						class="btn btn-default action-button" role="button" href="${pageContext.request.contextPath}/user/signIn">Sign
 						Up</a>
 				</p>
 			</div>
