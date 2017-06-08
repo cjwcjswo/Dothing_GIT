@@ -22,6 +22,22 @@ public class ErrandsDAOImpl implements ErrandsDAO{
 	public ErrandsDTO selectErrands(int errandsNum) {
 		return sqlSession.selectOne("mapper.errandsMapper.selectErrands", errandsNum);
 	}
+
+	@Override
+	public int insertErrands(ErrandsDTO dto) {
+		return sqlSession.insert("mapper.errandsMapper.insertErrands", dto);
+	}
+
+	@Override
+	public int insertErrandsPos(ErrandsDTO dto) {
+		return sqlSession.insert("mapper.errandsHashtagMapper.insertHash", dto);
+	}
+
+	@Override
+	public int insertErrandsHashtag(ErrandsDTO dto) {
+		return sqlSession.insert("mapper.errandsPosMapper.insertPos", dto);
+	}
+	
 	
 	
 }

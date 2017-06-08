@@ -6,6 +6,10 @@ public class ErrandsPosDTO {
 	private String longitude;
 	
 
+	@Override
+	public String toString() {
+		return "ErrandsPosDTO [addr=" + addr + ", latitude=" + latitude + ", longitude=" + longitude + "]";
+	}
 	public String getAddr() {
 		return addr;
 	}

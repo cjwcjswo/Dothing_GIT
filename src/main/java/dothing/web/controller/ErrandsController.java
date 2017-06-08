@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import dothing.web.dto.ErrandsDTO;
 import dothing.web.service.ErrandsService;
 
 @Controller
@@ -27,5 +28,12 @@ public class ErrandsController {
 		mv.addObject("errands", errandsService.selectErrands(num));
 		mv.setViewName("/errand/detailView");
 		return mv;
+	}
+	
+	@RequestMapping("/insert")
+	public String insert(ErrandsDTO dto, String preAddress, String detailAddress){
+		dto.getErrandsPos().setAddr(preAddress + " " + detailAddress);
+		System.out.println(dto);
+		return "/errand/errand";
 	}
 }

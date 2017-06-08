@@ -27,13 +27,13 @@
 
 
 			</div>
-			<div class="col-xs-6" style="width:50%">
+			<div class="col-xs-6" style="width:50%; margin-left:50%">
 				<!-- 심부름 리스트  -->
 				<table id="tb">
 					<c:forEach items="${errandsList}" var="errands">
 						<tr>
 							<th>
-								<div class="col-md-6">
+								<div class="col-md-6" style="width:100%">
 									<div class="well well-sm">
 										<div class="row">
 											<div class="col-xs-3 col-md-3 text-center">
@@ -70,7 +70,7 @@
 					</c:forEach>
 					<tr>
 						<th>
-							<ul class="pagination" style="margin-left:15%">
+							<ul class="pagination" style="margin-left:35%;">
 								<li class="disabled"><a href="#">«</a></li>
 								<li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
 								<li><a href="#">2</a></li>
