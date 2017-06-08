@@ -31,8 +31,9 @@ public class ErrandsController {
 	}
 	
 	@RequestMapping("/insert")
-	public String insert(ErrandsDTO dto){
-		
+	public String insert(ErrandsDTO dto, String preAddress, String detailAddress){
+		dto.getErrandsPos().setAddr(preAddress + " " + detailAddress);
+		System.out.println(dto);
 		return "/errand/errand";
 	}
 }

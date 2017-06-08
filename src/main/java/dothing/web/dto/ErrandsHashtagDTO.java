@@ -4,6 +4,11 @@ public class ErrandsHashtagDTO {
 	private ErrandsDTO errands;
 	private String errandsHashtag;
 	
+	
+	@Override
+	public String toString() {
+		return "ErrandsHashtagDTO [errands=" + errands + ", errandsHashtag=" + errandsHashtag + "]";
+	}
 	public ErrandsDTO getErrands() {
 		return errands;
 	}
