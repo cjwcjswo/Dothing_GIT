@@ -1,5 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.errandsMapper">
-
+	<resultMap type="errandsDTO" id="errandsMap">
+		<id column="ERRANDS_NUM" property="errandsNum"/>
+		<result column="TITLE" property="title"/>
+		<result column="CONTENT" property="content"/>
+		<result column="END_TIME" property="endTime"/>
+		<result column="ARRIVAL_TIME" property="arrivalTime"/>
+		<result column="FINISH_TIME" property="finishTime"/>
+		<result column="PRODUCT_PRICE" property="productPrice"/>
+		<result column="ERRANDS_PRICE" property="errandsPrice"/>
+		<result column="ERRANDS_PHOTO" property="errandsPhoto"/>
+		<result column="START_TIME" property="startTime"/>
+		<association property="requestUser" javaType="memberDTO">
+			<id column="REQUEST_ID" property="userId"/>
+		</association>
+		<association property="responseUser" javaType="memberDTO">
+			<id column="RESPONSE_ID" property="userId"/>
+		</association>
+		<association property="errandsPos" javaType="ErrandsPosDTO">
+			<result column="ADDR" property="addr"/>
+			<result column="LATITUDE" property="latitude"/>
+			<result column="LONGITUDE" property="longitude"/>
+		</association>
+	</resultMap>
+	<insert id="insertErrands" parameterType="errandsDTO">
+		insert into ERRANDS(ERRANDS_NUM, TITLE, CONTENT, END_TIME,
+		PRODUCT_PRICE, ERRANDS_PRICE, ERRANDS_PHOTO, REQUEST_ID)
+		values(ERRANDS_NUM.nextval, #{title}, #{content}, #{endTime},
+		#{productPrice}, #{errandsPrice}, #{errandsPhoto}, #{requestUser.userId})
+	</insert>
+	<select id="selectErrands" parameterType="int" resultMap="errandsMap">
+		select * from ERRANDS_VIEW
+		<where>
+			<if test="value != null">
+				ERRANDS_NUM = #{value}
+			</if>
+		</where>
+	</select>
+	
 </mapper>

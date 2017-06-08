@@ -23,5 +23,9 @@
 <a href="user/signIn">회원가입폼</a>
 
 <a href="errand/chat">채팅</a>
+
+<br>
+
+<a href="errand/errands">심부름목록</a>
 </body>
 </html>

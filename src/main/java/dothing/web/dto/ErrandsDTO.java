@@ -15,7 +15,8 @@ public class ErrandsDTO {
 	private int productPrice;
 	private int errandsPrice;
 	private String errandsPhoto;
-	
+	private String title;
+	private String content;
 	private MultipartFile errandsPhotoFile;
 
 	private List<ErrandsReplyDTO> errandsReply;
@@ -28,6 +29,33 @@ public class ErrandsDTO {
 	
 	
 	
+	
+	@Override
+	public String toString() {
+		return "ErrandsDTO [errandsNum=" + errandsNum + ", requestUser=" + requestUser + ", responseUser="
+				+ responseUser + ", startTime=" + startTime + ", endTime=" + endTime + ", arrivalTime=" + arrivalTime
+				+ ", finishTime=" + finishTime + ", productPrice=" + productPrice + ", errandsPrice=" + errandsPrice
+				+ ", errandsPhoto=" + errandsPhoto + ", title=" + title + ", content=" + content + ", errandsPhotoFile="
+				+ errandsPhotoFile + ", errandsReply=" + errandsReply + ", errandsPos=" + errandsPos + ", gpa=" + gpa
+				+ ", hashtag=" + hashtag + "]";
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
 	public List<ErrandsHashtagDTO> getHashtag() {
 		return hashtag;
 	}
