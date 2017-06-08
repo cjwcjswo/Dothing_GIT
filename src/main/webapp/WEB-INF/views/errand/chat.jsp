@@ -9,16 +9,22 @@
 	rel='stylesheet' type='text/css'>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/chat/normalize.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/chat/normalize.css">
 
-
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/chat/style.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/bootstrap/js/bootstrap.min.js">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/fonts/ionicons.min.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/chat/style.css">
 
 </head>
 <body>
 	<button type="button" class="button js-trigger">Chat (45)</button>
 
-	<h1 class="title">Chat to ya friends.</h1>
 
 	<nav class="chat">
 	<h2 class="chat__users">Users Online: 45</h2>
@@ -66,7 +72,8 @@
 	<script
 		src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
 
-	<script src="${pageContext.request.contextPath}/resources/js/chat/chat.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/resources/js/chat/chat.js"></script>
 
 
 

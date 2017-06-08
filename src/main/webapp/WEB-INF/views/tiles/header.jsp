@@ -5,18 +5,20 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>Insert title here</title>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/js/jquery-3.2.0.min.js">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet"
-	href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,400|Roboto:300,400,700">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/nav.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,400|Roboto:300,400,700">
+
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/Navigation-with-Button1.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/bootstrap/js/bootstrap.min.js">
+<%-- <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/js/jquery-3.2.0.js"> --%>
 
 
 </head>
 <body>
 <body>
 	<div>
-		<nav class="navbar navbar-default navigation-clean-button">
+		<nav class="navbar navbar-default navigation-clean-button" id="navbar">
 		<div class="container">
 			<div class="navbar-header">
 				<a href="#" class="navbar-brand navbar-link">Do Thing</a>
@@ -29,14 +31,13 @@
 			</div>
 			<div class="collapse navbar-collapse" id="navcol-1">
 				<ul class="nav navbar-nav">
-					<li role="presentation" class="active"><a href="#">First
-							Item</a></li>
-					<li role="presentation"><a href="#">Second Item</a></li>
+					<li role="presentation"><a href="${pageContext.request.contextPath}/errand/errand">심부름 신청하기</a></li>
+					<li role="presentation"><a href="#">심부름 신청하기</a></li>
 
 				</ul>
 				<p class="navbar-text navbar-right actions">
-					<a href="C:\Users\KOSTA\Desktop\DoThing\loginForm\index.html"
-						class="navbar-link login">Log In</a> <a
+					<a href="${pageContext.request.contextPath}/user/loginForm"
+						class="navbar-link login">로그인</a> <a
 						class="btn btn-default action-button" role="button" href="">Sign
 						Up</a>
 				</p>
@@ -44,8 +45,6 @@
 		</div>
 		</nav>
 	</div>
-	<script src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/bootstrap/js/bootstrap.min.js"></script>
 </body>
 </body>
 

@@ -15,7 +15,12 @@ public class ErrandsDAOImpl implements ErrandsDAO{
 
 	@Override
 	public List<ErrandsDTO> selectAll() {
-		return sqlSession.selectList("mapper.errandsMapper.selectErrands");
+		return sqlSession.selectList("mapper.errandsMapper.selectErrands", 0);
+	}
+
+	@Override
+	public ErrandsDTO selectErrands(int errandsNum) {
+		return sqlSession.selectOne("mapper.errandsMapper.selectErrands", errandsNum);
 	}
 	
 	

@@ -13,12 +13,19 @@ public class ErrandsController {
 	@Autowired
 	ErrandsService errandsService;
 	
-	@RequestMapping("/errands")
+	@RequestMapping("/errand")
 	public ModelAndView errandsList(){
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("errandsList", errandsService.selectAll());
-		System.out.println(errandsService.selectAll());
-		mv.setViewName("/errand/errands");
+		mv.setViewName("/errand/errand");
+		return mv;
+	}
+	
+	@RequestMapping("/detailView")
+	public ModelAndView detail(int num){
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("errands", errandsService.selectErrands(num));
+		mv.setViewName("/errand/detailView");
 		return mv;
 	}
 }

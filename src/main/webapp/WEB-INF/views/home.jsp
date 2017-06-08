@@ -26,6 +26,6 @@
 
 <br>
 
-<a href="errand/errands">심부름목록</a>
+<a href="errand/errand">심부름목록</a>
 </body>
 </html>

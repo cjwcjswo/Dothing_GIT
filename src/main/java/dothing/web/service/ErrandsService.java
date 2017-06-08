@@ -6,4 +6,5 @@ import dothing.web.dto.ErrandsDTO;
 
 public interface ErrandsService {
 	List<ErrandsDTO> selectAll();
+	ErrandsDTO selectErrands(int errandsNum);
 }

@@ -1,5 +1,5 @@
-.navigation-clean-button {
-  background:lightskyblue;
+#navbar {
+  background:lightSkyBlue;
   padding-top:10px;
   padding-bottom:10px;
   color:white;
@@ -7,6 +7,10 @@
   box-shadow:none;
   border:none;
   margin-bottom:0;
+  position: fixed; 
+  width : 100% ;
+  z-index: 1;
+
 }
 
 @media (max-width:767px) {

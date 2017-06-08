@@ -35,5 +35,6 @@ public class HomeController {
 	public String chat(){
 		return "/errand/chat" ; 
 	}
+	
 
 }

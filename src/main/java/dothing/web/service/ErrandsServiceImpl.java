@@ -17,5 +17,9 @@ public class ErrandsServiceImpl implements ErrandsService {
 	public List<ErrandsDTO> selectAll() {
 		return errandsDAO.selectAll(); 
 	}
+	@Override
+	public ErrandsDTO selectErrands(int errandsNum) {
+		return errandsDAO.selectErrands(errandsNum);
+	}
 
 }
