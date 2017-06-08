@@ -16,7 +16,6 @@
 
 </head>
 <body>
-<body>
 	<div>
 		<nav class="navbar navbar-default navigation-clean-button" id="navbar">
 		<div class="container">
@@ -45,7 +44,7 @@
 		</div>
 		</nav>
 	</div>
-</body>
+	<div style="height:90px"></div>
 </body>
 
 </html>

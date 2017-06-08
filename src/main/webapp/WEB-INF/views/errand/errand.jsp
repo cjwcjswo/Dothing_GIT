@@ -12,9 +12,6 @@
 	href="${pageContext.request.contextPath}/resources/fonts/ionicons.min.css">
 </head>
 <body>
-	<br><br><br><br>
-	<div style="height: 15%;"></div>
-
 	<div class="container" id="content">
 		<div class="row" id="">
 			<!--  필터  -->
