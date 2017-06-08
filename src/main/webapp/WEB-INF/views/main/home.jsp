@@ -6,6 +6,28 @@
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>Insert title here</title>
 
+
+
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/js/detailView.js"></script>
+	
+	
+	
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources//bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet"
@@ -22,6 +44,7 @@
 	href="${pageContext.request.contextPath}/resources/css/main/Team-Boxed.css">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/main/Team-Grid.css">
+
 
 
 
@@ -181,7 +204,8 @@
 			<div class="row people">
 				<div class="col-md-4 col-sm-6 item">
 					<div class="box">
-						<img class="img-circle" src="${pageContext.request.contextPath}/resources/img/main/1.jpg">
+						<img class="img-circle"
+							src="${pageContext.request.contextPath}/resources/img/main/1.jpg">
 						<h3 class="name">Ben Johnson</h3>
 						<p class="title">Musician</p>
 						<p class="description">Aenean tortor est, vulputate quis leo
@@ -197,7 +221,8 @@
 				</div>
 				<div class="col-md-4 col-sm-6 item">
 					<div class="box">
-						<img class="img-circle" src="${pageContext.request.contextPath}/resources/img/main/2.jpg">
+						<img class="img-circle"
+							src="${pageContext.request.contextPath}/resources/img/main/2.jpg">
 						<h3 class="name">Emily Clark</h3>
 						<p class="title">Artist</p>
 						<p class="description">Aenean tortor est, vulputate quis leo
@@ -213,7 +238,8 @@
 				</div>
 				<div class="col-md-4 col-sm-6 item">
 					<div class="box">
-						<img class="img-circle" src="${pageContext.request.contextPath}/resources/img/main/3.jpg">
+						<img class="img-circle"
+							src="${pageContext.request.contextPath}/resources/img/main/3.jpg">
 						<h3 class="name">Carl Kent</h3>
 						<p class="title">Stylist</p>
 						<p class="description">Aenean tortor est, vulputate quis leo
@@ -232,10 +258,6 @@
 	</div>
 	<section></section>
 	<div class="team-grid"></div>
-	<script
-		src="${pageContext.request.contextPath}/resources//js/jquery.min.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/resources//bootstrap/js/bootstrap.min.js"></script>
 
 
 </body>

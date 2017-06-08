@@ -12,7 +12,7 @@ public class HomeController {
 	@RequestMapping("/")
 	public String home() {
 		System.out.println("A");
-		return "home";
+		return "/main/home";
 	}
 
 	@RequestMapping("/user/loginForm")
@@ -35,6 +35,12 @@ public class HomeController {
 	public String chat(){
 		return "/errand/chat" ; 
 	}
+	
+	@RequestMapping("/errand/register")
+	public String register(){
+		return "/errand/register" ; 
+	}
+	
 	
 
 }
