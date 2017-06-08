@@ -9,10 +9,6 @@
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/errands/errands.css">
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/bootstrap/css/bootstrap.min.js">
-<link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/fonts/ionicons.min.css">
 </head>
 <body>
