@@ -35,5 +35,10 @@ public class HomeController {
 	public String chat(){
 		return "/errand/chat" ; 
 	}
+	
+	@RequestMapping("/errand/errand")
+	public String errand(){
+		return "/errand/errand" ; 
+	}
 
 }
