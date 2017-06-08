@@ -22,7 +22,10 @@
 <!-- Latest compiled JavaScript -->
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/detailView.js"></script>
+<script
+	src="${pageContext.request.contextPath}/resources/js/detailView.js"></script>
+<script type="text/javascript"
+	src="//apis.daum.net/maps/maps3.js?apikey=900302937c725fa5d96ac225cbc2db10&libraries=services"></script>
 
 <style>
 @import url('https://fonts.googleapis.com/css?family=Lato:300,400');
@@ -856,7 +859,27 @@ img {
 	border-top-right-radius: 0px;
 }
 </style>
+<script>
+	$(function() {
+		function leadingZeros(n, digits) {
+			var zero = '';
+			n = n.toString();
 
+			if (n.length < digits) {
+				for (var i = 0; i < digits - n.length; i++)
+					zero += '0';
+			}
+			return zero + n;
+		}
+
+		$(document).on("click", "button[data-target='#myModal']", function() {
+			var d = new Date();
+			$("#date").html(d.getFullYear() + "-" + leadingZeros((d.getMonth() + 1), 2) + "-" + leadingZeros(d.getDate(), 2) + " "
+				+ d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds());
+			$("#sims").html("<h2>심부름꾼: " + $(this).attr("id") + "</h2>");
+		})
+	});
+</script>
 
 </head>
 <body>
@@ -870,18 +893,16 @@ img {
 			<div class="col-xs-4" id="map">
 				<!-- 지도 삽입 부분 -->
 
-				<iframe width="100%" height="500px" frameborder="0" scrolling="no"
-					marginheight="0" marginwidth="0"
-					src="https://maps.google.co.uk/maps?f=q&source=s_q&hl=en&geocode=&q=15+Springfield+Way,+Hythe,+CT21+5SH&aq=t&sll=52.8382,-2.327815&sspn=8.047465,13.666992&ie=UTF8&hq=&hnear=15+Springfield+Way,+Hythe+CT21+5SH,+United+Kingdom&t=m&z=14&ll=51.077429,1.121722&output=embed"></iframe>
-
+				<div id="daumMap" style="width: 100%; height: 500px"></div>
 
 			</div>
-			<div class="col-xs-6" style="width: 50%">
-				<div class="card">
-					<div class="container-fluid">
-						<div class="wrapper row" style="width: 100%">
-							<div class="details col-md-6" style="width:100%; border:2px solid red">
-								<h3 class="product-title">${errands.title}</h3>
+			<div class="col-xs-6">
+				<div class="card" style="width: 100%;">
+					<div class="container-fluid" style="width:100%;">
+						<div class="wrapper row" style="width:100%;">
+							<div class="container-fluid"
+								style="width: 100%;">
+								<h1 class="product-title">${errands.title}</h1>
 								<div class="rating">
 
 									<span class="review-no">${errands.errandsReply.size()}개
@@ -894,20 +915,10 @@ img {
 								<h4 class="price">
 									심부름 값: <span>${errands.errandsPrice}</span>
 								</h4>
-								<h5 class="sizes">
-									sizes: <span class="size" data-toggle="tooltip" title="small">s</span>
-									<span class="size" data-toggle="tooltip" title="medium">m</span>
-									<span class="size" data-toggle="tooltip" title="large">l</span>
-									<span class="size" data-toggle="tooltip" title="xtra large">xl</span>
-								</h5>
-								<h5 class="colors">
-									colors: <span class="color orange not-available"
-										data-toggle="tooltip" title="Not In store"></span> <span
-										class="color green"></span> <span class="color blue"></span>
-								</h5>
-								<div class="row" style="margin-top: 40px; width:100%;">
-									<div class="col-md-6" style="width:100%;">
-										<div class="container-fluid" style="width:100%">
+
+								<div class="row" style="width: 110%;">
+									<div class="col-md-6" style="width: 100%;">
+										<div class="container-fluid" style="width: 100%">
 											<div class="text-right">
 												<a class="btn btn-success btn-green" href="#reviews-anchor"
 													id="open-review-box">제가 할래요!</a>
@@ -944,23 +955,25 @@ img {
 														<ul class="list-group">
 															<li class="list-group-item">
 																<div class="row">
-																	<div class="col-xs-3 col-md-2">
+																
+																	<div class="col-xs-3 col-md-2" style="width:30%">
 																		<img src="http://placehold.it/80"
 																			class="img-circle img-responsive" alt="" width="80px"
-																			height="80px" />
+																			height="80px"/>
 																	</div>
-																	<div class="col-xs-9 col-md-10">
+																	<div class="col-xs-9 col-md-10" style="width:70%">
 																		<div>
 																			<div class="mic-info">
 																				By: <a href="#">${reply.user.userId}</a><br>
-																				${reply.replyDate}<br>
-																				예상도착시간: ${reply.arrivalTime}
+																				${reply.replyDate}<br> 예상도착시간:
+																				${reply.arrivalTime}
 																			</div>
 																		</div>
 																		<div class="comment-text">
-																		${reply.replyContent}
+																			${reply.replyContent}
 																			<button class="btn btn-info btn-sm" type="button"
-																				data-toggle="modal" data-target="#myModal">이놈</button>
+																				data-toggle="modal" data-target="#myModal"
+																				id="${reply.user.userId}">이놈</button>
 
 																		</div>
 																	</div>
@@ -1007,56 +1020,43 @@ img {
 			<div class="row">
 				<div class="col-xs-6 col-sm-6 col-md-6">
 					<address>
-						<strong>Elf Cafe</strong> <br> 2135 Sunset Blvd <br> Los
-						Angeles, CA 90026 <br> <abbr title="Phone">P:</abbr> (213)
-						484-6829
+						<strong>주소</strong> <br> ${errands.errandsPos.addr}
 					</address>
 				</div>
 				<div class="col-xs-6 col-sm-6 col-md-6 text-right">
 					<p>
-						<em>Date: 1st November, 2013</em>
-					</p>
-					<p>
-						<em>Receipt #: 34522677W</em>
+						<em id="date"></em>
 					</p>
 				</div>
 			</div>
 			<div class="row">
 				<div class="text-center">
-					<h1>Receipt</h1>
+					<h1>심부름 명세서</h1>
 				</div>
 
 				<table class="table table-hover">
 					<thead>
 						<tr>
-							<th>Product</th>
-							<th>#</th>
-							<th class="text-center">Price</th>
+							<th></th>
+							<th></th>
+							<th class="text-center"></th>
 							<th class="text-center">Total</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr>
-							<td class="col-md-9"><em>Baked Rodopa Sheep Feta</em>
+							<td class="col-md-9"><em>물건 값</em>
 								</h4></td>
-							<td class="col-md-1" style="text-align: center">2</td>
-							<td class="col-md-1 text-center">$13</td>
-							<td class="col-md-1 text-center">$26</td>
+							<td class="col-md-1" style="text-align: center"></td>
+							<td class="col-md-1 text-center"></td>
+							<td class="col-md-1 text-center">${errands.productPrice}원</td>
 						</tr>
 						<tr>
-							<td class="col-md-9"><em>Lebanese Cabbage Salad</em>
+							<td class="col-md-9"><em>심부름 값</em>
 								</h4></td>
-							<td class="col-md-1" style="text-align: center">1</td>
-							<td class="col-md-1 text-center">$8</td>
-							<td class="col-md-1 text-center">$8</td>
-						</tr>
-						<tr>
-							<td class="col-md-9"><em>Baked Tart with Thyme and
-									Garlic</em>
-								</h4></td>
-							<td class="col-md-1" style="text-align: center">3</td>
-							<td class="col-md-1 text-center">$16</td>
-							<td class="col-md-1 text-center">$48</td>
+							<td class="col-md-1" style="text-align: center"></td>
+							<td class="col-md-1 text-center"></td>
+							<td class="col-md-1 text-center">${errands.errandsPrice}원</td>
 						</tr>
 						<tr>
 							<td> </td>
@@ -1071,10 +1071,10 @@ img {
 							</td>
 							<td class="text-center">
 								<p>
-									<strong>$6.94</strong>
+									<strong>${errands.errandsPrice + errands.productPrice}원</strong>
 								</p>
 								<p>
-									<strong>$6.94</strong>
+									<strong>${(errands.errandsPrice + errands.productPrice) * 0.1}원</strong>
 								</p>
 							</td>
 						</tr>
@@ -1085,11 +1085,12 @@ img {
 									<strong>Total: </strong>
 								</h4></td>
 							<td class="text-center text-danger"><h4>
-									<strong>$31.53</strong>
+									<strong>${(errands.errandsPrice + errands.productPrice) * 0.9}원</strong>
 								</h4></td>
 						</tr>
 					</tbody>
 				</table>
+				<div id="sims"></div>
 				<a class="btn btn-success btn-lg btn-block" href="chat"> 심부름
 					시작하기   <span class="glyphicon glyphicon-chevron-right"></span>
 				</a> <br>
@@ -1103,5 +1104,26 @@ img {
 
 		</div>
 	</div>
+
+	<script>
+		var mapContainer = document.getElementById('daumMap'), // 지도를 표시할 div 
+			mapOption = {
+				center : new daum.maps.LatLng(${errands.errandsPos.latitude}, ${errands.errandsPos.longitude}), // 지도의 중심좌표
+				level : 3 // 지도의 확대 레벨
+			};
+	
+		var map = new daum.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+	
+		// 마커가 표시될 위치입니다 
+		var markerPosition = new daum.maps.LatLng(${errands.errandsPos.latitude}, ${errands.errandsPos.longitude});
+	
+		// 마커를 생성합니다
+		var marker = new daum.maps.Marker({
+			position : markerPosition
+		});
+	
+		// 마커가 지도 위에 표시되도록 설정합니다
+		marker.setMap(map);
+	</script>
 </body>
 </html>
