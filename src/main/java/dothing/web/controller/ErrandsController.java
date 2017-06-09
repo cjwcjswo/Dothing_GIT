@@ -12,7 +12,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import dothing.web.dto.ErrandsDTO;
+import dothing.web.dto.ErrandsReplyDTO;
 import dothing.web.service.ErrandsService;
+import dothing.web.util.PageMaker;
 
 @Controller
 @RequestMapping("/errand")
@@ -21,9 +23,13 @@ public class ErrandsController {
 	ErrandsService errandsService;
 
 	@RequestMapping("/errand")
-	public ModelAndView errandsList() {
+	public ModelAndView errandsList(Integer page) {
+		if(page == null) page = new Integer(1);
+		PageMaker pm = new PageMaker(page, errandsService.countErrands() / 6 + 1);
+		pm.start();
 		ModelAndView mv = new ModelAndView();
-		mv.addObject("errandsList", errandsService.selectAll());
+		mv.addObject("errandsList", errandsService.selectAll(page));
+		mv.addObject("pm", pm);
 		mv.setViewName("/errand/errand");
 		return mv;
 	}
@@ -33,12 +39,13 @@ public class ErrandsController {
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("errands", errandsService.selectErrands(num));
 		mv.setViewName("/errand/detailView");
+		System.out.println("AAA");
 		return mv;
 	}
 
 	@RequestMapping("/register")
-	public String register(HttpSession session) {
-		session.setAttribute("userIdS", "tester");
+	public String register() {
+		
 		return "/errand/register";
 	}
 
@@ -56,6 +63,22 @@ public class ErrandsController {
 			folder.mkdirs();
 			file.transferTo(new File(path + "\\" + dto.getErrandsPhoto()));
 		}
+		return "redirect:/errand/errand";
+	}
+	
+	@RequestMapping("/insertReply")
+	public String insert(HttpSession session, ErrandsReplyDTO dto){
+		dto.setArrivalTime(dto.getArrivalTime().replaceAll("T"," "));
+		errandsService.insertReply(dto);
+		return "redirect:/errand/detailView?num="+dto.getErrands().getErrandsNum();
+	}
+	
+	@RequestMapping("/deleteErrands")
+	public String deleteErrands(HttpSession session, int num, String id) throws Exception{
+		if(!id.equals(session.getAttribute("userIdS"))){
+			throw new Exception("작성자가 아닙니다");
+		}
+		errandsService.deleteErrands(num);
 		return "redirect:/errand/errand";
 	}
 }

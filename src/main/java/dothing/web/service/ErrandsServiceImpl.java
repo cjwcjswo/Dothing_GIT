@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import dothing.web.dao.ErrandsDAO;
 import dothing.web.dto.ErrandsDTO;
 import dothing.web.dto.ErrandsHashtagDTO;
+import dothing.web.dto.ErrandsReplyDTO;
 
 @Service
 @Transactional
@@ -17,8 +18,8 @@ public class ErrandsServiceImpl implements ErrandsService {
 	ErrandsDAO errandsDAO;
 
 	@Override
-	public List<ErrandsDTO> selectAll() {
-		return errandsDAO.selectAll();
+	public List<ErrandsDTO> selectAll(int page) {
+		return errandsDAO.selectAll(page);
 	}
 
 	@Override
@@ -44,6 +45,21 @@ public class ErrandsServiceImpl implements ErrandsService {
 	@Override
 	public int selectNum() {
 		return errandsDAO.selectNum();
+	}
+
+	@Override
+	public int insertReply(ErrandsReplyDTO dto) {
+		return errandsDAO.insertReply(dto);
+	}
+
+	@Override
+	public int deleteErrands(int num) {
+		return errandsDAO.deleteErrands(num);
+	}
+
+	@Override
+	public int countErrands() {
+		return errandsDAO.countErrands();
 	}
 
 }

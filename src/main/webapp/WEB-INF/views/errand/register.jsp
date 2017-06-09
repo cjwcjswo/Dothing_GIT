@@ -50,6 +50,10 @@
 			alert("심부름 가격을 입력하세요.")
 			return false;
 		}
+		if(form.endTime.value.trim() == ""){
+			alert("시간을 입력하세요");
+			return false;
+		}
 		if (form.productPrice.value < 0 || form.errandsPrice.value < 0) {
 			alert("가격이 올바르지 않습니다");
 			return false;
@@ -139,17 +143,17 @@
 						<div class="form-group row">
 							<div class="col-sm-4">
 								<label for="ex1">해시태그1</label> <input class="form-control"
-									id="ex1" type="text" placeholder="#존나빨리"
+									id="ex1" type="text" placeholder="존나빨리"
 									name="hashtag[0].errandsHashtag">
 							</div>
 							<div class="col-sm-4">
 								<label for="ex1">해시태그2</label> <input class="form-control"
-									id="ex1" type="text" placeholder="#맥도날드"
+									id="ex1" type="text" placeholder="맥도날드"
 									name="hashtag[1].errandsHashtag">
 							</div>
 							<div class="col-sm-4">
 								<label for="ex1">해시태그3</label> <input class="form-control"
-									id="ex1" type="text" placeholder="#빅맥"
+									id="ex1" type="text" placeholder="빅맥"
 									name="hashtag[2].errandsHashtag">
 							</div>
 
@@ -159,7 +163,7 @@
 					</div>
 				</div>
 				<div class="col-sm-6">
-					<div id="map" style="width: 565px; height: 430px"></div>
+					<div id="map" style="width: 565px; height: 430px; z-index:0"></div>
 					<br>
 
 
@@ -202,6 +206,8 @@
 					<br> <input type="file" class="form-control" value="찾기"
 						id="upload" name="errandsPhotoFile">
 					<div class="row" align="center">
+						<input type="hidden" name="${_csrf.parameterName}"
+							value="${_csrf.token}" />
 						<button type="submit" class="btn btn-info btn-circle btn-lg">
 							<i class="glyphicon glyphicon-ok"></i>
 						</button>
@@ -237,6 +243,7 @@
 
 			</div>
 		</div>
+
 	</form>
 	<br>
 </body>

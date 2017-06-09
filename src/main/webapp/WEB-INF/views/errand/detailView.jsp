@@ -879,6 +879,26 @@ img {
 			$("#sims").html("<h2>심부름꾼: " + $(this).attr("id") + "</h2>");
 		})
 	});
+	function checkValid() {
+		var form = document.f;
+		if (form.replyContent.value.trim() == "") {
+			alert("댓글 내용을 입력하세요");
+			return false;
+		}
+		if (form.arrivalTime.value.trim() == "") {
+			alert("시간을 입력하세요");
+			return false;
+		}
+		return true;
+	}
+	function delErrands(){
+		if("${errands.requestUser.userId}" != "${userIdS}"){
+			alert("작성자가 아닙니다");
+			return;
+		}else{
+			location.href="${pageContext.request.contextPath}/errand/deleteErrands?num=${errands.errandsNum}&id=${userIdS}";
+		}
+	}
 </script>
 
 </head>
@@ -893,7 +913,7 @@ img {
 			<div class="col-xs-4" id="map">
 				<!-- 지도 삽입 부분 -->
 
-				<div id="daumMap" style="width: 100%; height: 500px"></div>
+				<div id="daumMap" style="width: 100%; height: 500px; z-index:0"></div>
 
 			</div>
 			<div class="col-xs-6">
@@ -901,14 +921,16 @@ img {
 					<div class="container-fluid" style="width: 100%;">
 						<div class="wrapper row" style="width: 100%;">
 							<div class="container-fluid" style="width: 100%;">
+								<a onclick="delErrands();"><span class="glyphicon glyphicon-trash"
+									style="margin: auto"></span>심부름 삭제하기</a>
 								<h2 class="product-title">${errands.title}</h2>
 								<table>
 									<tr>
 										<td style="width: 70%">
 											<div class="rating">
-											
+
 												<span class="review-no"><a>${errands.errandsReply.size()}명
-													신청 중</a></span>
+														신청 중</a></span>
 											</div>
 											<h3 class="product-title">설명</h3>
 											<p class="product-description">${errands.content}</p>
@@ -931,6 +953,8 @@ img {
 											</c:if></td>
 									</tr>
 								</table>
+
+
 								<div class="row" style="width: 110%;">
 									<div class="col-md-6" style="width: 100%;">
 										<div class="container-fluid" style="width: 100%">
@@ -941,13 +965,17 @@ img {
 
 											<div class="row" id="post-review-box" style="display: none;">
 												<div class="col-md-12">
-													<form accept-charset="UTF-8" action="" method="post">
-														<input id="ratings-hidden" name="rating" type="hidden">
+													<input id="ratings-hidden" name="rating" type="hidden">
+													<form name="f" method="post" action="insertReply" onsubmit="return checkValid()">
 														<textarea class="form-control animated" cols="50"
-															id="new-review" name="comment" placeholder="댓글을 입력하세요"
-															rows="5"></textarea>
-
+															id="new-review" name="replyContent"
+															placeholder="댓글을 입력하세요" rows="5"></textarea>
 														<br>
+														<div class="col-xs-6 alert alert-info">
+															<strong>Info!</strong> 도착예정 시간 입력!
+														</div>
+														<input type="datetime-local" class="form-control"
+															name="arrivalTime" /> <br>
 
 														<div class="text-right">
 
@@ -955,12 +983,17 @@ img {
 																id="close-review-box"
 																style="display: none; margin-right: 10px;"> <span
 																class="glyphicon glyphicon-remove"></span>취소하기
-															</a>
+															</a> <input type="hidden" name="errands.errandsNum"
+																value="${errands.errandsNum}"> <input
+																type="hidden" name="user.userId" value="${userIdS}">
+															<input type="hidden" name="${_csrf.parameterName}"
+																value="${_csrf.token}" />
 															<button class="btn btn-success btn-lg" type="submit">등록하기</button>
 														</div>
 													</form>
 												</div>
 											</div>
+
 											<hr>
 											<c:forEach items="${errands.errandsReply}" var="reply">
 												<div class="row">

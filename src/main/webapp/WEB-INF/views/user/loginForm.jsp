@@ -15,14 +15,15 @@
 
 <body>
 	<div class="login-dark">
-		<form method="post">
+		<form method="post" action="${pageContext.request.contextPath}/login">
+		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" >
 			<h2 class="sr-only">Login Form</h2>
 			<div class="illustration">
 				<i class="icon ion-ios-locked-outline"></i>
 			</div>
 			<div class="form-group">
-				<input class="form-control" type="email" name="email"
-					placeholder="Email">
+				<input class="form-control" type="text" name="id"
+					placeholder="Id">
 			</div>
 			<div class="form-group">
 				<input class="form-control" type="password" name="password"

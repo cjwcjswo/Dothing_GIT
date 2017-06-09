@@ -16,6 +16,8 @@ public class MemberDTO {
 	private String selfImg;
 	private String ssnImg;
 	
+	private String userType;
+	
 	MultipartFile selfImgFile;
 	MultipartFile ssnImgFile;
 	
@@ -24,6 +26,53 @@ public class MemberDTO {
 	
 	
 	
+
+	public MemberDTO() {
+		super();
+	}
+	
+	public MemberDTO(String userId, String name, String password, String email, String sex, String addr, String phone,
+			int auth, String selfImg, String ssnImg, MultipartFile selfImgFile, MultipartFile ssnImgFile,
+			PointDTO point, List<GPADTO> gpaList) {
+		super();
+		this.userId = userId;
+		this.name = name;
+		this.password = password;
+		this.email = email;
+		this.sex = sex;
+		this.addr = addr;
+		this.phone = phone;
+		this.auth = auth;
+		this.selfImg = selfImg;
+		this.ssnImg = ssnImg;
+		this.selfImgFile = selfImgFile;
+		this.ssnImgFile = ssnImgFile;
+		this.point = point;
+		this.gpaList = gpaList;
+	}
+	
+	
+
+	public MemberDTO(String userId, String name, String password, String email, String sex, String addr, String phone,
+			int auth, String selfImg, String ssnImg, String userType, MultipartFile selfImgFile,
+			MultipartFile ssnImgFile, PointDTO point, List<GPADTO> gpaList) {
+		super();
+		this.userId = userId;
+		this.name = name;
+		this.password = password;
+		this.email = email;
+		this.sex = sex;
+		this.addr = addr;
+		this.phone = phone;
+		this.auth = auth;
+		this.selfImg = selfImg;
+		this.ssnImg = ssnImg;
+		this.userType = userType;
+		this.selfImgFile = selfImgFile;
+		this.ssnImgFile = ssnImgFile;
+		this.point = point;
+		this.gpaList = gpaList;
+	}
 
 	public List<GPADTO> getGpaList() {
 		return gpaList;
@@ -110,5 +159,14 @@ public class MemberDTO {
 		this.ssnImgFile = ssnImgFile;
 	}
 
+	public String getUserType() {
+		return userType;
+	}
+
+	public void setUserType(String userType) {
+		this.userType = userType;
+	}
+
+	
 	
 }

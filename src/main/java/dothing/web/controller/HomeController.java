@@ -1,5 +1,7 @@
 package dothing.web.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -10,24 +12,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class HomeController {
 
 	@RequestMapping("/")
-	public String home() {
-		System.out.println("A");
+	public String home(HttpSession session) {
+		session.setAttribute("userIdS", "tester");
 		return "/main/home";
 	}
 
-	@RequestMapping("/user/loginForm")
-	public String loginForm() {
-		return "/user/loginForm";
-	}
 	
 	@RequestMapping("/errand/mapTest")
 	public String a(){
 		return "/errand/mapTest";
-	}
-
-	@RequestMapping("/user/signIn")
-	public String signIn(){
-		return "/user/signIn" ; 
 	}
 
 	

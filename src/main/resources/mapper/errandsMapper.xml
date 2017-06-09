@@ -62,4 +62,8 @@
 		delete from ERRANDS
 		where ERRANDS_NUM = #{value}
 	</delete>
+	
+	<select id="countErrands" resultType="int">
+		select count(*) from ERRANDS
+	</select>
 </mapper>
