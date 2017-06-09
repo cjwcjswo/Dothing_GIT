@@ -32,6 +32,21 @@ public class HomeController {
 		return "/errand/register" ; 
 	}
 	
+	@RequestMapping("/board/inquiryBoardList")
+	public String inquiryBoardList(){
+		return "/board/inquiryBoardList" ;
+	}
+	
+	@RequestMapping("/board/inquiryBoardRead")
+	public String inquiryBoardRead(){
+		return "/board/inquiryBoardRead" ; 
+	}
+	
+	@RequestMapping("/board/inquiryBoardWrite")
+	public String inquiryBoardWrite(){
+		return "/board/inquiryBoardWrite" ; 
+	}
+	
 	
 
 }

@@ -29,7 +29,7 @@
 	
 	
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources//bootstrap/css/bootstrap.min.css">
+	href="${pageContext.request.contextPath}/resources/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/fonts/ionicons.min.css">
 <link rel="stylesheet"
