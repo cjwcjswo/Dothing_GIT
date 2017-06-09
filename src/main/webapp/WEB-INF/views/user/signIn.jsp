@@ -86,8 +86,8 @@
 				</div>
 
 				<div class="form-group">
-					<input class="form-control" type="text" name="address"
-						placeholder="address" disabled /> 
+					<input class="form-control" type="text" name="picture"
+						placeholder="picture" disabled /> 
 						<a href="#"><span class="glyphicon glyphicon-picture" style="margin: auto"></span>프로필 사진 올리기</a>
 				</div>
 
