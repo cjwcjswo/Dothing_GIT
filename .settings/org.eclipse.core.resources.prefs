@@ -1,4 +1,6 @@
 eclipse.preferences.version=1
+encoding//src/main/webapp/WEB-INF/views/board/inquiryBoardList.jsp=UTF-8
+encoding//src/main/webapp/WEB-INF/views/board/inquiryBoardRead.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/views/errand/errand.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/views/errand/register.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/views/tiles/footer.jsp=UTF-8

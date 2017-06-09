@@ -32,6 +32,7 @@
 				<ul class="nav navbar-nav">
 					<li role="presentation"><a href="${pageContext.request.contextPath}/errand/errand">심부름 하기</a></li>
 					<li role="presentation"><a href="${pageContext.request.contextPath}/errand/register">심부름 신청하기</a></li>
+					<li role="presentation"><a href="${pageContext.request.contextPath}/board/inquiryBoardList">1:1 게시판</a></li>
 					
 					
 

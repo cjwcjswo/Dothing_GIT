@@ -18,7 +18,7 @@ public class MemberController {
 	 * */
 	@RequestMapping("/user/signIn")
 	public String joinForm(){
-		return "user/signIn";
+		return "/user/signIn";
 	}
 	
 	/**
@@ -28,7 +28,7 @@ public class MemberController {
 	public String join(MemberDTO member){
 		//insert »£√‚ 
 		memberService.joinMember(member);
-		return "main/main";
+		return "/main/main";
 	}
 	
 	/**
@@ -36,7 +36,7 @@ public class MemberController {
 	 * */
 	@RequestMapping("/user/loginForm")
 	public String loginForm(){
-		return "user/loginForm";
+		return "/user/loginForm";
 	}
 	
 	
