@@ -167,6 +167,14 @@ public class MemberDTO {
 		this.userType = userType;
 	}
 
+	@Override
+	public String toString() {
+		return "MemberDTO [userId=" + userId + ", name=" + name + ", password=" + password + ", email=" + email
+				+ ", sex=" + sex + ", addr=" + addr + ", phone=" + phone + ", auth=" + auth + ", selfImg=" + selfImg
+				+ ", ssnImg=" + ssnImg + ", userType=" + userType + ", selfImgFile=" + selfImgFile + ", ssnImgFile="
+				+ ssnImgFile + ", point=" + point + ", gpaList=" + gpaList + "]";
+	}
+
 	
 	
 }

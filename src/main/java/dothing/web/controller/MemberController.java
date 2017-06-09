@@ -1,8 +1,14 @@
 package dothing.web.controller;
 
+import java.io.File;
+import java.io.IOException;
+
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 import dothing.web.dto.MemberDTO;
 import dothing.web.service.MemberService;
@@ -23,10 +29,19 @@ public class MemberController {
 	
 	/**
 	 * 가입하기
+	 * @throws IOException 
+	 * @throws IllegalStateException 
 	 * */
 	@RequestMapping("/member/join")
-	public String join(MemberDTO member){
+	public String join(HttpSession session, MemberDTO member) throws IllegalStateException, IOException{
 		//insert 호출 
+		
+		String path = session.getServletContext().getRealPath("") + "\\user\\" + member.getUserId();
+		File folder = new File(path);
+		folder.mkdirs();
+		MultipartFile selfImgFile = member.getSelfImgFile();
+		member.setSelfImg(selfImgFile.getOriginalFilename());
+		selfImgFile.transferTo(new File(path + "\\" + member.getSelfImg()));
 		memberService.joinMember(member);
 		return "/main/home";
 	}
