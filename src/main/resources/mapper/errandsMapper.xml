@@ -32,6 +32,9 @@
 				<id column="MEMBER_ID" property="userId"/>
 			</association>
 		</collection>
+		<collection property="hashtag" ofType="errandsHashtagDTO">
+			<result column="ERRANDS_HASHTAG" property="errandsHashtag"/>
+		</collection>
 	</resultMap>
 	<insert id="insertErrands" parameterType="errandsDTO">
 		insert into
@@ -41,15 +44,19 @@
 		values(ERRANDS_NUM.nextval,
 		#{title}, #{content}, #{endTime},
 		#{productPrice}, #{errandsPrice},
-		#{errandsPhoto}, #{requestUser.userId})
+		#{errandsPhoto,jdbcType=VARCHAR}, #{requestUser.userId})
 	</insert>
 	<select id="selectErrands" parameterType="int" resultMap="errandsMap">
-		select * from ERRANDS_REPLY_VIEW
+		select * from ERRANDS_TOTAL_VIEW
 		<where>
 			<if test="value != 0">
 				ERRANDS_NUM = #{value}
 			</if>
 		</where>
+		order by ERRANDS_NUM desc
+	</select>
+	<select id="selectNum" resultType="int">
+		select ERRANDS_NUM.CURRVAL from dual
 	</select>
 	<delete id="deleteErrands" parameterType="int">
 		delete from ERRANDS

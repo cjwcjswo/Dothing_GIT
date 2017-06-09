@@ -8,4 +8,5 @@ public interface ErrandsService {
 	List<ErrandsDTO> selectAll();
 	ErrandsDTO selectErrands(int errandsNum);
 	int insertErrands(ErrandsDTO dto);
+	int selectNum();
 }

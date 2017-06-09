@@ -31,6 +31,40 @@
 	white-space: nowrap;
 }
 </style>
+<script>
+	function checkValid() {
+		var form = document.f;
+		if (form.title.value.trim() == "") {
+			alert("제목을 입력하세요");
+			return false;
+		}
+		if (form.content.value.trim() == "") {
+			alert("내용을 입력하세요");
+			return false;
+		}
+		if (form.productPrice.value.trim() == "") {
+			alert("물품 가격을 입력하세요.")
+			return false;
+		}
+		if (form.errandsPrice.value.trim() == "") {
+			alert("심부름 가격을 입력하세요.")
+			return false;
+		}
+		if (form.productPrice.value < 0 || form.errandsPrice.value < 0) {
+			alert("가격이 올바르지 않습니다");
+			return false;
+		}
+		if (form.preAddress.value.trim() == "") {
+			alert("주소를 입력하세요");
+			return false;
+		}
+		if (form.detailAddress.value.trim() == "") {
+			alert("상세 주소를 입력하세요");
+			return false;
+		}
+		return true;
+	}
+</script>
 </head>
 <body>
 	<div class="container">
@@ -43,7 +77,8 @@
 			</div>
 		</div>
 	</div>
-	<form name="f" action="insert" method="post">
+	<form name="f" action="insert" method="post"
+		enctype="multipart/form-data" onSubmit="return checkValid();">
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-6">
@@ -55,7 +90,7 @@
 						</h4>
 						<p style="margin-top: 6%; line-height: 35%">
 							<input type="text" class="form-control" readonly="readonly"
-								value="${user.userId}">
+								name="requestUser.userId" value="${userIdS}">
 						</p>
 						<br />
 						<h4 style="line-height: 20%;">
@@ -64,7 +99,8 @@
 						</h4>
 						<hr>
 
-						<input type="datetime-local" class="form-control" name="endTime"/> <br />
+						<input type="datetime-local" class="form-control" name="endTime" />
+						<br />
 						<h4 style="line-height: 20%;">
 							<i class="fa fa-yelp fa-1x"
 								style="line-height: 6%; color: #339966"></i> 심부름 제목
@@ -77,13 +113,15 @@
 							<i class="fa fa-home fa-1x"
 								style="line-height: 6%; color: #339966"></i> 예상 물건 가격
 						</h4>
-						<br> <input type="number" class="form-control">
+						<br> <input type="number" class="form-control"
+							name="productPrice" min="0">
 
 						<h4 style="line-height: 20%;">
 							<i class="fa fa-home fa-1x"
 								style="line-height: 6%; color: #339966"></i> 원하는 심부름 가격
 						</h4>
-						<br> <input type="number" class="form-control">
+						<br> <input type="number" class="form-control"
+							name="errandsPrice" min="0">
 						<hr>
 
 						<h4 style="line-height: 20%;">
@@ -140,8 +178,8 @@
 							class="form-control" name="detailAddress" id="detailAddress"><br>
 						<button type="button" class="btn btn-primary btn-sm"
 							onclick="sample5_execDaumPostcode()">주소찾기</button>
-							<input type="hidden" name="errandsPos.latitude" id="latitude">
-							<input type="hidden" name="errandsPos.longitude" id="longitude">
+						<input type="hidden" name="errandsPos.latitude" id="latitude">
+						<input type="hidden" name="errandsPos.longitude" id="longitude">
 					</div>
 					<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 					<script type="text/javascript"
@@ -151,7 +189,7 @@
 
 
 					<p align="right">
-						사진 올리기 <a href="#"><span class="glyphicon glyphicon-picture"></span></a>
+						사진 올리기 <a><span class="glyphicon glyphicon-picture"></span></a>
 					</p>
 
 
@@ -162,7 +200,7 @@
 						style="border: 3px black inset; width: 200px; height: 200px; margin: auto; box-sizing: content-box;"
 						id="holder"></div>
 					<br> <input type="file" class="form-control" value="찾기"
-						id="upload">
+						id="upload" name="errandsPhotoFile">
 					<div class="row" align="center">
 						<button type="submit" class="btn btn-info btn-circle btn-lg">
 							<i class="glyphicon glyphicon-ok"></i>
@@ -172,28 +210,28 @@
 						</button>
 					</div>
 					<script>
-					var upload = document.getElementById('upload'),
-						holder = document.getElementById('holder');
-				
-
-					upload.onchange = function(e) {
-						e.preventDefault();
-				
-						var file = upload.files[0],
-							reader = new FileReader();
-						reader.onload = function(event) {
-							var img = new Image();
-							img.src = event.target.result;
-							img.width = 200;
-							img.height= 200;
-							holder.innerHTML = '';
-							holder.appendChild(img);
+						var upload = document.getElementById('upload'),
+							holder = document.getElementById('holder');
+					
+					
+						upload.onchange = function(e) {
+							e.preventDefault();
+					
+							var file = upload.files[0],
+								reader = new FileReader();
+							reader.onload = function(event) {
+								var img = new Image();
+								img.src = event.target.result;
+								img.width = 200;
+								img.height = 200;
+								holder.innerHTML = '';
+								holder.appendChild(img);
+							};
+							reader.readAsDataURL(file);
+					
+							return false;
 						};
-						reader.readAsDataURL(file);
-				
-						return false;
-					};
-				</script>
+					</script>
 
 				</div>
 

@@ -36,11 +36,7 @@ public class HomeController {
 		return "/errand/chat" ; 
 	}
 	
-	@RequestMapping("/errand/register")
-	public String register(){
-		return "/errand/register" ; 
-	}
-	
+
 	
 
 }

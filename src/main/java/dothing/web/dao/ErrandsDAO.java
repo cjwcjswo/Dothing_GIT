@@ -10,6 +10,7 @@ public interface ErrandsDAO {
 	List<ErrandsDTO> selectAll();
 	ErrandsDTO selectErrands(int errandsNum);
 	int insertErrands(ErrandsDTO dto);
-	int insertErrandsPos(ErrandsDTO dto);
-	int insertErrandsHashtag(ErrandsDTO dto);
+	int insertErrandsPos(ErrandsPosDTO dto);
+	int insertErrandsHashtag(ErrandsHashtagDTO dto);
+	int selectNum();
 }

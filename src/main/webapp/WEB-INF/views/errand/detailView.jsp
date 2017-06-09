@@ -898,24 +898,39 @@ img {
 			</div>
 			<div class="col-xs-6">
 				<div class="card" style="width: 100%;">
-					<div class="container-fluid" style="width:100%;">
-						<div class="wrapper row" style="width:100%;">
-							<div class="container-fluid"
-								style="width: 100%;">
-								<h1 class="product-title">${errands.title}</h1>
-								<div class="rating">
+					<div class="container-fluid" style="width: 100%;">
+						<div class="wrapper row" style="width: 100%;">
+							<div class="container-fluid" style="width: 100%;">
+								<h2 class="product-title">${errands.title}</h2>
+								<table>
+									<tr>
+										<td style="width: 70%">
+											<div class="rating">
 
-									<span class="review-no">${errands.errandsReply.size()}개
-										신청 중</span>
-								</div>
-								<p class="product-description">${errands.content}</p>
-								<h4 class="price">
-									물건 값: <span>${errands.productPrice}</span>
-								</h4>
-								<h4 class="price">
-									심부름 값: <span>${errands.errandsPrice}</span>
-								</h4>
 
+												<span class="review-no">${errands.errandsReply.size()}개
+													신청 중</span>
+											</div>
+											<p class="product-description">${errands.content}</p>
+											<h4 class="price">
+												물건 값: <span>${errands.productPrice}</span>
+											</h4>
+											<h4 class="price">
+												심부름 값: <span>${errands.errandsPrice}</span>
+											</h4>
+										</td>
+										<td style="width: 30%"><c:if
+												test="${errands.errandsPhoto != null}">
+												<img
+													src="${pageContext.request.contextPath}/errands/${errands.errandsNum}/${errands.errandsPhoto}"
+													alt="bootsnipp" class="img-rounded img-responsive" />
+											</c:if> <c:if test="${errands.errandsPhoto == null}">
+												<img
+													src="${pageContext.request.contextPath}/resources/img/errands/img.png"
+													alt="bootsnipp" class="img-rounded img-responsive" />
+											</c:if></td>
+									</tr>
+								</table>
 								<div class="row" style="width: 110%;">
 									<div class="col-md-6" style="width: 100%;">
 										<div class="container-fluid" style="width: 100%">
@@ -955,13 +970,13 @@ img {
 														<ul class="list-group">
 															<li class="list-group-item">
 																<div class="row">
-																
-																	<div class="col-xs-3 col-md-2" style="width:30%">
+
+																	<div class="col-xs-3 col-md-2" style="width: 30%">
 																		<img src="http://placehold.it/80"
 																			class="img-circle img-responsive" alt="" width="80px"
-																			height="80px"/>
+																			height="80px" />
 																	</div>
-																	<div class="col-xs-9 col-md-10" style="width:70%">
+																	<div class="col-xs-9 col-md-10" style="width: 70%">
 																		<div>
 																			<div class="mic-info">
 																				By: <a href="#">${reply.user.userId}</a><br>
@@ -1124,6 +1139,20 @@ img {
 	
 		// 마커가 지도 위에 표시되도록 설정합니다
 		marker.setMap(map);
+		
+		var iwContent = '<div style="padding:5px;"><strong>주소</strong><br>${errands.errandsPos.addr}</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+	    iwPosition = new daum.maps.LatLng(${errands.errandsPos.latitude}, ${errands.errandsPos.longitude}), //인포윈도우 표시 위치입니다
+	    iwRemoveable = true; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
+
+	 // 인포윈도우를 생성합니다
+	    var infowindow = new daum.maps.InfoWindow({
+	        position : iwPosition, 
+	        content : iwContent 
+	    });
+	      
+	    // 마커 위에 인포윈도우를 표시합니다. 두번째 파라미터인 marker를 넣어주지 않으면 지도 위에 표시됩니다
+	    infowindow.open(map, marker); 
+
 	</script>
 </body>
 </html>

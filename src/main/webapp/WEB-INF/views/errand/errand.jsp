@@ -27,38 +27,40 @@
 
 
 			</div>
-			<div class="col-xs-6" style="width:50%; margin-left:50%">
+			<div class="col-xs-6" style="width: 50%; margin-left: 50%">
 				<!-- 심부름 리스트  -->
 				<table id="tb">
 					<c:forEach items="${errandsList}" var="errands">
 						<tr>
 							<th>
-								<div class="col-md-6" style="width:100%">
+								<div class="col-md-6" style="width: 100%">
 									<div class="well well-sm">
 										<div class="row">
 											<div class="col-xs-3 col-md-3 text-center">
-												<img
-													src="${pageContext.request.contextPath}/errands/${errands.errandsPhoto}"
-													alt="bootsnipp" class="img-rounded img-responsive" />
+												<c:if test="${errands.errandsPhoto != null}">
+													<img
+														src="${pageContext.request.contextPath}/errands/${errands.errandsNum}/${errands.errandsPhoto}"
+														alt="bootsnipp" class="img-rounded img-responsive" />
+												</c:if>
+												<c:if test="${errands.errandsPhoto == null}">
+													<img
+														src="${pageContext.request.contextPath}/resources/img/errands/img.png"
+														alt="bootsnipp" class="img-rounded img-responsive" />
+												</c:if>
 											</div>
 											<div class="col-xs-9 col-md-9 section-box">
-												<h2>
-													${errands.title}
-												</h2>
-												<p>${errands.content}<br>
-												마감일시 : ${errands.endTime}</p>
+												<h2>${errands.title}</h2>
+												<p>${errands.content}<br> 마감일시 : ${errands.endTime}
+												</p>
 												<hr />
 												<div class="row rating-desc">
 													<div class="col-md-12">
-														<span class="glyphicon glyphicon-heart"></span><span
-															class="glyphicon glyphicon-heart"> </span><span
-															class="glyphicon glyphicon-heart"></span><span
-															class="glyphicon glyphicon-heart"> </span><span
-															class="glyphicon glyphicon-heart"></span><span
-															class="separator">|</span> <span
-															class="glyphicon glyphicon-comment"></span>(${errands.errandsReply.size()} Comments)
-															 
-															<a  class="btn btn-danger" href="detailView?num=${errands.errandsNum}">신청하기</a>
+														<c:forEach items="${errands.hashtag}" var="hashtag">
+															<c:if test="${hashtag != null}"><a>#${hashtag.errandsHashtag}</a></c:if>
+														</c:forEach>| <span
+															class="glyphicon glyphicon-comment"></span>(${errands.errandsReply.size()}
+														Comments) <a class="btn btn-danger"
+															href="detailView?num=${errands.errandsNum}">신청하기</a>
 													</div>
 												</div>
 											</div>
@@ -70,7 +72,7 @@
 					</c:forEach>
 					<tr>
 						<th>
-							<ul class="pagination" style="margin-left:35%;">
+							<ul class="pagination" style="margin-left: 35%;">
 								<li class="disabled"><a href="#">«</a></li>
 								<li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
 								<li><a href="#">2</a></li>
