@@ -28,7 +28,7 @@
 <!-- 회원가입 -->
 <insert id="insertMember" parameterType="memberDTO">
 	insert into member(<include refid="memberColumn"/>)
-	values(#{userId},#{name},#{password},#{email},#{selfImg},#{ssnImg},#{addr},#{phone},#{sex})
+	values(#{userId},#{name},#{password},#{email},#{selfImg},'abcd.jpg',#{addr},#{phone},#{sex})
 </insert>
 
 
