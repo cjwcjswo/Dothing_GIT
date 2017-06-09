@@ -18,7 +18,8 @@
 	<div class="register-photo">
 		<div class="form-container">
 			<div class="image-holder"></div>
-			<form method="post">
+			<form method="post" action="${pageContext.request.contextPath}/member/join">
+			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" >
 				<h2 class="text-center">
 					<strong>Create</strong> an account.
 				</h2>
@@ -31,7 +32,7 @@
 
 
 				<div class="form-group">
-					<input class="form-control" type="id" name="id" placeholder="id">
+					<input class="form-control" type="id" name="userId" placeholder="Id">
 				</div>
 
 
@@ -63,7 +64,7 @@
 				<div class="form-group">
 
 					<input class="form-control" type="text" name="phone"
-						placeholder="phone" disabled> <a href="#"><span
+						placeholder="phone" > <a href="#"><span
 						class="glyphicon glyphicon-phone-alt" style="margin: auto"></span>핸드폰
 						인증하기</a>
 
@@ -71,24 +72,25 @@
 
 
 				<div class=" form=group">
-					<label class="radio-inline"><input type="radio"
-						name="optradio">Man</label> <label class="radio-inline"><input
-						type="radio" name="optradio">Woman</label>
+					<label class="radio-inline">
+					<input type="radio"name="sex" value="man">Man</label> 
+					<label class="radio-inline">
+					<input type="radio" name="sex" value="woman">Woman</label>
 				</div>
 				<br>
 
 				<div class="form-group">
 					<input class="form-control" type="text" name="address"
 						placeholder="address" disabled /> <input class="form-control"
-						type="text" name="detailAddress" placeholder="상세주소" disabled /> <a
+						type="text" name="addr" placeholder="상세주소" /> <a
 						href="#"><span class="glyphicon glyphicon-home"
 						style="margin: auto"></span>주소찾기</a>
 				</div>
 
 				<div class="form-group">
-					<input class="form-control" type="text" name="address"
-						placeholder="address" disabled /> 
-						<a href="#"><span class="glyphicon glyphicon-picture" style="margin: auto"></span>프로필 사진 올리기</a>
+				<a href="#"><span class="glyphicon glyphicon-picture" style="margin: auto"></span>프로필 사진 올리기</a>
+					<input class="form-control" type="text" name="selfImg" placeholder="picture"/> 
+						
 				</div>
 
 

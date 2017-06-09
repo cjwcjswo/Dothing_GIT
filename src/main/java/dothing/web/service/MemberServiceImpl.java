@@ -36,11 +36,6 @@ public class MemberServiceImpl implements MemberService{
 		
 		authorityDAO.insertAuthority(new AuthorityDTO(member.getUserId(), Constants.ROLE_MEMBER));
 		
-		//관리자인 경우 권한 등록
-		if(member.getUserType().equals("1")){
-			authorityDAO.insertAuthority(new AuthorityDTO(member.getUserId() , Constants.ROLE_ADMIN));
-		}
-		
 		return 1;
 	}
 }

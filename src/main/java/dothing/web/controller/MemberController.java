@@ -28,7 +28,11 @@ public class MemberController {
 	public String join(MemberDTO member){
 		//insert »£√‚ 
 		memberService.joinMember(member);
+<<<<<<< HEAD
 		return "/main/main";
+=======
+		return "/main/home";
+>>>>>>> 561fef30f44bc7081db372633063a3663b0c3068
 	}
 	
 	/**
