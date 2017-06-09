@@ -898,10 +898,11 @@ img {
 			</div>
 			<div class="col-xs-6">
 				<div class="card" style="width: 100%;">
-					<div class="container-fluid" style="width:100%;">
-						<div class="wrapper row" style="width:100%;">
-							<div class="container-fluid"
-								style="width: 100%;">
+					<div class="container-fluid" style="width: 100%;">
+						<div class="wrapper row" style="width: 100%;">
+							<div class="container-fluid" style="width: 100%;">
+								<a href="#"><span class="glyphicon glyphicon-trash"
+									style="margin: auto"></span>심부름 삭제하기</a>
 								<h1 class="product-title">${errands.title}</h1>
 								<div class="rating">
 
@@ -924,6 +925,7 @@ img {
 													id="open-review-box">제가 할래요!</a>
 											</div>
 
+
 											<div class="row" id="post-review-box" style="display: none;">
 												<div class="col-md-12">
 													<form accept-charset="UTF-8" action="" method="post">
@@ -931,8 +933,12 @@ img {
 														<textarea class="form-control animated" cols="50"
 															id="new-review" name="comment" placeholder="댓글을 입력하세요"
 															rows="5"></textarea>
-
 														<br>
+														<div class="col-xs-6 alert alert-info">
+															<strong>Info!</strong> 도착예정 시간 입력!
+														</div>
+														<input type="datetime-local" class="form-control"
+															name="endTime" /> <br>
 
 														<div class="text-right">
 
@@ -955,13 +961,13 @@ img {
 														<ul class="list-group">
 															<li class="list-group-item">
 																<div class="row">
-																
-																	<div class="col-xs-3 col-md-2" style="width:30%">
+
+																	<div class="col-xs-3 col-md-2" style="width: 30%">
 																		<img src="http://placehold.it/80"
 																			class="img-circle img-responsive" alt="" width="80px"
-																			height="80px"/>
+																			height="80px" />
 																	</div>
-																	<div class="col-xs-9 col-md-10" style="width:70%">
+																	<div class="col-xs-9 col-md-10" style="width: 70%">
 																		<div>
 																			<div class="mic-info">
 																				By: <a href="#">${reply.user.userId}</a><br>
