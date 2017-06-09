@@ -9,12 +9,14 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
 		/WEB-INF/spring/root-context.xml
+		/WEB-INF/spring/appServlet/security-context.xml
+		/WEB-INF/spring/appServlet/db_transaction.xml
 		</param-value>
 	</context-param>
 <!-- /WEB-INF/spring/appServlet/security-context.xml -->
 
 	<!-- spring security filter 등록 -->
-	<!-- <filter>
+	<filter>
 		<filter-name>springSecurityFilterChain</filter-name>
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
 	</filter>
@@ -22,7 +24,7 @@
 		<filter-name>springSecurityFilterChain</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
- -->
+
 	<!-- 인코딩 필터 -->
 	<filter>
 		<filter-name>characterEncoding</filter-name>
