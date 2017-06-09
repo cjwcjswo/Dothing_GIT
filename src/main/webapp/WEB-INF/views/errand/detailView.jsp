@@ -906,11 +906,11 @@ img {
 									<tr>
 										<td style="width: 70%">
 											<div class="rating">
-
-
-												<span class="review-no">${errands.errandsReply.size()}개
-													신청 중</span>
+											
+												<span class="review-no"><a>${errands.errandsReply.size()}명
+													신청 중</a></span>
 											</div>
+											<h3 class="product-title">설명</h3>
 											<p class="product-description">${errands.content}</p>
 											<h4 class="price">
 												물건 값: <span>${errands.productPrice}</span>
