@@ -32,7 +32,7 @@ public class HomeController {
 		return "/errand/register" ; 
 	}
 	
-	@RequestMapping("/board/inquiryBoardList")
+	/*@RequestMapping("/board/inquiryBoardList")
 	public String inquiryBoardList(){
 		return "/board/inquiryBoardList" ;
 	}
@@ -45,7 +45,7 @@ public class HomeController {
 	@RequestMapping("/board/inquiryBoardWrite")
 	public String inquiryBoardWrite(){
 		return "/board/inquiryBoardWrite" ; 
-	}
+	}*/
 	
 	
 
