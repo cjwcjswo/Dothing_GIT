@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -27,14 +28,10 @@
 <body>
 	<div class="container">
 		<div class="row">
-
-
 			<div class="panel panel-default widget">
 				<div class="panel-heading">
 					<span class="glyphicon glyphicon-comment"></span>
 					<h3 class="panel-title">1:1 게시판</h3>
-
-
 				</div>
 				<div class="panel-body">
 					<ul class="list-group">
@@ -46,39 +43,25 @@
 								</div>
 								<div class="col-xs-10 col-md-11">
 									<div>
-										<a href="#"> name</a>
+										<a href="#">${board.userId}</a>
 										<div class="mic-info">
-											By: <a href="#">작성자 아이디 넣으세요</a> (작성일시)2017-06-09 PM 3:00
+											By: ${board.boardDate}
 										</div>
 									</div>
-									<div class="comment-text">내용 쓰셈~~~~</div>
-
-
-
-
-
+									<div class="comment-text">${board.boardContent}</div>
 								</div>
 							</div>
 						</li>
-
-
 					</ul>
-
 				</div>
 				<div class="col">
-
-
 					<div class="panel-body">
 						<form role="form">
 							<fieldset>
 								<div class="form-group">
 									<textarea class="form-control" rows="3" placeholder="댓글 내용~~~"
 										autofocus=""></textarea>
-
-
 								</div>
-
-
 								<button type="submit" class="[ btn btn-success ]"
 									data-loading-text="Loading...">댓글 달기</button>
 							</fieldset>
@@ -104,16 +87,9 @@
 										</div>
 									</div>
 									<div class="comment-text">댓글 ~~~</div>
-
-
-
-
-
 								</div>
 							</div>
 						</li>
-
-
 					</ul>
 
 				</div>

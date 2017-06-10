@@ -31,10 +31,6 @@ public class BoardController {
 		return mv;
 	}
 	
-	/*@RequestMapping("/inquiryBoardList")
-	public String inquiryBoardList(){
-		return "/board/inquiryBoardList" ;
-	}*/
 	
 	@RequestMapping("/inquiryBoardWrite")
 	public void write(HttpServletRequest request){
@@ -46,17 +42,17 @@ public class BoardController {
 
 		boardService.insert(boardDTO);
 		
-		return "redirect:list";
+		return "redirect:inquiryBoardList";
 	}
 	  
 	  /**
 	   * 상세보기
 	   */
-	  @RequestMapping("/inquiryBoardRead/{modelNum}")
+	  @RequestMapping("/inquiryBoardRead/{inquiryNum}")
 	  public ModelAndView read(HttpServletRequest request,@PathVariable int inquiryNum) throws Exception{
 		  BoardDTO boardDTO = boardService.selectByBoardNum(inquiryNum, true);
 		  ModelAndView mv = new ModelAndView();
-		  mv.setViewName("board/read");
+		  mv.setViewName("board/inquiryBoardRead");
 		  mv.addObject("board",boardDTO);
 		  return mv;
 	  }

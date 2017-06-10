@@ -4,6 +4,7 @@
 
 <resultMap type="boardDTO" id="boardSelectMap">
   <id column="inquiry_num" property="inquiryNum"/>
+  <result column="member_id" property="userId"/>
   <result column="inquiry_title" property="boardTitle"/>
   <result column="inquiry_content" property="boardContent"/>
   <result column="inquiry_date" property="boardDate"/>
@@ -30,12 +31,6 @@ select <include refid="columnName"/>,inquiry_date ,READNUM
    </if>
  </where>
 </select>
-
-<!-- <select id="selectAll" resultMap="boardSelectMap">
-select <include refid="columnName"/>,inquiry_date ,READNUM
- from inquiry_board
-
-</select> -->
 
 <!-- 조회수 증가 -->
 <update id="boardReadNumPlus" parameterType="BoardDTO">
