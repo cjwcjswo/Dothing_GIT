@@ -32,7 +32,7 @@ public class MemberController {
 	 * @throws IOException 
 	 * @throws IllegalStateException 
 	 * */
-	@RequestMapping("/member/join")
+/*	@RequestMapping("/member/join")
 	public String join(HttpSession session, MemberDTO member) throws IllegalStateException, IOException{
 		//insert 호출 
 		
@@ -48,7 +48,7 @@ public class MemberController {
 
 
 	}
-	
+	*/
 	/**
 	 * 로그인 폼
 	 * */
