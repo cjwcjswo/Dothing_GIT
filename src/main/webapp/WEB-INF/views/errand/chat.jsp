@@ -2,6 +2,9 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page import="java.util.*" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,16 +39,38 @@
 	href="${pageContext.request.contextPath}/resources/css/chat/chat.css">
 	
 <script>
+	var today = '<%= new java.text.SimpleDateFormat("MM/dd HH:mm").format(new java.util.Date())%>'
 	var sender = '<security:authentication property="principal.userId"/>';
 	var sock = new SockJS('/controller/websocket');
 	var errandsNum = ${errandsNum}
 	$(function(){
-		$('#send').click(function(){
+		/* $('#send').click(function(){
 			var msg = $('div textarea').val();
 			alert('msg : ' + msg);
+			alert('today : ' + today);
 			//separator -> #/separator/#
-			sock.send(errandsNum+"#/separator/#"+sender+"#/separator/#"+msg);
+			sock.send(errandsNum+"#/separator/#"+sender+"#/separator/#"+msg+"#/separator/#"+today);
+		}); */
+		
+		$(document).on("click", "#send", function(){
+			var msg = $('div textarea').val();
+			alert('msg : ' + msg);
+			alert('today : ' + today);
+			//separator -> #/separator/#
+			sock.send(errandsNum+"#/separator/#"+sender+"#/separator/#"+msg+"#/separator/#"+today);
+			
+			var str = '<div class="row"><div class="col-lg-12">' + 
+				'<div class="media">' +
+				'<a class="pull-left" href="#"> <img class="media-object img-circle" src="http://lorempixel.com/30/30/people/7/" alt=""></a>' +
+				'<div class="media-body">'+
+					'<h4 class="media-heading">'+ sender +
+						'<span class="small pull-right">'+ today +'</span>'+
+					'</h4>'+ msg +
+					'</div></div></div></div><hr>';
+			
+			 $('#chatList').append(str);	
 		});
+		
 	});
 	
 	sock.onopen = function() {
@@ -91,7 +116,7 @@
 							style="background-color: lightSkyBlue;">
 							<div class="portlet-title">
 								<h4>
-									<i class="fa fa-circle text-green"></i> 심부름f 제목
+									<i class="fa fa-circle text-green"></i> 심부름fa 제목
 								</h4>
 							</div>
 							<div class="portlet-widgets">
@@ -112,7 +137,7 @@
 						</div>
 						<div id="chat" class="panel-collapse collapse in">
 							<div>
-								<div class="portlet-body chat-widget"
+								<div class="portlet-body chat-widget" id='chatList'
 									style="overflow-y: auto; width: auto; height: 300px;">
 									<div class="row">
 										<div class="col-lg-12">

@@ -1,5 +1,7 @@
 package dothing.web.socket.handler;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -36,16 +38,20 @@ public class WebSocketHandler extends TextWebSocketHandler{
 	
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-		
-		
 		String msg = message.getPayload();
+		/*
+		Calendar today = Calendar.getInstance();
+		String time = today.get(Calendar.MONTH)+1 + "/" + today.get(Calendar.DAY_OF_MONTH) + " " + today.get(Calendar.HOUR) + ":" + today.get(Calendar.MINUTE);
+		
+		msg += "#/separator/#"+time;*/
+		
+		String msgArr[] = msg.split("#/separator/#");
 		//msgArr[0] = errandsNum;
 		//msgArr[1] = sender;
 		//msgArr[2] = msg;
-		String msgArr[] = msg.split("#/separator/#");
+		//msgArr[3] = writeday;
 		
 		chatService.write(msgArr);
-		
 		
 		/*
 		Iterator<String> iter= sessionMap.keySet().iterator();
