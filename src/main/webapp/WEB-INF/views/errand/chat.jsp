@@ -1,82 +1,170 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<link href='https://fonts.googleapis.com/css?family=Lato:400,700'
-	rel='stylesheet' type='text/css'>
-<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/chat/normalize.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
 
+
+<!-- Latest compiled and minified CSS -->
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/bootstrap/css/bootstrap.min.css">
-	<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/bootstrap/js/bootstrap.min.js">
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript"
+	src="//apis.daum.net/maps/maps3.js?apikey=e110b99859ef72282b675950ede50536"></script>
+
+<script type="text/javascript"
+	src="//apis.daum.net/maps/maps3.js?apikey=APIKEY&libraries=services,clusterer,drawing"></script>
+
+<script type="text/javascript"
+	src="//apis.daum.net/maps/maps3.js?apikey=900302937c725fa5d96ac225cbc2db10&libraries=services"></script>
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/fonts/ionicons.min.css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/chat/style.css">
+	href="${pageContext.request.contextPath}/resources/css/chat/chat.css">
 
 </head>
 <body>
-	<button type="button" class="button js-trigger">Chat (45)</button>
+	<	<div style="height: 15%;"></div>
 
+	<div class="container" id="content">
+		<div class="row" id="">
+			<!--  필터  -->
 
-	<nav class="chat">
-	<h2 class="chat__users">Users Online: 45</h2>
-	<ul class="chat__wrapper">
-		<li class="chat__human"><img class="chat__avatar"
-			src="https://robohash.org/joe" alt="" /> <span class="chat__name">Joe
-				Richardson</span></li>
-
-		<li class="chat__human"><img class="chat__avatar"
-			src="https://robohash.org/nah" alt="" /> <span class="chat__name">Bill
-				Gates</span></li>
-
-		<li class="chat__human"><img class="chat__avatar"
-			src="https://robohash.org/ok" alt="" /> <span class="chat__name">Steve
-				Jobs</span></li>
-
-		<li class="chat__human"><img class="chat__avatar"
-			src="https://robohash.org/hi" alt="" /> <span class="chat__name">Mark
-				Zuckerberg</span></li>
-
-		<li class="chat__human"><img class="chat__avatar"
-			src="https://robohash.org/bruh" alt="" /> <span class="chat__name">Denzel
-				Washington</span></li>
-	</ul>
-	</nav>
-
-	<div class="conversation">
-		<div class="conversation__header">
-			Denzel Washington <span class="close-msg">&times;</span>
 		</div>
-		<ul class="conversation__wrap">
-			<li class="conversation__msg cf"><span>Hey!</span></li>
+		<div class="row" style="width: 100%; height: 100%;">
+			<div class="col-xs-4" id="map">
+				<!-- 지도 삽입 부분 -->
 
-			<li class="conversation__msg cf"><span class="right">Yo!</span>
-			</li>
+				<iframe width="100%" height="500px" frameborder="0" scrolling="no"
+					marginheight="0" marginwidth="0"
+					src="https://maps.google.co.uk/maps?f=q&source=s_q&hl=en&geocode=&q=15+Springfield+Way,+Hythe,+CT21+5SH&aq=t&sll=52.8382,-2.327815&sspn=8.047465,13.666992&ie=UTF8&hq=&hnear=15+Springfield+Way,+Hythe+CT21+5SH,+United+Kingdom&t=m&z=14&ll=51.077429,1.121722&output=embed"></iframe>
 
-			<li class="conversation__msg cf"><span>How Goes it?</span></li>
 
-			<li class="conversation__msg cf"><span class="right">Bruh.</span>
-			</li>
-		</ul>
+			</div>
+			<!-- class="col-xs-8 "  -->
+			<div class="col-xs-8" style="padding-left: 50%; width: 100%;">
 
-		<input class="input" type="text" placeholder="Enter Message" />
+				<!-- 채팅  -->
+				<div class="row">
+					<div class="portlet portlet-default">
+						<div class="portlet-heading"
+							style="background-color: lightSkyBlue;">
+							<div class="portlet-title">
+								<h4>
+									<i class="fa fa-circle text-green"></i> 심부름 제목
+								</h4>
+							</div>
+							<div class="portlet-widgets">
+								<div class="btn-group">
+									<button type="button"
+										class="btn btn-white dropdown-toggle btn-xs"
+										data-toggle="dropdown">
+										<i class="fa fa-circle text-green" style="color: blue;"></i>
+										심부름 완료 <span class="caret"></span>
+									</button>
+									
+								</div>
+								<span class="divider"></span> <a data-toggle="collapse"
+									data-parent="#accordion" href="#chat"><i
+									class="fa fa-chevron-down"></i></a>
+							</div>
+							<div class="clearfix"></div>
+						</div>
+						<div id="chat" class="panel-collapse collapse in">
+							<div>
+								<div class="portlet-body chat-widget"
+									style="overflow-y: auto; width: auto; height: 300px;">
+									<div class="row">
+										<div class="col-lg-12">
+											<p class="text-center text-muted small">2017-06-01 오후
+												12:34</p>
+
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-lg-12">
+											<div class="media">
+												<a class="pull-left" href="#"> <img
+													class="media-object img-circle"
+													src="http://lorempixel.com/30/30/people/1/" alt="">
+												</a>
+												<div class="media-body">
+													<h4 class="media-heading">
+														이태호 <span class="small pull-right">12:23 PM</span>
+													</h4>
+													<p>님 저 판교 유스페이스 쪽에 있는데 얼마나 걸려요?</p>
+												</div>
+											</div>
+										</div>
+									</div>
+									<hr>
+									<div class="row">
+										<div class="col-lg-12">
+											<div class="media">
+												<a class="pull-left" href="#"> <img
+													class="media-object img-circle"
+													src="http://lorempixel.com/30/30/people/7/" alt="">
+												</a>
+												<div class="media-body">
+													<h4 class="media-heading">
+														호갱님<span class="small pull-right">12:36 PM</span>
+													</h4>
+													<p>10분내 도착이요</p>
+													<p>빅맥 라지세트 맞죠?</p>
+												</div>
+											</div>
+										</div>
+									</div>
+									<hr>
+									<div class="row">
+										<div class="col-lg-12">
+											<div class="media">
+												<a class="pull-left" href="#"> <img
+													class="media-object img-circle"
+													src="http://lorempixel.com/30/30/people/1/" alt="">
+												</a>
+												<div class="media-body">
+													<h4 class="media-heading">
+														이태호 <span class="small pull-right">12:39 PM</span>
+													</h4>
+													<p>네 심부름 값 2천원 드림</p>
+												</div>
+											</div>
+										</div>
+									</div>
+									<hr>
+								</div>
+							</div>
+							<div class="portlet-footer"
+								style="background-color: lightSkyBlue;">
+								<form role="form">
+									<div class="form-group">
+										<textarea class="form-control" placeholder="Enter message..."></textarea>
+									</div>
+									<div class="form-group">
+										<button type="button" class="btn btn-warning pull-right">Send</button>
+										<div class="clearfix"></div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
 	</div>
-	<script
-		src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-
-	<script
-		src="${pageContext.request.contextPath}/resources/js/chat/chat.js"></script>
-
-
-
-
 </body>
 </html>
