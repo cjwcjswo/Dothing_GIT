@@ -13,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import dothing.web.dto.MemberDTO;
 import dothing.web.service.MemberService;
 
-@Controller
+@Controller("/user")
 public class MemberController {
 
 	@Autowired
@@ -22,7 +22,7 @@ public class MemberController {
 	/**
 	 * °¡ÀÔ Æû
 	 * */
-	@RequestMapping("/user/signIn")
+	@RequestMapping("/signIn")
 	public String joinForm(){
 		return "/user/signIn";
 	}
@@ -32,7 +32,8 @@ public class MemberController {
 	 * @throws IOException 
 	 * @throws IllegalStateException 
 	 * */
-	@RequestMapping("/member/join")
+
+	@RequestMapping("/join")
 	public String join(HttpSession session, MemberDTO member) throws IllegalStateException, IOException{
 		//insert È£Ãâ 
 
@@ -46,13 +47,13 @@ public class MemberController {
 	
 		return "/main/home";
 
-		//return "/main/main";
+
 	}
 	
 	/**
 	 * ·Î±×ÀÎ Æû
 	 * */
-	@RequestMapping("/user/loginForm")
+	@RequestMapping("/loginForm")
 	public String loginForm(){
 		return "/user/loginForm";
 	}

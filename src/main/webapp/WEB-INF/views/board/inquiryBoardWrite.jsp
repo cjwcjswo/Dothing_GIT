@@ -26,7 +26,7 @@
 	<div class="register-photo">
 		<div class="form-container">
 			<div class="image-holder"></div>
-			<form method="post">
+			<form method="post" action="${pageContext.request.contextPath}/board/insert">
 				<h2 class="text-center">
 					<strong>1:1 게시판 작성하기</strong>
 				</h2>
