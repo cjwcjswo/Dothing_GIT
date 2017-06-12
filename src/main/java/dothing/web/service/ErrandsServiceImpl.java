@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import dothing.web.dao.ErrandsDAO;
 import dothing.web.dto.ErrandsDTO;
-import dothing.web.dto.ErrandsHashtagDTO;
 import dothing.web.dto.ErrandsReplyDTO;
 
 @Service
@@ -31,14 +30,6 @@ public class ErrandsServiceImpl implements ErrandsService {
 	public int insertErrands(ErrandsDTO dto) {
 		errandsDAO.insertErrands(dto);
 		errandsDAO.insertErrandsPos(dto.getErrandsPos());
-		if ((dto.getHashtag() != null) && (dto.getHashtag().size() != 0)) {
-			for (int i = 0; i < 3; i++) {
-				ErrandsHashtagDTO hashDTO = dto.getHashtag().get(i);
-				if (hashDTO.getErrandsHashtag() != null && !hashDTO.getErrandsHashtag().trim().equals("")) {
-					errandsDAO.insertErrandsHashtag(hashDTO);
-				}
-			}
-		}
 		return 1;
 	}
 
