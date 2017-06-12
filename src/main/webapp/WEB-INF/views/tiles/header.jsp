@@ -53,6 +53,9 @@
 					<li role="presentation"><a
 						href="${pageContext.request.contextPath}/errand/register">심부름
 							신청하기</a></li>
+					<!-- 채팅 테스트 -->
+					<li role="presentation"><a
+						href="${pageContext.request.contextPath}/websocket">채팅테스트</a></li>
 
 				</ul>
 
