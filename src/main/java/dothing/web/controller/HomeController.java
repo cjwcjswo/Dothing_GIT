@@ -1,5 +1,6 @@
 package dothing.web.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -14,11 +15,16 @@ public class HomeController {
 
 	@RequestMapping("/")
 	public String home(HttpSession session) {
-		session.setAttribute("userIdS", "tester");
 		return "/main/home";
 	}
 
-
+	@RequestMapping("/error")
+	public ModelAndView error(HttpServletRequest request){
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("errorMessage", request.getAttribute("errorMessage"));
+		mv.setViewName("/error/errorMessage");
+		return mv;
+	}
 
 	
 	@RequestMapping("/errand/chat")

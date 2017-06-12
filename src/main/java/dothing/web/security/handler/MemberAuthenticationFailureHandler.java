@@ -25,7 +25,7 @@ public class MemberAuthenticationFailureHandler implements AuthenticationFailure
 	public void onAuthenticationFailure(HttpServletRequest req, HttpServletResponse res, AuthenticationException auth)
 			throws IOException, ServletException {
 		req.setAttribute("errorMessage", auth.getMessage());
-		req.getRequestDispatcher("/WEB-INF/views/user/loginForm.jsp").forward(req, res);
+		req.getRequestDispatcher("/error").forward(req, res);
 		
 	}
 
