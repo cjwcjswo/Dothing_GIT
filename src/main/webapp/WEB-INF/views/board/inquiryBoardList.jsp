@@ -43,13 +43,9 @@
 
 	<div class="container">
 		<div class="row">
-
-
 			<p></p>
 			<p></p>
-
 			<div class="col-md-10 col-md-offset-1">
-
 				<div class="panel panel-default panel-table">
 					<div class="panel-heading">
 						<div class="row">
@@ -74,18 +70,7 @@
 									<th>조회 수</th>
 								</tr>
 							</thead>
-							<%-- <tbody>
-								<tr>
-									<td align="center"><a class="btn btn-default"><em
-											class="fa fa-pencil"></em></a> <a class="btn btn-danger" data-toggle="modal" data-target="#myModal1"><em
-											class="fa fa-trash" ></em></a></td>
-									<td class="hidden-xs">1</td>
-									<td>바바야가</td>
-									<td><a href="${pageContext.request.contextPath}/board/inquiryBoardRead">심부름 좀 많이 올라 왔으면 좋겠어요</a></td>
-									<td>2017-06-09</td>
-									<td>5</td>
-								</tr>
-							</tbody> --%>
+							
 							<c:choose>
 								<c:when test="${empty requestScope.list}">
 									<tr>
