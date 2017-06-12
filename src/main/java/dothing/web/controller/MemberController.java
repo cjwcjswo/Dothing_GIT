@@ -36,7 +36,6 @@ public class MemberController {
 	public String join(HttpSession session, MemberDTO member) throws IllegalStateException, IOException{
 		//insert »£√‚ 
 		
-<<<<<<< HEAD
 		String path = session.getServletContext().getRealPath("") + "\\user\\" + member.getUserId();
 		File folder = new File(path);
 		folder.mkdirs();
@@ -45,9 +44,7 @@ public class MemberController {
 		selfImgFile.transferTo(new File(path + "\\" + member.getSelfImg()));
 		memberService.joinMember(member);
 		return "/main/home";
-=======
-		return "/main/main";
->>>>>>> 461def9cdbe2fc8fa22f24c70176be50ef3bc0f1
+		//return "/main/main";
 	}
 	
 	/**

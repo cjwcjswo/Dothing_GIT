@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
@@ -7,8 +8,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+<!-- SocketJS -->
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/sockjs.js"></script>
+
 
 
 <!-- Latest compiled and minified CSS -->
@@ -32,10 +34,37 @@
 	src="//apis.daum.net/maps/maps3.js?apikey=900302937c725fa5d96ac225cbc2db10&libraries=services"></script>
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/chat/chat.css">
+	
+<script>
+	var sender = '<security:authentication property="principal.userId"/>';
+	var sock = new SockJS('/controller/websocket');
+	var errandsNum = ${errandsNum}
+	$(function(){
+		$('#send').click(function(){
+			var msg = $('div textarea').val();
+			alert('msg : ' + msg);
+			//separator -> ,*
+			sock.send(errandsNum+"#/separator/#"+sender+"#/separator/#"+msg);
+		});
+	});
+	
+	sock.onopen = function() {
+	    $('#console').append('websocket opened' + '<br>');
+	};
+	
+	sock.onmessage = function(message) {
+	    $('#console').append('receive message : ' + message.data + '<br>');
+	};
+	
+	sock.onclose = function(event) {
+	    $('#console').append('websocket closed : ' + event);
+	};
+
+</script>
 
 </head>
 <body>
-	<	<div style="height: 15%;"></div>
+		<div style="height: 15%;"></div>
 
 	<div class="container" id="content">
 		<div class="row" id="">
@@ -62,7 +91,7 @@
 							style="background-color: lightSkyBlue;">
 							<div class="portlet-title">
 								<h4>
-									<i class="fa fa-circle text-green"></i> 심부름 제목
+									<i class="fa fa-circle text-green"></i> 심부름f 제목
 								</h4>
 							</div>
 							<div class="portlet-widgets">
@@ -153,11 +182,13 @@
 										<textarea class="form-control" placeholder="Enter message..."></textarea>
 									</div>
 									<div class="form-group">
-										<button type="button" class="btn btn-warning pull-right">Send</button>
+										<button type="button" class="btn btn-warning pull-right" id="send">Send</button>
 										<div class="clearfix"></div>
 									</div>
 								</form>
 							</div>
+							
+							
 						</div>
 					</div>
 				</div>
