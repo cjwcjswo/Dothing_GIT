@@ -43,7 +43,7 @@
 		$('#send').click(function(){
 			var msg = $('div textarea').val();
 			alert('msg : ' + msg);
-			//separator -> ,*
+			//separator -> #/separator/#
 			sock.send(errandsNum+"#/separator/#"+sender+"#/separator/#"+msg);
 		});
 	});

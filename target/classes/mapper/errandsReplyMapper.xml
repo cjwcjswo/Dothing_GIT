@@ -15,7 +15,7 @@
 	</resultMap>
 
 	<insert id="insertErrandsReply" parameterType="errandsReplyDTO">
-		insert into ERRANDS_REPLY values(ERRANDS_REPLY.NEXTVAL,
+		insert into ERRANDS_REPLY values(ERRANDS_REPLY_NUM.NEXTVAL,
 		#{replyContent}, #{arrivalTime}, to_char(sysdate, 'YYYY-MM-DD HH:MI:SS'),
 		 #{errands.errandsNum}, #{user.userId})
 	</insert>

@@ -2,29 +2,33 @@ package dothing.web.dto;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class BoardDTO {
-	private int boardNum;
-	private MemberDTO user;
-	private String boardTitle;
-	private String boardContent;
-	private String boardDate;
+	private int inquiryNum;      //게시판 번호
+	private String userId;       //글쓴이
+	private String boardTitle;   //게시판제목
+	private String boardContent; //게시판내용
+	private String boardDate;    //글쓴 날짜
+	private int readNum;         //조회수
 	
-	private List<BoardReplyDTO> reply;
+	
+	private List<BoardReplyDTO> reply;  //댓글
 
-	public int getBoardNum() {
-		return boardNum;
+	public int getInquiryNum() {
+		return inquiryNum;
 	}
 
-	public void setBoardNum(int boardNum) {
-		this.boardNum = boardNum;
+	public void setInquiryNum(int inquiryNum) {
+		this.inquiryNum = inquiryNum;
 	}
 
-	public MemberDTO getUser() {
-		return user;
+	public String getUserId() {
+		return userId;
 	}
 
-	public void setUser(MemberDTO user) {
-		this.user = user;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 	public String getBoardTitle() {
@@ -57,6 +61,14 @@ public class BoardDTO {
 
 	public void setReply(List<BoardReplyDTO> reply) {
 		this.reply = reply;
+	}
+
+	public int getReadNum() {
+		return readNum;
+	}
+
+	public void setReadNum(int readNum) {
+		this.readNum = readNum;
 	}
 	
 	

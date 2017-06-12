@@ -879,6 +879,26 @@ img {
 			$("#sims").html("<h2>심부름꾼: " + $(this).attr("id") + "</h2>");
 		})
 	});
+	function checkValid() {
+		var form = document.f;
+		if (form.replyContent.value.trim() == "") {
+			alert("댓글 내용을 입력하세요");
+			return false;
+		}
+		if (form.arrivalTime.value.trim() == "") {
+			alert("시간을 입력하세요");
+			return false;
+		}
+		return true;
+	}
+	function delErrands(){
+		if("${errands.requestUser.userId}" != "${userIdS}"){
+			alert("작성자가 아닙니다");
+			return;
+		}else{
+			location.href="${pageContext.request.contextPath}/errand/deleteErrands?num=${errands.errandsNum}&id=${userIdS}";
+		}
+	}
 </script>
 
 </head>
@@ -893,7 +913,7 @@ img {
 			<div class="col-xs-4" id="map">
 				<!-- 지도 삽입 부분 -->
 
-				<div id="daumMap" style="width: 100%; height: 500px"></div>
+				<div id="daumMap" style="width: 100%; height: 500px; z-index:0"></div>
 
 			</div>
 			<div class="col-xs-6">
@@ -901,21 +921,39 @@ img {
 					<div class="container-fluid" style="width: 100%;">
 						<div class="wrapper row" style="width: 100%;">
 							<div class="container-fluid" style="width: 100%;">
-								<a href="#"><span class="glyphicon glyphicon-trash"
+								<a onclick="delErrands();"><span class="glyphicon glyphicon-trash"
 									style="margin: auto"></span>심부름 삭제하기</a>
-								<h1 class="product-title">${errands.title}</h1>
-								<div class="rating">
+								<h2 class="product-title">${errands.title}</h2>
+								<table>
+									<tr>
+										<td style="width: 70%">
+											<div class="rating">
 
-									<span class="review-no">${errands.errandsReply.size()}개
-										신청 중</span>
-								</div>
-								<p class="product-description">${errands.content}</p>
-								<h4 class="price">
-									물건 값: <span>${errands.productPrice}</span>
-								</h4>
-								<h4 class="price">
-									심부름 값: <span>${errands.errandsPrice}</span>
-								</h4>
+												<span class="review-no"><a>${errands.errandsReply.size()}명
+														신청 중</a></span>
+											</div>
+											<h3 class="product-title">설명</h3>
+											<p class="product-description">${errands.content}</p>
+											<h4 class="price">
+												물건 값: <span>${errands.productPrice}</span>
+											</h4>
+											<h4 class="price">
+												심부름 값: <span>${errands.errandsPrice}</span>
+											</h4>
+										</td>
+										<td style="width: 30%"><c:if
+												test="${errands.errandsPhoto != null}">
+												<img
+													src="${pageContext.request.contextPath}/errands/${errands.errandsNum}/${errands.errandsPhoto}"
+													alt="bootsnipp" class="img-rounded img-responsive" />
+											</c:if> <c:if test="${errands.errandsPhoto == null}">
+												<img
+													src="${pageContext.request.contextPath}/resources/img/errands/img.png"
+													alt="bootsnipp" class="img-rounded img-responsive" />
+											</c:if></td>
+									</tr>
+								</table>
+
 
 								<div class="row" style="width: 110%;">
 									<div class="col-md-6" style="width: 100%;">
@@ -925,20 +963,19 @@ img {
 													id="open-review-box">제가 할래요!</a>
 											</div>
 
-
 											<div class="row" id="post-review-box" style="display: none;">
 												<div class="col-md-12">
-													<form accept-charset="UTF-8" action="" method="post">
-														<input id="ratings-hidden" name="rating" type="hidden">
+													<input id="ratings-hidden" name="rating" type="hidden">
+													<form name="f" method="post" action="insertReply" onsubmit="return checkValid()">
 														<textarea class="form-control animated" cols="50"
-															id="new-review" name="comment" placeholder="댓글을 입력하세요"
-															rows="5"></textarea>
+															id="new-review" name="replyContent"
+															placeholder="댓글을 입력하세요" rows="5"></textarea>
 														<br>
 														<div class="col-xs-6 alert alert-info">
 															<strong>Info!</strong> 도착예정 시간 입력!
 														</div>
 														<input type="datetime-local" class="form-control"
-															name="endTime" /> <br>
+															name="arrivalTime" /> <br>
 
 														<div class="text-right">
 
@@ -946,12 +983,17 @@ img {
 																id="close-review-box"
 																style="display: none; margin-right: 10px;"> <span
 																class="glyphicon glyphicon-remove"></span>취소하기
-															</a>
+															</a> <input type="hidden" name="errands.errandsNum"
+																value="${errands.errandsNum}"> <input
+																type="hidden" name="user.userId" value="${userIdS}">
+															<input type="hidden" name="${_csrf.parameterName}"
+																value="${_csrf.token}" />
 															<button class="btn btn-success btn-lg" type="submit">등록하기</button>
 														</div>
 													</form>
 												</div>
 											</div>
+
 											<hr>
 											<c:forEach items="${errands.errandsReply}" var="reply">
 												<div class="row">
@@ -1130,6 +1172,20 @@ img {
 	
 		// 마커가 지도 위에 표시되도록 설정합니다
 		marker.setMap(map);
+		
+		var iwContent = '<div style="padding:5px;"><strong>주소</strong><br>${errands.errandsPos.addr}</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+	    iwPosition = new daum.maps.LatLng(${errands.errandsPos.latitude}, ${errands.errandsPos.longitude}), //인포윈도우 표시 위치입니다
+	    iwRemoveable = true; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
+
+	 // 인포윈도우를 생성합니다
+	    var infowindow = new daum.maps.InfoWindow({
+	        position : iwPosition, 
+	        content : iwContent 
+	    });
+	      
+	    // 마커 위에 인포윈도우를 표시합니다. 두번째 파라미터인 marker를 넣어주지 않으면 지도 위에 표시됩니다
+	    infowindow.open(map, marker); 
+
 	</script>
 </body>
 </html>

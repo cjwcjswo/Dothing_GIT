@@ -7,6 +7,12 @@ public class ErrandsReplyDTO {
 	private String arrivalTime;
 	private String replyDate;
 	private MemberDTO user;
+	
+	@Override
+	public String toString() {
+		return "ErrandsReplyDTO [replyNum=" + replyNum + ", errands=" + errands + ", replyContent=" + replyContent
+				+ ", arrivalTime=" + arrivalTime + ", replyDate=" + replyDate + ", user=" + user + "]";
+	}
 	public int getReplyNum() {
 		return replyNum;
 	}

@@ -12,7 +12,7 @@
 
 		<div id="header">
 			<tiles:insertAttribute name="header" />
-		</div>
+		</div><div style="height:90px"></div>
 		<div id="content">
 			<tiles:insertAttribute name="content" />
 		</div>
