@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="security"%>
 
 <!DOCTYPE html>
 <html>
@@ -94,7 +95,7 @@
 						</h4>
 						<p style="margin-top: 6%; line-height: 35%">
 							<input type="text" class="form-control" readonly="readonly"
-								name="requestUser.userId" value="${userIdS}">
+								name="requestUser.userId" value="<security:authentication property="principal.userId"/>">
 						</p>
 						<br />
 						<h4 style="line-height: 20%;">
@@ -140,24 +141,7 @@
 								name="content"></textarea>
 						</div>
 
-						<div class="form-group row">
-							<div class="col-sm-4">
-								<label for="ex1">해시태그1</label> <input class="form-control"
-									id="ex1" type="text" placeholder="존나빨리"
-									name="hashtag[0].errandsHashtag">
-							</div>
-							<div class="col-sm-4">
-								<label for="ex1">해시태그2</label> <input class="form-control"
-									id="ex1" type="text" placeholder="맥도날드"
-									name="hashtag[1].errandsHashtag">
-							</div>
-							<div class="col-sm-4">
-								<label for="ex1">해시태그3</label> <input class="form-control"
-									id="ex1" type="text" placeholder="빅맥"
-									name="hashtag[2].errandsHashtag">
-							</div>
-
-						</div>
+				
 
 
 					</div>

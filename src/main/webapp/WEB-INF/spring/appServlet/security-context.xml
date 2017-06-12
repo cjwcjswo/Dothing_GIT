@@ -13,11 +13,11 @@
 
 <security:http use-expressions="true" auto-config="true">
 	<security:intercept-url pattern="/main" access="hasRole('ROLE_ADMIN')"/>
-	<security:intercept-url pattern="/errand" access="isAuthenticated()"/>
+	<security:intercept-url pattern="/errand/**" access="isAuthenticated()"/>
 	
 	
 	<security:form-login 
-	login-page="/loginForm"
+	login-page="/user/loginForm"
 	login-processing-url="/login"
 	username-parameter="id"
 	password-parameter="password"

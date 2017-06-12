@@ -3,7 +3,6 @@ package dothing.web.dao;
 import java.util.List;
 
 import dothing.web.dto.ErrandsDTO;
-import dothing.web.dto.ErrandsHashtagDTO;
 import dothing.web.dto.ErrandsPosDTO;
 import dothing.web.dto.ErrandsReplyDTO;
 
@@ -12,7 +11,6 @@ public interface ErrandsDAO {
 	ErrandsDTO selectErrands(int errandsNum);
 	int insertErrands(ErrandsDTO dto);
 	int insertErrandsPos(ErrandsPosDTO dto);
-	int insertErrandsHashtag(ErrandsHashtagDTO dto);
 	int deleteErrands(int num);
 	int countErrands();
 	int selectNum();

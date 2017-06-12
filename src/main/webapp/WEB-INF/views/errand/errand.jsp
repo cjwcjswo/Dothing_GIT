@@ -152,11 +152,6 @@
 												<hr />
 												<div class="row rating-desc">
 													<div class="col-md-12">
-														<c:forEach items="${errands.hashtag}" var="hashtag">
-															<c:if test="${hashtag != null}">
-																<a>#${hashtag.errandsHashtag}</a>
-															</c:if>
-														</c:forEach>
 														| <span class="glyphicon glyphicon-comment"></span>(${errands.errandsReply.size()}
 														Comments) <a class="btn btn-danger"
 															href="detailView?num=${errands.errandsNum}">신청하기</a>
