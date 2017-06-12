@@ -53,6 +53,9 @@
 					<li role="presentation"><a
 						href="${pageContext.request.contextPath}/errand/register">심부름
 							신청하기</a></li>
+					<!-- 채팅 테스트 -->
+					<li role="presentation"><a
+						href="${pageContext.request.contextPath}/websocket">채팅테스트</a></li>
 
 				</ul>
 
@@ -67,7 +70,7 @@
 						<!-- 로그아웃은 스프링시큐리티 4 부터는 로그아웃시 POST 방식으로 이동하며 /logout url로 요청한다. (따로 정의하지 않으면)
 				그리고 _csrf 를 요청파라미터로 보내야 한다. -->
 						<form id="logoutForm"
-							action="${pageContext.request.contextPath}/member/logout"
+							action="${pageContext.request.contextPath}/logout"
 							method="post" style="display: none">
 							<input type="hidden" name="${_csrf.parameterName}"
 								value="${_csrf.token}" />
@@ -76,10 +79,10 @@
 
 					<!-- 인증 안됐으면 -->
 					<security:authorize access="!isAuthenticated()">
-						<a href="${pageContext.request.contextPath}/user/loginForm"
+						<a href="${pageContext.request.contextPath}/loginForm"
 							class="navbar-link login">로그인</a>
 						<a class="btn btn-default action-button" role="button"
-							href="${pageContext.request.contextPath}/user/signIn">Sign Up</a>
+							href="${pageContext.request.contextPath}/signIn">Sign Up</a>
 					</security:authorize>
 				</p>
 			</div>
