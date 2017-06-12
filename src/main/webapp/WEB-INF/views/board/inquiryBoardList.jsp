@@ -99,16 +99,17 @@
 								<c:otherwise>
 									<c:forEach items="${requestScope.list}" var="boardDto">
 										<tbody>
-											<tr onmouseover="this.style.background='#eaeaea'" onmouseout="this.style.background='white'">
-												<td align="center"><a class="btn btn-default"><em
+											<tr onmouseover="this.style.background='#eaeaea'"
+												onmouseout="this.style.background='white'">
+												<td align="center"><a class="btn btn-default"> <em
 														class="fa fa-pencil"></em></a> <a class="btn btn-danger"
-													data-toggle="modal" data-target="#myModal1"><em
+													data-toggle="modal" data-target="#myModal1"> <em
 														class="fa fa-trash"></em></a></td>
-												<td class="hidden-xs"> ${boardDto.inquiryNum}</td>
+												<td class="hidden-xs">${boardDto.inquiryNum}</td>
 												<td>${boardDto.userId}</td>
 												<td><a
 													href="${pageContext.request.contextPath}/board/inquiryBoardRead/${boardDto.inquiryNum}">
-													${boardDto.boardTitle}</a></td>
+														${boardDto.boardTitle}</a></td>
 												<td>${boardDto.boardDate}</td>
 												<td>${boardDto.readNum}</td>
 											</tr>

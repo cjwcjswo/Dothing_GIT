@@ -1139,7 +1139,7 @@ img {
 					</tbody>
 				</table>
 				<div id="sims"></div>
-				<a class="btn btn-success btn-lg btn-block" href="chat"> 심부름
+				<a class="btn btn-success btn-lg btn-block" href='chat?errandsNum=${errands.errandsNum}'> 심부름
 					시작하기   <span class="glyphicon glyphicon-chevron-right"></span>
 				</a> <br>
 				<button type="button" class="btn btn-default btn-lg btn-block"
