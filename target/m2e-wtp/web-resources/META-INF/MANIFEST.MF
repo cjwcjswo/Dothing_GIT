@@ -1,10 +1,5 @@
 Manifest-Version: 1.0
-<<<<<<< HEAD
 Built-By: KOSTA
 Build-Jdk: 1.8.0_121
-=======
-Built-By: Administrator
-Build-Jdk: 1.8.0_131
->>>>>>> 14026e68aaa4125df35e7cbc258286557e32e04c
 Created-By: Maven Integration for Eclipse
 
