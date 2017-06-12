@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -72,7 +74,7 @@
 									<th>조회 수</th>
 								</tr>
 							</thead>
-							<tbody>
+							<%-- <tbody>
 								<tr>
 									<td align="center"><a class="btn btn-default"><em
 											class="fa fa-pencil"></em></a> <a class="btn btn-danger" data-toggle="modal" data-target="#myModal1"><em
@@ -83,7 +85,37 @@
 									<td>2017-06-09</td>
 									<td>5</td>
 								</tr>
-							</tbody>
+							</tbody> --%>
+							<c:choose>
+								<c:when test="${empty requestScope.list}">
+									<tr>
+										<td colspan="5">
+											<p align="center">
+												<b><span style="font-size: 9pt;">등록된 내용이 없습니다.</span></b>
+											</p>
+										</td>
+									</tr>
+								</c:when>
+								<c:otherwise>
+									<c:forEach items="${requestScope.list}" var="boardDto">
+										<tbody>
+											<tr onmouseover="this.style.background='#eaeaea'" onmouseout="this.style.background='white'">
+												<td align="center"><a class="btn btn-default"><em
+														class="fa fa-pencil"></em></a> <a class="btn btn-danger"
+													data-toggle="modal" data-target="#myModal1"><em
+														class="fa fa-trash"></em></a></td>
+												<td class="hidden-xs"> ${boardDto.inquiryNum}</td>
+												<td>${boardDto.userId}</td>
+												<td><a
+													href="${pageContext.request.contextPath}/board/inquiryBoardRead/${boardDto.inquiryNum}">
+													${boardDto.boardTitle}</a></td>
+												<td>${boardDto.boardDate}</td>
+												<td>${boardDto.readNum}</td>
+											</tr>
+										</tbody>
+									</c:forEach>
+								</c:otherwise>
+							</c:choose>
 						</table>
 
 					</div>

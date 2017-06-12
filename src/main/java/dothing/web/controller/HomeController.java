@@ -17,11 +17,7 @@ public class HomeController {
 		return "/main/home";
 	}
 
-	
-	@RequestMapping("/errand/mapTest")
-	public String a(){
-		return "/errand/mapTest";
-	}
+
 
 	
 	@RequestMapping("/errand/chat")
@@ -29,22 +25,6 @@ public class HomeController {
 		return "/errand/chat" ; 
 	}
 	
-	@RequestMapping("/board/inquiryBoardList")
-	public String inquiryBoardList(){
-		return "/board/inquiryBoardList" ;
-	}
-	
-	@RequestMapping("/board/inquiryBoardRead")
-	public String inquiryBoardRead(){
-		return "/board/inquiryBoardRead" ; 
-	}
-	
-	@RequestMapping("/board/inquiryBoardWrite")
-	public String inquiryBoardWrite(){
-		return "/board/inquiryBoardWrite" ; 
-	}
-	
 
-	
 
 }
