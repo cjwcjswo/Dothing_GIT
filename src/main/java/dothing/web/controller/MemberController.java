@@ -13,7 +13,8 @@ import org.springframework.web.multipart.MultipartFile;
 import dothing.web.dto.MemberDTO;
 import dothing.web.service.MemberService;
 
-@Controller("/user")
+@Controller
+@RequestMapping("/user")
 public class MemberController {
 
 	@Autowired
