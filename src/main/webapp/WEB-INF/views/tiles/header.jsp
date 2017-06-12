@@ -62,7 +62,7 @@
 
 				<p class="navbar-text navbar-right actions">
 					<security:authorize access="isAuthenticated()">
-						<security:authentication property="principal.name" /> ´Ô È¯¿µÇÕ´Ï´Ù.
+						<security:authentication property="principal.name"/> ´Ô È¯¿µÇÕ´Ï´Ù.
 					
 					<a class="btn btn-default action-button" role="button"
 							href="javascript:logout();">·Î±×¾Æ¿ô</a>

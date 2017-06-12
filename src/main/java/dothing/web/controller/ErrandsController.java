@@ -6,6 +6,7 @@ import java.io.IOException;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import dothing.web.dto.ErrandsDTO;
 import dothing.web.dto.ErrandsReplyDTO;
+import dothing.web.dto.MemberDTO;
 import dothing.web.service.ErrandsService;
 import dothing.web.util.PageMaker;
 
@@ -50,8 +52,10 @@ public class ErrandsController {
 	}
 
 	@RequestMapping("/insert")
-	public String insert(HttpSession session, ErrandsDTO dto, String preAddress, String detailAddress)
+	public String insert(HttpSession session, ErrandsDTO dto, 
+			String preAddress, String detailAddress)
 			throws IllegalStateException, IOException {
+
 		dto.setEndTime(dto.getEndTime().replaceAll("T"," "));
 		dto.getErrandsPos().setAddr(preAddress + " " + detailAddress);
 		MultipartFile file = dto.getErrandsPhotoFile();
@@ -74,8 +78,8 @@ public class ErrandsController {
 	}
 	
 	@RequestMapping("/deleteErrands")
-	public String deleteErrands(HttpSession session, int num, String id) throws Exception{
-		if(!id.equals(session.getAttribute("userIdS"))){
+	public String deleteErrands(Authentication auth, int num, String id) throws Exception{
+		if(!id.equals(((MemberDTO)auth.getPrincipal()).getUserId())){
 			throw new Exception("작성자가 아닙니다");
 		}
 		errandsService.deleteErrands(num);

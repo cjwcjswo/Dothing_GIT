@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="security"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -892,17 +893,26 @@ img {
 		return true;
 	}
 	function delErrands(){
-		if("${errands.requestUser.userId}" != "${userIdS}"){
+		if("${errands.requestUser.userId}" != "<security:authentication property='principal.userId'/>"){
 			alert("작성자가 아닙니다");
 			return;
 		}else{
-			location.href="${pageContext.request.contextPath}/errand/deleteErrands?num=${errands.errandsNum}&id=${userIdS}";
+			location.href="${pageContext.request.contextPath}/errand/deleteErrands?num=${errands.errandsNum}&id=<security:authentication property='principal.userId'/>";
 		}
 	}
+	function replaceHash(){		
+		var hash = /#\S\S*/gi;
+		var comment = document.getElementById("comment").innerHTML;
+		var i = 0;
+		var reComment = comment.replace(hash, "<a>$&</a>");
+		document.getElementById("comment").innerHTML = reComment;
+	}
+
+	
 </script>
 
 </head>
-<body>
+<body onload="replaceHash()">
 
 	<div class="container" id="content">
 		<div class="row" id="">
@@ -933,7 +943,7 @@ img {
 														신청 중</a></span>
 											</div>
 											<h3 class="product-title">설명</h3>
-											<p class="product-description">${errands.content}</p>
+											<div class="product-description" id="comment">${errands.content}</div>
 											<h4 class="price">
 												물건 값: <span>${errands.productPrice}</span>
 											</h4>
@@ -985,7 +995,7 @@ img {
 																class="glyphicon glyphicon-remove"></span>취소하기
 															</a> <input type="hidden" name="errands.errandsNum"
 																value="${errands.errandsNum}"> <input
-																type="hidden" name="user.userId" value="${userIdS}">
+																type="hidden" name="user.userId" value="<security:authentication property='principal.userId'/>">
 															<input type="hidden" name="${_csrf.parameterName}"
 																value="${_csrf.token}" />
 															<button class="btn btn-success btn-lg" type="submit">등록하기</button>

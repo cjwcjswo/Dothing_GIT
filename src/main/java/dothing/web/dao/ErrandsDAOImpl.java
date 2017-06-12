@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import dothing.web.dto.ErrandsDTO;
-import dothing.web.dto.ErrandsHashtagDTO;
 import dothing.web.dto.ErrandsPosDTO;
 import dothing.web.dto.ErrandsReplyDTO;
 
@@ -37,10 +36,7 @@ public class ErrandsDAOImpl implements ErrandsDAO{
 		return sqlSession.insert("mapper.errandsPosMapper.insertPos", dto);
 	}
 
-	@Override
-	public int insertErrandsHashtag(ErrandsHashtagDTO dto) {
-		return sqlSession.insert("mapper.errandsHashtagMapper.insertHash", dto);
-	}
+
 
 	@Override
 	public int selectNum() {
