@@ -9,4 +9,9 @@ public interface MemberService {
 	 * 회원가입
 	 * */
 	int joinMember(MemberDTO member);
+	
+	/**
+	 * ID중복체크
+	 * */
+	String selectSearch(String userId);
 }
