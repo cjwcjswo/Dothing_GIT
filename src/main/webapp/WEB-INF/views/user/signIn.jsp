@@ -13,6 +13,8 @@
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/signUp.css">
 
+<script src="${pageContext.request.contextPath}/assets/js/jquery-2.1.0.min.js"></script>
+
 <script type="text/javascript">
 
 $(function(){
@@ -23,9 +25,9 @@ $(function(){
 			 return;
 		 }
 		 $.ajax({
-				url:"/user/check",
+				url:"${pageContext.request.contextPath}/user/check",
 				type:"post",
-				data:"userId="+$(this).val(),
+				data:"userId="+$(this).val()+"&_csrf=${_csrf.token}",
 				dataType:"text",
 				success:function(result){	
 					if(result=="사용중입니다"){
@@ -40,7 +42,7 @@ $(function(){
 				}				 
 			 	})
 			 });
-
+})
 	function checkValid() {
 		var login_id = document.getElementById("userId"); //html 에서 설정한 id값을 변수login_id 에 저장
 		var login_pw = document.getElementById("password");
@@ -178,7 +180,7 @@ $(function(){
 		return true;
 	}
 	
-})
+
 </script>
 
 </head>
