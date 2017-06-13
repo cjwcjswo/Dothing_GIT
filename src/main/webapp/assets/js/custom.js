@@ -296,7 +296,6 @@ function setInputsWidth(){
     var $inputRow = $('.search-bar.horizontal .input-row');
     for( var i=0; i<$inputRow.length; i++ ){
         if( $inputRow.find( $('button[type="submit"]') ).length ){
-            $inputRow.find('.form-group:last').css('width','initial');
         }
     }
 

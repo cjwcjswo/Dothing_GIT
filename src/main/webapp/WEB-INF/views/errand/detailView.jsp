@@ -125,9 +125,7 @@
 								</div>
 								<div class="info">
 									<div class="type">
-										<i><img
-											src="${pageContext.request.contextPath}/assets/icons/restaurants-bars/restaurants/restaurant.png"
-											alt=""></i> <span>#음식배달 #아무거나빨리 #으아</span>
+										<div id="hashList"></div>
 									</div>
 								</div>
 							</header>
@@ -206,7 +204,9 @@
 											<header>
 												<h2>상세설명</h2>
 											</header>
-											<p>${errands.content}</p>
+											<p>
+											<div id="comment">${errands.content}</div>
+											</p>
 										</article>
 										<article class="block">
 											<header>
@@ -470,6 +470,21 @@
 	<!--  chat 끝 -->
 
 	<script>
+	var hash = /#\S\S*/gi;
+    var comment = document.getElementById("comment").innerHTML;
+    var arr = hash.exec(comment);
+    var hashList = "<i><a>";
+    
+    while(arr !=null){
+    	if(arr != null) hashList += " " + arr[0];
+    	comment = comment.replace(arr[0], "");
+    	var hash = /#\S\S*/gi;
+    	var arr = hash.exec(comment);
+    }
+    hashList += "</a></i>";
+    document.getElementById("hashList").innerHTML = hashList;
+    
+    
     $(document).on('click', '.panel-heading span.icon_minim', function (e) {
         var $this = $(this);
         if (!$this.hasClass('panel-collapsed')) {

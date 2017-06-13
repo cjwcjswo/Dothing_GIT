@@ -2,59 +2,61 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.boardMapper">
 
-<resultMap type="boardDTO" id="boardSelectMap">
-  <id column="inquiry_num" property="inquiryNum"/>
-  <result column="member_id" property="userId"/>
-  <result column="inquiry_title" property="boardTitle"/>
-  <result column="inquiry_content" property="boardContent"/>
-  <result column="inquiry_date" property="boardDate"/>
-  <result column="readnum" property="readNum"/>
-</resultMap>
+	<resultMap type="boardDTO" id="boardSelectMap">
+		<id column="inquiry_num" property="inquiryNum" />
+		<result column="member_id" property="userId" />
+		<result column="inquiry_title" property="boardTitle" />
+		<result column="inquiry_content" property="boardContent" />
+		<result column="inquiry_date" property="boardDate" />
+		<result column="readnum" property="readNum" />
+	</resultMap>
 
-<sql id="columnName">
-inquiry_num,member_id,inquiry_title,inquiry_content
-</sql>
+	<sql id="columnName">
+		inquiry_num,member_id,inquiry_title,inquiry_content
+	</sql>
 
-<!-- 게시물 등록 -->
-<insert id="boardInsert" parameterType="BoardDTO">
-insert into inquiry_board(<include refid="columnName"/>,inquiry_date,readnum)
-values(SEQ_ID.NEXTVAL,#{userId},#{boardTitle},#{boardContent},
-to_char(sysdate, 'YYYY-MM-DD HH:MI:SS AM'),0)
-</insert>
+	<!-- 게시물 등록 -->
+	<insert id="boardInsert" parameterType="BoardDTO">
+		insert into inquiry_board(
+		<include refid="columnName" />
+		,inquiry_date,readnum)
+		values(SEQ_ID.NEXTVAL,#{userId},#{boardTitle},#{boardContent},
+		to_char(sysdate, 'YYYY-MM-DD HH:MI:SS AM'),0)
+	</insert>
 
-<!-- 모든레코드 검색 or 글번호에 해당하는 레코드 검색 -->
-<select id="selectAll" resultMap="boardSelectMap" parameterType="int">
-select <include refid="columnName"/>,inquiry_date ,READNUM
- from inquiry_board
- <where>
-   <if test="_parameter!=null">
-     inquiry_num=#{_parameter}
-   </if>
- </where>
- order by inquiry_num desc
-</select>
+	<!-- 모든레코드 검색 or 글번호에 해당하는 레코드 검색 -->
+	<select id="selectAll" resultMap="boardSelectMap" parameterType="int">
+		select
+		<include refid="columnName" />
+		,inquiry_date ,READNUM
+		from inquiry_board
+		<where>
+			<if test="_parameter!=null">
+				inquiry_num=#{_parameter}
+			</if>
+		</where>
+		order by inquiry_num desc
+	</select>
 
-<!-- 조회수 증가 -->
-<update id="boardReadNumPlus" parameterType="BoardDTO">
-update inquiry_board
-set readnum = nvl(readnum,0) + 1
-where
-inquiry_num=#{inquiryNum}
+	<!-- 조회수 증가 -->
+	<update id="boardReadNumPlus" parameterType="BoardDTO">
+		update inquiry_board
+		set readnum = nvl(readnum,0) + 1
+		where
+		inquiry_num=#{inquiryNum}
 
-</update>
+	</update>
 
 
-<!-- 게시물 수정 -->
-<!-- <update id="boardUpdate" parameterType="BoardDTO">
-update inquiry_board
-set model_name = #{modelName}, price=#{price}, description=#{description}
-where model_num=#{modelNum} and password=#{password}
-</update> -->
+	<!-- 게시물 수정 -->
+	<!-- <update id="boardUpdate" parameterType="BoardDTO"> update inquiry_board 
+		set model_name = #{modelName}, price=#{price}, description=#{description} 
+		where model_num=#{modelNum} and password=#{password} </update> -->
 
-<!-- 게시물 삭제(모델번호에 해당하는 레코드) -->
-<delete id="boardDelete" parameterType="int">
-delete from inquiry_board
-where inquiry_num = #{inquiry_num}
-</delete>
+	<!-- 게시물 삭제(모델번호에 해당하는 레코드) -->
+	<delete id="boardDelete" parameterType="int">
+		delete from inquiry_board
+		where inquiry_num = #{inquiry_num}
+	</delete>
 
 </mapper>
