@@ -37,20 +37,20 @@ public class BoardServiceImpl implements BoardService {
 		return boardDAO.insert(boardDTO);
 	}
 
-	/*@Override
-	public int delete(int inquiryNum, String password) throws Exception{
+	@Override
+	public int delete(int inquiryNum) throws Exception{
 		BoardDTO dbBoard = boardDAO.selectByBoardNum(inquiryNum);
 		
-		if(dbBoard.getPassword().equals(password)){
-			int re = boardDAO.delete(inquiryNum, password);
+		/*if(dbBoard.getPassword().equals(password)){
+			int re = boardDAO.delete(inquiryNum);
 			if(re == 0){
 				throw new Exception("삭제되지 않았습니다.");
 			}
 		}else{
-			throw new Exception("비밀번호 오류이므로 삭제안됩니다.");
-		}
+			throw new Exception("삭제 오류입니다.");
+		}*/
 		return 1;
-	}*/
+	}
 
 	/*@Override
 	public int update(BoardDTO boardDTO) throws Exception{

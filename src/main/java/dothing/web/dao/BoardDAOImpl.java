@@ -34,16 +34,17 @@ public class BoardDAOImpl implements BoardDAO {
 
 	@Override
 	public int insert(BoardDTO boardDTO) {
+		System.out.println("확인:" + boardDTO.getUserId());
+		System.out.println("확인:" + boardDTO.getBoardContent());
+		System.out.println("확인:" + boardDTO.getBoardTitle());
 		return sqlSession.insert("mapper.boardMapper.boardInsert", boardDTO);
 	}
 
-	/*@Override
-	public int delete(int inquiryNum, String password) {
-		Map<String, Object> map = new HashMap<>();
-		map.put("inquiryNum", inquiryNum);
-		map.put("password", password);
-		return sqlSession.delete("mapper.boardMapper.boardDelete", map);
-	}*/
+	@Override
+	public int delete(int inquiryNum) {
+		
+		return sqlSession.delete("mapper.boardMapper.boardDelete", inquiryNum);
+	}
 
 	/*@Override
 	public int update(BoardDTO boardDTO) {

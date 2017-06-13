@@ -1,5 +1,7 @@
 select *from tab;
 
+select *from member;
+
 SELECT a.TABLE_NAME, c.COMMENTS, a.COLUMN_NAME, b.COMMENTS, a.DATA_TYPE, a.DATA_LENGTH, a.NULLABLE
 
 FROM  USER_TAB_COLUMNS a, USER_COL_COMMENTS b, USER_TAB_COMMENTS c, USER_TABLES  d
@@ -32,10 +34,20 @@ to_char(inquiry_date, 'YYYY-MM-DD HH:MI:SS AM'),readnum
  
  commit
 
-insert into inquiry_board(inquiry_num,member_id,inquiry_title,inquiry_content,inquiry_date,readnum) values(3,'tester','보이니?','지렸띠',
+insert into inquiry_board(inquiry_num,member_id,inquiry_title,inquiry_content,inquiry_date,readnum) values(4,'tester','ㅎㅇ','hello',
+to_char(sysdate, 'YYYY-MM-DD HH:MI:SS AM'),0)
+
+insert into inquiry_board(inquiry_num,member_id,inquiry_title,inquiry_content,inquiry_date,readnum) values(SEQ_ID.NEXTVAL,'tester','ㅎ3','나가',
 to_char(sysdate, 'YYYY-MM-DD HH:MI:SS AM'),0)
 
 delete from inquiry_board
-where inquiry_num = 2
+where inquiry_num = 4
 
  select *from electronics
+
+
+ --게시글 번호 자동 증가
+ CREATE SEQUENCE SEQ_ID INCREMENT BY 1 START WITH 1;
+
+ 
+ 
