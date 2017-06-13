@@ -20,6 +20,7 @@
       up static resources in the ${webappRoot}/resources directory -->
    <resources mapping="/resources/**" location="/resources/" />
    <resources mapping="/errands/**" location="/errands/" />
+   <resources mapping="/assets/**" location="/assets/" />
 	
 	<!-- websocket -->
 	<websocket:handlers>
