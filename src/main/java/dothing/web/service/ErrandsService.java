@@ -8,7 +8,7 @@ import dothing.web.dto.ErrandsDTO;
 import dothing.web.dto.ErrandsReplyDTO;
 
 public interface ErrandsService {
-	List<ErrandsDTO> selectAll(int page);
+	List<ErrandsDTO> selectAll();
 	ErrandsDTO selectErrands(int errandsNum);
 	int insertErrands(ErrandsDTO dto, String path) throws FileNotFoundException, IOException;
 	int deleteErrands(int num);

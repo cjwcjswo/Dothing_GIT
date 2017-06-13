@@ -31,7 +31,7 @@
 						<li><a href="sign-in.html">로그인</a></li>
 						<li><a href="register.html"><strong>회원가입</strong></a></li>
 					</ul>
-					<a href="submit.html" class="submit-item">
+					<a href="${pageContext.request.contextPath}/errand/register" class="submit-item">
 						<div class="content">
 							<span>심부름 등록</span>
 						</div>

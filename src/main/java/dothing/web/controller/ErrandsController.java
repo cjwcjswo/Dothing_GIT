@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -16,7 +17,6 @@ import dothing.web.dto.ErrandsDTO;
 import dothing.web.dto.ErrandsReplyDTO;
 import dothing.web.dto.MemberDTO;
 import dothing.web.service.ErrandsService;
-import dothing.web.util.PageMaker;
 
 @Controller
 @RequestMapping("/errand")
@@ -26,12 +26,9 @@ public class ErrandsController {
 
 	@RequestMapping("/errand")
 	public ModelAndView errandsList(Integer page) {
-		if(page == null) page = new Integer(1);
-		PageMaker pm = new PageMaker(page, errandsService.countErrands() / 6 + 1);
-		pm.start();
+
 		ModelAndView mv = new ModelAndView();
-		mv.addObject("errandsList", errandsService.selectAll(page));
-		mv.addObject("pm", pm);
+		mv.addObject("errandsList", errandsService.selectAll());
 		mv.setViewName("/errand/errand");
 		return mv;
 	}
@@ -53,9 +50,10 @@ public class ErrandsController {
 
 	@RequestMapping("/insert")
 	public String insert(HttpSession session, ErrandsDTO dto, 
-			String preAddress, String detailAddress)
+			@RequestParam("preAddress") String preAddress, String detailAddress)
 			throws IllegalStateException, IOException {
-
+System.out.println("**********여기까지오니??*********");
+System.out.println(preAddress + " 프레어드레스!!");
 		dto.setEndTime(dto.getEndTime().replaceAll("T"," "));
 		dto.getErrandsPos().setAddr(preAddress + " " + detailAddress);
 		MultipartFile file = dto.getErrandsPhotoFile();
