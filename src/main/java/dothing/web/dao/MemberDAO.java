@@ -14,4 +14,10 @@ public interface MemberDAO {
 	 * */
 	MemberDTO selectMemberById(String id);
 	
+	/**
+	 * ID 중복체크
+	 * */
+	MemberDTO selectSearch(String userId);
+	
+	
 }
