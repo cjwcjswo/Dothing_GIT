@@ -19,7 +19,7 @@
 		<div class="form-container">
 			<div class="image-holder"></div>
 			<form method="post"
-				action="${pageContext.request.contextPath}/member/join"
+				action="${pageContext.request.contextPath}/user/join"
 				enctype="multipart/form-data">
 
 				<input type="hidden" name="${_csrf.parameterName}"

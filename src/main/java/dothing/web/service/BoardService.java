@@ -26,7 +26,7 @@ public interface BoardService {
 	  /**
 	   * 보드번호에 해당하는 레코드 삭제
 	   * */
-	  /* int delete(int inquiryNum, String password) throws Exception;*/
+	  int delete(int inquiryNum) throws Exception;
 	  
 	   /**
 	    * 모델번호에 해당하는 레코드 수정
