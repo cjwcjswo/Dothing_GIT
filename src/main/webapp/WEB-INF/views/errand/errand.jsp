@@ -5,11 +5,16 @@
 <html>
 <head>
 
-<title>Spotter - Universal Directory Listing HTML Template</title>
+<title>심부름</title>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/assets/js/jquery-2.1.0.min.js"></script>
 <script type="text/javascript"
 	src="//apis.daum.net/maps/maps3.js?apikey=900302937c725fa5d96ac225cbc2db10&libraries=services"></script>
+	<script>
+		function clickDetail(num){
+			location.href="${pageContext.request.contextPath}/errand/detailView?num="+num;
+		}
+	</script>
 </head>
 <body onunload=""
 	class="map-fullscreen page-homepage navigation-off-canvas"
@@ -93,9 +98,9 @@
 									value="${errands.errandsPos.longitude}">
 								<input type="hidden" id="addr${state.index}"
 									value="${errands.errandsPos.addr}">
-								<li>
+								<li onclick="clickDetail(${errands.errandsNum})">
 									<div class="item">
-										<a href="#" class="image">
+										<a class="image">
 											<div class="inner">
 												<div class="item-specific">${errands.content}</div>
 												<c:if test="${errands.errandsPhoto != null}">
@@ -121,6 +126,7 @@
 											</div>
 										</div>
 									</div>
+				
 								</li>
 							</c:forEach>
 						</ul>
