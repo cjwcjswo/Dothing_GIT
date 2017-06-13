@@ -38,7 +38,6 @@ public class ErrandsController {
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("errands", errandsService.selectErrands(num));
 		mv.setViewName("/errand/detailView");
-		System.out.println("AAA");
 		return mv;
 	}
 
@@ -52,8 +51,6 @@ public class ErrandsController {
 	public String insert(HttpSession session, ErrandsDTO dto, 
 			@RequestParam("preAddress") String preAddress, String detailAddress)
 			throws IllegalStateException, IOException {
-System.out.println("**********여기까지오니??*********");
-System.out.println(preAddress + " 프레어드레스!!");
 		dto.setEndTime(dto.getEndTime().replaceAll("T"," "));
 		dto.getErrandsPos().setAddr(preAddress + " " + detailAddress);
 		MultipartFile file = dto.getErrandsPhotoFile();

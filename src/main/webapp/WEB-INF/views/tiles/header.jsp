@@ -28,8 +28,8 @@
 				<div class="wrapper">
 					<ul class="main-navigation navigation-top-header"></ul>
 					<ul class="user-area">
-						<li><a href="sign-in.html">로그인</a></li>
-						<li><a href="register.html"><strong>회원가입</strong></a></li>
+						<li><a href="${pageContext.request.contextPath}/user/loginForm">로그인</a></li>
+						<li><a href="${pageContext.request.contextPath}/user/signIn"><strong>회원가입</strong></a></li>
 					</ul>
 					<a href="${pageContext.request.contextPath}/errand/register" class="submit-item">
 						<div class="content">
