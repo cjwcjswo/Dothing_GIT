@@ -30,7 +30,7 @@ public class MemberDAOImpl implements MemberDAO {
 	@Override
 	public MemberDTO selectSearch(String userId) {
 		
-		return sqlSession.selectOne("memberMapper.selectMemberById",userId);
+		return sqlSession.selectOne("memberMapper.memberSelect",userId);
 		
 	}
 }
