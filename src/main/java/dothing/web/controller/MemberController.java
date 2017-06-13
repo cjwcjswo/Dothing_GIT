@@ -37,12 +37,12 @@ public class MemberController {
 	 * */
 
 	@RequestMapping("/join")
-	public String join(HttpSession session, MemberDTO member) throws Exception{
+	public String join(HttpSession session, MemberDTO member, String preAddr, String detailAddr) throws Exception{
 		//insert »£√‚ 
 		
 		MultipartFile selfImgFile = member.getSelfImgFile();
 		member.setSelfImg(selfImgFile.getOriginalFilename());
-		
+		member.setAddr(preAddr + " " + detailAddr);
 		memberService.joinMember(member);
 		if(member.getSelfImg() != null && !member.getSelfImg().trim().equals("")){
 			String path = session.getServletContext().getRealPath("") + "\\user\\" + member.getUserId();

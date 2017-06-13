@@ -20,7 +20,7 @@
 	<div class="header">
 		<div class="wrapper">
 			<div class="brand">
-				<a href="index-directory.html"><img
+				<a href="${pageContext.request.contextPath}/"><img
 					src="${pageContext.request.contextPath}/assets/img/logo.png"
 					alt="logo"></a>
 			</div>
