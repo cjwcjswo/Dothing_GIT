@@ -11,6 +11,14 @@
   <result column="readnum" property="readNum"/>
 </resultMap>
 
+<resultMap type="boardReplyDTO" id="replySelectMap">
+  <id column="inquiry_reply_num" property="replyNum"/>
+  <result column="reply_content" property="replyContent"/>
+  <association property="board" javaType="boardDTO">
+			<id column="inquiry_num" property="inquiryNum"/>
+		</association>
+</resultMap>
+
 <sql id="columnName">
 inquiry_num,member_id,inquiry_title,inquiry_content
 </sql>
@@ -57,4 +65,14 @@ delete from inquiry_board
 where inquiry_num = #{inquiry_num}
 </delete>
 
+<!-- 댓글 삽입 -->
+<insert id="insertReply" parameterType="boardReplyDTO">
+insert into inquiry_reply(inquiry_reply_num, reply_content, inquiry_num)
+values(SEQ_REPLY_NUM.NEXTVAL,#{replyContent},#{board.inquiryNum})
+</insert>
+
+<!-- 댓글 불러오기 -->
+<select id="callReply" parameterType="int" resultMap="replySelectMap">
+select inquiry_reply_num,reply_content,inquiry_num from inquiry_reply where inquiry_num = #{inquiry_num}
+</select>
 </mapper>

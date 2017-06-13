@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import dothing.web.dto.BoardDTO;
+import dothing.web.dto.BoardReplyDTO;
 import dothing.web.dto.MemberDTO;
 import dothing.web.service.BoardService;
 
@@ -63,9 +64,11 @@ public class BoardController {
 	  @RequestMapping("/inquiryBoardRead/{inquiryNum}")
 	  public ModelAndView read(@PathVariable int inquiryNum) throws Exception{
 		  BoardDTO boardDTO = boardService.selectByBoardNum(inquiryNum, true);
+		  List<BoardReplyDTO>replyList = boardService.selectReply(inquiryNum);
 		  ModelAndView mv = new ModelAndView();
 		  mv.setViewName("board/inquiryBoardRead");
 		  mv.addObject("board",boardDTO);
+		  mv.addObject("reply",replyList);
 		  return mv;
 	  }
 	  
@@ -101,5 +104,16 @@ public class BoardController {
 
 		  return new ModelAndView("board/read", "boardDTO", dbBoard);
 	  }*/
+	 
+	 /**
+	  * ´ñ±Û»ðÀÔ
+	 * @throws Exception 
+	  */
+	 @RequestMapping("/insertReply")
+	 public String insertReply(BoardReplyDTO brDTO) throws Exception{
+		 boardService.insertReply(brDTO);
+		 
+		 return "redirect:/board/inquiryBoardRead/"+brDTO.getBoard().getInquiryNum();
+	 }
 	
 }

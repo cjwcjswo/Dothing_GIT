@@ -1,14 +1,13 @@
 package dothing.web.dao;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import dothing.web.dto.BoardDTO;
+import dothing.web.dto.BoardReplyDTO;
 
 @Repository
 public class BoardDAOImpl implements BoardDAO {
@@ -34,9 +33,7 @@ public class BoardDAOImpl implements BoardDAO {
 
 	@Override
 	public int insert(BoardDTO boardDTO) {
-		System.out.println("확인:" + boardDTO.getUserId());
-		System.out.println("확인:" + boardDTO.getBoardContent());
-		System.out.println("확인:" + boardDTO.getBoardTitle());
+		
 		return sqlSession.insert("mapper.boardMapper.boardInsert", boardDTO);
 	}
 
@@ -50,5 +47,17 @@ public class BoardDAOImpl implements BoardDAO {
 	public int update(BoardDTO boardDTO) {
 		return sqlSession.update("mapper.boardMapper.boardUpdate", boardDTO);
 	}*/
+	
+	@Override
+	public int insertReply(BoardReplyDTO brDTO){
+		System.out.println("확인: " + brDTO.getReplyContent());
+		return sqlSession.insert("mapper.boardMapper.insertReply", brDTO);
+	}
+	
+	@Override
+	public List<BoardReplyDTO> selectReply(int inquiryNum) {
+		
+		return sqlSession.selectList("mapper.boardMapper.callReply", inquiryNum);
+	}
 
 }
