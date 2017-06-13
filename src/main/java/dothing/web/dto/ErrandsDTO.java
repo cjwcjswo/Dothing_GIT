@@ -25,7 +25,7 @@ public class ErrandsDTO {
 	
 	private List<GPADTO> gpa;
 	
-	private List<ErrandsHashtagDTO> hashtag;
+
 	
 	
 	
@@ -37,7 +37,7 @@ public class ErrandsDTO {
 				+ ", finishTime=" + finishTime + ", productPrice=" + productPrice + ", errandsPrice=" + errandsPrice
 				+ ", errandsPhoto=" + errandsPhoto + ", title=" + title + ", content=" + content + ", errandsPhotoFile="
 				+ errandsPhotoFile + ", errandsReply=" + errandsReply + ", errandsPos=" + errandsPos + ", gpa=" + gpa
-				+ ", hashtag=" + hashtag + "]";
+				+ "]";
 	}
 
 	public String getTitle() {
@@ -56,13 +56,7 @@ public class ErrandsDTO {
 		this.content = content;
 	}
 
-	public List<ErrandsHashtagDTO> getHashtag() {
-		return hashtag;
-	}
 
-	public void setHashtag(List<ErrandsHashtagDTO> hashtag) {
-		this.hashtag = hashtag;
-	}
 
 	public ErrandsPosDTO getErrandsPos() {
 		return errandsPos;

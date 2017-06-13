@@ -9,7 +9,7 @@
 <body>
 
 <h4>${exception.message}</h4>
-
+<h4>${errorMessage}</h4>
 <a href="${pageContext.request.contextPath}/">∏ﬁ¿Œ</a>
 
 

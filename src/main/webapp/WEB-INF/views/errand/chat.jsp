@@ -41,8 +41,10 @@
 <script>
 	var today = '<%= new java.text.SimpleDateFormat("MM/dd HH:mm").format(new java.util.Date())%>'
 	var sender = '<security:authentication property="principal.userId"/>';
+	var errandsNum = ${errandsNum};
 	var sock = new SockJS('/controller/websocket');
-	var errandsNum = ${errandsNum}
+	
+	//var sock = new SockJS('http://localhost:8080/'+errandsNum+'/websocket');
 	$(function(){
 		/* $('#send').click(function(){
 			var msg = $('div textarea').val();
@@ -55,29 +57,39 @@
 		$(document).on("click", "#send", function(){
 			var msg = $('div textarea').val();
 			alert('msg : ' + msg);
-			alert('today : ' + today);
 			//separator -> #/separator/#
 			sock.send(errandsNum+"#/separator/#"+sender+"#/separator/#"+msg+"#/separator/#"+today);
+			$('div textarea').val('');
 			
-			var str = '<div class="row"><div class="col-lg-12">' + 
-				'<div class="media">' +
-				'<a class="pull-left" href="#"> <img class="media-object img-circle" src="http://lorempixel.com/30/30/people/7/" alt=""></a>' +
-				'<div class="media-body">'+
-					'<h4 class="media-heading">'+ sender +
-						'<span class="small pull-right">'+ today +'</span>'+
-					'</h4>'+ msg +
-					'</div></div></div></div><hr>';
-			
-			 $('#chatList').append(str);	
 		});
 		
 	});
 	
 	sock.onopen = function() {
 	    $('#console').append('websocket opened' + '<br>');
+	  
+	  	//스크롤 맨 아래로
+	 	document.getElementById('chatList').scrollTop = document.getElementById('chatList').scrollHeight;
 	};
 	
 	sock.onmessage = function(message) {
+		var arr = message.data.split("#/separator/#");
+		
+		var str = '<div class="row"><div class="col-lg-12">' + 
+		'<div class="media">' +
+		'<a class="pull-left" href="#"> <img class="media-object img-circle" src="http://lorempixel.com/30/30/people/7/" alt=""></a>' +
+		'<div class="media-body">'+
+			'<h4 class="media-heading">'+ arr[1] +
+				'<span class="small pull-right">'+ arr[3] +'</span>'+
+			'</h4>'+ arr[2] +
+			'</div></div></div></div><hr>';
+	
+	 	$('#chatList').append(str);
+	 	
+	 	//스크롤 맨 아래로
+	 	document.getElementById('chatList').scrollTop = document.getElementById('chatList').scrollHeight;
+	 	
+	 	
 	    $('#console').append('receive message : ' + message.data + '<br>');
 	};
 	
@@ -116,7 +128,7 @@
 							style="background-color: lightSkyBlue;">
 							<div class="portlet-title">
 								<h4>
-									<i class="fa fa-circle text-green"></i> 심부름fa 제목
+									<i class="fa fa-circle text-green"></i> 심부름 제목
 								</h4>
 							</div>
 							<div class="portlet-widgets">
@@ -176,23 +188,6 @@
 													</h4>
 													<p>10분내 도착이요</p>
 													<p>빅맥 라지세트 맞죠?</p>
-												</div>
-											</div>
-										</div>
-									</div>
-									<hr>
-									<div class="row">
-										<div class="col-lg-12">
-											<div class="media">
-												<a class="pull-left" href="#"> <img
-													class="media-object img-circle"
-													src="http://lorempixel.com/30/30/people/1/" alt="">
-												</a>
-												<div class="media-body">
-													<h4 class="media-heading">
-														이태호 <span class="small pull-right">12:39 PM</span>
-													</h4>
-													<p>네 심부름 값 2천원 드림</p>
 												</div>
 											</div>
 										</div>

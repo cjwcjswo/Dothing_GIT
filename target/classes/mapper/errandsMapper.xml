@@ -32,9 +32,6 @@
 				<id column="MEMBER_ID" property="userId"/>
 			</association>
 		</collection>
-		<collection property="hashtag" ofType="errandsHashtagDTO">
-			<result column="ERRANDS_HASHTAG" property="errandsHashtag"/>
-		</collection>
 	</resultMap>
 	<insert id="insertErrands" parameterType="errandsDTO">
 		insert into
@@ -47,7 +44,7 @@
 		#{errandsPhoto,jdbcType=VARCHAR}, #{requestUser.userId})
 	</insert>
 	<select id="selectErrands" parameterType="int" resultMap="errandsMap">
-		select * from ERRANDS_TOTAL_VIEW
+		select * from ERRANDS_REPLY_VIEW
 		<where>
 			<if test="value != 0">
 				ERRANDS_NUM = #{value}
