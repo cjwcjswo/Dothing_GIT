@@ -1,24 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/js/jquery-3.2.0.min.js">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet"
-	href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,400|Roboto:300,400,700">
-
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/Navigation-with-Button1.css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/bootstrap/js/bootstrap.min.js">
-<%-- <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/js/jquery-3.2.0.js"> --%>
 
 <script>
 	function logout() {
@@ -28,68 +16,41 @@
 
 </head>
 <body>
-	<div>
-		<nav class="navbar navbar-default navigation-clean-button" id="navbar">
-		<div class="container">
-			<div class="navbar-header">
-				<a href="#" class="navbar-brand navbar-link">Do Thing</a>
-				<button data-toggle="collapse" data-target="#navcol-1"
-					class="navbar-toggle collapsed">
-					<span class="sr-only">Toggle navigation</span><span
-						class="icon-bar"></span><span class="icon-bar"></span><span
-						class="icon-bar"></span>
-				</button>
+	<!-- Navigation-->
+	<div class="header">
+		<div class="wrapper">
+			<div class="brand">
+				<a href="index-directory.html"><img
+					src="${pageContext.request.contextPath}/assets/img/logo.png"
+					alt="logo"></a>
 			</div>
-			<div class="collapse navbar-collapse" id="navcol-1">
-				<ul class="nav navbar-nav">
-
-					<li role="presentation"><a
-						href="${pageContext.request.contextPath}/board/inquiryBoardList">1:1
-							∞‘Ω√∆«</a></li>
-
-
-					<li role="presentation"><a
-						href="${pageContext.request.contextPath}/errand/errand">Ω…∫Œ∏ß «œ±‚</a></li>
-					<li role="presentation"><a
-						href="${pageContext.request.contextPath}/errand/register">Ω…∫Œ∏ß
-							Ω≈√ª«œ±‚</a></li>
-					<!-- √§∆√ ≈◊Ω∫∆Æ -->
-					<li role="presentation"><a
-						href="${pageContext.request.contextPath}/websocket">√§∆√≈◊Ω∫∆Æ</a></li>
-
-				</ul>
-
-
-				<p class="navbar-text navbar-right actions">
-					<security:authorize access="isAuthenticated()">
-						<security:authentication property="principal.name"/> ¥‘ »Øøµ«’¥œ¥Ÿ.
-					
-					<a class="btn btn-default action-button" role="button"
-							href="javascript:logout();">∑Œ±◊æ∆øÙ</a>
-
-						<!-- ∑Œ±◊æ∆øÙ¿∫ Ω∫«¡∏µΩ√≈•∏Æ∆º 4 ∫Œ≈Õ¥¬ ∑Œ±◊æ∆øÙΩ√ POST πÊΩƒ¿∏∑Œ ¿Ãµø«œ∏Á /logout url∑Œ ø‰√ª«—¥Ÿ. (µ˚∑Œ ¡§¿««œ¡ˆ æ ¿∏∏È)
-				±◊∏Æ∞Ì _csrf ∏¶ ø‰√ª∆ƒ∂ÛπÃ≈Õ∑Œ ∫∏≥ªæﬂ «—¥Ÿ. -->
-						<form id="logoutForm"
-							action="${pageContext.request.contextPath}/logout"
-							method="post" style="display: none">
-							<input type="hidden" name="${_csrf.parameterName}"
-								value="${_csrf.token}" />
-						</form>
-					</security:authorize>
-
-					<!-- ¿Œ¡ı æ»µ∆¿∏∏È -->
-					<security:authorize access="!isAuthenticated()">
-						<a href="${pageContext.request.contextPath}/loginForm"
-							class="navbar-link login">∑Œ±◊¿Œ</a>
-						<a class="btn btn-default action-button" role="button"
-							href="${pageContext.request.contextPath}/signIn">Sign Up</a>
-					</security:authorize>
-				</p>
-			</div>
+			<nav class="navigation-items">
+				<div class="wrapper">
+					<ul class="main-navigation navigation-top-header"></ul>
+					<ul class="user-area">
+						<li><a href="sign-in.html">Î°úÍ∑∏Ïù∏</a></li>
+						<li><a href="register.html"><strong>ÌöåÏõêÍ∞ÄÏûÖ</strong></a></li>
+					</ul>
+					<a href="${pageContext.request.contextPath}/errand/register" class="submit-item">
+						<div class="content">
+							<span>Ïã¨Î∂ÄÎ¶Ñ Îì±Î°ù</span>
+						</div>
+						<div class="icon">
+							<i class="fa fa-plus"></i>
+						</div>
+					</a>
+					<div class="toggle-navigation">
+						<div class="icon">
+							<div class="line"></div>
+							<div class="line"></div>
+							<div class="line"></div>
+						</div>
+					</div>
+				</div>
+			</nav>
 		</div>
-		</nav>
 	</div>
-	<div style="height: 10px"></div>
+	<!-- end Navigation-->
 </body>
 
 </html>

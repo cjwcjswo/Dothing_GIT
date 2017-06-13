@@ -17,8 +17,8 @@ public class ErrandsDAOImpl implements ErrandsDAO{
 	SqlSession sqlSession;
 
 	@Override
-	public List<ErrandsDTO> selectAll(int page) {
-		return sqlSession.selectList("mapper.errandsMapper.selectErrands", 0, new RowBounds((page-1)*5, 5));
+	public List<ErrandsDTO> selectAll() {
+		return sqlSession.selectList("mapper.errandsMapper.selectErrands", 0);
 	}
 
 	@Override
