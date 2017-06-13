@@ -3,6 +3,7 @@ package dothing.web.dao;
 import java.util.List;
 
 import dothing.web.dto.BoardDTO;
+import dothing.web.dto.BoardReplyDTO;
 
 
 public interface BoardDAO{
@@ -35,5 +36,15 @@ public interface BoardDAO{
        * 게시판번호에 해당하는 레코드 수정
        * */
       /*int update(BoardDTO boardDTO);*/
+     
+     /**
+      * 댓글 삽입
+      */
+     int insertReply(BoardReplyDTO brDTO);
+     
+     /**
+      * 게시판 번호에 해당하는 댓글 불러오기
+      */
+     List<BoardReplyDTO> selectReply(int inquiryNum);
 
 }
