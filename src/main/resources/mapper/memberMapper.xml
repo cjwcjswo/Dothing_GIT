@@ -31,5 +31,18 @@
 	values(#{userId},#{name},#{password},#{email},#{selfImg},'abcd.jpg',#{addr},#{phone},#{sex})
 </insert>
 
+<!-- ID 중복체크 -->
+<select id="memberSelect" parameterType="String" resultMap="memberSelectMap">
+	select <include refid="memberColumn"/>
+	from member
+	<where>
+		<if test="_parameter!=null">
+			MEMBER_ID=#{_parameter}
+		</if>
+	</where>
+</select>
+
+
+
 
 </mapper>

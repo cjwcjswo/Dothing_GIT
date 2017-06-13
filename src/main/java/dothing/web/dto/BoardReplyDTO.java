@@ -4,6 +4,7 @@ public class BoardReplyDTO {
 	private int replyNum;
 	private BoardDTO board;
 	private String replyContent;
+	
 	public int getReplyNum() {
 		return replyNum;
 	}

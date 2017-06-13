@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import dothing.web.dao.BoardDAO;
 import dothing.web.dto.BoardDTO;
+import dothing.web.dto.BoardReplyDTO;
 
 @Service
 @Transactional
@@ -67,5 +68,22 @@ public class BoardServiceImpl implements BoardService {
 		
 		return 1;
 	}*/
+	
+	@Override
+	public int insertReply(BoardReplyDTO brDTO)throws Exception{
+		int re = boardDAO.insertReply(brDTO);
+		
+		if(re == 0){
+			throw new Exception("댓글 등록 오류");
+		}
+		return re;
+	}
+	
+	
+	@Override
+	public List<BoardReplyDTO> selectReply(int inquiryNum) {
+		
+		return boardDAO.selectReply(inquiryNum);
+	}
 
 }

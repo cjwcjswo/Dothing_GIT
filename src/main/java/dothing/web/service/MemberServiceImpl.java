@@ -38,4 +38,11 @@ public class MemberServiceImpl implements MemberService{
 		
 		return 1;
 	}
+
+	@Override
+	public String selectSearch(String userId) {
+		MemberDTO dto = memberDao.selectSearch(userId);
+		if(dto==null)return "사용가능합니다.";
+		else return "사용중입니다";
+	}
 }
