@@ -343,11 +343,8 @@
 						</h3>
 					</div>
 					<div class="col-md-4 col-xs-4" style="text-align: right;">
-						<a href="#"><span id="chatComplete" class="fa fa-check""></span></a>
 						<a href="#"><span id="minim_chat_window"
-							class="glyphicon glyphicon-minus icon_minim"></span></a> <a href="#"><span
-							class="glyphicon glyphicon-remove icon_close"
-							data-id="chat_window_1"></span></a>
+							class="glyphicon glyphicon-minus icon_minim"></span></a>
 					</div>
 				</div>
 				<div class="panel-body msg_container_base">
@@ -473,6 +470,38 @@
 	<!--  chat 끝 -->
 
 	<script>
+    $(document).on('click', '.panel-heading span.icon_minim', function (e) {
+        var $this = $(this);
+        if (!$this.hasClass('panel-collapsed')) {
+            $this.parents('.panel').find('.panel-body').slideUp();
+            $this.addClass('panel-collapsed');
+            $this.removeClass('glyphicon-minus').addClass('glyphicon-plus');
+        } else {
+            $this.parents('.panel').find('.panel-body').slideDown();
+            $this.removeClass('panel-collapsed');
+            $this.removeClass('glyphicon-plus').addClass('glyphicon-minus');
+        }
+    });
+    $(document).on('focus', '.panel-footer input.chat_input', function (e) {
+        var $this = $(this);
+        if ($('#minim_chat_window').hasClass('panel-collapsed')) {
+            $this.parents('.panel').find('.panel-body').slideDown();
+            $('#minim_chat_window').removeClass('panel-collapsed');
+            $('#minim_chat_window').removeClass('glyphicon-plus').addClass('glyphicon-minus');
+        }
+    });
+    $(document).on('click', '#new_chat', function (e) {
+        var size = $( ".chat-window:last-child" ).css("margin-left");
+         size_total = parseInt(size) + 400;
+        alert(size_total);
+        var clone = $( "#chat_window_1" ).clone().appendTo( ".container" );
+        clone.css("margin-left", size_total);
+    });
+    $(document).on('click', '.icon_close', function (e) {
+        //$(this).parent().parent().parent().parent().remove();
+        $( "#chat_window_1" ).remove();
+    });
+ // chat 부분 js 
       var mapContainer = document.getElementById('map-detail'), // 지도를 표시할 div 
          mapOption = {
             center : new daum.maps.LatLng(${errands.errandsPos.latitude}, ${errands.errandsPos.longitude}), // 지도의 중심좌표
