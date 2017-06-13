@@ -15,7 +15,7 @@
 
 <body>
 	<div class="login-dark">
-		<form method="post" action="${pageContext.request.contextPath}/login">
+		<form method="post" action="${pageContext.request.contextPath}/user/login">
 		<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" >
 			<h2 class="sr-only">Login Form</h2>
 			<div class="illustration">

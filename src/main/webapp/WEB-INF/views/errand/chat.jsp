@@ -43,24 +43,13 @@
 	var sender = '<security:authentication property="principal.userId"/>';
 	var errandsNum = ${errandsNum};
 	var sock = new SockJS('/controller/websocket');
-	
-	//var sock = new SockJS('http://localhost:8080/'+errandsNum+'/websocket');
+
 	$(function(){
-		/* $('#send').click(function(){
-			var msg = $('div textarea').val();
-			alert('msg : ' + msg);
-			alert('today : ' + today);
-			//separator -> #/separator/#
-			sock.send(errandsNum+"#/separator/#"+sender+"#/separator/#"+msg+"#/separator/#"+today);
-		}); */
-		
 		$(document).on("click", "#send", function(){
 			var msg = $('div textarea').val();
-			alert('msg : ' + msg);
 			//separator -> #/separator/#
 			sock.send(errandsNum+"#/separator/#"+sender+"#/separator/#"+msg+"#/separator/#"+today);
-			$('div textarea').val('');
-			
+			$('div textarea').val('');		
 		});
 		
 	});

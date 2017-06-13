@@ -29,7 +29,7 @@ public interface BoardDAO{
      /**
       * 게시판번호에 해당하는 레코드 삭제
       * */
-      /*int delete(int inquiryNum, String password);*/
+     int delete(int inquiryNum);
      
       /**
        * 게시판번호에 해당하는 레코드 수정

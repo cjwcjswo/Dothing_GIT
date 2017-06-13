@@ -2,15 +2,15 @@ package dothing.web.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import dothing.web.dto.BoardDTO;
+import dothing.web.dto.MemberDTO;
 import dothing.web.service.BoardService;
 
 @Controller
@@ -33,23 +33,35 @@ public class BoardController {
 	
 	
 	@RequestMapping("/inquiryBoardWrite")
-	public void write(HttpServletRequest request){
+	public void write(){
 		
 	}
 	
 	@RequestMapping(value="/insert", produces="text/html;charset=UTF-8")
-	public String insert(HttpServletRequest request, BoardDTO boardDTO){
+	public String insert(Authentication auth,BoardDTO boardDTO)throws Exception{
+		String userId = ((MemberDTO)auth.getPrincipal()).getUserId();
+        String re = "";
+		if (userId == null) {
+			throw new Exception("로그인후 이용하세요");
+		} else {
+			boardDTO.setUserId(userId);
 
-		boardService.insert(boardDTO);
-		
-		return "redirect:inquiryBoardList";
+			int result = boardService.insert(boardDTO);
+
+			if (result > 0) {
+				re = "redirect:/board/inquiryBoardList";
+			} else {
+				throw new Exception("글 등록 실패");
+			}
+		}
+		return re;
 	}
 	  
 	  /**
 	   * 상세보기
 	   */
 	  @RequestMapping("/inquiryBoardRead/{inquiryNum}")
-	  public ModelAndView read(HttpServletRequest request,@PathVariable int inquiryNum) throws Exception{
+	  public ModelAndView read(@PathVariable int inquiryNum) throws Exception{
 		  BoardDTO boardDTO = boardService.selectByBoardNum(inquiryNum, true);
 		  ModelAndView mv = new ModelAndView();
 		  mv.setViewName("board/inquiryBoardRead");
@@ -67,20 +79,19 @@ public class BoardController {
 		  return new ModelAndView("board/update","boardDTO",boardDTO);
 	  }*/
 	  
-	 /* @RequestMapping("/downLoad")
-	  public ModelAndView downLoad(HttpServletRequest request, String fName){
-		  
-		  return new ModelAndView("downLoadView", "fname", new File(path+"/"+fName));  //downLoadView.jsp 이동
-	  }*/
-	  
 	  /**
 	   * 삭제
 	   */
-	 /* @RequestMapping("/delete")
-	  public String delete(HttpServletRequest request, int inquiryNum, String password)throws Exception{
-		  boardService.delete(inquiryNum, password);
-		  return "redirect:list";
-	  }*/
+	 @RequestMapping("/delete")
+	  public String delete(Authentication auth,int inquiryNum)throws Exception{
+		  String userId = ((MemberDTO)auth.getPrincipal()).getUserId();
+		  String re = "";
+		  
+		  //if(userId==)
+		  
+		  boardService.delete(inquiryNum);
+		  return "redirect:/board/inquiryBoardList";
+	  }
 	  
 	/* @RequestMapping("/update")
 	  public ModelAndView update(HttpServletRequest request, BoardDTO boardDTO)throws Exception{

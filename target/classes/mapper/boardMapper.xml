@@ -17,8 +17,9 @@ inquiry_num,member_id,inquiry_title,inquiry_content
 
 <!-- 게시물 등록 -->
 <insert id="boardInsert" parameterType="BoardDTO">
-insert into inquiry_board(<include refid="columnName"/>,inquiry_date,readnum) values(#{inquiryNum},#{userId},#{boardTitle},#{boardContent},
-sysdate,0)
+insert into inquiry_board(<include refid="columnName"/>,inquiry_date,readnum)
+values(SEQ_ID.NEXTVAL,#{userId},#{boardTitle},#{boardContent},
+to_char(sysdate, 'YYYY-MM-DD HH:MI:SS AM'),0)
 </insert>
 
 <!-- 모든레코드 검색 or 글번호에 해당하는 레코드 검색 -->
@@ -30,6 +31,7 @@ select <include refid="columnName"/>,inquiry_date ,READNUM
      inquiry_num=#{_parameter}
    </if>
  </where>
+ order by inquiry_num desc
 </select>
 
 <!-- 조회수 증가 -->
@@ -50,9 +52,9 @@ where model_num=#{modelNum} and password=#{password}
 </update> -->
 
 <!-- 게시물 삭제(모델번호에 해당하는 레코드) -->
-<!-- <delete id="boardDelete" parameterType="map">
+<delete id="boardDelete" parameterType="int">
 delete from inquiry_board
-where model_num = #{modelNum} and password=#{password}
-</delete> -->
+where inquiry_num = #{inquiry_num}
+</delete>
 
 </mapper>

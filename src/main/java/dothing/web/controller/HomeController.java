@@ -15,7 +15,7 @@ public class HomeController {
 
 	@RequestMapping("/")
 	public String home(HttpSession session) {
-		return "/main/home";
+		return "main/home";
 	}
 
 	@RequestMapping("/error")
