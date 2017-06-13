@@ -23,12 +23,14 @@
 									</figure>
 									<div class="wrapper">
 										<div class="image">
-											<img src="assets/img/items/1.jpg" alt="">
+											<img
+												src="${pageContext.request.contextPath}/assets/img/items/1.jpg"
+												alt="">
 										</div>
 										<div class="info">
 											<div class="type">
 												<i><img
-													src="assets/icons/restaurants-bars/restaurants/restaurant.png"
+													src="${pageContext.request.contextPath}/assets/icons/restaurants-bars/restaurants/restaurant.png"
 													alt=""></i> <span>Restaurant</span>
 											</div>
 											<div class="rating" data-rating="4"></div>
@@ -42,12 +44,14 @@
 									</figure>
 									<div class="wrapper">
 										<div class="image">
-											<img src="assets/img/items/2.jpg" alt="">
+											<img
+												src="${pageContext.request.contextPath}/assets/img/items/2.jpg"
+												alt="">
 										</div>
 										<div class="info">
 											<div class="type">
 												<i><img
-													src="assets/icons/restaurants-bars/restaurants/restaurant.png"
+													src="${pageContext.request.contextPath}/assets/icons/restaurants-bars/restaurants/restaurant.png"
 													alt=""></i> <span>Restaurant</span>
 											</div>
 											<div class="rating" data-rating="3"></div>
@@ -136,23 +140,31 @@
 		</div>
 	</footer>
 	<!--end Page Footer-->
+	<script>
+		var contextPath = "${pageContext.request.contextPath}";
+	</script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/assets/js/jquery-2.1.0.min.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/assets/js/jquery-migrate-1.2.1.min.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/assets/bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/assets/js/smoothscroll.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/assets/js/bootstrap-select.min.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/assets/js/jquery.hotkeys.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/assets/js/jquery.nouislider.all.min.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/assets/js/jquery.mCustomScrollbar.concat.min.js"></script>
 
-	<script type="text/javascript" src="assets/js/jquery-2.1.0.min.js"></script>
-	<script type="text/javascript" src="assets/js/before.load.js"></script>
 	<script type="text/javascript"
-		src="assets/js/jquery-migrate-1.2.1.min.js"></script>
+		src="${pageContext.request.contextPath}/assets/js/maps.js"></script>
 	<script type="text/javascript"
-		src="assets/bootstrap/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="assets/js/smoothscroll.js"></script>
-	<script type="text/javascript" src="assets/js/bootstrap-select.min.js"></script>
-	<script type="text/javascript" src="assets/js/jquery.hotkeys.js"></script>
-	<script type="text/javascript"
-		src="assets/js/jquery.nouislider.all.min.js"></script>
-	<script type="text/javascript"
-		src="assets/js/jquery.mCustomScrollbar.concat.min.js"></script>
-	<script type="text/javascript" src="assets/js/markerclusterer.js"></script>
-	<script type="text/javascript" src="assets/js/custom.js"></script>
-	<script type="text/javascript" src="assets/js/maps.js"></script>
-
+		src="${pageContext.request.contextPath}/assets/js/before.load.js"></script>
+		<script type="text/javascript"
+		src="${pageContext.request.contextPath}/assets/js/custom.js"></script>
 </body>
 </html>

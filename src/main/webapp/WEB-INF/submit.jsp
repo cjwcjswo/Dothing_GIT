@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 
 <html lang="en-US">
@@ -6,21 +8,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<link href="assets/fonts/font-awesome.css" rel="stylesheet"
+<link href="${pageContext.request.contextPath}/assets/fonts/font-awesome.css" rel="stylesheet"
 	type="text/css">
 <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700'
-	rel='stylesheet' type='text/css'>
-<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.css"
+	rel='stylesheet' type='text/css'>\
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/bootstrap-select.min.css"
 	type="text/css">
-<link rel="stylesheet" href="assets/css/bootstrap-select.min.css"
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/dropzone.css" type="text/css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/jquery.ui.timepicker.css"
 	type="text/css">
-<link rel="stylesheet" href="assets/css/owl.carousel.css"
-	type="text/css">
-<link rel="stylesheet" href="assets/css/dropzone.css" type="text/css">
-<link rel="stylesheet" href="assets/css/jquery.ui.timepicker.css"
-	type="text/css">
-<link rel="stylesheet" href="assets/css/style.css" type="text/css">
-<link rel="stylesheet" href="assets/css/user.style.css" type="text/css">
 
 <title>Spotter - Universal Directory Listing HTML Template</title>
 

@@ -6,7 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<link href="assets/fonts/font-awesome.css" rel="stylesheet"
+<link href="${pageContext.request.contextPath}/assets/fonts/font-awesome.css" rel="stylesheet"
 	type="text/css">
 <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700'
 	rel='stylesheet' type='text/css'>
@@ -25,7 +25,7 @@
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/assets/css/user.style.css"
 	type="text/css">
-<link rel="stylesheet" href="assets/css/jquery.mCustomScrollbar.css"
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/jquery.mCustomScrollbar.css"
 	type="text/css">
 </head>
 <body>
