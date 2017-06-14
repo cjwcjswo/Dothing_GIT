@@ -50,7 +50,6 @@
 					<!-- Wrapper for slides -->
 					<div class="carousel-inner" role="listbox">
 						<div class="item active">
-						<script>alert("1222")</script>
 							<div class="carousel-caption ">
 								<center>
 									<img style="width: 150px; height: 150px;"
