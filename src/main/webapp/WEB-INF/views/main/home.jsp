@@ -50,6 +50,7 @@
 					<!-- Wrapper for slides -->
 					<div class="carousel-inner" role="listbox">
 						<div class="item active">
+						<script>alert("1222")</script>
 							<div class="carousel-caption ">
 								<center>
 									<img style="width: 150px; height: 150px;"
@@ -119,9 +120,10 @@
 		
 		
 	</div> -->
-	<section class="features">
-	<div class="container" style="margin-top: 500px;">
+	<section class="features" id="features">
+	<div class="container">
 		<div class="row">
+		
 			<div class="col-md-6">
 				<h2>Connecting you to your community</h2>
 				<p>Dothing 서비스는 주위의 누군가가 나 대신 무엇이든지 해주는 서비스입니다. 당신이 원하는 배달비를 통해
