@@ -159,8 +159,6 @@
 		src="${pageContext.request.contextPath}/assets/js/jquery.nouislider.all.min.js"></script>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/assets/js/jquery-ui.min.js"></script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/assets/js/jquery.mCustomScrollbar.concat.min.js"></script>
 
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/assets/js/icheck.min.js"></script>

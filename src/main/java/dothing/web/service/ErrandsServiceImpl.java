@@ -116,4 +116,14 @@ public class ErrandsServiceImpl implements ErrandsService {
 		return list;
 	}
 
+	@Override
+	public List<ErrandsDTO> myErrandsRequest(String userId) {
+		return errandsDAO.myRequestErrands(userId);
+	}
+
+	@Override
+	public List<ErrandsDTO> myErrandsResponse(String userId) {
+		return errandsDAO.myResponseErrands(userId);
+	}
+
 }

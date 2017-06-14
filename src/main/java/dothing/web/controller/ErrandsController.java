@@ -98,4 +98,20 @@ public class ErrandsController {
 		mv.setViewName("jsonView");
 		return mv;
 	}
+	
+	@RequestMapping("/myRequest")
+	public ModelAndView myRequest(Authentication aut){
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("errandsList",errandsService.myErrandsRequest(((MemberDTO)aut.getPrincipal()).getUserId()));
+		mv.setViewName("/errand/myRequest");
+		return mv;
+	}
+	
+	@RequestMapping("/myResponse")
+	public ModelAndView myResponse(Authentication aut){
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("errandsList",errandsService.myErrandsResponse(((MemberDTO)aut.getPrincipal()).getUserId()));
+		mv.setViewName("/errand/myResponse");
+		return mv;
+	}
 }

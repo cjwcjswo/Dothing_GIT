@@ -222,7 +222,7 @@
 												</li>
 
 												<li>Total : <fmt:formatNumber
-														value="${errands.errandPrice + errands.productPrice}" />원
+														value="${errands.errandsPrice + errands.productPrice}" />원
 												</li>
 											</ul>
 										</article>

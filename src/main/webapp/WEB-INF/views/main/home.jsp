@@ -33,7 +33,7 @@
 	<div class="video-part">
 		<video autoplay="autoplay" loop="loop"> <source
 			src="${pageContext.request.contextPath}/assets/img/Lady_in_ST.mp4"
-			type="video/mp4"> </video>
+			type="video/mp4"></video>
 
 		<div class="container">
 			<div class="video-part-content">

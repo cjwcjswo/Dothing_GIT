@@ -88,7 +88,7 @@
 						<li class="active"><a
 							href="${pageContext.request.contextPath}/user/myPage"><h1
 									class="page-title">개인 정보</h1></a></li>
-						<li><a href="my-items.html"><h1 class="page-title">심부름
+						<li><a href="${pageContext.request.contextPath}/errand/myRequest"><h1 class="page-title">심부름
 									요청 및 수행 내역</h1></a></li>
 					</ul>
 				</header>
