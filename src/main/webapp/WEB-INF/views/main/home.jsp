@@ -7,28 +7,31 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<link href="${pageContext.request.contextPath}/assets/fonts/font-awesome.css" rel="stylesheet"
-	type="text/css">
+<link
+	href="${pageContext.request.contextPath}/assets/fonts/font-awesome.css"
+	rel="stylesheet" type="text/css">
 <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700'
 	rel='stylesheet' type='text/css'>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/main.css" type="text/css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/user.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/Article-List.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/Team-Boxed.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/assets/css/main.css"
+	type="text/css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/assets/css/user.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/assets/css/Article-List.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/assets/css/Team-Boxed.css">
 
 
 <title>메인 페이지</title>
-
+<script>
+</script>
 </head>
-
 <body onunload="" class="page-subpage page-faq navigation-off-canvas"
 	id="page-top">
 
-
-
-
 	<div class="video-part">
-		<video autoplay="autoplay" loop="loop" muted="muted"> <source
+		<video autoplay="autoplay" loop="loop"> <source
 			src="${pageContext.request.contextPath}/assets/img/Lady_in_ST.mp4"
 			type="video/mp4"> </video>
 
@@ -85,7 +88,7 @@
 									<h1>1분,1초가 당신의 가치를 보여주는 곳</h1>
 									<p>당신의 자투리 시간이 당신의 가치를 보여 줄 수 있습니다. 집에 가는 길, 회사 가는 길 . 순간의
 										가치로 이웃과 행복을 나눠보세요.</p>
-									<a href="#" class="btn btn-info" >About DoThing</a>
+									<a href="#" class="btn btn-info">About DoThing</a>
 								</div>
 							</div>
 						</div>
@@ -190,7 +193,8 @@
 			<div class="row people">
 				<div class="col-md-4 col-sm-6 item">
 					<div class="box">
-						<img class="img-circle" src="${pageContext.request.contextPath}/assets/img/1.jpg">
+						<img class="img-circle"
+							src="${pageContext.request.contextPath}/assets/img/1.jpg">
 						<h3 class="name">Ben Johnson</h3>
 						<p class="title">Musician</p>
 						<p class="description">Aenean tortor est, vulputate quis leo
@@ -206,7 +210,8 @@
 				</div>
 				<div class="col-md-4 col-sm-6 item">
 					<div class="box">
-						<img class="img-circle" src="${pageContext.request.contextPath}/assets/img/2.jpg">
+						<img class="img-circle"
+							src="${pageContext.request.contextPath}/assets/img/2.jpg">
 						<h3 class="name">Emily Clark</h3>
 						<p class="title">Artist</p>
 						<p class="description">Aenean tortor est, vulputate quis leo
@@ -222,7 +227,8 @@
 				</div>
 				<div class="col-md-4 col-sm-6 item">
 					<div class="box">
-						<img class="img-circle" src="${pageContext.request.contextPath}/assets/img/3.jpg">
+						<img class="img-circle"
+							src="${pageContext.request.contextPath}/assets/img/3.jpg">
 						<h3 class="name">Carl Kent</h3>
 						<p class="title">Stylist</p>
 						<p class="description">Aenean tortor est, vulputate quis leo
