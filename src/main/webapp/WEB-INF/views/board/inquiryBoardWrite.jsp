@@ -27,12 +27,12 @@ function checkValid() {
 		
 	if ( f.inquiry_title.value == "") {
 	    alert( "글제목을 입력하세요." );
-	    f.modelNum.focus();
+	    f.boardTitle.focus();
 		return false;
     }
 	if ( f.inquiry_content.value == "" ) {
 		alert( "글내용을 입력하세요." );
-		f.modelName.focus();
+		f.boardContent.focus();
 		return false;
 	}	
     return true;

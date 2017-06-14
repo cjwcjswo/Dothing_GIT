@@ -55,5 +55,6 @@ where inquiry_num = 4
  
  select inquiry_reply_num,reply_content,inquiry_num from inquiry_reply where inquiry_num = 1;
  
- insert into inquiry_reply(inquiry_reply_num, reply_content, inquiry_num)values(SEQ_REPLY_NUM.NEXTVAL,'¤»¤»¤»',1) 
+ insert into inquiry_reply(inquiry_reply_num, reply_content, inquiry_num)values(SEQ_REPLY_NUM.NEXTVAL,'ggg',7) 
+ #{board.inquiryNum}
  
