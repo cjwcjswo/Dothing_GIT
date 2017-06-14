@@ -40,19 +40,6 @@ public class ErrandsServiceImpl implements ErrandsService {
 		ErrandsHashProperties hp = new ErrandsHashProperties();
 		errandsDAO.insertErrands(dto);
 		errandsDAO.insertErrandsPos(dto.getErrandsPos());
-		String content = dto.getContent();
-		List<String> hashes = new ArrayList<>();
-		int index = 0;
-
-		while ((index = content.indexOf('#', index)) != -1) {
-			int restIndex = content.indexOf(" ", index);
-			if (restIndex == -1) {
-				restIndex = content.length();
-			}
-			hashes.add(content.substring(index + 1, restIndex));
-			index = restIndex;
-		}
-		hp.saveHashtag(hashes, path);
 		return 1;
 	}
 
