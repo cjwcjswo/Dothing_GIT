@@ -29,7 +29,7 @@
 
 	<div class="video-part">
 		<video autoplay="autoplay" loop="loop" muted="muted"> <source
-			src="http://lightofweb.com/zanzo-website/video/Typing.mp4"
+			src="${pageContext.request.contextPath}/assets/img/Lady_in_ST.mp4"
 			type="video/mp4"> </video>
 
 		<div class="container">
@@ -55,7 +55,7 @@
 								</center>
 								<div class="full-width animated fadeInUp">
 									<h1>무엇이든지 이웃에게, 이웃으로</h1>
-									<p>따뜻한 커피가 마시고 싶은데 아픈 경험이 있나요?</p>
+									<p>작은 도움이 필요할 때가 있으신가요?</p>
 									<a href="#" class="btn btn-info">로그인하기</a>
 								</div>
 							</div>
