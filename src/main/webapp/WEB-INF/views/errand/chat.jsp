@@ -47,14 +47,16 @@
 	$(function(){
 		$(document).on("click", "#send", function(){
 			var msg = $('div textarea').val();
+			alert("msg : " + msg);
 			//separator -> #/separator/#
 			sock.send(errandsNum+"#/separator/#"+sender+"#/separator/#"+msg+"#/separator/#"+today);
-			$('div textarea').val('');		
+			alert("send!);
+			$('div textarea').val('');
 		});
 		
 	});
 	
-	sock.onopen = function() {
+	/* sock.onopen = function() {
 	    $('#console').append('websocket opened' + '<br>');
 	  
 	  	//스크롤 맨 아래로
@@ -85,7 +87,7 @@
 	sock.onclose = function(event) {
 	    $('#console').append('websocket closed : ' + event);
 	};
-
+ */
 </script>
 
 </head>

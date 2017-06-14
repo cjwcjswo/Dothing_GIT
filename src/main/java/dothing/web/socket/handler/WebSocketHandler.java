@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.ServletContext;
 
@@ -31,6 +32,7 @@ public class WebSocketHandler extends TextWebSocketHandler{
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		super.afterConnectionEstablished(session);
+		
 		Map<String, Object> map = session.getAttributes();
 		String errandsNum = (String) map.get("errandsNum");
 		
@@ -55,21 +57,32 @@ public class WebSocketHandler extends TextWebSocketHandler{
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		String msg = message.getPayload();
-		
-		Map<String, Object> map = session.getAttributes();
-		String errandsNum = (String) map.get("errandsNum");
-		
-		String msgArr[] = msg.split("#/separator/#");
-		//msgArr[0] = errandsNum;
-		//msgArr[1] = sender;
-		//msgArr[2] = msg;
-		//msgArr[3] = writeday;
-		
-		chatService.write(msgArr);
-		
-		List<WebSocketSession> list = sessionMap.get(errandsNum);
-		for(WebSocketSession sess : list){
-			sess.sendMessage(new TextMessage(msg));
+		if(msg.equals("새로운 심부름이 등록되었습니다.")){
+			System.out.println("msg : " + msg);
+			Iterator<String> iter = sessionMap.keySet().iterator();
+			while(iter.hasNext()){
+				List<WebSocketSession> list =  sessionMap.get(iter.next());
+				for(WebSocketSession sess : list){
+					sess.sendMessage(new TextMessage(msg));
+				}
+			}
+		}else{
+			Map<String, Object> map = session.getAttributes();
+			String errandsNum = (String) map.get("errandsNum");
+			
+			String msgArr[] = msg.split("#/separator/#");
+			//msgArr[0] = errandsNum;
+			//msgArr[1] = sender;
+			//msgArr[2] = msg;
+			//msgArr[3] = writeday;
+			
+			chatService.write(msgArr);
+			
+			List<WebSocketSession> list = sessionMap.get(errandsNum);
+			for(WebSocketSession sess : list){
+				sess.sendMessage(new TextMessage(msg));
+			}
+			
 		}
 		
 	}

@@ -1,71 +1,82 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://www.springframework.org/security/tags"
-	prefix="security"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ page import="java.util.*" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spotter - Universal Directory Listing HTML Template</title>
 
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/chat/chat.css"
+<link href="assets/fonts/font-awesome.css" rel="stylesheet"
 	type="text/css">
-<link
-	href="${pageContext.request.contextPath}/assets/fonts/font-awesome.css"
-	rel="stylesheet" type="text/css">
 <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700'
 	rel='stylesheet' type='text/css'>
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/assets/css/chat.css"
+	type="text/css">
 
-<title>Spotter - Universal Directory Listing HTML Template</title>
-<script type="text/javascript"
-	src="//apis.daum.net/maps/maps3.js?apikey=900302937c725fa5d96ac225cbc2db10&libraries=services"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/assets/js/jquery-2.1.0.min.js"></script>
-	
+
+<!-- SocketJS -->
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/sockjs.js"></script>
+<!-- jQuery library -->
+<script src="${pageContext.request.contextPath}/resources/js/jquery-3.2.0.min.js"></script>
 <script>
-	$(function() {
-		function leadingZeros(n, digits) {
-			var zero = '';
-			n = n.toString();
+	var today = '<%= new java.text.SimpleDateFormat("MM/dd HH:mm").format(new java.util.Date())%>'
+	var sender = '<security:authentication property="principal.userId"/>';
+	var errandsNum = ${errandsNum};
+	var sock = new SockJS('/controller/websocket');
 
-			if (n.length < digits) {
-				for (var i = 0; i < digits - n.length; i++)
-					zero += '0';
-			}
-			return zero + n;
-		}
-
-		$(document).on("click", "button[data-target='#myModal']", function() {
-			var d = new Date();
-			$("#date").html(d.getFullYear() + "-" + leadingZeros((d.getMonth() + 1), 2) + "-" + leadingZeros(d.getDate(), 2) + " "
-				+ d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds());
-			$("#sims").html("<h2>심부름꾼: " + $(this).attr("id") + "</h2>");
-		})
+	$(function(){
+		alert(44);
+		$(document).on("click", "#sendBtn", function(){
+			var msg = $('#inputText').val();
+			//separator -> #/separator/#
+			sock.send(errandsNum+"#/separator/#"+sender+"#/separator/#"+msg+"#/separator/#"+today);
+			$('#inputText').val('');		
+		});
+		
 	});
-	function checkValid() {
-		var form = document.f;
-		if (form.replyContent.value.trim() == "") {
-			alert("댓글 내용을 입력하세요");
-			return false;
-		}
-		if (form.arrivalTime.value.trim() == "") {
-			alert("시간을 입력하세요");
-			return false;
-		}
-		return true;
-	}
+	
+	sock.onopen = function() {
+	    $('#console').append('websocket opened' + '<br>');
+	  
+	  	//스크롤 맨 아래로
+	 	document.getElementById('chatList').scrollTop = document.getElementById('chatList').scrollHeight;
+	};
+	
+	sock.onmessage = function(message) {
+		var arr = message.data.split("#/separator/#");
+		
+		var str = '<div class="row msg_container base_receive">'+
+			'<div class="col-md-2 col-xs-2 avatar">'+
+		'<img'+
+			' src="http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg"'+
+			' class=" img-responsive ">'+
+	'</div>'+
+	'<div class="col-xs-10 col-md-10">'+
+		'<div class="messages msg_receive">'+
+			'<p>'+arr[2]+'</p>'+
+			'<time datetime="2009-11-13T20:00">'+arr[3]+'</time>'+
+		'</div></div></div>';
+	
+	 	$('#chatList').append(str);
+	 	
+	 	//스크롤 맨 아래로
+	 	document.getElementById('chatList').scrollTop = document.getElementById('chatList').scrollHeight;
+	 	
+	 	
+	    $('#console').append('receive message : ' + message.data + '<br>');
+	};
+	
+	sock.onclose = function(event) {
+	    $('#console').append('websocket closed : ' + event);
+	};
 
-	function delErrands() {
-		if ("${errands.requestUser.userId}" != "<security:authentication property='principal.userId'/>") {
-			alert("작성자가 아닙니다");
-			return;
-		} else {
-			location.href = "${pageContext.request.contextPath}/errand/deleteErrands?num=${errands.errandsNum}&id=<security:authentication property='principal.userId'/>";
-		}
-	}
 </script>
 
 </head>
@@ -97,12 +108,9 @@
 						</a>
 					</div>
 					<ol class="breadcrumb">
-						<li><a href="${pageContext.request.contextPath}/"><i
-								class="fa fa-home"></i></a></li>
-						<li><a
-							href="${pageContext.request.contextPath}/errand/errand">심부름
-								목록</a></li>
-						<li class="active">${errands.errandsNum}번심부름</li>
+						<li><a href="index-directory.html"><i class="fa fa-home"></i></a></li>
+						<li><a href="#">Page</a></li>
+						<li class="active">Detail</li>
 					</ol>
 					<!-- /.breadcrumb-->
 				</div>
@@ -119,23 +127,25 @@
 			<section class="container">
 				<div class="row">
 					<!--Item Detail Content-->
-					<div class="col-md-12">
+					<div class="col-md-9">
 						<section class="block" id="main-content">
 							<header class="page-title">
 								<div class="title">
-									<h1>${errands.title}</h1>
+									<h1>심부름 제목</h1>
+									<figure>심부름 위치
+									</figure>
 								</div>
 								<div class="info">
 									<div class="type">
 										<i><img
-											src="${pageContext.request.contextPath}/assets/icons/restaurants-bars/restaurants/restaurant.png"
+											src="assets/icons/restaurants-bars/restaurants/restaurant.png"
 											alt=""></i> <span>#음식배달 #아무거나빨리 #으아</span>
 									</div>
 								</div>
 							</header>
 							<div class="row">
 								<!--Detail Sidebar-->
-								<aside class="col-md-3" id="detail-sidebar">
+								<aside class="col-md-4 col-sm-4" id="detail-sidebar">
 									<!--Contact-->
 									<section>
 										<header>
@@ -145,14 +155,13 @@
 
 											<figure>
 												<div class="info">
-													<i class="fa fa-child"></i> <span>${errands.requestUser.userId}</span>
+													<i class="fa fa-child"></i> <span>심부름 요청자 아이디 </span>
 												</div>
 												<div class="info">
-													<i class="fa fa-calendar"></i> <span>${errands.endTime}
-														까지</span>
+													<i class="fa fa-calendar"></i> <span>심부름 요청일시</span>
 												</div>
 												<div class="info">
-													<i class="fa fa-globe"></i> <span>${errands.errandsPos.addr}</span>
+													<i class="fa fa-globe"></i> <span>심부름 상세 위치</span>
 												</div>
 											</figure>
 										</address>
@@ -182,33 +191,67 @@
 											<a href="#" class="show-more expand-content"
 												data-expand="#detail-sidebar-event">더보기</a>
 										</figure>
-
 									</section>
 									<!--end Events-->
-									<button type="button" onclick="delErrands()"
-										class="btn btn-default">삭제하기</button>
+
 								</aside>
 								<!--end Detail Sidebar-->
 								<!--Content-->
-								<div class="col-md-8">
+								<div class="col-md-8 col-sm-8">
 									<section>
 										<article class="item-gallery">
-
-
-											<c:if test="${errands.errandsPhoto != null}">
-												<img
-													src="${pageContext.request.contextPath}/errands/${errands.errandsNum}/${errands.errandsPhoto}" />
-											</c:if>
-
-
-
+											<div class="owl-carousel item-slider">
+												<div class="slide">
+													<img src="assets/img/items/1.jpg" data-hash="1" alt="">
+												</div>
+												<div class="slide">
+													<img src="assets/img/items/2.jpg" data-hash="2" alt="">
+												</div>
+												<div class="slide">
+													<img src="assets/img/items/3.jpg" data-hash="3" alt="">
+												</div>
+												<div class="slide">
+													<img src="assets/img/items/4.jpg" data-hash="4" alt="">
+												</div>
+												<div class="slide">
+													<img src="assets/img/items/5.jpg" data-hash="5" alt="">
+												</div>
+												<div class="slide">
+													<img src="assets/img/items/6.jpg" data-hash="6" alt="">
+												</div>
+												<div class="slide">
+													<img src="assets/img/items/7.jpg" data-hash="7" alt="">
+												</div>
+											</div>
+											<!-- /.item-slider -->
+											<div class="thumbnails">
+												<span class="expand-content btn framed icon"
+													data-expand="#gallery-thumbnails">More<i
+													class="fa fa-plus"></i></span>
+												<div class="expandable-content height collapsed show-70"
+													id="gallery-thumbnails">
+													<div class="content">
+														<a href="#1" id="thumbnail-1" class="active"><img
+															src="assets/img/items/1.jpg" alt=""></a> <a href="#2"
+															id="thumbnail-2"><img src="assets/img/items/2.jpg"
+															alt=""></a> <a href="#3" id="thumbnail-3"><img
+															src="assets/img/items/3.jpg" alt=""></a> <a href="#4"
+															id="thumbnail-4"><img src="assets/img/items/4.jpg"
+															alt=""></a> <a href="#5" id="thumbnail-5"><img
+															src="assets/img/items/5.jpg" alt=""></a> <a href="#6"
+															id="thumbnail-6"><img src="assets/img/items/6.jpg"
+															alt=""></a> <a href="#7" id="thumbnail-7"><img
+															src="assets/img/items/7.jpg" alt=""></a>
+													</div>
+												</div>
+											</div>
 										</article>
 										<!-- /.item-gallery -->
 										<article class="block">
 											<header>
 												<h2>상세설명</h2>
 											</header>
-											<p>${errands.content}</p>
+											<p>제 회사까지 서류좀 보내주세요 배고파 디질거가타요 브라랄라라ㅏ라라 우얼나올농라ㅓ노아ㅓ로나ㅓ와ㅓ</p>
 										</article>
 										<article class="block">
 											<header>
@@ -216,20 +259,26 @@
 											</header>
 											<ul class="bullets">
 
-												<li>물품 가격 : <fmt:formatNumber
-														value="${errands.productPrice}" />원
-												</li>
-												<li>심부름가격 : <fmt:formatNumber
-														value="${errands.errandsPrice}" />원
-												</li>
+												<li>물품 가격 :</li>
+												<li>심부름가격 :</li>
 
-												<li>Total : <fmt:formatNumber
-														value="${errands.productPrice + errands.productPrice}" />원
-												</li>
+												<li>Total :</li>
 											</ul>
 										</article>
 
 
+
+										<!-- /.block -->
+										<article class="block">
+											<header>
+												<h2>원하는 도착 시간</h2>
+											</header>
+											<dl class="lines">
+												<dt>2017-06-12</dt>
+												<dd>08:00 am - 11:00 pm</dd>
+
+											</dl>
+										</article>
 										<!-- /.block -->
 									</section>
 									<!--Reviews-->
@@ -248,25 +297,20 @@
                                             </article>/.overall-rating -->
 										<section class="reviews">
 											<article class="review">
-												<c:forEach items="${errands.errandsReply}" var="reply">
-													<figure class="author">
-														<img
-															src="${pageContext.request.contextPath}/assets/img/default-avatar.png"
-															alt="">
-														<div class="date">${reply.arrivalTime}</div>
-													</figure>
-													<!-- /.author-->
-
-													<div class="wrapper">
-														<h5>${reply.user.userId}</h5>
-														<figure class="rating big color" data-rating="4"></figure>
-														<a href="#" class="btn framed icon pull-right roll">선택<i
-															class="fa fa-check"></i></a>
-														<p>${reply.replyContent}</p>
+												<figure class="author">
+													<img src="assets/img/default-avatar.png" alt="">
+													<div class="date">도착 예정 시간</div>
+												</figure>
+												<!-- /.author-->
+												<div class="wrapper">
+													<h5>심부름꾼이름</h5>
+													<figure class="rating big color" data-rating="4"></figure>
+													<a href="#" class="btn framed icon pull-right roll">선택<i
+														class="fa fa-check"></i></a>
+													<p>누구보다 빠르게 갑니다. 제 별명이 피깣츛츛츄츄ㅠ</p>
 
 
-													</div>
-												</c:forEach>
+												</div>
 												<!-- /.wrapper-->
 											</article>
 											<!-- /.review -->
@@ -281,28 +325,33 @@
 										<header>
 											<h2>심부름 댓글 등록</h2>
 										</header>
-										<form name="f" method="post" action="insertReply"
-											onsubmit="return checkValid()" class="background-color-white">
+										<form id="form-review" role="form" method="post" action="?"
+											class="background-color-white">
 											<div class="row">
 												<div class="col-md-8">
+													<div class="form-group">
+														<label for="form-review-name">아이디</label> <input
+															type="text" class="form-control" id="form-review-name"
+															name="form-review-name" required="">
+													</div>
+													<!-- /.form-group -->
+													<div class="form-group">
+														<label for="form-review-email">Email</label> <input
+															type="email" class="form-control" id="form-review-email"
+															name="form-review-email" required="">
+													</div>
 													<!-- /.form-group -->
 													<div class="form-group">
 														<label for="form-review-message">댓글 입력</label>
 														<textarea class="form-control" id="form-review-message"
-															name="replyContent" rows="3" required="" placeholder=""></textarea>
+															name="form-review-message" rows="3" required=""
+															placeholder=""></textarea>
 													</div>
 													<div class="form-group">
 														<label for="form-review-email">도착예정시간</label> <input
 															type="datetime-local" class="form-control"
 															name="arrivalTime" />
 													</div>
-													<input type="hidden" name="errands.errandsNum"
-														value="${errands.errandsNum}"> <input
-														type="hidden" name="user.userId"
-														value="<security:authentication property='principal.userId'/>">
-													<input type="hidden" name="${_csrf.parameterName}"
-														value="${_csrf.token}" />
-
 													<!-- /.form-group -->
 													<div class="form-group">
 														<button type="submit" class="btn btn-default">등록하기</button>
@@ -324,7 +373,110 @@
 						<!-- /#main-content-->
 					</div>
 					<!-- /.col-md-8-->
-
+					<!--Sidebar-->
+					<div class="col-md-3">
+						<aside id="sidebar">
+							<section>
+								<header>
+									<h2>New Places</h2>
+								</header>
+								<a href="item-detail.html" class="item-horizontal small">
+									<h3>Cash Cow Restaurante</h3>
+									<figure>63 Birch Street
+									</figure>
+									<div class="wrapper">
+										<div class="image">
+											<img src="assets/img/items/1.jpg" alt="">
+										</div>
+										<div class="info">
+											<div class="type">
+												<i><img
+													src="assets/icons/restaurants-bars/restaurants/restaurant.png"
+													alt=""></i> <span>Restaurant</span>
+											</div>
+											<div class="rating" data-rating="4"></div>
+										</div>
+									</div>
+								</a>
+								<!--/.item-horizontal small-->
+								<a href="item-detail.html" class="item-horizontal small">
+									<h3>Blue Chilli</h3>
+									<figure>2476 Whispering Pines Circle
+									</figure>
+									<div class="wrapper">
+										<div class="image">
+											<img src="assets/img/items/2.jpg" alt="">
+										</div>
+										<div class="info">
+											<div class="type">
+												<i><img
+													src="assets/icons/restaurants-bars/restaurants/restaurant.png"
+													alt=""></i> <span>Restaurant</span>
+											</div>
+											<div class="rating" data-rating="3"></div>
+										</div>
+									</div>
+								</a>
+								<!--/.item-horizontal small-->
+								<a href="item-detail.html" class="item-horizontal small">
+									<h3>Eddie’s Fast Food</h3>
+									<figure>4365 Bruce Street
+									</figure>
+									<div class="wrapper">
+										<div class="image">
+											<img src="assets/img/items/3.jpg" alt="">
+										</div>
+										<div class="info">
+											<div class="type">
+												<i><img
+													src="assets/icons/restaurants-bars/restaurants/restaurant.png"
+													alt=""></i> <span>Restaurant</span>
+											</div>
+											<div class="rating" data-rating="5"></div>
+										</div>
+									</div>
+								</a>
+								<!--/.item-horizontal small-->
+							</section>
+							<section>
+								<a href="#"><img src="assets/img/ad-banner-sidebar.png"
+									alt=""></a>
+							</section>
+							<section>
+								<header>
+									<h2>Categories</h2>
+								</header>
+								<ul class="bullets">
+									<li><a href="#">Restaurant</a></li>
+									<li><a href="#">Steak House & Grill</a></li>
+									<li><a href="#">Fast Food</a></li>
+									<li><a href="#">Breakfast</a></li>
+									<li><a href="#">Winery</a></li>
+									<li><a href="#">Bar & Lounge</a></li>
+									<li><a href="#">Pub</a></li>
+								</ul>
+							</section>
+							<section>
+								<header>
+									<h2>Events</h2>
+								</header>
+								<div class="form-group">
+									<select class="framed" name="events">
+										<option value="">Select Your City</option>
+										<option value="1">London</option>
+										<option value="2">New York</option>
+										<option value="3">Barcelona</option>
+										<option value="4">Moscow</option>
+										<option value="5">Tokyo</option>
+									</select>
+								</div>
+								<!-- /.form-group -->
+							</section>
+						</aside>
+						<!-- /#sidebar-->
+					</div>
+					<!-- /.col-md-3-->
+					<!--end Sidebar-->
 				</div>
 				<!-- /.row-->
 			</section>
@@ -340,16 +492,21 @@
 			<div class="panel panel-default" id="chat">
 				<div class="panel-heading top-bar">
 					<div class="col-md-8 col-xs-8">
-						<h3 class="panel-title">
+						<h5 class="panel-title">
 							<span class="glyphicon glyphicon-comment"></span> Chat - Miguel
-						</h3>
+						</h5>
+
+
 					</div>
 					<div class="col-md-4 col-xs-4" style="text-align: right;">
+
 						<a href="#"><span id="minim_chat_window"
-							class="glyphicon glyphicon-minus icon_minim"></span></a>
+							class="glyphicon glyphicon-minus icon_minim"></span></a> <a href="#"><span
+							class="glyphicon glyphicon-remove icon_close"
+							data-id="chat_window_1"></span></a>
 					</div>
 				</div>
-				<div class="panel-body msg_container_base" id="chatList">
+				<div class="panel-body msg_container_base" id='chatList'>
 					<div class="row msg_container base_sent">
 						<div class="col-md-10 col-xs-10">
 							<div class="messages msg_sent">
@@ -439,10 +596,9 @@
 					<div class="input-group">
 						<input id="inputText" type="text"
 							class="form-control input-sm chat_input"
-							placeholder="Write your message here..."/> <span
+							placeholder="Write your message here..." /> <span
 							class="input-group-btn">
-							<button class="btn btn-primary btn-sm" id="send">Send</button>
-
+							<button class="btn btn-primary btn-sm" id="sendBtn">Send</button>
 						</span>
 					</div>
 				</div>
@@ -468,75 +624,28 @@
 					Invisivel</a></li>
 		</ul>
 	</div>
-
 	<!--  chat 끝 -->
 
+
 	<script>
-    $(document).on('click', '.panel-heading span.icon_minim', function (e) {
-        var $this = $(this);
-        if (!$this.hasClass('panel-collapsed')) {
-            $this.parents('.panel').find('.panel-body').slideUp();
-            $this.addClass('panel-collapsed');
-            $this.removeClass('glyphicon-minus').addClass('glyphicon-plus');
-        } else {
-            $this.parents('.panel').find('.panel-body').slideDown();
-            $this.removeClass('panel-collapsed');
-            $this.removeClass('glyphicon-plus').addClass('glyphicon-minus');
-        }
-    });
-    $(document).on('focus', '.panel-footer input.chat_input', function (e) {
-        var $this = $(this);
-        if ($('#minim_chat_window').hasClass('panel-collapsed')) {
-            $this.parents('.panel').find('.panel-body').slideDown();
-            $('#minim_chat_window').removeClass('panel-collapsed');
-            $('#minim_chat_window').removeClass('glyphicon-plus').addClass('glyphicon-minus');
-        }
-    });
-    $(document).on('click', '#new_chat', function (e) {
-        var size = $( ".chat-window:last-child" ).css("margin-left");
-         size_total = parseInt(size) + 400;
-        alert(size_total);
-        var clone = $( "#chat_window_1" ).clone().appendTo( ".container" );
-        clone.css("margin-left", size_total);
-    });
-    $(document).on('click', '.icon_close', function (e) {
-        //$(this).parent().parent().parent().parent().remove();
-        $( "#chat_window_1" ).remove();
-    });
- // chat 부분 js 
-      var mapContainer = document.getElementById('map-detail'), // 지도를 표시할 div 
-         mapOption = {
-            center : new daum.maps.LatLng(${errands.errandsPos.latitude}, ${errands.errandsPos.longitude}), // 지도의 중심좌표
-            level : 3 // 지도의 확대 레벨
-         };
-   
-      var map = new daum.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
-   
-      // 마커가 표시될 위치입니다 
-      var markerPosition = new daum.maps.LatLng(${errands.errandsPos.latitude}, ${errands.errandsPos.longitude});
-   
-      // 마커를 생성합니다
-      var marker = new daum.maps.Marker({
-         position : markerPosition
-      });
-   
-      // 마커가 지도 위에 표시되도록 설정합니다
-      marker.setMap(map);
-      
-      var iwContent = '<div style="padding:5px;"><strong>주소</strong><br>${errands.errandsPos.addr}</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-       iwPosition = new daum.maps.LatLng(${errands.errandsPos.latitude}, ${errands.errandsPos.longitude}), //인포윈도우 표시 위치입니다
-       iwRemoveable = true; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
-
-    // 인포윈도우를 생성합니다
-       var infowindow = new daum.maps.InfoWindow({
-           position : iwPosition, 
-           content : iwContent 
-       });
-         
-       // 마커 위에 인포윈도우를 표시합니다. 두번째 파라미터인 marker를 넣어주지 않으면 지도 위에 표시됩니다
-       infowindow.open(map, marker); 
-
-   </script>
+		var itemID = 1;
+		$.getJSON('assets/json/items.json.txt')
+			.done(function(json) {
+				$.each(json.data, function(a) {
+					if (json.data[a].id == itemID) {
+						itemDetailMap(json.data[a]);
+					}
+				});
+			})
+			.fail(function(jqxhr, textStatus, error) {
+				console.log(error);
+			})
+		;
+		$(window).load(function() {
+			var rtl = false; // Use RTL
+			initializeOwl(rtl);
+		});
+	</script>
 
 	<!--[if lte IE 9]>
 <script type="text/javascript" src="assets/js/ie-scripts.js"></script>

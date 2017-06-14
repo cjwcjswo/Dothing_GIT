@@ -1,19 +1,96 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page import="java.util.*" %>
+<%@ page import="java.text.SimpleDateFormat" %>
 <!DOCTYPE html>
 <html>
 <head>
 
-<title>Spotter - Universal Directory Listing HTML Template</title>
+<title>심부름</title>
+<style type="text/css">
+/**
+알림 CSS
+**/
+.error {
+   width: 250px;
+   height: 20px;
+   height: auto;
+   position: fixed;
+   left: 50%;
+   margin-left: -125px;
+   bottom: 100px;
+   z-index: 9999;
+   background-color: #383838;
+   color: #F0F0F0;
+   font-family: Calibri;
+   font-size: 15px;
+   padding: 10px;
+   text-align: center;
+   border-radius: 2px;
+   -webkit-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
+   -moz-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
+   box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
+}
+</style>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/assets/js/jquery-2.1.0.min.js"></script>
 <script type="text/javascript"
 	src="//apis.daum.net/maps/maps3.js?apikey=900302937c725fa5d96ac225cbc2db10&libraries=services"></script>
+<script>
+	function clickDetail(num){
+		location.href="${pageContext.request.contextPath}/errand/detailView?num="+num;
+	}
+</script>
+<!-- SocketJS -->
+ <script type="text/javascript" src="${pageContext.request.contextPath}/resources/sockjs.js"></script>
+<script>
+	var today = '<%= new java.text.SimpleDateFormat("MM/dd HH:mm").format(new java.util.Date())%>'
+	var sock = new SockJS('/controller/errand/detailView');
+	var msg = '새로운 심부름이 등록되었습니다.';
+	
+	$(function(){
+		function sendMessage(){
+			if(${sessionScope.insertResult > 0}){
+				sock.send(msg);
+				alert('심부름 등록 성공?');
+			}
+		}
+		sendMessage();
+	});
+	
+	
+	sock.onopen = function() {
+	    $('#console').append('websocket opened' + '<br>');	
+	  	//스크롤 맨 아래로
+	 	document.getElementById('chatList').scrollTop = document.getElementById('chatList').scrollHeight;
+	};
+	
+	sock.onmessage = function(message) {
+		var receiveMessage = message.data;
+		alert("receiveMessage : "+receiveMessage);
+		//알림
+		$("#notification").val(receiveMessage);
+		$('.error').fadeIn(400).delay(3000).fadeOut(400);
+		
+		
+	 
+	};
+	/*
+	sock.onclose = function(event) {
+	    $('#console').append('websocket closed : ' + event);
+	};
+
+  */
+</script>	
+	
 </head>
 <body onunload=""
 	class="map-fullscreen page-homepage navigation-off-canvas"
 	id="page-top">
+
+	<!-- error -->
+	<div class='error' style='display: none' id='notification'></div>
 
 
 	<!-- Page Canvas-->
@@ -93,9 +170,9 @@
 									value="${errands.errandsPos.longitude}">
 								<input type="hidden" id="addr${state.index}"
 									value="${errands.errandsPos.addr}">
-								<li>
+								<li onclick="clickDetail(${errands.errandsNum})">
 									<div class="item">
-										<a href="#" class="image">
+										<a class="image">
 											<div class="inner">
 												<div class="item-specific">${errands.content}</div>
 												<c:if test="${errands.errandsPhoto != null}">
@@ -121,6 +198,7 @@
 											</div>
 										</div>
 									</div>
+				
 								</li>
 							</c:forEach>
 						</ul>

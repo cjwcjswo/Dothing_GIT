@@ -24,7 +24,7 @@
 	
 	<!-- websocket -->
 	<websocket:handlers>
-	    <websocket:mapping handler="webSocketHandler" path="/websocket" />
+	    <websocket:mapping handler="webSocketHandler" path="/errand/detailView" />
 	    <websocket:handshake-interceptors>
 	    	<beans:bean class="dothing.web.socket.handler.HandshakeInterceptor"/>
 	    </websocket:handshake-interceptors>
