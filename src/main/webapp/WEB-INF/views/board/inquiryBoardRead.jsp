@@ -22,7 +22,17 @@
 <!-- Latest compiled JavaScript -->
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
+<script type="text/javascript">
+function checkValid() {
+    var f = window.document.f;
+	
+	if ( f.reply_content.value == "" ) {
+		alert( "댓글 내용을 입력하세요." );
+		return false;
+	}	
+    return true;
+}
+</script>
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/board/inquiry/inquiryBoardRead.css">
 </head>
@@ -57,15 +67,19 @@
 				</div>
 				<div class="col">
 					<div class="panel-body">
-						<form role="form" method="post" action="${pageContext.request.contextPath}/board/insertReply">
-							
+						<form name="f" role="form" method="post" action="${pageContext.request.contextPath}/board/insertReply"
+						onsubmit="return checkValid()">
+
 							<fieldset>
 								<div class="form-group">
-									<textarea class="form-control" name="replyContent" rows="3" placeholder="댓글 내용~~~"
-										autofocus=""></textarea>
+									<textarea class="form-control" name="replyContent" rows="3"
+										placeholder="댓글 내용~~~" autofocus=""></textarea>
 								</div>
-								<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
-								<button type="submit"  class="[ btn btn-success ]"
+								<input type="hidden" name="board.inquiryNum"
+									value="${board.inquiryNum}">
+								<input type="hidden" name="${_csrf.parameterName}"
+									value="${_csrf.token}">
+								<button type="submit" class="[ btn btn-success ]"
 									data-loading-text="Loading...">댓글 달기</button>
 							</fieldset>
 						</form>

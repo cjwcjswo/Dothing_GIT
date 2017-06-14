@@ -9,6 +9,15 @@
 		<result column="inquiry_content" property="boardContent" />
 		<result column="inquiry_date" property="boardDate" />
 		<result column="readnum" property="readNum" />
+		
+		<collection property="reply" ofType="boardReplyDTO">
+		<id column="inquiry_reply_num" property="replyNum"/>
+		<result column="reply_content" property="replyContent"/>
+		<association property="board" javaType="boardDTO">
+		  <id column="inquiry_num" property="inquiryNum"/>
+		</association>
+		</collection>
+		
 	</resultMap>
 
 	<resultMap type="boardReplyDTO" id="replySelectMap">

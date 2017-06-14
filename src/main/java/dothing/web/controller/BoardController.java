@@ -21,6 +21,9 @@ public class BoardController {
 	@Autowired
 	private BoardService boardService;
 	
+	/**
+	 * 1대1게시판 보기
+	 */
 	@RequestMapping("/inquiryBoardList")
 	public ModelAndView list(){
 		
@@ -32,12 +35,17 @@ public class BoardController {
 		return mv;
 	}
 	
-	
+	/**
+	 * 게시판 글 쓰기뷰
+	 */
 	@RequestMapping("/inquiryBoardWrite")
 	public void write(){
 		
 	}
 	
+	/**
+	 * 게시판 글쓰기 기능
+	 */
 	@RequestMapping(value="/insert", produces="text/html;charset=UTF-8")
 	public String insert(Authentication auth,BoardDTO boardDTO)throws Exception{
 		String userId = ((MemberDTO)auth.getPrincipal()).getUserId();
@@ -112,8 +120,11 @@ public class BoardController {
 	 @RequestMapping("/insertReply")
 	 public String insertReply(BoardReplyDTO brDTO) throws Exception{
 		 boardService.insertReply(brDTO);
-		 
 		 return "redirect:/board/inquiryBoardRead/"+brDTO.getBoard().getInquiryNum();
 	 }
 	
+	 @RequestMapping("/faq")
+	 public void faq(){
+		 
+	 }
 }

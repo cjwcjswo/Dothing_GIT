@@ -50,7 +50,10 @@ public class BoardDAOImpl implements BoardDAO {
 	
 	@Override
 	public int insertReply(BoardReplyDTO brDTO){
-		System.out.println("확인: " + brDTO.getReplyContent());
+		System.out.println("확인:"+brDTO.getReplyContent());
+		System.out.println("확인:"+brDTO.getReplyNum());
+		System.out.println("확인:"+brDTO.getBoard().getInquiryNum());
+		
 		return sqlSession.insert("mapper.boardMapper.insertReply", brDTO);
 	}
 	
