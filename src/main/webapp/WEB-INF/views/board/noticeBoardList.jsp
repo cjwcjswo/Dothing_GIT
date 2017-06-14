@@ -57,10 +57,10 @@
 							<tbody align="left">								
 								<tr>
 									<td>
-									<a href="${pageContext.request.contextPath}/board/inquiryBoardRead/${boardDto.inquiryNum}"><h1>${boardDto.boardTitle}</h1></a>
+									<a href="${pageContext.request.contextPath}/board/noticeBoardRead/${boardDto.noticeNum}"><h1>${boardDto.noticeTitle}</h1></a>
 									<a><i class="fa fa-trash-o" data-toggle="tooltip" title="삭제하기"></i></a>
 									<a><i class="fa fa-pencil" data-toggle="tooltip" title="수정하기"></i></a>
-									<span style="color:#ff513f;">${boardDto.boardDate}</span>
+									<span style="color:#ff513f;">${boardDto.noticeDate}</span>
 									</td>
 								</tr>
 							</tbody>
