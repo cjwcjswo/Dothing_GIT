@@ -14,4 +14,9 @@ public interface MemberService {
 	 * ID중복체크
 	 * */
 	String selectSearch(String userId);
+	
+	/**
+	 * 정보수정
+	 */
+	int updateMember(MemberDTO member);
 }

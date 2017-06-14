@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,7 +17,7 @@
 		location.href = "${pageContext.request.contextPath}/errand/detailView?num=" + num;
 	}
 	$(function() {
-		$(document).on("click", "a[role='menuitem']", function(){
+		$(document).on("click", "a[role='menuitem']", function() {
 			$("#keyword").val($(this).text());
 			$("#hashDrop li").remove();
 			$(".dropdown-menu").hide();
@@ -29,23 +31,26 @@
 					type : "post",
 					dataType : "json",
 					data : "hash=" + $(this).val(),
-					beforeSend : function(xhr)
-                    {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
-                        xhr.setRequestHeader("${_csrf.headerName}", "${_csrf.token}");
-                    },
+					beforeSend : function(xhr) { /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+						xhr.setRequestHeader("${_csrf.headerName}", "${_csrf.token}");
+					},
 					success : function(result) {
 						var count = 0;
 						var re = "";
-						$.each(result['hashList'], function(index, item){
-			
-							count++;
-							var key = index;
-							var value = item;
-							re += "<li role='presentation'><a role='menuitem' tabindex='-1'>#"+key+"</a>[등록 태그 갯수 "+value+"개]</li><li role='presentation' class='divider'></li>";
-							if(count == 5) return false;
-						});
-						count = 0;
-						$("#hashDrop").append(re)
+						if (Object.keys(result.hashList).length == 0) {
+							$("#hashDrop li").remove();
+							$(".dropdown-menu").hide();
+						} else {
+							$.each(result['hashList'], function(index, item) {
+								count++;
+								var key = index;
+								var value = item;
+								re += "<li role='presentation'><a role='menuitem' tabindex='-1'>#" + key + "</a>[등록 태그 갯수 " + value + "개]</li><li role='presentation' class='divider'></li>";
+								if (count == 5) return false;
+							});
+							count = 0;
+							$("#hashDrop").append(re)
+						}
 					},
 					error : function(err) {
 						alert(err);
@@ -105,7 +110,7 @@
 											id="keyword" placeholder="해시태그(ex: #꿀알바)">
 										<ul class="dropdown-menu" role="menu"
 											aria-labelledby="dropdownMenu1" id="hashDrop">
-							
+
 										</ul>
 									</div>
 								</div>
@@ -173,7 +178,10 @@
 												<h3>${errands.title}</h3>
 											</a>
 											<figure>${errands.errandsPos.addr}</figure>
-											<div class="price">${errands.errandsPrice}원</div>
+											<div class="price">
+												<fmt:formatNumber value="${errands.errandsPrice}" />
+												원
+											</div>
 											<div class="info">
 												<div class="type">
 													<span>${errands.endTime}</span>
@@ -961,7 +969,7 @@
 		}
 		$('.map .toggle-navigation').click(function() {
 			$('.map-canvas').toggleClass('results-collapsed');
-			map.relayout();
+			setTimeout("mapRe()", 1000)
 	
 		});
 		// Set if language is RTL and load Owl Carousel

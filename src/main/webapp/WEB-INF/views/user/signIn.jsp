@@ -21,7 +21,7 @@
 
 		$("#userId").keyup(function() {
 			if ($(this).val() == '') {
-				$('#form span').text('중복여부');
+				$('#form span[attr="dup"]').text('중복여부');
 				return;
 			}
 			$.ajax({
@@ -196,103 +196,140 @@
 </script>
 </head>
 
-<body>
+<body onunload="" class="page-subpage page-submit navigation-off-canvas"
+	id="page-top">
+
+	<!-- Page Canvas-->
+	<div id="page-canvas">
+		<!--Off Canvas Navigation-->
+		<nav class="off-canvas-navigation">
+			<header>Navigation</header>
+			<div class="main-navigation navigation-off-canvas"></div>
+		</nav>
+		<!--end Off Canvas Navigation-->
+
+		<!--Sub Header-->
+		<section class="sub-header">
+			<div class="search-bar horizontal collapse" id="redefine-search-form"></div>
+			<!-- /.search-bar -->
+			<div class="breadcrumb-wrapper">
+				<div class="container">
+					<div class="redefine-search">
+						<a href="#redefine-search-form" class="inner"
+							data-toggle="collapse" aria-expanded="false"
+							aria-controls="redefine-search-form"> <span class="icon"></span>
+							<span>Redefine Search</span>
+						</a>
+					</div>
+					<ol class="breadcrumb">
+						<li><a href="${pageContext.request.contextPath}/"><i
+								class="fa fa-home"></i></a></li>
+
+						<li class="active">회원 가입</li>
+					</ol>
+					<!-- /.breadcrumb-->
+				</div>
+				<!-- /.container-->
+			</div>
+			<!-- /.breadcrumb-wrapper-->
+		</section>
+		<!--end Sub Header-->
+		<!--Page Content-->
+		<div id="page-content">
+			<section class="container">
+				<div class="block">
+					<div class="row">
+						<div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3">
+							<header>
+								<h1 class="page-title">회원가입</h1>
+							</header>
+							<hr>
+							<form method="post" id="form" name="form"
+								action="${pageContext.request.contextPath}/user/join"
+								enctype="multipart/form-data" onSubmit="return checkValid();">
+								<input type="hidden" name="${_csrf.parameterName}"
+									value="${_csrf.token}">
+								<div class="form-group" align="center" id="holder">
+									<img
+										src="${pageContext.request.contextPath}/resources/img/anonymous-icon-16523.png"
+										class="img-circle" width="200" height="200">
+
+								</div>
+								<div class="form-group">
+									<label for="form-register-full-name">ID</label> <input
+										type="text" class="form-control" name="userId" id="userId">
+								</div>
+								<div class="form-group">
+									<span class="form-control" placeholder="ID중복여부" attr="dup">ID중복여부</span>
+								</div>
+								<!-- /.form-group -->
+								<div class="form-group">
+									<label for="form-register-email">Email:</label> <input
+										type="email" class="form-control" name="email" id="email">
+								</div>
+								<!-- /.form-group -->
+								<div class="form-group">
+									<label for="form-register-password">비밀번호:</label> <input
+										type="password" class="form-control" name="password"
+										id="password">
+								</div>
+								<!-- /.form-group -->
+								<div class="form-group">
+									<label for="form-register-confirm-password">비밀번호 확인 :</label> <input
+										type="password" class="form-control" name="password-repeat"
+										id="password-repeat">
+								</div>
+
+								<div class="form-group">
+									<label for="form-register-full-name">이름</label> <input
+										type="text" class="form-control" name="name" id="name">
+								</div>
+
+								<div class="form-group">
+									<label for="form-register-full-name">핸드폰 번호</label> <input
+										type="text" class="form-control" id="form-register-full-name"
+										name="phone" id="phone"> <a href="#"><span
+										class="glyphicon glyphicon-phone-alt" style="margin: auto"></span>핸드폰
+										인증하기</a>
+								</div>
+								<br>
+								<div class="form-group">
+									<input class="form-control" type="text" name="preAddr"
+										id="sample5_address" placeholder="주소" readonly="readonly" />
+									<input class="form-control" type="text" name="detailAddr"
+										id="addr-detail" placeholder="상세주소" />
+									<button type="button" onClick="sample5_execDaumPostcode()">
+										<span class="glyphicon glyphicon-home" style="margin: auto"></span>주소찾기
+									</button>
+								</div>
+								<div class=" form-group">
+									<label for="form-register-full-name">성별</label> <input
+										type="radio" name="sex" id="man" value="man">Man <input
+										type="radio" id="woman" name="sex" value="woman">Woman
+
+								</div>
+								<div class="form-group">
+									<label for="form-register-full-name">프로필 사진 업로드</label> <input
+										class="form-control" type="file" name="selfImgFile"
+										id="upload" />
+								</div>
 
 
-	<!--Page Content-->
-	<div id="page-content">
-		<section class="container">
-			<div class="block">
-				<div class="row">
-					<div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3">
-						<header>
-							<h1 class="page-title">회원가입</h1>
-						</header>
-						<hr>
-						<form method="post" id="form" name="form"
-							action="${pageContext.request.contextPath}/user/join"
-							enctype="multipart/form-data" onSubmit="return checkValid();">
-							<input type="hidden" name="${_csrf.parameterName}"
-								value="${_csrf.token}">
-							<div class="form-group" align="center" id="holder">
-								<img
-									src="${pageContext.request.contextPath}/resources/img/anonymous-icon-16523.png"
-									class="img-circle" width="200" height="200">
-
-							</div>
-							<div class="form-group">
-								<label for="form-register-full-name">ID</label> <input
-									type="text" class="form-control" name="userId" id="userId">
-							</div>
-							<div class="form-group">
-								<span class="form-control" placeholder="ID중복여부" attr="dup">ID중복여부</span>
-							</div>
-							<!-- /.form-group -->
-							<div class="form-group">
-								<label for="form-register-email">Email:</label> <input
-									type="email" class="form-control" name="email" id="email">
-							</div>
-							<!-- /.form-group -->
-							<div class="form-group">
-								<label for="form-register-password">비밀번호:</label> <input
-									type="password" class="form-control" name="password"
-									id="password">
-							</div>
-							<!-- /.form-group -->
-							<div class="form-group">
-								<label for="form-register-confirm-password">비밀번호 확인 :</label> <input
-									type="password" class="form-control" name="password-repeat"
-									id="password-repeat">
-							</div>
-
-							<div class="form-group">
-								<label for="form-register-full-name">이름</label> <input
-									type="text" class="form-control" name="name" id="name">
-							</div>
-
-							<div class="form-group">
-								<label for="form-register-full-name">핸드폰 번호</label> <input
-									type="text" class="form-control" id="form-register-full-name"
-									name="phone" id="phone"> <a href="#"><span
-									class="glyphicon glyphicon-phone-alt" style="margin: auto"></span>핸드폰
-									인증하기</a>
-							</div>
-							<br>
-							<div class="form-group">
-								<input class="form-control" type="text" name="address"
-									id="sample5_address" placeholder="주소" readonly="readonly" /> <input
-									class="form-control" type="text" name="detailAddr"
-									id="addr-detail" placeholder="상세주소" />
-								<button type="button" onClick="sample5_execDaumPostcode()">
-									<span class="glyphicon glyphicon-home" style="margin: auto"></span>주소찾기
-								</button>
-							</div>
-							<div class=" form-group">
-								<label for="form-register-full-name">성별</label> <input
-									type="radio" name="sex" id="man" value="man">Man <input
-									type="radio" id="woman" name="sex" value="woman">Woman
-
-							</div>
-							<div class="form-group">
-								<label for="form-register-full-name">프로필 사진 업로드</label> <input
-									class="form-control" type="file" name="selfImgFile" id="upload" />
-							</div>
-
-
-							<div class="form-group clearfix">
-								<button type="submit" class="btn pull-right btn-default"
-									id="account-submit">계정 생성하기</button>
-							</div>
-							<!-- /.form-group -->
-						</form>
-						<hr>
+								<div class="form-group clearfix">
+									<button type="submit" class="btn pull-right btn-default"
+										id="account-submit">계정 생성하기</button>
+								</div>
+								<!-- /.form-group -->
+							</form>
+							<hr>
+						</div>
 					</div>
 				</div>
-			</div>
-		</section>
-		<!-- /.block-->
+			</section>
+			<!-- /.block-->
+		</div>
+		<!-- end Page Content-->
 	</div>
-	<!-- end Page Content-->
 
 
 	<script>
@@ -347,7 +384,7 @@
 	
 						// 주소 정보를 해당 필드에 넣는다.
 						document.getElementById("sample5_address").value = fullAddr;
-					
+	
 					}
 				}).open();
 		}

@@ -19,5 +19,14 @@ public interface MemberDAO {
 	 * */
 	MemberDTO selectSearch(String userId);
 	
+	/**
+	 * 초기 포인트 생성
+	 */
+	int createPoint(String userId);
+	
+	/**
+	 * 정보 수정
+	 */
+	int updateMember(MemberDTO member);
 	
 }
