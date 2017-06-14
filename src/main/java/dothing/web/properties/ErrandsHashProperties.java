@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
@@ -27,5 +28,14 @@ public class ErrandsHashProperties {
 		System.out.println(properties);
 		properties.store(new FileWriter("C:\\CJW\\DoThingProject\\hash\\errandsHash.properties",false), "");
 		return 1;
+	}
+	
+	public void loadHashtag() throws FileNotFoundException, IOException{
+		Properties properties = new Properties();
+		properties.load(new FileReader("C:\\CJW\\DoThingProject\\hash\\errandsHash.properties"));
+		Iterator<Object> iter = properties.keySet().iterator();
+		while(iter.hasNext()){
+			
+		}
 	}
 }

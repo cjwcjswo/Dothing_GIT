@@ -3,7 +3,7 @@
 <mapper namespace="memberMapper">
 
 <sql id="memberColumn">
-	MEMBER_ID, NAME, PASSWORD, EMAIL, SELF_IMG, SSN_IMG, ADDR, PHONE, SEX
+	MEMBER_ID, NAME, PASSWORD, EMAIL, SELF_IMG, ADDR, PHONE, SEX
 </sql>
 
 <resultMap type="memberDTO" id="memberSelectMap">
@@ -28,7 +28,7 @@
 <!-- 회원가입 -->
 <insert id="insertMember" parameterType="memberDTO">
 	insert into member(<include refid="memberColumn"/>)
-	values(#{userId},#{name},#{password},#{email},#{selfImg},'abcd.jpg',#{addr},#{phone},#{sex})
+	values(#{userId},#{name},#{password},#{email},#{selfImg},#{addr},#{phone},#{sex})
 </insert>
 
 <!-- ID 중복체크 -->

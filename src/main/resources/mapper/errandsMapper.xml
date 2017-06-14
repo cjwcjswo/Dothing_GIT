@@ -63,4 +63,20 @@
 	<select id="countErrands" resultType="int">
 		select count(*) from ERRANDS
 	</select>
+	
+	<select id="searchErrands" resultMap="errandsMap" parameterType="map">
+		select * from ERRANDS_REPLY_VIEW
+		<where>
+		 <if test="minPrice != null">
+		 	ERRANDS_PRICE &gt; #{minPrice}
+		 </if>
+		 <if test="maxPrice != null">
+		 	AND ERRANDS_PRICE &lt; #{maxPrice}
+		 </if>
+		 <if test="hash != null">
+		 	AND CONTENT like #{hash}
+		 </if>
+		</where>
+		order by ERRANDS_NUM desc
+	</select>
 </mapper>

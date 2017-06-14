@@ -1,50 +1,50 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>Insert title here</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/fonts/ionicons.min.css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/signUp.css">
 
-<script src="${pageContext.request.contextPath}/assets/js/jquery-2.1.0.min.js"></script>
+<link
+	href="${pageContext.request.contextPath}/assets/fonts/font-awesome.css"
+	rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700'
+	rel='stylesheet' type='text/css'>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/assets/js/jquery-2.1.0.min.js"></script>
+<title>íšŒì›ê°€ì…</title>
 
 <script type="text/javascript">
+	$(function() {
 
-$(function(){
-	
-	$("#userId").keyup(function(){
-		 if($(this).val()==''){
-			 $('#form span').text('Áßº¹¿©ºÎ');
-			 return;
-		 }
-		 $.ajax({
-				url:"${pageContext.request.contextPath}/user/check",
-				type:"post",
-				data:"userId="+$(this).val()+"&_csrf=${_csrf.token}",
-				dataType:"text",
-				success:function(result){	
-					if(result=="»ç¿ëÁßÀÔ´Ï´Ù"){
-						$('#btn').attr("disabled",true);
-					}else{
-						$('#btn').attr("disabled",false);
+		$("#userId").keyup(function() {
+			if ($(this).val() == '') {
+				$('#form span').text('ì¤‘ë³µì—¬ë¶€');
+				return;
+			}
+			$.ajax({
+				url : "${pageContext.request.contextPath}/user/check",
+				type : "post",
+				data : "userId=" + $(this).val() + "&_csrf=${_csrf.token}",
+				dataType : "text",
+				success : function(result) {
+					if (result == "ì‚¬ìš©ì¤‘ì…ë‹ˆë‹¤") {
+						$('#btn').attr("disabled", true);
+					} else {
+						$('#btn').attr("disabled", false);
 					}
-					$('#form span').text(result);
+					$('#form span[attr="dup"]').text(result);
 				},
-				error:function(err){
+				error : function(err) {
 					alert("err = " + err)
-				}				 
-			 	})
-			 });
-})
+				}
+			})
+		});
+	})
 	function checkValid() {
-		var login_id = document.getElementById("userId"); //html ¿¡¼­ ¼³Á¤ÇÑ id°ªÀ» º¯¼ölogin_id ¿¡ ÀúÀå
+		var login_id = document.getElementById("userId"); //html ì—ì„œ ì„¤ì •í•œ idê°’ì„ ë³€ìˆ˜login_id ì— ì €ì¥
 		var login_pw = document.getElementById("password");
 		var login_pw2 = document.getElementById("password-repeat");
 		var login_email = document.getElementById("email");
@@ -52,270 +52,309 @@ $(function(){
 		var login_pnum = document.getElementById("phone");
 		var login_man = document.getElementById("man");
 		var login_woman = document.getElementById("woman");
-		var login_addr = document.getElementById("addr");
+		var login_addr = document.getElementById("sample5_address");
 		var login_daddr = document.getElementById("addr-detail");
 		var login_pic = document.getElementById("upload");
-		
-		//¾ÆÀÌµğ ÀÔ·Â¿©ºÎ °Ë»ç
-		if (login_id.value == "") { //idÀÇ °ªÀÌ nullÀÌ¸é Ã¢ ¶ç¿ì°í Ä¿¼­ ¿Å±è
-			alert("¾ÆÀÌµğ¸¦ ÀÔ·ÂÇÏ¼¼¿ä");
+
+		//ì•„ì´ë”” ì…ë ¥ì—¬ë¶€ ê²€ì‚¬
+		if (login_id.value == "") { //idì˜ ê°’ì´ nullì´ë©´ ì°½ ë„ìš°ê³  ì»¤ì„œ ì˜®ê¹€
+			alert("ì•„ì´ë””ë¥¼ ì…ë ¥í•˜ì„¸ìš”");
 			login_id.focus();
 			return false;
-		};
+		}
+		;
 
-		//¾ÆÀÌµğ À¯È¿¼º °Ë»ç(¿µ¾î¼Ò¹®ÀÚ, ¼ıÀÚ¸¸ Çã¿ë)
+		//ì•„ì´ë”” ìœ íš¨ì„± ê²€ì‚¬(ì˜ì–´ì†Œë¬¸ì, ìˆ«ìë§Œ í—ˆìš©)
 		for (var i = 0; i < login_id.value.length; i++) {
 			ch = login_id.value.charAt(i)
 			if (!(ch >= '0' && ch <= '9') && !(ch >= 'a' && ch <= 'z')) {
-				alert("¾ÆÀÌµğ´Â ¼Ò¹®ÀÚ, ¼ıÀÚ¸¸ ÀÔ·Â°¡´ÉÇÕ´Ï´Ù.")
+				alert("ì•„ì´ë””ëŠ” ì†Œë¬¸ì, ìˆ«ìë§Œ ì…ë ¥ê°€ëŠ¥í•©ë‹ˆë‹¤.")
 				login_id.focus()
 				login_id.select()
 				login_id.value = ""
 				return false;
 			}
-		};
+		}
+		;
 
-		//¾ÆÀÌµğ ±æÀÌÃ¼Å©
+		//ì•„ì´ë”” ê¸¸ì´ì²´í¬
 		if (login_id.value.length < 3 || login_id.value.length > 12) {
-			alert("¾ÆÀÌµğ¸¦ 3~12ÀÚ ±îÁö ÀÔ·ÂÇØÁÖ¼¼¿ä.")
+			alert("ì•„ì´ë””ë¥¼ 3~12ì ê¹Œì§€ ì…ë ¥í•´ì£¼ì„¸ìš”.")
 			login_id.focus()
 			login_id.select()
 			return false;
-		};
+		}
+		;
 
-		//ÆĞ½º¿öµå ÀÔ·Â¿©ºÎ °Ë»ç
+		//íŒ¨ìŠ¤ì›Œë“œ ì…ë ¥ì—¬ë¶€ ê²€ì‚¬
 		if (login_pw.value == "") {
-			alert("ºñ¹Ğ¹øÈ£¸¦ ÀÔ·ÂÇÏ¼¼¿ä");
+			alert("ë¹„ë°€ë²ˆí˜¸ë¥¼ ì…ë ¥í•˜ì„¸ìš”");
 			login_pw.focus();
 			return false;
-		};
+		}
+		;
 
-		//ÆĞ½º¿öµå ±æÀÌÃ¼Å©
+		//íŒ¨ìŠ¤ì›Œë“œ ê¸¸ì´ì²´í¬
 		if (login_pw.value.length < 4 || login_pw.value.length > 8) {
-			alert("ÆĞ½º¿öµå¸¦ 4~8ÀÚ ±îÁö ÀÔ·ÂÇØÁÖ¼¼¿ä.")
+			alert("íŒ¨ìŠ¤ì›Œë“œë¥¼ 4~8ì ê¹Œì§€ ì…ë ¥í•´ì£¼ì„¸ìš”.")
 			login_pw.focus()
 			login_pw.select()
 			return false;
-		};
+		}
+		;
 
-		//ÆĞ½º¿öµå¿Í ÆĞ½º¿öµå È®ÀÎ ÀÏÄ¡¿©ºÎ Ã¼Å©
+		//íŒ¨ìŠ¤ì›Œë“œì™€ íŒ¨ìŠ¤ì›Œë“œ í™•ì¸ ì¼ì¹˜ì—¬ë¶€ ì²´í¬
 		if (login_pw.value != login_pw2.value) {
-			alert("ÆĞ½º¿öµå°¡ ÀÏÄ¡ÇÏÁö¾Ê½À´Ï´Ù")
+			alert("íŒ¨ìŠ¤ì›Œë“œê°€ ì¼ì¹˜í•˜ì§€ì•ŠìŠµë‹ˆë‹¤")
 			login_pw.value = ""
 			login_pw2.value = ""
 			return false;
-		};
-		//ÀÌ¸ŞÀÏ ÀÔ·Â¿©ºÎ °Ë»ç
+		}
+		;
+		//ì´ë©”ì¼ ì…ë ¥ì—¬ë¶€ ê²€ì‚¬
 		if (login_email.value == "") {
-			alert("ÀÌ¸ŞÀÏÀ» ÀÔ·ÂÇÏ¼¼¿ä");
+			alert("ì´ë©”ì¼ì„ ì…ë ¥í•˜ì„¸ìš”");
 			login_email.focus();
 			return false;
-		};
+		}
+		;
 
-		//ÀÌ¸ŞÀÏ Çü½ÄÃ¼Å© (@,'.' °¡ ÀÖ¾Æ¾ßÇÔ) 
+		//ì´ë©”ì¼ í˜•ì‹ì²´í¬ (@,'.' ê°€ ìˆì•„ì•¼í•¨) 
 		if (((login_email.value.indexOf('@')) <= 0) || (login_email.value.indexOf('.') <= 0)) {
-			alert("Á¤»óÀûÀÎ ÀÌ¸ŞÀÏÀÌ ¾Æ´Õ´Ï´Ù.")
-			
+			alert("ì •ìƒì ì¸ ì´ë©”ì¼ì´ ì•„ë‹™ë‹ˆë‹¤.")
+
 			login_email.focus();
 			return false;
-		};
-		//ÀÌ¸§ ÀÔ·Â¿©ºÎ °Ë»ç
+		}
+		;
+		//ì´ë¦„ ì…ë ¥ì—¬ë¶€ ê²€ì‚¬
 		if (login_name.value == "") {
-			alert("ÀÌ¸§À» ÀÔ·ÂÇÏ¼¼¿ä");
+			alert("ì´ë¦„ì„ ì…ë ¥í•˜ì„¸ìš”");
 			login_name.focus();
 			return false;
-		};
+		}
+		;
 
-		//ÀüÈ­¹øÈ£ ÀÔ·Â¿©ºÎ °Ë»ç
+		//ì „í™”ë²ˆí˜¸ ì…ë ¥ì—¬ë¶€ ê²€ì‚¬
 		if (login_pnum.value == "") {
-			alert("ÀüÈ­¹øÈ£¸¦ ÀÔ·ÂÇÏ¼¼¿ä");
+			alert("ì „í™”ë²ˆí˜¸ë¥¼ ì…ë ¥í•˜ì„¸ìš”");
 			login_pnum.focus();
 			return false;
-		};
+		}
+		;
 
-		//ÀüÈ­¹øÈ£ ±æÀÌÃ¼Å©
+		//ì „í™”ë²ˆí˜¸ ê¸¸ì´ì²´í¬
 		if (login_pnum.value.length < 10 || login_pnum.value.length > 11) {
-			alert("ÀüÈ­¹øÈ£¸¦ ´Ù½Ã ÀÔ·ÂÇØ ÁÖ¼¼¿ä.")
+			alert("ì „í™”ë²ˆí˜¸ë¥¼ ë‹¤ì‹œ ì…ë ¥í•´ ì£¼ì„¸ìš”.")
 			login_pw.focus()
 			login_pw.select()
 			return false;
-		};
-
-		//¼ºº° ÀÔ·Â¿©ºÎ °Ë»ç
-		  var oRadio = document.getElementsByName("sex");  // °´Ã¼¸¦ ¹è¿­·Î »ı¼º
-		  var sCheck = "N";      // Ã¼Å©¹Ú½º Ã¼Å©À¯¹« Ã¼Å©
-		  for (i = 0; i < oRadio.length; i++) {
-		       if (oRadio[i].checked) {
-		           // Ã¼Å©°¡ µÇ¾îÀÖ´Ù¸é ºüÁ®³ª°£´Ù.
-		           sCheck = "Y"           
-		           break;
-		       }
-		 }
-		// Ã¼Å© µÈ°Ô ¾ø´Ù¸é ¸Ş¼¼Áö ¹Ú½º¸¦ ¶ç¿î´Ù
-		 if (sCheck == "N") {
-		     alert("¼ºº°À» ¼±ÅÃÇÏ¼¼¿ä!")
-		     return false;
 		}
-		
-		//ÁÖ¼Ò ÀÔ·Â¿©ºÎ °Ë»ç
+		;
+
+		//ì„±ë³„ ì…ë ¥ì—¬ë¶€ ê²€ì‚¬
+		var oRadio = document.getElementsByName("sex"); // ê°ì²´ë¥¼ ë°°ì—´ë¡œ ìƒì„±
+		var sCheck = "N"; // ì²´í¬ë°•ìŠ¤ ì²´í¬ìœ ë¬´ ì²´í¬
+		for (i = 0; i < oRadio.length; i++) {
+			if (oRadio[i].checked) {
+				// ì²´í¬ê°€ ë˜ì–´ìˆë‹¤ë©´ ë¹ ì ¸ë‚˜ê°„ë‹¤.
+				sCheck = "Y"
+				break;
+			}
+		}
+		// ì²´í¬ ëœê²Œ ì—†ë‹¤ë©´ ë©”ì„¸ì§€ ë°•ìŠ¤ë¥¼ ë„ìš´ë‹¤
+		if (sCheck == "N") {
+			alert("ì„±ë³„ì„ ì„ íƒí•˜ì„¸ìš”!")
+			return false;
+		}
+
+		//ì£¼ì†Œ ì…ë ¥ì—¬ë¶€ ê²€ì‚¬
 		if (login_addr.value == "") {
-			alert("ÁÖ¼Ò¸¦ ÀÔ·ÂÇÏ¼¼¿ä");
+			alert("ì£¼ì†Œë¥¼ ì…ë ¥í•˜ì„¸ìš”");
 			login_addr.focus();
 			return false;
-		};
+		}
+		;
 
-		//»ó¼¼ÁÖ¼Ò ÀÔ·Â¿©ºÎ °Ë»ç
+		//ìƒì„¸ì£¼ì†Œ ì…ë ¥ì—¬ë¶€ ê²€ì‚¬
 		if (login_daddr.value == "") {
-			alert("»ó¼¼ÁÖ¼Ò¸¦ ÀÔ·ÂÇÏ¼¼¿ä");
+			alert("ìƒì„¸ì£¼ì†Œë¥¼ ì…ë ¥í•˜ì„¸ìš”");
 			login_daddr.focus();
 			return false;
-		};
+		}
+		;
 
-		//ÇÁ·ÎÇÊ»çÁø ÀÔ·Â¿©ºÎ °Ë»ç
+		//í”„ë¡œí•„ì‚¬ì§„ ì…ë ¥ì—¬ë¶€ ê²€ì‚¬
 		if (login_pic.value == "") {
-			alert("ÇÁ·ÎÇÊ»çÁøÀ» ÀÔ·ÂÇÏ¼¼¿ä");
+			alert("í”„ë¡œí•„ì‚¬ì§„ì„ ì…ë ¥í•˜ì„¸ìš”");
 			login_pic.focus();
 			return false;
-		};
+		}
+		;
 		return true;
 	}
-	
-
 </script>
-
 </head>
+
 <body>
-	<div class="register-photo">
-		<div class="form-container">
-			<div class="image-holder"></div>
-			<form method="post" id="form"
-				action="${pageContext.request.contextPath}/user/join"
-				enctype="multipart/form-data" onSubmit="return checkValid();">
-
-				<input type="hidden" name="${_csrf.parameterName}"
-					value="${_csrf.token}">
-
-				<h2 class="text-center">
-					<strong>Create</strong> an account.
-				</h2>
-
-				<div class="form-group" align="center" id="holder">
-					<img
-						src="${pageContext.request.contextPath}/resources/img/anonymous-icon-16523.png"
-						class="img-circle" width="200" height="200">
-
-				</div>
-
-				<div class="form-group">
-					<input class="form-control" type="text" name="userId" id="userId"
-						placeholder="Id">
-				</div>
-				
-				<div class="form-group">
-					<span class="form-control" placeholder="IDÁßº¹¿©ºÎ">IDÁßº¹¿©ºÎ</span>
-				</div>
-
-				<div class="form-group">
-					<input class="form-control" type="password" name="password" id="password"
-						placeholder="Password">
-				</div>
-
-				<div class="form-group">
-					<input class="form-control" type="password" name="password-repeat" id="password-repeat"
-						placeholder="Password (repeat)">
-				</div>
-
-				<div class="form-group">
-					<input class="form-control" type="text" name="email" id="email"
-						placeholder="email">
-				</div>
-
-				<div class="form-group">
-					<input class="form-control" type="text" name="name" id="name"
-						placeholder="name">
-				</div>
-
-				<div class="form-group">
-
-					<input class="form-control" type="text" name="phone" id="phone"
-						placeholder="phone"> <a href="#"><span
-						class="glyphicon glyphicon-phone-alt" style="margin: auto"></span>ÇÚµåÆù
-						ÀÎÁõÇÏ±â</a>
-
-				</div>
 
 
-				<div class=" form=group">
-					<label class="radio-inline"> <input type="radio" name="sex" id="man"
-						value="man">Man
-					</label> <label class="radio-inline"> <input type="radio" id="woman"
-						name="sex" value="woman">Woman
-					</label>
-				</div>
-				<br>
+	<!--Page Content-->
+	<div id="page-content">
+		<section class="container">
+			<div class="block">
+				<div class="row">
+					<div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3">
+						<header>
+							<h1 class="page-title">íšŒì›ê°€ì…</h1>
+						</header>
+						<hr>
+						<form method="post" id="form" name="form"
+							action="${pageContext.request.contextPath}/user/join"
+							enctype="multipart/form-data" onSubmit="return checkValid();">
+							<input type="hidden" name="${_csrf.parameterName}"
+								value="${_csrf.token}">
+							<div class="form-group" align="center" id="holder">
+								<img
+									src="${pageContext.request.contextPath}/resources/img/anonymous-icon-16523.png"
+									class="img-circle" width="200" height="200">
 
-				<div class="form-group">
-					<input class="form-control" type="text" name="address" id="addr"
-						placeholder="address" /> <input class="form-control" type="text"
-						name="addr" id="addr-detail" placeholder="»ó¼¼ÁÖ¼Ò" /> <a href="#"><span
-						class="glyphicon glyphicon-home" style="margin: auto"></span>ÁÖ¼ÒÃ£±â</a>
-				</div>
+							</div>
+							<div class="form-group">
+								<label for="form-register-full-name">ID</label> <input
+									type="text" class="form-control" name="userId" id="userId">
+							</div>
+							<div class="form-group">
+								<span class="form-control" placeholder="IDì¤‘ë³µì—¬ë¶€" attr="dup">IDì¤‘ë³µì—¬ë¶€</span>
+							</div>
+							<!-- /.form-group -->
+							<div class="form-group">
+								<label for="form-register-email">Email:</label> <input
+									type="email" class="form-control" name="email" id="email">
+							</div>
+							<!-- /.form-group -->
+							<div class="form-group">
+								<label for="form-register-password">ë¹„ë°€ë²ˆí˜¸:</label> <input
+									type="password" class="form-control" name="password"
+									id="password">
+							</div>
+							<!-- /.form-group -->
+							<div class="form-group">
+								<label for="form-register-confirm-password">ë¹„ë°€ë²ˆí˜¸ í™•ì¸ :</label> <input
+									type="password" class="form-control" name="password-repeat"
+									id="password-repeat">
+							</div>
 
-				<div class="form-group">
-					<a href="#"><span class="glyphicon glyphicon-picture"
-						style="margin: auto"></span>ÇÁ·ÎÇÊ »çÁø ¿Ã¸®±â</a> <input class="form-control"
-						type="file" name="selfImgFile" placeholder="picture" id="upload" />
-				</div>
-				<script>
-				
-					var upload = document.getElementById('upload'),
-						holder = document.getElementById('holder');
-				
-				
-					upload.onchange = function(e) {
-						e.preventDefault();
-				
-						var file = upload.files[0],
-							reader = new FileReader();
-						reader.onload = function(event) {
-							var img = new Image();
-							img.src = event.target.result;
-							img.width = 200;
-							img.height = 200;
-							holder.innerHTML = '';
-							holder.appendChild(img);
-						};
-						reader.readAsDataURL(file);
-				
-						return false;
-					};
-				</script>
+							<div class="form-group">
+								<label for="form-register-full-name">ì´ë¦„</label> <input
+									type="text" class="form-control" name="name" id="name">
+							</div>
+
+							<div class="form-group">
+								<label for="form-register-full-name">í•¸ë“œí° ë²ˆí˜¸</label> <input
+									type="text" class="form-control" id="form-register-full-name"
+									name="phone" id="phone"> <a href="#"><span
+									class="glyphicon glyphicon-phone-alt" style="margin: auto"></span>í•¸ë“œí°
+									ì¸ì¦í•˜ê¸°</a>
+							</div>
+							<br>
+							<div class="form-group">
+								<input class="form-control" type="text" name="address"
+									id="sample5_address" placeholder="ì£¼ì†Œ" readonly="readonly" /> <input
+									class="form-control" type="text" name="detailAddr"
+									id="addr-detail" placeholder="ìƒì„¸ì£¼ì†Œ" />
+								<button type="button" onClick="sample5_execDaumPostcode()">
+									<span class="glyphicon glyphicon-home" style="margin: auto"></span>ì£¼ì†Œì°¾ê¸°
+								</button>
+							</div>
+							<div class=" form-group">
+								<label for="form-register-full-name">ì„±ë³„</label> <input
+									type="radio" name="sex" id="man" value="man">Man <input
+									type="radio" id="woman" name="sex" value="woman">Woman
+
+							</div>
+							<div class="form-group">
+								<label for="form-register-full-name">í”„ë¡œí•„ ì‚¬ì§„ ì—…ë¡œë“œ</label> <input
+									class="form-control" type="file" name="selfImgFile" id="upload" />
+							</div>
 
 
-
-
-				<br>
-				<div class="form-group">
-					<div class="checkbox">
-						<label class="control-label"> <input type="checkbox">I
-							agree to the license terms.
-						</label>
+							<div class="form-group clearfix">
+								<button type="submit" class="btn pull-right btn-default"
+									id="account-submit">ê³„ì • ìƒì„±í•˜ê¸°</button>
+							</div>
+							<!-- /.form-group -->
+						</form>
+						<hr>
 					</div>
 				</div>
-
-
-				<div class="form-group">
-					<button class="btn btn-primary btn-block" type="submit" id="btn">Sign
-						Up</button>
-				</div>
-				<a href="#" class="already">You already have an account? Login
-					here.</a>
-			</form>
-		</div>
+			</div>
+		</section>
+		<!-- /.block-->
 	</div>
-	<script
-		src="${pageContext.request.contextPath}/resources/js/jquery.min.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/resources/bootstrap/js/bootstrap.min.js"></script>
+	<!-- end Page Content-->
+
+
+	<script>
+	
+		var upload = document.getElementById('upload'),
+			holder = document.getElementById('holder');
+	
+	
+		upload.onchange = function(e) {
+			e.preventDefault();
+	
+			var file = upload.files[0],
+				reader = new FileReader();
+			reader.onload = function(event) {
+				var img = new Image();
+				img.src = event.target.result;
+				img.width = 200;
+				img.height = 200;
+				holder.innerHTML = '';
+				holder.appendChild(img);
+			};
+			reader.readAsDataURL(file);
+	
+			return false;
+		};
+	
+		function sample5_execDaumPostcode() {
+			new daum.Postcode(
+				{
+					oncomplete : function(data) {
+						// ê° ì£¼ì†Œì˜ ë…¸ì¶œ ê·œì¹™ì— ë”°ë¼ ì£¼ì†Œë¥¼ ì¡°í•©í•œë‹¤.
+						// ë‚´ë ¤ì˜¤ëŠ” ë³€ìˆ˜ê°€ ê°’ì´ ì—†ëŠ” ê²½ìš°ì—” ê³µë°±('')ê°’ì„ ê°€ì§€ë¯€ë¡œ, ì´ë¥¼ ì°¸ê³ í•˜ì—¬ ë¶„ê¸° í•œë‹¤.
+						var fullAddr = data.address; // ìµœì¢… ì£¼ì†Œ ë³€ìˆ˜
+						var extraAddr = ''; // ì¡°í•©í˜• ì£¼ì†Œ ë³€ìˆ˜
+	
+						// ê¸°ë³¸ ì£¼ì†Œê°€ ë„ë¡œëª… íƒ€ì…ì¼ë•Œ ì¡°í•©í•œë‹¤.
+						if (data.addressType === 'R') {
+							//ë²•ì •ë™ëª…ì´ ìˆì„ ê²½ìš° ì¶”ê°€í•œë‹¤.
+							if (data.bname !== '') {
+								extraAddr += data.bname;
+							}
+							// ê±´ë¬¼ëª…ì´ ìˆì„ ê²½ìš° ì¶”ê°€í•œë‹¤.
+							if (data.buildingName !== '') {
+								extraAddr += (extraAddr !== '' ? ', '
+								+ data.buildingName
+									: data.buildingName);
+							}
+							// ì¡°í•©í˜•ì£¼ì†Œì˜ ìœ ë¬´ì— ë”°ë¼ ì–‘ìª½ì— ê´„í˜¸ë¥¼ ì¶”ê°€í•˜ì—¬ ìµœì¢… ì£¼ì†Œë¥¼ ë§Œë“ ë‹¤.
+							fullAddr += (extraAddr !== '' ? ' ('
+							+ extraAddr + ')' : '');
+						}
+	
+						// ì£¼ì†Œ ì •ë³´ë¥¼ í•´ë‹¹ í•„ë“œì— ë„£ëŠ”ë‹¤.
+						document.getElementById("sample5_address").value = fullAddr;
+					
+					}
+				}).open();
+		}
+	</script>
+	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+	<!--[if lte IE 9]>
+<script type="text/javascript" src="assets/js/ie-scripts.js"></script>
+<![endif]-->
 </body>
 </html>
