@@ -22,7 +22,6 @@ public class BoardDAOImpl implements BoardDAO {
 
 	@Override
 	public BoardDTO selectByBoardNum(int inquiryNum) {
-		
 		return sqlSession.selectOne("mapper.boardMapper.selectAll", inquiryNum);
 	}
 
@@ -33,7 +32,6 @@ public class BoardDAOImpl implements BoardDAO {
 
 	@Override
 	public int insert(BoardDTO boardDTO) {
-		
 		return sqlSession.insert("mapper.boardMapper.boardInsert", boardDTO);
 	}
 
@@ -50,13 +48,11 @@ public class BoardDAOImpl implements BoardDAO {
 	
 	@Override
 	public int insertReply(BoardReplyDTO brDTO){
-		System.out.println("»Æ¿Œ: " + brDTO.getReplyContent());
 		return sqlSession.insert("mapper.boardMapper.insertReply", brDTO);
 	}
 	
 	@Override
 	public List<BoardReplyDTO> selectReply(int inquiryNum) {
-		
 		return sqlSession.selectList("mapper.boardMapper.callReply", inquiryNum);
 	}
 

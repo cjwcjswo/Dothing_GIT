@@ -1,7 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
 	pageEncoding="EUC-KR"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -30,72 +28,65 @@
 
 			<!-- Page Canvas-->
 			<div id="page-canvas">
+
+
+
+
 				<!--Page Content-->
 				<div id="page-content">
-					<div class="container" >
+					<div class="container">
 						<h2>Notice</h2>
 						<p>여러분은 최고의 서비스 DoThing에 있습니다.</p>
-						<table class="table table-hover"  >
+						<table class="table" align="center">
 							<thead align="left">
 								<tr>
-									<td align="left" ><Strong>글제목</Strong></td>
+									<td align=""><span style="font-size: 16px;">[DoThing]글제목
+											여기에 넣어</span> <br>
+									<br>
+										<div align="right">
+											<span style="color: #ff513f;">2017-06-14 | 조회수 : 2572</span>
+										</div></td>
+
 								</tr>
+
 							</thead>
-							
-							<c:choose>
-								<c:when test="${empty requestScope.list}">
-									<tr>
-										<td colspan="5">
-											<p align="center">
-												<b><span style="font-size: 9pt;">등록된 내용이 없습니다.</span></b>
-											</p>
-										</td>
-									</tr>
-								</c:when>
-							<c:otherwise>
-							<c:forEach items="${requestScope.list}" var="boardDto">
-							<tbody align="left">								
+							<tbody align="left">
 								<tr>
-									<td>
-									<a href="${pageContext.request.contextPath}/board/inquiryBoardRead/${boardDto.inquiryNum}"><h1>${boardDto.boardTitle}</h1></a>
-									<a><i class="fa fa-trash-o" data-toggle="tooltip" title="삭제하기"></i></a>
-									<a><i class="fa fa-pencil" data-toggle="tooltip" title="수정하기"></i></a>
-									<span style="color:#ff513f;">${boardDto.boardDate}</span>
-									</td>
+									<td><div class="comment-text">글을 존나게 써보자!!!! 홀로로로롤롤
+											호로로롤</div></td>
 								</tr>
+
+
 							</tbody>
-							</c:forEach>
-							</c:otherwise>
-							</c:choose>
 						</table>
+
+					
+
+
+					
+					
+						
+						<div class="form-group col-sm-6" align="left">
+							<button type="button" class="btn btn-large btn-default"
+								id="submit">다음글</button>
+						</div>
+						<div class="form-group col-sm-6" align="right">
+							<button type="submit" class="btn btn-large btn-default"
+								id="submit">목록</button>
+						</div>
+						<!-- /.form-group -->
 					</div>
-
-					<!-- 페이지네이션 -->
-
-					<ul class="pager">
-						<li><a href="#">Previous</a></li>
-						<li><a href="#">1</a></li>
-						<li><a href="#">2</a></li>
-						<li><a href="#">3</a></li>
-						<li><a href="#">Next</a></li>
-					</ul>
-
-					<!-- 페이지네이션 종료 -->
-
-					<div class="form-group" align="center">
-						<button type="submit" class="btn btn-large btn-default"
-							id="submit">글작성하기</button>
-					</div>
-					<!-- /.form-group -->
 				</div>
 				<!--/.col-md-6-->
 			</div>
-
 		</div>
 		<!--Password-->
 
 	</div>
-	</section>
+
+
+
+
 
 	<script type="text/javascript" src="assets/js/jquery-2.1.0.min.js"></script>
 	<script type="text/javascript" src="assets/js/before.load.js"></script>

@@ -20,28 +20,36 @@ public class BoardController {
 	
 	@Autowired
 	private BoardService boardService;
-	
+
+	/**
+	 * 1대1게시판 보기
+	 */
 	@RequestMapping("/inquiryBoardList")
-	public ModelAndView list(){
-		
+	public ModelAndView list() {
+
 		List<BoardDTO> list = boardService.selectAll();
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("board/inquiryBoardList");
-		mv.addObject("list",list);
-		
+		mv.addObject("list", list);
+
 		return mv;
 	}
-	
-	
+
+	/**
+	 * 게시판 글 쓰기뷰
+	 */
 	@RequestMapping("/inquiryBoardWrite")
-	public void write(){
-		
+	public void write() {
+
 	}
-	
-	@RequestMapping(value="/insert", produces="text/html;charset=UTF-8")
-	public String insert(Authentication auth,BoardDTO boardDTO)throws Exception{
-		String userId = ((MemberDTO)auth.getPrincipal()).getUserId();
-        String re = "";
+
+	/**
+	 * 게시판 글쓰기 기능
+	 */
+	@RequestMapping(value = "/insert", produces = "text/html;charset=UTF-8")
+	public String insert(Authentication auth, BoardDTO boardDTO) throws Exception {
+		String userId = ((MemberDTO) auth.getPrincipal()).getUserId();
+		String re = "";
 		if (userId == null) {
 			throw new Exception("로그인후 이용하세요");
 		} else {
@@ -57,63 +65,75 @@ public class BoardController {
 		}
 		return re;
 	}
-	  
-	  /**
-	   * 상세보기
-	   */
-	  @RequestMapping("/inquiryBoardRead/{inquiryNum}")
-	  public ModelAndView read(@PathVariable int inquiryNum) throws Exception{
-		  BoardDTO boardDTO = boardService.selectByBoardNum(inquiryNum, true);
-		  List<BoardReplyDTO>replyList = boardService.selectReply(inquiryNum);
-		  ModelAndView mv = new ModelAndView();
-		  mv.setViewName("board/inquiryBoardRead");
-		  mv.addObject("board",boardDTO);
-		  mv.addObject("reply",replyList);
-		  return mv;
-	  }
-	  
-	  /**
-	   * 수정^^
-	   */
-	  /*@RequestMapping("/updateForm")
-	  public ModelAndView updateForm(HttpServletRequest request, int inquiryNum) throws Exception{
-		  BoardDTO boardDTO = boardService.selectByBoardNum(inquiryNum, false);
-		 // return new ModelAndView("board/update","elec",elec);
-		  return new ModelAndView("board/update","boardDTO",boardDTO);
-	  }*/
-	  
-	  /**
-	   * 삭제
-	   */
-	 @RequestMapping("/delete")
-	  public String delete(Authentication auth,int inquiryNum)throws Exception{
-		  String userId = ((MemberDTO)auth.getPrincipal()).getUserId();
-		  String re = "";
-		  
-		  //if(userId==)
-		  
-		  boardService.delete(inquiryNum);
-		  return "redirect:/board/inquiryBoardList";
-	  }
-	  
-	/* @RequestMapping("/update")
-	  public ModelAndView update(HttpServletRequest request, BoardDTO boardDTO)throws Exception{
-		  boardService.update(boardDTO);
 
-	      BoardDTO dbBoard = boardService.selectByBoardNum(boardDTO.getInquiryNum(), false);
+	/**
+	 * 상세보기
+	 */
+	@RequestMapping("/inquiryBoardRead/{inquiryNum}")
+	public ModelAndView read(@PathVariable int inquiryNum) throws Exception {
+		BoardDTO boardDTO = boardService.selectByBoardNum(inquiryNum, true);
+		List<BoardReplyDTO> replyList = boardService.selectReply(inquiryNum);
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("board/inquiryBoardRead");
+		mv.addObject("board", boardDTO);
+		mv.addObject("reply", replyList);
+		return mv;
+	}
 
-		  return new ModelAndView("board/read", "boardDTO", dbBoard);
-	  }*/
-	 
-	 /**
-	  * 댓글삽입
-	 * @throws Exception 
-	  */
-	 @RequestMapping("/insertReply")
-	 public String insertReply(BoardReplyDTO brDTO) throws Exception{
-		 boardService.insertReply(brDTO);
-		 
-		 return "redirect:/board/inquiryBoardRead/"+brDTO.getBoard().getInquiryNum();
-	 }
-	
+	/**
+	 * 수정^^
+	 */
+	/*
+	 * @RequestMapping("/updateForm") public ModelAndView
+	 * updateForm(HttpServletRequest request, int inquiryNum) throws Exception{
+	 * BoardDTO boardDTO = boardService.selectByBoardNum(inquiryNum, false); //
+	 * return new ModelAndView("board/update","elec",elec); return new
+	 * ModelAndView("board/update","boardDTO",boardDTO); }
+	 */
+
+	/**
+	 * 삭제
+	 */
+	@RequestMapping("/delete")
+	public String delete(Authentication auth, int inquiryNum) throws Exception {
+		String userId = ((MemberDTO) auth.getPrincipal()).getUserId();
+		String re = "";
+
+		// if(userId==)
+
+		boardService.delete(inquiryNum);
+		return "redirect:/board/inquiryBoardList";
+	}
+
+	/*
+	 * @RequestMapping("/update") public ModelAndView update(HttpServletRequest
+	 * request, BoardDTO boardDTO)throws Exception{
+	 * boardService.update(boardDTO);
+	 * 
+	 * BoardDTO dbBoard =
+	 * boardService.selectByBoardNum(boardDTO.getInquiryNum(), false);
+	 * 
+	 * return new ModelAndView("board/read", "boardDTO", dbBoard); }
+	 */
+
+	/**
+	 * 댓글삽입
+	 * 
+	 * @throws Exception
+	 */
+	@RequestMapping("/insertReply")
+	public String insertReply(BoardReplyDTO brDTO) throws Exception {
+		boardService.insertReply(brDTO);
+		return "redirect:/board/inquiryBoardRead/" + brDTO.getBoard().getInquiryNum();
+	}
+
+	@RequestMapping("/noticeBoardList")
+	public ModelAndView notice() {
+		List<BoardDTO> list = boardService.selectAll();
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("board/noticeBoardList");
+		mv.addObject("list", list);
+
+		return mv;
+	}
 }
