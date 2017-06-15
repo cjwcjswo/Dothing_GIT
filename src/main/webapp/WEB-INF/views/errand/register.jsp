@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.springframework.org/security/tags"
 	prefix="security"%>
+<%@ page import="java.util.*" %>
+<%@ page import="java.text.SimpleDateFormat" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,6 +31,7 @@
 	overflow: hidden;
 	white-space: nowrap;
 }
+
 </style>
 <link
 	href="${pageContext.request.contextPath}/assets/fonts/font-awesome.css"
@@ -88,10 +91,13 @@
 		return true;
 	}
 </script>
+
 </head>
 
 <body onunload="" class="page-subpage page-submit navigation-off-canvas"
 	id="page-top">
+	<!-- 알림창 -->
+	<div class='error' style='display: none'>새로운 심부름이 등록되었습니다.</div>
 
 	<!-- Page Canvas-->
 	<div id="page-canvas">

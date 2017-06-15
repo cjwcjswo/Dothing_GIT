@@ -28,9 +28,9 @@ public class HomeController {
 
 	
 	@RequestMapping("/errand/chat")
-	public ModelAndView chat(String errandsNum){
+	public ModelAndView chat(String errandsNum, HttpSession session){
+		session.setAttribute("errandsNum", errandsNum);
 		return new ModelAndView("/errand/chat", "errandsNum", errandsNum);
-		//return "/errand/chat" ; 
 	}
 	
 

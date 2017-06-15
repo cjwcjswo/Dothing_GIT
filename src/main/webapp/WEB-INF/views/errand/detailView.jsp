@@ -18,12 +18,15 @@
 	rel="stylesheet" type="text/css">
 <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700'
 	rel='stylesheet' type='text/css'>
-
+<link href="${pageContext.request.contextPath}/assets/css/receipt.css"
+	rel="stylesheet" type="text/css">
 <title>Spotter - Universal Directory Listing HTML Template</title>
 <script type="text/javascript"
 	src="//apis.daum.net/maps/maps3.js?apikey=900302937c725fa5d96ac225cbc2db10&libraries=services"></script>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/assets/js/jquery-2.1.0.min.js"></script>
+
+
 <script>
 	$(function() {
 		function leadingZeros(n, digits) {
@@ -66,6 +69,7 @@
 		}
 	}
 </script>
+
 </head>
 
 <body onunload=""
@@ -264,8 +268,11 @@
 													<div class="wrapper">
 														<h5>${reply.user.userId}</h5>
 														<figure class="rating big color" data-rating="4"></figure>
-														<a href="#" class="btn framed icon pull-right roll">선택<i
-															class="fa fa-check"></i></a>
+														<button type="button"
+															class="btn framed icon pull-right roll"
+															data-toggle="modal" data-target="#myModal">
+															선택<i class="fa fa-check"></i>
+														</button>
 														<p>${reply.replyContent}</p>
 
 
@@ -353,7 +360,7 @@
 							class="glyphicon glyphicon-minus icon_minim"></span></a>
 					</div>
 				</div>
-				<div class="panel-body msg_container_base">
+				<div class="panel-body msg_container_base" id="chatList">
 					<div class="row msg_container base_sent">
 						<div class="col-md-10 col-xs-10">
 							<div class="messages msg_sent">
@@ -441,11 +448,11 @@
 				</div>
 				<div class="panel-footer">
 					<div class="input-group">
-						<input id="btn-input" type="text"
+						<input id="inputText" type="text"
 							class="form-control input-sm chat_input"
 							placeholder="Write your message here..." /> <span
 							class="input-group-btn">
-							<button class="btn btn-primary btn-sm" id="btn-chat">Send</button>
+							<button class="btn btn-primary btn-sm" id="send">Send</button>
 
 						</span>
 					</div>
@@ -474,6 +481,146 @@
 	</div>
 
 	<!--  chat 끝 -->
+
+
+
+
+	<!-- 심부름 선택시 나오는 영수증 모달창 -->
+
+	<div id="myModal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+
+
+			<div
+				class="receipt-main col-xs-10 col-sm-10 col-md-6 col-xs-offset-1 col-sm-offset-1 col-md-offset-3">
+				<div class="row">
+					<div class="receipt-header">
+						<div class="col-xs-6 col-sm-6 col-md-6">
+							<div class="receipt-left">
+								<img class="img-responsive" alt="iamgurdeeposahan"
+									src="http://bootsnipp.com/img/avatars/bcf1c0d13e5500875fdd5a7e8ad9752ee16e7462.jpg"
+									style="width: 71px; border-radius: 43px;">
+							</div>
+						</div>
+						<div class="col-xs-6 col-sm-6 col-md-6 text-right">
+							<div class="receipt-right">
+								<a href="#"><i class="fa fa-close"></i></a>
+								<h5>심부름제목</h5>
+
+								<p>
+									심부름위치 <i class="fa fa-location-arrow"></i>
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="receipt-header receipt-header-mid">
+						<div class="col-xs-8 col-sm-8 col-md-8 text-left">
+							<div class="receipt-right">
+								<h5>
+									회원 아이디 <small>  |   Lucky Number : 156</small>
+								</h5>
+								<p>
+									<b>Mobile :</b> +91 12345-6789
+								</p>
+								<p>
+									<b>Email :</b> info@gmail.com
+								</p>
+								<p>
+									<b>Address :</b> Australia
+								</p>
+							</div>
+						</div>
+						<div class="col-xs-4 col-sm-4 col-md-4">
+							<div class="receipt-left">
+								<h1>명세서</h1>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div>
+					<table class="table table-bordered">
+						<thead>
+							<tr>
+								<th>설명</th>
+								<th>금액</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="col-md-9">물품명 :맥도날드 빅맥</td>
+								<td class="col-md-3"><i class="fa fa-krw"></i>5,000</td>
+							</tr>
+							<tr>
+								<td class="col-md-9">심부름 삯</td>
+								<td class="col-md-3"><i class="fa fa-krw"></i> 2,000</td>
+							</tr>
+							<tr>
+							<tr>
+								<td class="text-right">
+									<p>
+										<strong>총 가격: </strong>
+									</p>
+
+									<p>
+										<strong>수수료 : </strong>
+									</p>
+
+								</td>
+								<td>
+									<p>
+										<strong><i class="fa fa-krw"></i> 7,000</strong>
+									</p>
+									<p>
+										<strong><i class="fa fa-krw"></i> 500</strong>
+									</p>
+
+								</td>
+							</tr>
+							<tr>
+
+								<td class="text-right"><h2>
+										<strong>Total: </strong>
+									</h2></td>
+								<td class="text-left text-danger"><h2>
+										<strong><i class="fa fa-krw"></i>7,500</strong>
+									</h2></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+				<div class="row">
+					<div class="receipt-header receipt-header-mid receipt-footer">
+						<div class="col-xs-8 col-sm-8 col-md-8 text-left">
+							<div class="receipt-right">
+								<p>
+									<b>도착예정시간 :</b>
+								<p>2017-06-15 오후 2:21</p>
+								</p>
+								<h5 style="color: rgb(140, 140, 140);">도와주셔서 감사합니다!</h5>
+							</div>
+						</div>
+						<div class="col-xs-4 col-sm-4 col-md-4">
+							<div class="receipt-left">
+								<a class="btn framed icon pull-right roll" href="#">시작<i
+									class="fa fa-check"></i></a>
+							</div>
+							<div class="receipt-left"></div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+
+	</div>
+	<!-- 심부름 선택시 나오는 영수증 모달창 끝 -->
+
 
 	<script>
 

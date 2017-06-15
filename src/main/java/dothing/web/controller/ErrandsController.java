@@ -55,7 +55,10 @@ public class ErrandsController {
 		dto.getErrandsPos().setAddr(preAddress + " " + detailAddress);
 		MultipartFile file = dto.getErrandsPhotoFile();
 		dto.setErrandsPhoto(file.getOriginalFilename());
-		errandsService.insertErrands(dto, session.getServletContext().getRealPath(""));
+		int insertResult = errandsService.insertErrands(dto, session.getServletContext().getRealPath(""));
+		if(insertResult > 0){
+			session.setAttribute("insertResult", insertResult);
+		}
 		if (dto.getErrandsPhoto() != null && !dto.getErrandsPhoto().trim().equals("")) {
 			String path = session.getServletContext().getRealPath("") + "\\errands\\" + errandsService.selectNum();
 			File folder = new File(path);

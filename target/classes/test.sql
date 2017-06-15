@@ -50,6 +50,8 @@ where inquiry_num = 4
  CREATE SEQUENCE SEQ_ID INCREMENT BY 1 START WITH 1;
  
  CREATE SEQUENCE SEQ_REPLY_NUM INCREMENT BY 1 START WITH 1;
+ 
+  CREATE SEQUENCE SEQ_NOTICE_NUM INCREMENT BY 1 START WITH 1;
 
  select *from inquiry_reply;
  
@@ -57,4 +59,16 @@ where inquiry_num = 4
  
  insert into inquiry_reply(inquiry_reply_num, reply_content, inquiry_num)values(SEQ_REPLY_NUM.NEXTVAL,'ggg',7) 
  #{board.inquiryNum}
+ 
+ 
+ 
+ 
+ 
+ select *from notice_board;
+ 
+ insert into notice_board(
+		notice_num,member_id,notice_title,notice_content
+		,notice_date,readnum)
+		values(SEQ_NOTICE_NUM.NEXTVAL,'tester','블랙 회원 안내입니다.','응 업써~',
+		to_char(sysdate, 'YYYY-MM-DD HH:MI:SS AM'),0)
  

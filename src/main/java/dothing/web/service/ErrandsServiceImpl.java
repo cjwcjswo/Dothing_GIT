@@ -50,7 +50,7 @@ public class ErrandsServiceImpl implements ErrandsService {
 		}
 		return dto;
 	}
-	
+
 	/**
 	 * 심부름 삽입
 	 */
@@ -59,6 +59,7 @@ public class ErrandsServiceImpl implements ErrandsService {
 		ErrandsHashProperties hp = new ErrandsHashProperties();
 		errandsDAO.insertErrands(dto);
 		errandsDAO.insertErrandsPos(dto.getErrandsPos());
+		
 		return 1;
 	}
 	

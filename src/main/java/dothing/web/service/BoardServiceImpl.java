@@ -78,6 +78,7 @@ public class BoardServiceImpl implements BoardService {
 	public List<BoardReplyDTO> selectReply(int inquiryNum) {
 
 		return boardDAO.selectReply(inquiryNum);
-	}
+	}	
+	
 
 }

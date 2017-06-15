@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
 	pageEncoding="EUC-KR"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -29,9 +30,6 @@
 			<!-- Page Canvas-->
 			<div id="page-canvas">
 
-
-
-
 				<!--Page Content-->
 				<div id="page-content">
 					<div class="container">
@@ -40,39 +38,28 @@
 						<table class="table" align="center">
 							<thead align="left">
 								<tr>
-									<td align=""><span style="font-size: 16px;">[DoThing]글제목
-											여기에 넣어</span> <br>
+									<td align=""><span style="font-size: 16px;"><strong>${board.noticeTitle}</strong></span><br>
 									<br>
 										<div align="right">
-											<span style="color: #ff513f;">2017-06-14 | 조회수 : 2572</span>
+											<span style="color: #ff513f;">${board.noticeDate} | ${board.readNum}</span>
 										</div></td>
-
 								</tr>
 
 							</thead>
 							<tbody align="left">
 								<tr>
-									<td><div class="comment-text">글을 존나게 써보자!!!! 홀로로로롤롤
-											호로로롤</div></td>
+									<td><div class="comment-text">${board.noticeContent}</div></td>
 								</tr>
-
-
 							</tbody>
 						</table>
 
-					
-
-
-					
-					
-						
 						<div class="form-group col-sm-6" align="left">
 							<button type="button" class="btn btn-large btn-default"
 								id="submit">다음글</button>
 						</div>
 						<div class="form-group col-sm-6" align="right">
 							<button type="submit" class="btn btn-large btn-default"
-								id="submit">목록</button>
+								id="submit" onclick="${pageContext.request.contextPath}/board/noticeBoardRead">목록</button>
 						</div>
 						<!-- /.form-group -->
 					</div>
