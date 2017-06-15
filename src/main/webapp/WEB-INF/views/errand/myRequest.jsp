@@ -154,11 +154,14 @@
 												<li><i class="fa fa-close"></i>심부름꾼 대기중</li>
 											</c:if>
 											<c:if test="${errands.startTime != null}">
-												<c:if test="${errands.finishTime == null}">
+												<c:if test="${(errands.arrivalTime == null) && (errands.finishTime == null)}">
 													<li><i class="fa fa-taxi"></i>요청 완료</li>
 												</c:if>
 											</c:if>
-											<c:if test="${errands.finishTime != null}">
+											<c:if test="${(errands.finishTime != null) && (errands.arrivalTime == null)}">
+												<li><i class="fa fa-check"></i>심부름꾼 확인 대기중</li>
+											</c:if>
+											<c:if test="${(errands.finishTime != null) && (errands.arrivalTime != null)}">
 												<li><i class="fa fa-check"></i>심부름 완료</li>
 											</c:if>
 

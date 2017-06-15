@@ -59,7 +59,7 @@
 								<div class="full-width animated fadeInUp">
 									<h1>무엇이든지 이웃에게, 이웃으로</h1>
 									<p>작은 도움이 필요할 때가 있으신가요?</p>
-									<a href="#" class="btn btn-info">로그인하기</a>
+									<a href="${pageContext.request.contextPath}/errand/errand" class="btn btn-info">로그인하기</a>
 								</div>
 							</div>
 						</div>
@@ -73,7 +73,7 @@
 								<div class="full-width animated fadeInUp">
 									<h1>이웃에게, 이웃은 나에게</h1>
 									<p>커피한잔만을 배달해 줄리가 있을까요? DoThing에서는 가능합니다.</p>
-									<a href="#" class="btn btn-info">참여하기</a>
+									<a href="${pageContext.request.contextPath}/errand/errand" class="btn btn-info">참여하기</a>
 								</div>
 							</div>
 						</div>

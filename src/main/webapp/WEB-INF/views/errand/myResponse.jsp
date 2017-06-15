@@ -126,9 +126,9 @@
 										</figure>
 										<div class="info">
 											<div class="type">
-												<div class="price">${errands.errandsReply.size()}개 댓글
+												<div class="price">${errands.errandsReply.size()}개댓글
 													달림</div>
-													<c:if test="${errands.hashes.size()	 != 0}">
+												<c:if test="${errands.hashes.size()	 != 0}">
 													<c:forEach items="${errands.hashes}" var="hash">
 														<span class="label label-info">#${hash}</span>
 													</c:forEach>
@@ -154,11 +154,17 @@
 												<li><i class="fa fa-close"></i>채택 요청중</li>
 											</c:if>
 											<c:if test="${errands.responseUser != null}">
-												<c:if test="${errands.finishTime == null}">
-													<li><i class="fa fa-taxi"></i>채택 요청중</li>
+												<c:if
+													test="${(errands.arrivalTime == null) && (errands.finishTime == null)}">
+													<li><i class="fa fa-taxi"></i>심부름 중</li>
 												</c:if>
 											</c:if>
-											<c:if test="${errands.finishTime != null}">
+											<c:if
+												test="${(errands.arrivalTime != null) && (errands.finishTime == null)}">
+												<li><i class="fa fa-check"></i>요청자 확인 대기중</li>
+											</c:if>
+											<c:if
+												test="${(errands.finishTime != null) && (errands.arrivalTime != null)}">
 												<li><i class="fa fa-check"></i>심부름 완료</li>
 											</c:if>
 

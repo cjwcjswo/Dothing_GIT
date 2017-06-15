@@ -2,7 +2,6 @@ package dothing.web.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -35,8 +34,9 @@ public class ErrandsController {
 	}
 
 	@RequestMapping("/detailView")
-	public ModelAndView detail(int num) {
+	public ModelAndView detail(int num, Authentication aut) {
 		ModelAndView mv = new ModelAndView();
+		mv.addObject("currentId", ((MemberDTO)aut.getPrincipal()).getUserId());
 		mv.addObject("errands", errandsService.selectErrands(num));
 		mv.setViewName("/errand/detailView");
 		return mv;
@@ -75,6 +75,9 @@ public class ErrandsController {
 		return "redirect:/errand/detailView?num=" + dto.getErrands().getErrandsNum();
 	}
 
+	/**
+	 * 심부름 삭제
+	 */
 	@RequestMapping("/deleteErrands")
 	public String deleteErrands(Authentication auth, int num, String id) throws Exception {
 		if (!id.equals(((MemberDTO) auth.getPrincipal()).getUserId())) {
@@ -83,7 +86,15 @@ public class ErrandsController {
 		errandsService.deleteErrands(num);
 		return "redirect:/errand/errand";
 	}
-
+	
+	/**
+	 * 리플 삭제
+	 */
+	@RequestMapping("/deleteReply")
+	public String deleteReply(int num, int eNum){
+		errandsService.deleteReply(num);
+		return "redirect:/errand/detailView?num="+eNum;
+	}
 	@RequestMapping("/search")
 	public ModelAndView search(@RequestParam("minPrice") Integer minPrice, @RequestParam("maxPrice") Integer maxPrice,
 			@RequestParam("hash") String hash, Integer distance, String sLat, String sLng) {
@@ -118,4 +129,5 @@ public class ErrandsController {
 		mv.setViewName("/errand/myResponse");
 		return mv;
 	}
+	
 }

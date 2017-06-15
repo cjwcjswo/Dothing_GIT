@@ -28,7 +28,7 @@ public interface ErrandsService {
 	int countErrands();
 
 	int insertReply(ErrandsReplyDTO dto);
-	
+	int deleteReply(int num);
 	Map<String, Integer> requestHash(String hash);
 	
 	void calHashes(List<ErrandsDTO> list);

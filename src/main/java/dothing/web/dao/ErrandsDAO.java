@@ -21,5 +21,5 @@ public interface ErrandsDAO {
 	
 	
 	int insertReply(ErrandsReplyDTO dto);
-	
+	int deleteReply(int num);
 }
