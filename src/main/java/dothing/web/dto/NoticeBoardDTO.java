@@ -1,5 +1,8 @@
 package dothing.web.dto;
 
+/**
+ * 공지사항 게시판 DTO
+ */
 public class NoticeBoardDTO {
 	private int noticeNum;       //공지게시판번호
 	private String userId;       //멤버ID

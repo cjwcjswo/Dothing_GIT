@@ -19,6 +19,27 @@
 <link rel="stylesheet" href="assets/css/dropzone.css" type="text/css">
 <link rel="stylesheet" href="assets/css/style.css" type="text/css">
 <link rel="stylesheet" href="assets/css/user.style.css" type="text/css">
+
+
+<style type="text/css">
+body p{
+  overflow:hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100px;
+  height: 20px;
+}
+</style>
+
+<!-- <script>
+
+function sendDelete(){
+		document.requestForm.action="${pageContext.request.contextPath}/board/noticeDelete";
+	    document.requestForm.submit();
+		return true;
+}
+</script> -->
+
 </head>
 <body onunload=""
 	class="page-subpage page-profile navigation-top-header" id="page-top">
@@ -34,7 +55,7 @@
 				<div id="page-content">
 					<div class="container" >
 						<h2>Notice</h2>
-						<p>여러분은 최고의 서비스 DoThing에 있습니다.</p>
+						<span style="color:#9999ff;">여러분은 최고의 서비스 DoThing에 있습니다.</span><br>
 						<table class="table table-hover"  >
 							<thead align="left">
 								<tr>
@@ -46,9 +67,9 @@
 								<c:when test="${empty requestScope.list}">
 									<tr>
 										<td colspan="5">
-											<p align="center">
-												<b><span style="font-size: 9pt;">등록된 내용이 없습니다.</span></b>
-											</p>
+											<div align="center">
+												<b><span style="font-size: 9pt;">등록된 게시물이 없습니다.</span></b>
+											</div>
 										</td>
 									</tr>
 								</c:when>
@@ -58,9 +79,17 @@
 								<tr>
 									<td>
 									<a href="${pageContext.request.contextPath}/board/noticeBoardRead/${boardDto.noticeNum}"><h1>${boardDto.noticeTitle}</h1></a>
-									<a><i class="fa fa-trash-o" data-toggle="tooltip" title="삭제하기"></i></a>
+									
+									<input type=hidden name="noticeNum" value="${boardDto.noticeNum}">
+									<input type="hidden" name="${_csrf.parameterName}"
+                                     value="${_csrf.token}">
+									<a href="#" onclick="location.href='${pageContext.request.contextPath}/board/noticeDelete?noticeNum=${boardDto.noticeNum}'">
+									<i class="fa fa-trash-o" data-toggle="tooltip" title="삭제하기"></i></a>
+									
+									
 									<a><i class="fa fa-pencil" data-toggle="tooltip" title="수정하기"></i></a>
 									<span style="color:#ff513f;">${boardDto.noticeDate}</span>
+									
 									</td>
 								</tr>
 							</tbody>
