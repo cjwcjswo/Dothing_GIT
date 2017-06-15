@@ -2507,7 +2507,8 @@ height: 20px ;
 }
 .modal .modal-dialog {
   width: 750px;
-  margin: 80px auto;
+  margin: auto;
+ 
 }
 .modal .modal-dialog .modal-content {
   -moz-box-shadow: none;
