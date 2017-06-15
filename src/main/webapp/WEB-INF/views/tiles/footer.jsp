@@ -143,12 +143,10 @@
 	<script>
 		var contextPath = "${pageContext.request.contextPath}";
 	</script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/assets/js/jquery-2.1.0.min.js"></script>
+
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/assets/js/jquery-migrate-1.2.1.min.js"></script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/assets/bootstrap/js/bootstrap.min.js"></script>
+
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/assets/js/smoothscroll.js"></script>
 	<script type="text/javascript"

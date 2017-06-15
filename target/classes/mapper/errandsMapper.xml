@@ -77,8 +77,9 @@
 	<select id="searchErrands" resultMap="errandsMap" parameterType="map">
 		select * from ERRANDS_REPLY_GPA_VIEW
 		<where>
+			RESPONSE_ID is null
 			<if test="minPrice != null">
-				ERRANDS_PRICE &gt; #{minPrice}
+				AND ERRANDS_PRICE &gt; #{minPrice}
 			</if>
 			<if test="maxPrice != null">
 				AND ERRANDS_PRICE &lt; #{maxPrice}

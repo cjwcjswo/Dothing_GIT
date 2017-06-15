@@ -23,11 +23,11 @@
 <title>Spotter - Universal Directory Listing HTML Template</title>
 <script type="text/javascript"
 	src="//apis.daum.net/maps/maps3.js?apikey=900302937c725fa5d96ac225cbc2db10&libraries=services"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/assets/js/jquery-2.1.0.min.js"></script>
+
 
 
 <script>
+
 	$(function() {
 		function leadingZeros(n, digits) {
 			var zero = '';
@@ -39,12 +39,9 @@
 			}
 			return zero + n;
 		}
-
-		$(document).on("click", "button[data-target='#myModal']", function() {
-			var d = new Date();
-			$("#date").html(d.getFullYear() + "-" + leadingZeros((d.getMonth() + 1), 2) + "-" + leadingZeros(d.getDate(), 2) + " "
-				+ d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds());
-			$("#sims").html("<h2>심부름꾼: " + $(this).attr("id") + "</h2>");
+		
+		$("#close").click(function(){
+			$("#myModal").modal('toggle');
 		})
 	});
 	function checkValid() {
@@ -269,8 +266,7 @@
 														<h5>${reply.user.userId}</h5>
 														<figure class="rating big color" data-rating="4"></figure>
 														<button type="button"
-															class="btn framed icon pull-right roll"
-															data-toggle="modal" data-target="#myModal">
+															class="btn framed icon pull-right roll" onclick="$('#myModal').modal('toggle');">
 															선택<i class="fa fa-check"></i>
 														</button>
 														<p>${reply.replyContent}</p>
@@ -504,7 +500,7 @@
 						</div>
 						<div class="col-xs-6 col-sm-6 col-md-6 text-right">
 							<div class="receipt-right">
-								<a href="#"><i class="fa fa-close"></i></a>
+								<a href="#myModal" id="close"><i class="fa fa-close"></i></a>
 								<h5>심부름제목</h5>
 
 								<p>
