@@ -67,9 +67,9 @@ function sendDelete(){
 								<c:when test="${empty requestScope.list}">
 									<tr>
 										<td colspan="5">
-											<p align="center">
+											<div align="center">
 												<b><span style="font-size: 9pt;">등록된 게시물이 없습니다.</span></b>
-											</p>
+											</div>
 										</td>
 									</tr>
 								</c:when>
@@ -80,8 +80,6 @@ function sendDelete(){
 									<td>
 									<a href="${pageContext.request.contextPath}/board/noticeBoardRead/${boardDto.noticeNum}"><h1>${boardDto.noticeTitle}</h1></a>
 									
-									<!-- 문도 삭제한다! -->
-									<!-- <form name="requestForm" method=post> -->
 									<input type=hidden name="noticeNum" value="${boardDto.noticeNum}">
 									<input type="hidden" name="${_csrf.parameterName}"
                                      value="${_csrf.token}">
@@ -91,7 +89,7 @@ function sendDelete(){
 									
 									<a><i class="fa fa-pencil" data-toggle="tooltip" title="수정하기"></i></a>
 									<span style="color:#ff513f;">${boardDto.noticeDate}</span>
-									<!-- </form> -->
+									
 									</td>
 								</tr>
 							</tbody>

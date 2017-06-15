@@ -41,7 +41,7 @@
 									<td align=""><span style="font-size: 16px;"><h1>${board.noticeTitle}</h1></span>
 									<br>
 										<div align="right">
-											<span style="color: #ff513f;">${board.noticeDate} | ${board.readNum}</span>
+											<span style="color: #ff513f;">${board.noticeDate} | Á¶È¸¼ö ${board.readNum}</span>
 										</div></td>
 								</tr>
 
