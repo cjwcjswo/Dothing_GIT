@@ -50,7 +50,7 @@ public class ErrandsServiceImpl implements ErrandsService {
 		}
 		return dto;
 	}
-	
+
 	/**
 	 * ½ÉºÎ¸§ »ðÀÔ
 	 */
@@ -59,6 +59,7 @@ public class ErrandsServiceImpl implements ErrandsService {
 		ErrandsHashProperties hp = new ErrandsHashProperties();
 		errandsDAO.insertErrands(dto);
 		errandsDAO.insertErrandsPos(dto.getErrandsPos());
+		
 		return 1;
 	}
 	
@@ -86,15 +87,16 @@ public class ErrandsServiceImpl implements ErrandsService {
 	}
 
 	@Override
-	public List<ErrandsDTO> searchErrands(String hash, Integer minPrice, Integer maxPrice) {
-		List<ErrandsDTO> list = errandsDAO.searchErrands(hash, minPrice, maxPrice);
+	public List<ErrandsDTO> searchErrands(String hash, Integer minPrice, Integer maxPrice,
+			Integer distance, String latitude, String longitude) {
+		List<ErrandsDTO> list = errandsDAO.searchErrands(hash, minPrice, maxPrice, distance, latitude, longitude);
 		calHashes(list);
 		return list;
 	}
 
 	@Override
 	public Map<String, Integer> requestHash(String hash) {
-		List<ErrandsDTO> list = errandsDAO.searchErrands(hash, null, null);
+		List<ErrandsDTO> list = errandsDAO.searchErrands(hash, null, null, null, null, null);
 		Map<String, Integer> info = new HashMap<String, Integer>();
 		System.out.println("************************************");
 		for (ErrandsDTO dto : list) {

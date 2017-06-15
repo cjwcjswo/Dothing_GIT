@@ -21,7 +21,7 @@
 	login-processing-url="/user/login"
 	username-parameter="id"
 	password-parameter="password"
-	default-target-url="/"
+	default-target-url="/errand/errand"
 	authentication-failure-handler-ref="memberAuthenticationFailureHandler"
 	/>
 	

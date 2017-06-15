@@ -55,7 +55,10 @@ public class ErrandsController {
 		dto.getErrandsPos().setAddr(preAddress + " " + detailAddress);
 		MultipartFile file = dto.getErrandsPhotoFile();
 		dto.setErrandsPhoto(file.getOriginalFilename());
-		errandsService.insertErrands(dto, session.getServletContext().getRealPath(""));
+		int insertResult = errandsService.insertErrands(dto, session.getServletContext().getRealPath(""));
+		if(insertResult > 0){
+			session.setAttribute("insertResult", insertResult);
+		}
 		if (dto.getErrandsPhoto() != null && !dto.getErrandsPhoto().trim().equals("")) {
 			String path = session.getServletContext().getRealPath("") + "\\errands\\" + errandsService.selectNum();
 			File folder = new File(path);
@@ -83,10 +86,11 @@ public class ErrandsController {
 
 	@RequestMapping("/search")
 	public ModelAndView search(@RequestParam("minPrice") Integer minPrice, @RequestParam("maxPrice") Integer maxPrice,
-			@RequestParam("hash") String hash) {
-		System.out.println("최소: " + minPrice + " 최대: " + maxPrice + " 해쉬: " + hash);
+			@RequestParam("hash") String hash, Integer distance, String sLat, String sLng) {
+		System.out.println("최소: " + minPrice + " 최대: " + maxPrice + " 해쉬: " + hash + " " + distance + " " + sLat + " " + sLng);
+		if(distance == 0 ) distance = null;
 		ModelAndView mv = new ModelAndView();
-		mv.addObject("errandsList", errandsService.searchErrands(hash, minPrice, maxPrice));
+		mv.addObject("errandsList", errandsService.searchErrands(hash, minPrice, maxPrice, distance, sLat, sLng));
 		mv.setViewName("/errand/errand");
 		return mv;
 	}

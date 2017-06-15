@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page import="java.util.*" %>
+<%@ page import="java.text.SimpleDateFormat" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
 <!DOCTYPE html>
@@ -8,12 +10,84 @@
 <head>
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <title>심부름</title>
+<style type="text/css">
+/**
+알림 CSS
+**/
+.error {
+   width: 250px;
+   height: 20px;
+   height: auto;
+   position: fixed;
+   left: 50%;
+   margin-left: -125px;
+   bottom: 100px;
+   z-index: 9999;
+   background-color: #383838;
+   color: #F0F0F0;
+   font-family: Calibri;
+   font-size: 15px;
+   padding: 10px;
+   text-align: center;
+   border-radius: 2px;
+   -webkit-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
+   -moz-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
+   box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
+}
+</style>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/assets/js/jquery-2.1.0.min.js"></script>
 
 <script type="text/javascript"
 	src="//apis.daum.net/maps/maps3.js?apikey=900302937c725fa5d96ac225cbc2db10&libraries=services"></script>
 <script>
+	function clickDetail(num){
+		location.href="${pageContext.request.contextPath}/errand/detailView?num="+num;
+	}
+</script>
+<!-- SocketJS -->
+ <script type="text/javascript" src="${pageContext.request.contextPath}/resources/sockjs.js"></script>
+<script>
+	var today = '<%= new java.text.SimpleDateFormat("MM/dd HH:mm").format(new java.util.Date())%>'
+	var sock = new SockJS('${pageContext.request.contextPath}/errand/register');
+	var msg = '새로운 심부름이 등록되었습니다.';
+	var insertRe = <%=session.getAttribute("insertResult")%>
+	
+	$(function(){
+		function sendMessage(){
+			if(insertRe > 0){
+				sock.send(msg);
+				alert('심부름 등록 성공?');
+			}
+		}
+		sendMessage();
+	});
+	
+	
+	sock.onopen = function() {
+	    $('#console').append('websocket opened' + '<br>');	
+	  	//스크롤 맨 아래로
+	 	document.getElementById('chatList').scrollTop = document.getElementById('chatList').scrollHeight;
+	};
+	
+	sock.onmessage = function(message) {
+		var receiveMessage = message.data;
+		alert("receiveMessage : "+receiveMessage);
+		//알림
+		$("#notification").val(receiveMessage);
+		$('.error').fadeIn(400).delay(3000).fadeOut(400);
+		
+		
+	 
+	};
+	/*
+	sock.onclose = function(event) {
+	    $('#console').append('websocket closed : ' + event);
+	};
+
+  */
+</script>	
+	<script>
 	function clickDetail(num) {
 		location.href = "${pageContext.request.contextPath}/errand/detailView?num=" + num;
 	}
@@ -71,6 +145,9 @@
 	class="map-fullscreen page-homepage navigation-off-canvas"
 	id="page-top">
 
+	<!-- error -->
+	<div class='error' style='display: none' id='notification'></div>
+
 
 	<!-- Page Canvas-->
 	<div id="page-canvas">
@@ -98,14 +175,16 @@
 					<!--/#map-->
 					<div class="search-bar horizontal">
 						<div class="container-fluid" style="text-align: center">
-							<h3>총 ${errandsList.size()}건의 심부름이 등록되어있습니다</h3>
+							<div id="curAddr" style="margin: 0px"></div>
+							<span class="label label-warning">총
+								${errandsList.size()}건의 심부름이 등록되어있습니다</span>
 						</div>
-						<form class="main-search border-less-inputs" role="form"
+						<form class="main-search border-less-inputs" role="form" name="f"
 							method="post" action="search">
 							<div class="input-row">
 
 								<!-- /.form-group -->
-								<div class="form-group" style="width: 27%">
+								<div class="form-group" style="width: 22%">
 									<div class="dropdown">
 										<input type="text" class="form-control" name="hash"
 											id="keyword" placeholder="해시태그(ex: #꿀알바)">
@@ -115,15 +194,23 @@
 										</ul>
 									</div>
 								</div>
-								<div class="form-group" style="width: 27%">
+								<div class="form-group" style="width: 22%">
 									<input type="number" class="form-control" name="minPrice"
 										placeholder="최소가격(0원 부터)" min="0" id="minPrice">
 
 								</div>
-								<div class="form-group" style="width: 27%">
+								<div class="form-group" style="width: 22%">
 									<input type="number" class="form-control" name="maxPrice"
 										placeholder="최대가격" min="0">
 
+								</div>
+								<div class="form-group" style="width: 15%">
+									<input type="radio" name="distance" value="1"><b>1km</b>
+									<input type="radio" name="distance" value="3"><b>3km</b><br>
+									<input type="radio" name="distance" value="10"><b>10km</b>
+									<input type="radio" name="distance" value="0" checked="checked"><b>제한없음</b>
+									<input type="hidden" name="sLat" id="sLat" value="37.5327619">
+									<input type="hidden" name="sLng" id="sLng" value="127.0139427">
 								</div>
 								<input type="hidden" name="${_csrf.parameterName}"
 									value="${_csrf.token}" />
@@ -149,7 +236,7 @@
 				<div class="items-list">
 					<div class="inner">
 						<header>
-							<h3>검색 결과</h3>
+							<h3>검색ㄴ 결과</h3>
 						</header>
 						<ul class="results list">
 							<c:forEach items="${errandsList}" var="errands" varStatus="state">
@@ -164,12 +251,12 @@
 										<a class="image">
 											<div class="inner">
 												<div class="item-specific">
-												<c:if test="${errands.hashes.size()	 != 0}">
-													<c:forEach items="${errands.hashes}" var="hash">
-														<span class="label label-info">#${hash}</span>
-													</c:forEach>
-												</c:if>
-												
+													<c:if test="${errands.hashes.size()	 != 0}">
+														<c:forEach items="${errands.hashes}" var="hash">
+															<span class="label label-info">#${hash}</span>
+														</c:forEach>
+													</c:if>
+
 												</div>
 												<c:if test="${errands.errandsPhoto != null}">
 													<img
@@ -180,7 +267,7 @@
 														src="${pageContext.request.contextPath}/resources/img/errands/img.png" />
 												</c:if>
 											</div>
-											
+
 										</a>
 										<div class="wrapper">
 											<a href="#" id="' + json.data[a].id + '">
@@ -191,7 +278,8 @@
 												<fmt:formatNumber value="${errands.errandsPrice}" />
 												원
 											</div>
-											<span class="label label-success">${errands.errandsReply.size()}명 지원!</span>
+											<span class="label label-success">${errands.errandsReply.size()}명
+												지원!</span>
 											<div class="info">
 												<div class="type">
 													<span>${errands.endTime}</span>
@@ -932,14 +1020,28 @@
 <script type="text/javascript" src="assets/js/ie-scripts.js"></script>
 <![endif]-->
 	<script>
+	var lat = 37.5327619;
+	var lng = 127.0139427;
+	// 지도에 표시할 원을 생성합니다
+	 var circle = new daum.maps.Circle({
+	     center : new daum.maps.LatLng(lat, lng),  // 원의 중심좌표 입니다 
+	     radius: f.distance.value * 1000, // 미터 단위의 원의 반지름입니다 
+	     strokeWeight: 5, // 선의 두께입니다 
+	     strokeColor: '#75B8FA', // 선의 색깔입니다
+	     strokeOpacity: 1, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+	     strokeStyle: 'dashed', // 선의 스타일 입니다
+	     fillColor: '#CFE7FF', // 채우기 색깔입니다
+	     fillOpacity: 0.7  // 채우기 불투명도 입니다   
+	 }); 
+	 var sLat = document.getElementById("sLat");
+	 var sLng = document.getElementById("sLng");
     // Scrollbar on "Results" section
     if( $('.items-list').length > 0 ){
         $(".items-list").mCustomScrollbar({
             mouseWheel:{ scrollAmount: 350}
         });
     }
-		var lat = 37.5327619;
-		var lng = 127.0139427;
+		
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 			mapOption = {
 				center : new daum.maps.LatLng(lat, lng), // 지도의 중심좌표
@@ -1047,6 +1149,43 @@
 		    map.panTo(moveLatLon);
 		 }
          setTimeout("moveCenter()", 1000)
+         
+         
+         // 지도가 움직일때마다 중심 좌표 표시
+         var geocoder = new daum.maps.services.Geocoder();
+         
+         function searchAddrFromCoords(coords, callback) {
+        	    // 좌표로 행정동 주소 정보를 요청합니다
+        	    geocoder.coord2addr(coords, callback);         
+        	}
+         
+      // 지도 좌측상단에 지도 중심좌표에 대한 주소정보를 표출하는 함수입니다
+         function displayCenterInfo(status, result) {
+             if (status === daum.maps.services.Status.OK) {
+                 var infoDiv = document.getElementById('curAddr');
+                 infoDiv.innerHTML =  "<b>현재 주소:"+result[0].fullName+"</b>";
+             }    
+         }
+         searchAddrFromCoords(map.getCenter(), displayCenterInfo);
+         daum.maps.event.addListener(map, 'idle', function() {
+        	 var mLat = map.getCenter().getLat();
+        	 var mLng = map.getCenter().getLng();
+        	 circle.setPosition(new daum.maps.LatLng(mLat, mLng));
+        	 circle.setRadius(f.distance.value * 1000);
+        	 circle.setMap(null);
+        	circle.setMap(map);
+        	    searchAddrFromCoords(map.getCenter(), displayCenterInfo);
+        	    sLat.value = mLat;
+        	    sLng.value = mLng;
+        	});
+         $("input[type='radio']").click(function(){
+        	 var mLat = map.getCenter().getLat();
+        	 var mLng = map.getCenter().getLng();
+        	 circle.setPosition(new daum.maps.LatLng(mLat, mLng));
+        	 circle.setRadius(f.distance.value * 1000);
+        	 circle.setMap(null);
+        	circle.setMap(map);
+         });
 	</script>
 </body>
 </html>

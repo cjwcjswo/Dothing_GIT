@@ -1934,6 +1934,11 @@ ul.bullets li a:hover {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=60);
   opacity: 0.6;
   font-size: 12px;
+  overflow: hidden; 
+text-overflow: ellipsis;
+white-space: nowrap; 
+width: 100px;
+height: 20px ; 
 }
 .item .wrapper .info:after {
   background-color: rgba(0, 0, 0, 0.08);
@@ -2502,7 +2507,8 @@ ul.bullets li a:hover {
 }
 .modal .modal-dialog {
   width: 750px;
-  margin: 80px auto;
+  margin: auto;
+ 
 }
 .modal .modal-dialog .modal-content {
   -moz-box-shadow: none;
@@ -6460,7 +6466,13 @@ body.navigation-top-header .header .wrapper .toggle-navigation {
     display: none;
   }
   .item .wrapper h3 {
-    font-size: 14px;
+    font-size: 12px;
+     overflow: hidden; 
+text-overflow: ellipsis;
+width: 120px;
+white-space: nowrap;  
+height:20px ;
+    
   }
 
   .item.admin-view .description {
