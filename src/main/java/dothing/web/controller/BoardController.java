@@ -7,6 +7,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import dothing.web.dto.BoardDTO;
@@ -157,6 +159,16 @@ public class BoardController {
 		mv.setViewName("board/noticeBoardRead");
 		mv.addObject("board", boardDTO);
 		return mv;
+	}
+	
+	/**
+	 * 공지게시판 삭제
+	 */
+	@RequestMapping(value="/noticeDelete", method=RequestMethod.GET)
+	public String noticeDelete(@RequestParam(value="noticeNum")int noticeNum) throws Exception {
+       
+		noticeService.delete(noticeNum);
+		return "redirect:/board/noticeBoardList";
 	}
 	
 }

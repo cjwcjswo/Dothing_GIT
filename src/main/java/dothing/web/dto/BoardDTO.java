@@ -4,6 +4,9 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
+/**
+ * 1:1 문의 게시판 DTO
+ */
 public class BoardDTO {
 	private int inquiryNum;      //게시판 번호
 	private String userId;       //글쓴이

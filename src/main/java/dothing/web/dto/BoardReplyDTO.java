@@ -1,5 +1,8 @@
 package dothing.web.dto;
 
+/**
+ * 1:1 문의 게시판 댓글 DTO
+ */
 public class BoardReplyDTO {
 	private int replyNum;
 	private BoardDTO board;

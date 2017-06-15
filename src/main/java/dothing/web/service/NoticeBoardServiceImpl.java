@@ -41,8 +41,13 @@ public class NoticeBoardServiceImpl implements NoticeBoardService {
 
 	@Override
 	public int delete(int noticeNum) throws Exception {
-		NoticeBoardDTO dbBoard = boardDAO.selectByBoardNum(noticeNum);
-		return 1;
+		int re = boardDAO.delete(noticeNum);
+		
+		if(re == 0){
+			throw new Exception("삭제오류입니다. 다시이용해주세요.");
+		}
+		
+		return re;
 	}
 
 }

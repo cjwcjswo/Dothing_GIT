@@ -34,11 +34,11 @@
 				<div id="page-content">
 					<div class="container">
 						<h2>Notice</h2>
-						<p>여러분은 최고의 서비스 DoThing에 있습니다.</p>
+						<span style="color:#9999ff;">여러분은 최고의 서비스 DoThing에 있습니다.</span><br>
 						<table class="table" align="center">
 							<thead align="left">
 								<tr>
-									<td align=""><span style="font-size: 16px;"><strong>${board.noticeTitle}</strong></span><br>
+									<td align=""><span style="font-size: 16px;"><h1>${board.noticeTitle}</h1></span>
 									<br>
 										<div align="right">
 											<span style="color: #ff513f;">${board.noticeDate} | ${board.readNum}</span>
@@ -59,7 +59,7 @@
 						</div>
 						<div class="form-group col-sm-6" align="right">
 							<button type="submit" class="btn btn-large btn-default"
-								id="submit" onclick="${pageContext.request.contextPath}/board/noticeBoardRead">목록</button>
+								id="submit" onclick="location.href='${pageContext.request.contextPath}/board/noticeBoardList'">목록</button>
 						</div>
 						<!-- /.form-group -->
 					</div>
