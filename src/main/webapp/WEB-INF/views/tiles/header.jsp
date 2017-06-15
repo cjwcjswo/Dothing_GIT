@@ -2,11 +2,12 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>Do Thing</title>
 
 <script>
 	function logout() {
@@ -28,10 +29,24 @@
 				<div class="wrapper">
 					<ul class="main-navigation navigation-top-header"></ul>
 					<ul class="user-area">
-						<li><a href="${pageContext.request.contextPath}/user/loginForm">로그인</a></li>
-						<li><a href="${pageContext.request.contextPath}/user/signIn"><strong>회원가입</strong></a></li>
+						<security:authorize access="isAuthenticated()">
+							<li><security:authentication property="principal.name" /> 님
+								환영합니다.</li>
+							<li>보유 포인트: <security:authentication
+									property="principal.point.currentPoint" /></li>
+									<li><a href="${pageContext.request.contextPath}/user/myPage">마이페이지</a></li>
+							<li><a href="javascript:logout();">로그아웃</a></li>
+							<li><a href="${pageContext.request.contextPath}/errand/errand">심부름 목록</a></li>
+						</security:authorize>
+						<security:authorize access="isAnonymous()">
+							<li><a
+								href="${pageContext.request.contextPath}/user/loginForm">로그인</a></li>
+							<li><a href="${pageContext.request.contextPath}/user/signIn"><strong>회원가입</strong></a></li>
+						</security:authorize>
+
 					</ul>
-					<a href="${pageContext.request.contextPath}/errand/register" class="submit-item">
+					<a href="${pageContext.request.contextPath}/errand/register"
+						class="submit-item">
 						<div class="content">
 							<span>심부름 등록</span>
 						</div>
@@ -51,6 +66,12 @@
 		</div>
 	</div>
 	<!-- end Navigation-->
+	<form id="logoutForm"
+		action="${pageContext.request.contextPath}/user/logout"
+		method="post" style="display: none">
+		<input type="hidden" name="${_csrf.parameterName}"
+			value="${_csrf.token}" />
+	</form>
 </body>
 
 </html>

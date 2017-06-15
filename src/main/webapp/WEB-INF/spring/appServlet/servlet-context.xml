@@ -19,6 +19,7 @@
 		up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
 	<resources mapping="/errands/**" location="/errands/" />
+	<resources mapping="/users/**" location="/users/" />
 	<resources mapping="/assets/**" location="/assets/" />
 
 	<!-- websocket -->

@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,6 +10,7 @@
 <title>심부름</title>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/assets/js/jquery-2.1.0.min.js"></script>
+
 <script type="text/javascript"
 	src="//apis.daum.net/maps/maps3.js?apikey=900302937c725fa5d96ac225cbc2db10&libraries=services"></script>
 <script>
@@ -15,7 +18,7 @@
 		location.href = "${pageContext.request.contextPath}/errand/detailView?num=" + num;
 	}
 	$(function() {
-		$(document).on("click", "a[role='menuitem']", function(){
+		$(document).on("click", "a[role='menuitem']", function() {
 			$("#keyword").val($(this).text());
 			$("#hashDrop li").remove();
 			$(".dropdown-menu").hide();
@@ -29,23 +32,26 @@
 					type : "post",
 					dataType : "json",
 					data : "hash=" + $(this).val(),
-					beforeSend : function(xhr)
-                    {   /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
-                        xhr.setRequestHeader("${_csrf.headerName}", "${_csrf.token}");
-                    },
+					beforeSend : function(xhr) { /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+						xhr.setRequestHeader("${_csrf.headerName}", "${_csrf.token}");
+					},
 					success : function(result) {
 						var count = 0;
 						var re = "";
-						$.each(result['hashList'], function(index, item){
-			
-							count++;
-							var key = index;
-							var value = item;
-							re += "<li role='presentation'><a role='menuitem' tabindex='-1'>#"+key+"</a>[등록 태그 갯수 "+value+"개]</li><li role='presentation' class='divider'></li>";
-							if(count == 5) return false;
-						});
-						count = 0;
-						$("#hashDrop").append(re)
+						if (Object.keys(result.hashList).length == 0) {
+							$("#hashDrop li").remove();
+							$(".dropdown-menu").hide();
+						} else {
+							$.each(result['hashList'], function(index, item) {
+								count++;
+								var key = index;
+								var value = item;
+								re += "<li role='presentation'><a role='menuitem' tabindex='-1'>#" + key + "</a>[등록 태그 갯수 " + value + "개]</li><li role='presentation' class='divider'></li>";
+								if (count == 5) return false;
+							});
+							count = 0;
+							$("#hashDrop").append(re)
+						}
 					},
 					error : function(err) {
 						alert(err);
@@ -105,7 +111,7 @@
 											id="keyword" placeholder="해시태그(ex: #꿀알바)">
 										<ul class="dropdown-menu" role="menu"
 											aria-labelledby="dropdownMenu1" id="hashDrop">
-							
+
 										</ul>
 									</div>
 								</div>
@@ -157,7 +163,14 @@
 									<div class="item">
 										<a class="image">
 											<div class="inner">
-												<div class="item-specific">${errands.content}</div>
+												<div class="item-specific">
+												<c:if test="${errands.hashes.size()	 != 0}">
+													<c:forEach items="${errands.hashes}" var="hash">
+														<span class="label label-info">#${hash}</span>
+													</c:forEach>
+												</c:if>
+												
+												</div>
 												<c:if test="${errands.errandsPhoto != null}">
 													<img
 														src="${pageContext.request.contextPath}/errands/${errands.errandsNum}/${errands.errandsPhoto}" />
@@ -167,13 +180,18 @@
 														src="${pageContext.request.contextPath}/resources/img/errands/img.png" />
 												</c:if>
 											</div>
+											
 										</a>
 										<div class="wrapper">
 											<a href="#" id="' + json.data[a].id + '">
 												<h3>${errands.title}</h3>
 											</a>
 											<figure>${errands.errandsPos.addr}</figure>
-											<div class="price">${errands.errandsPrice}원</div>
+											<div class="price">
+												<fmt:formatNumber value="${errands.errandsPrice}" />
+												원
+											</div>
+											<span class="label label-success">${errands.errandsReply.size()}명 지원!</span>
 											<div class="info">
 												<div class="type">
 													<span>${errands.endTime}</span>
@@ -908,11 +926,18 @@
 	<!-- end Page Canvas-->
 
 
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/assets/js/jquery.mCustomScrollbar.concat.min.js"></script>
 	<!--[if lte IE 9]>
 <script type="text/javascript" src="assets/js/ie-scripts.js"></script>
 <![endif]-->
 	<script>
-	
+    // Scrollbar on "Results" section
+    if( $('.items-list').length > 0 ){
+        $(".items-list").mCustomScrollbar({
+            mouseWheel:{ scrollAmount: 350}
+        });
+    }
 		var lat = 37.5327619;
 		var lng = 127.0139427;
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
@@ -961,7 +986,7 @@
 		}
 		$('.map .toggle-navigation').click(function() {
 			$('.map-canvas').toggleClass('results-collapsed');
-			map.relayout();
+			setTimeout("mapRe()", 1000)
 	
 		});
 		// Set if language is RTL and load Owl Carousel

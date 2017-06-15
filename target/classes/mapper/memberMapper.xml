@@ -3,7 +3,7 @@
 <mapper namespace="memberMapper">
 
 <sql id="memberColumn">
-	MEMBER_ID, NAME, PASSWORD, EMAIL, SELF_IMG, ADDR, PHONE, SEX
+	MEMBER_ID, NAME, PASSWORD, EMAIL, SELF_IMG, SSN_IMG, ADDR, PHONE, SEX
 </sql>
 
 <resultMap type="memberDTO" id="memberSelectMap">
@@ -16,19 +16,26 @@
 	<result column="ADDR" property="addr"/>
 	<result column="PHONE" property="phone"/>
 	<result column="SEX" property="sex"/>
+	<association property="point" javaType="pointDTO">
+		<result column="CURRENT_POINT" property="currentPoint"/>
+		<result column="REQUEST_POINT" property="requestPoint"/>
+	</association>
 </resultMap>
-
+<!-- 초기 포인트 생성 -->
+<insert id="createPoint" parameterType="string">
+	insert into POINT values(0, 0, #{value})
+</insert>
 <!-- id에 해당하는 정보 검색 -->
 <select id="selectMemberById" parameterType="string" resultMap="memberSelectMap">
-	select <include refid="memberColumn"/>
-	from member
+	select <include refid="memberColumn"/>, CURRENT_POINT, REQUEST_POINT
+	from member_point_view
 	where member_id=#{_parameter}
 </select>
 
 <!-- 회원가입 -->
 <insert id="insertMember" parameterType="memberDTO">
 	insert into member(<include refid="memberColumn"/>)
-	values(#{userId},#{name},#{password},#{email},#{selfImg},#{addr},#{phone},#{sex})
+	values(#{userId},#{name},#{password},#{email},#{selfImg}, null, #{addr},#{phone},#{sex})
 </insert>
 
 <!-- ID 중복체크 -->
@@ -42,7 +49,22 @@
 	</where>
 </select>
 
-
+<!-- 정보 수정 -->
+<update id="updateMember" parameterType="memberDTO">
+	update MEMBER
+	<set>
+		<if test="addr != null">
+			ADDR = #{addr},
+		</if>
+		<if test="password != null">
+			PASSWORD = #{password},
+		</if>
+		<if test="selfImg != null">
+			SELF_IMG = #{selfImg}
+		</if>
+	</set>
+	where MEMBER_ID = #{userId}
+</update>
 
 
 </mapper>
