@@ -25,11 +25,20 @@ public class ErrandsDTO {
 	
 	private GPADTO gpa;
 	
+	private List<String> hashes;
 
 	
 	
 	
 
+
+	public List<String> getHashes() {
+		return hashes;
+	}
+
+	public void setHashes(List<String> hashes) {
+		this.hashes = hashes;
+	}
 
 	public String getTitle() {
 		return title;

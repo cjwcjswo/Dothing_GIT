@@ -79,11 +79,14 @@
 					<div class="col-md-3 col-sm-3">
 						<aside id="sidebar">
 							<ul class="navigation-sidebar list-unstyled">
-								<li class="active"><a href="${pageContext.request.contextPath}/errand/myRequest"> <i class="fa fa-check"></i>
-										<span>심부름 요청 내역</span>
+								<li class="active"><a
+									href="${pageContext.request.contextPath}/errand/myRequest">
+										<i class="fa fa-check"></i> <span>심부름 요청 내역</span>
 								</a></li>
-								<li><a href="${pageContext.request.contextPath}/errand/myResponse"> <i class="fa fa-clock-o"></i> <span>
-											심부름 수행 내역</span></a></li>
+								<li><a
+									href="${pageContext.request.contextPath}/errand/myResponse">
+										<i class="fa fa-clock-o"></i> <span> 심부름 수행 내역</span>
+								</a></li>
 
 							</ul>
 						</aside>
@@ -123,8 +126,13 @@
 										</figure>
 										<div class="info">
 											<div class="type">
-												<div class="price">${errands.errandsReply.size()}개 댓글
+												<div class="price">${errands.errandsReply.size()}개댓글
 													달림</div>
+												<c:if test="${errands.hashes.size()	 != 0}">
+													<c:forEach items="${errands.hashes}" var="hash">
+														<span class="label label-info">#${hash}</span>
+													</c:forEach>
+												</c:if>
 											</div>
 											<c:if test="${errands.gpa == null}">
 												<div class="rating" data-rating="0"></div>

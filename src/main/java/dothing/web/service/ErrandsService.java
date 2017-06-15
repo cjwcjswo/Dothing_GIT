@@ -30,4 +30,6 @@ public interface ErrandsService {
 	int insertReply(ErrandsReplyDTO dto);
 	
 	Map<String, Integer> requestHash(String hash);
+	
+	void calHashes(List<ErrandsDTO> list);
 }

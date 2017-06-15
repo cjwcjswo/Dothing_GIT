@@ -163,7 +163,14 @@
 									<div class="item">
 										<a class="image">
 											<div class="inner">
-												<div class="item-specific">${errands.content}</div>
+												<div class="item-specific">
+												<c:if test="${errands.hashes.size()	 != 0}">
+													<c:forEach items="${errands.hashes}" var="hash">
+														<span class="label label-info">#${hash}</span>
+													</c:forEach>
+												</c:if>
+												
+												</div>
 												<c:if test="${errands.errandsPhoto != null}">
 													<img
 														src="${pageContext.request.contextPath}/errands/${errands.errandsNum}/${errands.errandsPhoto}" />
@@ -184,7 +191,7 @@
 												<fmt:formatNumber value="${errands.errandsPrice}" />
 												원
 											</div>
-											<span class="label label-primary">${errands.errandsReply.size()}명 지원!</span>
+											<span class="label label-success">${errands.errandsReply.size()}명 지원!</span>
 											<div class="info">
 												<div class="type">
 													<span>${errands.endTime}</span>

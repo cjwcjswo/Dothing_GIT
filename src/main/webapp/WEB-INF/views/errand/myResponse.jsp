@@ -128,6 +128,11 @@
 											<div class="type">
 												<div class="price">${errands.errandsReply.size()}개 댓글
 													달림</div>
+													<c:if test="${errands.hashes.size()	 != 0}">
+													<c:forEach items="${errands.hashes}" var="hash">
+														<span class="label label-info">#${hash}</span>
+													</c:forEach>
+												</c:if>
 											</div>
 											<c:if test="${errands.gpa == null}">
 												<div class="rating" data-rating="0"></div>

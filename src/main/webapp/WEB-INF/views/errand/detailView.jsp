@@ -125,7 +125,13 @@
 								</div>
 								<div class="info">
 									<div class="type">
-										<div id="hashList"></div>
+										<div id="hashList">
+											<c:if test="${errands.hashes.size()	 != 0}">
+												<c:forEach items="${errands.hashes}" var="hash">
+													<span class="label label-info">#${hash}</span>
+												</c:forEach>
+											</c:if>
+										</div>
 									</div>
 								</div>
 							</header>
@@ -470,20 +476,7 @@
 	<!--  chat 끝 -->
 
 	<script>
-	var hash = /#\S\S*/gi;
-    var comment = document.getElementById("comment").innerHTML;
-    var arr = hash.exec(comment);
-    var hashList = "<i><a>";
-    
-    while(arr !=null){
-    	if(arr != null) hashList += " " + arr[0];
-    	comment = comment.replace(arr[0], "");
-    	var hash = /#\S\S*/gi;
-    	var arr = hash.exec(comment);
-    }
-    hashList += "</a></i>";
-    document.getElementById("hashList").innerHTML = hashList;
-    
+
     
     $(document).on('click', '.panel-heading span.icon_minim', function (e) {
         var $this = $(this);
