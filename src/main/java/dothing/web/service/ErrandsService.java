@@ -11,7 +11,7 @@ import dothing.web.dto.ErrandsReplyDTO;
 public interface ErrandsService {
 	List<ErrandsDTO> selectAll();
 
-	List<ErrandsDTO> searchErrands(String hash, Integer minPrice, Integer maxPrice);
+	List<ErrandsDTO> searchErrands(String hash, Integer minPrice, Integer maxPrice, Integer distance, String latitude, String longitude);
 
 	ErrandsDTO selectErrands(int errandsNum);
 

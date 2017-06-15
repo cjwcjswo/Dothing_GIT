@@ -60,11 +60,15 @@ public class ErrandsDAOImpl implements ErrandsDAO{
 	}
 
 	@Override
-	public List<ErrandsDTO> searchErrands(String hash, Integer minPrice, Integer maxPrice) {
+	public List<ErrandsDTO> searchErrands(String hash, Integer minPrice, Integer maxPrice,
+			Integer distance, String latitude, String longitude) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("hash", "%"+ hash + "%");
 		map.put("minPrice", minPrice);
 		map.put("maxPrice", maxPrice);
+		map.put("latitude", latitude);
+		map.put("longitude", longitude);
+		map.put("distance", distance);
 		return sqlSession.selectList("mapper.errandsMapper.searchErrands", map);
 	}
 

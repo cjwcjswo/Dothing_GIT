@@ -83,10 +83,11 @@ public class ErrandsController {
 
 	@RequestMapping("/search")
 	public ModelAndView search(@RequestParam("minPrice") Integer minPrice, @RequestParam("maxPrice") Integer maxPrice,
-			@RequestParam("hash") String hash) {
-		System.out.println("최소: " + minPrice + " 최대: " + maxPrice + " 해쉬: " + hash);
+			@RequestParam("hash") String hash, Integer distance, String sLat, String sLng) {
+		System.out.println("최소: " + minPrice + " 최대: " + maxPrice + " 해쉬: " + hash + " " + distance + " " + sLat + " " + sLng);
+		if(distance == 0 ) distance = null;
 		ModelAndView mv = new ModelAndView();
-		mv.addObject("errandsList", errandsService.searchErrands(hash, minPrice, maxPrice));
+		mv.addObject("errandsList", errandsService.searchErrands(hash, minPrice, maxPrice, distance, sLat, sLng));
 		mv.setViewName("/errand/errand");
 		return mv;
 	}

@@ -24,22 +24,22 @@
 			<result column="LONGITUDE" property="longitude" />
 		</association>
 		<association property="gpa" javaType="GPADTO">
-			<result column="RESPONSE_ACCURACY" property="responseAccuracy"/>
-			<result column="RESPONSE_SPEED" property="responseSpeed"/>
-			<result column="RESPONSE_KINDNESS" property="responseKindness"/>
-			<result column="REQUEST_MANNERS" property="requestManners"/>
+			<result column="RESPONSE_ACCURACY" property="responseAccuracy" />
+			<result column="RESPONSE_SPEED" property="responseSpeed" />
+			<result column="RESPONSE_KINDNESS" property="responseKindness" />
+			<result column="REQUEST_MANNERS" property="requestManners" />
 		</association>
 		<collection property="errandsReply" ofType="errandsReplyDTO">
-			<id column="ERRANDS_REPLY_NUM" property="replyNum"/>
-			<result column="REPLY_CONTENT" property="replyContent"/>
-			<result column="PREDICT_TIME" property="arrivalTime"/>
-			<result column="REPLY_DATE" property="replyDate"/>
+			<id column="ERRANDS_REPLY_NUM" property="replyNum" />
+			<result column="REPLY_CONTENT" property="replyContent" />
+			<result column="PREDICT_TIME" property="arrivalTime" />
+			<result column="REPLY_DATE" property="replyDate" />
 			<association property="user" javaType="memberDTO">
-				<id column="MEMBER_ID" property="userId"/>
+				<id column="MEMBER_ID" property="userId" />
 			</association>
 		</collection>
 	</resultMap>
-	
+
 	<insert id="insertErrands" parameterType="errandsDTO">
 		insert into
 		ERRANDS(ERRANDS_NUM, TITLE, CONTENT, END_TIME,
@@ -59,35 +59,43 @@
 		</where>
 		order by ERRANDS_NUM desc
 	</select>
-	
+
 	<select id="selectNum" resultType="int">
-		select ERRANDS_NUM.CURRVAL from dual
+		select ERRANDS_NUM.CURRVAL
+		from dual
 	</select>
 	<delete id="deleteErrands" parameterType="int">
 		delete from ERRANDS
 		where ERRANDS_NUM = #{value}
 	</delete>
-	
+
 	<select id="countErrands" resultType="int">
-		select count(*) from ERRANDS
+		select count(*) from
+		ERRANDS
 	</select>
-	
+
 	<select id="searchErrands" resultMap="errandsMap" parameterType="map">
 		select * from ERRANDS_REPLY_GPA_VIEW
 		<where>
-		 <if test="minPrice != null">
-		 	ERRANDS_PRICE &gt; #{minPrice}
-		 </if>
-		 <if test="maxPrice != null">
-		 	AND ERRANDS_PRICE &lt; #{maxPrice}
-		 </if>
-		 <if test="hash != null">
-		 	AND CONTENT like #{hash}
-		 </if>
+			<if test="minPrice != null">
+				ERRANDS_PRICE &gt; #{minPrice}
+			</if>
+			<if test="maxPrice != null">
+				AND ERRANDS_PRICE &lt; #{maxPrice}
+			</if>
+			<if test="hash != null">
+				AND CONTENT like #{hash}
+			</if>
+			<if test="distance != null">
+				AND
+				(6371*acos(cos(radians(#{latitude}))*cos(radians(LATITUDE))*cos(radians(LONGITUDE)
+				-radians(#{longitude}))+sin(radians(#{latitude}))*sin(radians(LATITUDE))))
+				&lt;= #{distance}
+			</if>
 		</where>
 		order by ERRANDS_NUM desc
 	</select>
-	
+
 	<select id="myErrandsRequest" parameterType="string" resultMap="errandsMap">
 		select * from ERRANDS_REPLY_GPA_VIEW
 		<where>
@@ -97,7 +105,7 @@
 		</where>
 		order by ERRANDS_NUM desc
 	</select>
-	
+
 	<select id="myErrandsResponse" parameterType="string" resultMap="errandsMap">
 		select * from ERRANDS_REPLY_GPA_VIEW
 		<where>
