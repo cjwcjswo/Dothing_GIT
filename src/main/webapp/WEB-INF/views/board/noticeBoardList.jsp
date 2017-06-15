@@ -55,7 +55,7 @@ function sendDelete(){
 				<div id="page-content">
 					<div class="container" >
 						<h2>Notice</h2>
-						<span style="color:#9999ff;">여러분은 최고의 서비스 DoThing에 있습니다.</span><br>
+						<span style="color:#9999ff;">여러분은 최고의 서비스 DoThing에 있습니다.</span>
 						<table class="table table-hover"  >
 							<thead align="left">
 								<tr>
@@ -113,7 +113,7 @@ function sendDelete(){
 
 					<div class="form-group" align="center">
 						<button type="submit" class="btn btn-large btn-default"
-							id="submit">글작성하기</button>
+							id="submit" onclick="location.href='${pageContext.request.contextPath}/board/noticeBoardWrite'" >글작성하기</button>
 					</div>
 					<!-- /.form-group -->
 				</div>

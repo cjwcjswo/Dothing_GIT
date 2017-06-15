@@ -171,4 +171,31 @@ public class BoardController {
 		return "redirect:/board/noticeBoardList";
 	}
 	
+	/**
+	 * 공지게시판 쓰기 뷰
+	 */
+	@RequestMapping("/noticeBoardWrite")
+	public void noticeWrite(){
+		
+	}
+	
+	/**
+	 * 공지게시판 글쓰기 기능
+	 */
+	@RequestMapping(value = "/noticeInsert", produces = "text/html;charset=UTF-8")
+	public String noticeInsert(NoticeBoardDTO boardDTO) throws Exception {
+
+		String re = "";
+		
+		boardDTO.setUserId("tester");
+
+		int result = noticeService.insert(boardDTO);
+		
+		if (result > 0) {
+			re = "redirect:/board/noticeBoardList";
+		} else {
+			throw new Exception("글 등록 실패");
+		}
+		return re;
+	}
 }

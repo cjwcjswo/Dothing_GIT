@@ -34,7 +34,7 @@
 				<div id="page-content">
 					<div class="container">
 						<h2>Notice</h2>
-						<span style="color:#9999ff;">여러분은 최고의 서비스 DoThing에 있습니다.</span><br>
+						<span style="color:#9999ff;">여러분은 최고의 서비스 DoThing에 있습니다.</span>
 						<table class="table" align="center">
 							<thead align="left">
 								<tr>
