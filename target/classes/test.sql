@@ -48,6 +48,13 @@ where inquiry_num = 4
 
  --게시글 번호 자동 증가
  CREATE SEQUENCE SEQ_ID INCREMENT BY 1 START WITH 1;
-
  
+ CREATE SEQUENCE SEQ_REPLY_NUM INCREMENT BY 1 START WITH 1;
+
+ select *from inquiry_reply;
+ 
+ select inquiry_reply_num,reply_content,inquiry_num from inquiry_reply where inquiry_num = 1;
+ 
+ insert into inquiry_reply(inquiry_reply_num, reply_content, inquiry_num)values(SEQ_REPLY_NUM.NEXTVAL,'ggg',7) 
+ #{board.inquiryNum}
  

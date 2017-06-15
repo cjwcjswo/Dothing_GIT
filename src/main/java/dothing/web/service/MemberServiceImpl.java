@@ -28,14 +28,36 @@ public class MemberServiceImpl implements MemberService{
 	public int joinMember(MemberDTO member) {
 		//비밀번호 암호화
 		String encodePass = passwordEncoder.encode(member.getPassword());
-		
+
 		member.setPassword(encodePass);
 		
 		memberDao.insertMember(member);
-		
+		memberDao.createPoint(member.getUserId());
 		
 		authorityDAO.insertAuthority(new AuthorityDTO(member.getUserId(), Constants.ROLE_MEMBER));
 		
+		return 1;
+	}
+
+	@Override
+	public String selectSearch(String userId) {
+		MemberDTO dto = memberDao.selectSearch(userId);
+		if(dto==null)return "사용가능합니다.";
+		else return "사용중입니다";
+	}
+
+	@Override
+	public int updateMember(MemberDTO member) {
+		if(!(member.getPassword() == null || member.getPassword().equals(""))){
+		String encodePass = passwordEncoder.encode(member.getPassword());
+		member.setPassword(encodePass);
+		} else{
+			member.setPassword(null);
+		}
+		if(member.getPassword() == null && member.getSelfImg() == null && member.getAddr() == null){
+			return 0;
+		}
+		memberDao.updateMember(member);
 		return 1;
 	}
 }

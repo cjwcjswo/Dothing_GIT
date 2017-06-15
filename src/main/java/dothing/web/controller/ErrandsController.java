@@ -2,6 +2,7 @@ package dothing.web.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -43,15 +44,14 @@ public class ErrandsController {
 
 	@RequestMapping("/register")
 	public String register() {
-		
+
 		return "/errand/register";
 	}
 
 	@RequestMapping("/insert")
-	public String insert(HttpSession session, ErrandsDTO dto, 
-			@RequestParam("preAddress") String preAddress, String detailAddress)
-			throws IllegalStateException, IOException {
-		dto.setEndTime(dto.getEndTime().replaceAll("T"," "));
+	public String insert(HttpSession session, ErrandsDTO dto, @RequestParam("preAddress") String preAddress,
+			String detailAddress) throws IllegalStateException, IOException {
+		dto.setEndTime(dto.getEndTime().replaceAll("T", " "));
 		dto.getErrandsPos().setAddr(preAddress + " " + detailAddress);
 		MultipartFile file = dto.getErrandsPhotoFile();
 		dto.setErrandsPhoto(file.getOriginalFilename());
@@ -67,20 +67,38 @@ public class ErrandsController {
 		}
 		return "redirect:/errand/errand";
 	}
-	
+
 	@RequestMapping("/insertReply")
-	public String insert(HttpSession session, ErrandsReplyDTO dto){
-		dto.setArrivalTime(dto.getArrivalTime().replaceAll("T"," "));
+	public String insert(HttpSession session, ErrandsReplyDTO dto) {
+		dto.setArrivalTime(dto.getArrivalTime().replaceAll("T", " "));
 		errandsService.insertReply(dto);
-		return "redirect:/errand/detailView?num="+dto.getErrands().getErrandsNum();
+		return "redirect:/errand/detailView?num=" + dto.getErrands().getErrandsNum();
 	}
-	
+
 	@RequestMapping("/deleteErrands")
-	public String deleteErrands(Authentication auth, int num, String id) throws Exception{
-		if(!id.equals(((MemberDTO)auth.getPrincipal()).getUserId())){
+	public String deleteErrands(Authentication auth, int num, String id) throws Exception {
+		if (!id.equals(((MemberDTO) auth.getPrincipal()).getUserId())) {
 			throw new Exception("작성자가 아닙니다");
 		}
 		errandsService.deleteErrands(num);
 		return "redirect:/errand/errand";
+	}
+
+	@RequestMapping("/search")
+	public ModelAndView search(@RequestParam("minPrice") Integer minPrice, @RequestParam("maxPrice") Integer maxPrice,
+			@RequestParam("hash") String hash) {
+		System.out.println("최소: " + minPrice + " 최대: " + maxPrice + " 해쉬: " + hash);
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("errandsList", errandsService.searchErrands(hash, minPrice, maxPrice));
+		mv.setViewName("/errand/errand");
+		return mv;
+	}
+	
+	@RequestMapping("/hash")
+	public ModelAndView requestHash(String hash){
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("hashList", errandsService.requestHash(hash));
+		mv.setViewName("jsonView");
+		return mv;
 	}
 }

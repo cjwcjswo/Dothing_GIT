@@ -3,10 +3,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page import="java.util.*" %>
 <%@ page import="java.text.SimpleDateFormat" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+
 <!DOCTYPE html>
 <html>
 <head>
-
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <title>심부름</title>
 <style type="text/css">
 /**
@@ -46,12 +48,13 @@
  <script type="text/javascript" src="${pageContext.request.contextPath}/resources/sockjs.js"></script>
 <script>
 	var today = '<%= new java.text.SimpleDateFormat("MM/dd HH:mm").format(new java.util.Date())%>'
-	var sock = new SockJS('/controller/errand/detailView');
+	var sock = new SockJS('${pageContext.request.contextPath}/errand/register');
 	var msg = '새로운 심부름이 등록되었습니다.';
+	var insertRe = <%=session.getAttribute("insertResult")%>
 	
 	$(function(){
 		function sendMessage(){
-			if(${sessionScope.insertResult > 0}){
+			if(insertRe > 0){
 				sock.send(msg);
 				alert('심부름 등록 성공?');
 			}
@@ -83,7 +86,59 @@
 
   */
 </script>	
-	
+	<script>
+	function clickDetail(num) {
+		location.href = "${pageContext.request.contextPath}/errand/detailView?num=" + num;
+	}
+	$(function() {
+		$(document).on("click", "a[role='menuitem']", function() {
+			$("#keyword").val($(this).text());
+			$("#hashDrop li").remove();
+			$(".dropdown-menu").hide();
+			$("#minPrice").focus();
+		});
+		$("#keyword").keyup(function() {
+			if ($(this).val()[0] == "#") {
+				$("#hashDrop li").remove();
+				$.ajax({
+					url : "hash",
+					type : "post",
+					dataType : "json",
+					data : "hash=" + $(this).val(),
+					beforeSend : function(xhr) { /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
+						xhr.setRequestHeader("${_csrf.headerName}", "${_csrf.token}");
+					},
+					success : function(result) {
+						var count = 0;
+						var re = "";
+						if (Object.keys(result.hashList).length == 0) {
+							$("#hashDrop li").remove();
+							$(".dropdown-menu").hide();
+						} else {
+							$.each(result['hashList'], function(index, item) {
+								count++;
+								var key = index;
+								var value = item;
+								re += "<li role='presentation'><a role='menuitem' tabindex='-1'>#" + key + "</a>[등록 태그 갯수 " + value + "개]</li><li role='presentation' class='divider'></li>";
+								if (count == 5) return false;
+							});
+							count = 0;
+							$("#hashDrop").append(re)
+						}
+					},
+					error : function(err) {
+						alert(err);
+					}
+				});
+				$(".dropdown-menu").show();
+
+			} else {
+				$("#hashDrop li").remove();
+				$(".dropdown-menu").hide();
+			}
+		})
+	});
+</script>
 </head>
 <body onunload=""
 	class="map-fullscreen page-homepage navigation-off-canvas"
@@ -118,40 +173,50 @@
 					<div id="map" class="has-parallax"></div>
 					<!--/#map-->
 					<div class="search-bar horizontal">
+						<div class="container-fluid" style="text-align: center">
+							<h3>총 ${errandsList.size()}건의 심부름이 등록되어있습니다</h3>
+						</div>
 						<form class="main-search border-less-inputs" role="form"
-							method="post">
+							method="post" action="search">
 							<div class="input-row">
-								<div class="form-group">
-									<input type="text" class="form-control" id="keyword"
-										placeholder="해쉬태그 검색(예시: #음식배달)">
-								</div>
+
 								<!-- /.form-group -->
-								<div class="form-group">
-									<div class="input-group location">
-										<input type="text" class="form-control" id="location"
-											placeholder="지역을 찾아보세요"> <span
-											class="input-group-addon"><i
-											class="fa fa-map-marker geolocation" data-toggle="tooltip"
-											data-placement="bottom" title="내 위치 찾기"></i></span>
+								<div class="form-group" style="width: 27%">
+									<div class="dropdown">
+										<input type="text" class="form-control" name="hash"
+											id="keyword" placeholder="해시태그(ex: #꿀알바)">
+										<ul class="dropdown-menu" role="menu"
+											aria-labelledby="dropdownMenu1" id="hashDrop">
+
+										</ul>
 									</div>
 								</div>
-								<!-- /.form-group -->
-								<div class="form-group">
-									<select name="category" multiple title="Select Category"
-										data-live-search="true">
-									</select>
+								<div class="form-group" style="width: 27%">
+									<input type="number" class="form-control" name="minPrice"
+										placeholder="최소가격(0원 부터)" min="0" id="minPrice">
+
 								</div>
-								<!-- /.form-group -->
-								<div class="form-group">
-									<button type="submit" class="btn btn-default">
-										<i class="fa fa-search"></i>
-									</button>
+								<div class="form-group" style="width: 27%">
+									<input type="number" class="form-control" name="maxPrice"
+										placeholder="최대가격" min="0">
+
 								</div>
+								<input type="hidden" name="${_csrf.parameterName}"
+									value="${_csrf.token}" />
+								<button type="submit" class="btn btn-default">
+									<i class="fa fa-search"></i>
+								</button>
+								<button type="button" class="btn btn-info"
+									onclick="currentLocation()">
+									<i class="fa fa-map-marker geolocation" data-toggle="tooltip"
+										data-placement="bottom" title="내 위치 찾기"></i>
+								</button>
 								<!-- /.form-group -->
 							</div>
 							<!-- /.input-row -->
 						</form>
 						<!-- /.main-search -->
+
 					</div>
 					<!-- /.search-bar -->
 				</div>
@@ -160,7 +225,7 @@
 				<div class="items-list">
 					<div class="inner">
 						<header>
-							<h3>검색 결과</h3>
+							<h3>검색ㄴ 결과</h3>
 						</header>
 						<ul class="results list">
 							<c:forEach items="${errandsList}" var="errands" varStatus="state">
@@ -190,7 +255,10 @@
 												<h3>${errands.title}</h3>
 											</a>
 											<figure>${errands.errandsPos.addr}</figure>
-											<div class="price">${errands.productPrice + errands.errandsPrice}원</div>
+											<div class="price">
+												<fmt:formatNumber value="${errands.errandsPrice}" />
+												원
+											</div>
 											<div class="info">
 												<div class="type">
 													<span>${errands.endTime}</span>
@@ -198,7 +266,7 @@
 											</div>
 										</div>
 									</div>
-				
+
 								</li>
 							</c:forEach>
 						</ul>
@@ -935,32 +1003,50 @@
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 			mapOption = {
 				center : new daum.maps.LatLng(lat, lng), // 지도의 중심좌표
-				level : 12 // 지도의 확대 레벨
+				level : 6 // 지도의 확대 레벨
 			};
 	
 		// 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
 		var map = new daum.maps.Map(mapContainer, mapOption);
-	
-	
+		function currentLocation(){
 		if (navigator.geolocation) {
 			navigator.geolocation.getCurrentPosition(
 				function nowLocation(position) {
 					lat = position.coords.latitude;
 					lng = position.coords.longitude;
-					var moveLatLon = new daum.maps.LatLng(lat, lng);
-					map.panTo(moveLatLon);      
+					// 지도 레벨을 4로 설정한다
+					map.setLevel(3, {anchor: new daum.maps.LatLng(lat, lng)});
+					
+					// 마커가 표시될 위치입니다 
+					var markerPosition  = new daum.maps.LatLng(lat, lng); 
+
+					// 마커를 생성합니다
+					var marker = new daum.maps.Marker({
+					    position: markerPosition
+					});
+
+					// 마커가 지도 위에 표시되도록 설정합니다
+					marker.setMap(null);    
+					marker.setMap(map);
+					
+					  var moveLatLon = new daum.maps.LatLng(lat, lng);
+					    
+					    // 지도 중심을 이동 시킵니다
+					    map.setCenter(moveLatLon);
+
 				},
 				function(error) {
 					console.log(error);
 				}
 			);
 		}
+		}
 		function mapRe() {
 			map.relayout();
 		}
 		$('.map .toggle-navigation').click(function() {
 			$('.map-canvas').toggleClass('results-collapsed');
-			map.relayout();
+			setTimeout("mapRe()", 1000)
 	
 		});
 		// Set if language is RTL and load Owl Carousel
@@ -1015,7 +1101,12 @@
             });
             
          }
-
+         function moveCenter(){
+         var moveLatLon = new daum.maps.LatLng(lat[0], lng[0]);
+		    // 지도 중심을 이동 시킵니다
+		    map.panTo(moveLatLon);
+		 }
+         setTimeout("moveCenter()", 1000)
 	</script>
 </body>
 </html>

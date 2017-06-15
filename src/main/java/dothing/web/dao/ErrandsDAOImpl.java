@@ -1,8 +1,9 @@
 package dothing.web.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -56,6 +57,15 @@ public class ErrandsDAOImpl implements ErrandsDAO{
 	@Override
 	public int countErrands() {
 		return sqlSession.selectOne("mapper.errandsMapper.countErrands");
+	}
+
+	@Override
+	public List<ErrandsDTO> searchErrands(String hash, Integer minPrice, Integer maxPrice) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("hash", "%"+ hash + "%");
+		map.put("minPrice", minPrice);
+		map.put("maxPrice", maxPrice);
+		return sqlSession.selectList("mapper.errandsMapper.searchErrands", map);
 	}
 	
 	
