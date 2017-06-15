@@ -37,6 +37,7 @@
 </style>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/assets/js/jquery-2.1.0.min.js"></script>
+
 <script type="text/javascript"
 	src="//apis.daum.net/maps/maps3.js?apikey=900302937c725fa5d96ac225cbc2db10&libraries=services"></script>
 <script>
@@ -239,7 +240,14 @@
 									<div class="item">
 										<a class="image">
 											<div class="inner">
-												<div class="item-specific">${errands.content}</div>
+												<div class="item-specific">
+												<c:if test="${errands.hashes.size()	 != 0}">
+													<c:forEach items="${errands.hashes}" var="hash">
+														<span class="label label-info">#${hash}</span>
+													</c:forEach>
+												</c:if>
+												
+												</div>
 												<c:if test="${errands.errandsPhoto != null}">
 													<img
 														src="${pageContext.request.contextPath}/errands/${errands.errandsNum}/${errands.errandsPhoto}" />
@@ -249,6 +257,7 @@
 														src="${pageContext.request.contextPath}/resources/img/errands/img.png" />
 												</c:if>
 											</div>
+											
 										</a>
 										<div class="wrapper">
 											<a href="#" id="' + json.data[a].id + '">
@@ -259,6 +268,7 @@
 												<fmt:formatNumber value="${errands.errandsPrice}" />
 												원
 											</div>
+											<span class="label label-success">${errands.errandsReply.size()}명 지원!</span>
 											<div class="info">
 												<div class="type">
 													<span>${errands.endTime}</span>
@@ -993,11 +1003,18 @@
 	<!-- end Page Canvas-->
 
 
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/assets/js/jquery.mCustomScrollbar.concat.min.js"></script>
 	<!--[if lte IE 9]>
 <script type="text/javascript" src="assets/js/ie-scripts.js"></script>
 <![endif]-->
 	<script>
-	
+    // Scrollbar on "Results" section
+    if( $('.items-list').length > 0 ){
+        $(".items-list").mCustomScrollbar({
+            mouseWheel:{ scrollAmount: 350}
+        });
+    }
 		var lat = 37.5327619;
 		var lng = 127.0139427;
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 

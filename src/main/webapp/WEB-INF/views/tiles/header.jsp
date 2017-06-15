@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>Do Thing</title>
 
 <script>
 	function logout() {
@@ -36,6 +36,7 @@
 									property="principal.point.currentPoint" /></li>
 									<li><a href="${pageContext.request.contextPath}/user/myPage">마이페이지</a></li>
 							<li><a href="javascript:logout();">로그아웃</a></li>
+							<li><a href="${pageContext.request.contextPath}/errand/errand">심부름 목록</a></li>
 						</security:authorize>
 						<security:authorize access="isAnonymous()">
 							<li><a

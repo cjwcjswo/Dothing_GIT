@@ -140,4 +140,9 @@ public class MemberController {
 		
 		return mv;
 	}
+	
+	@RequestMapping("/history")
+	public String history(){
+		return "/user/history";
+	}
 }

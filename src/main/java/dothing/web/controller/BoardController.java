@@ -12,7 +12,9 @@ import org.springframework.web.servlet.ModelAndView;
 import dothing.web.dto.BoardDTO;
 import dothing.web.dto.BoardReplyDTO;
 import dothing.web.dto.MemberDTO;
+import dothing.web.dto.NoticeBoardDTO;
 import dothing.web.service.BoardService;
+import dothing.web.service.NoticeBoardService;
 
 @Controller
 @RequestMapping("/board")
@@ -20,6 +22,9 @@ public class BoardController {
 	
 	@Autowired
 	private BoardService boardService;
+	
+	@Autowired
+	private NoticeBoardService noticeService;
 
 	/**
 	 * 1대1게시판 보기
@@ -126,14 +131,32 @@ public class BoardController {
 		boardService.insertReply(brDTO);
 		return "redirect:/board/inquiryBoardRead/" + brDTO.getBoard().getInquiryNum();
 	}
-
+	
+	
+    /**
+     * 공지게시판 메인
+     */
 	@RequestMapping("/noticeBoardList")
 	public ModelAndView notice() {
-		List<BoardDTO> list = boardService.selectAll();
+		List<NoticeBoardDTO> list = noticeService.selectAll();
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("board/noticeBoardList");
 		mv.addObject("list", list);
 
 		return mv;
 	}
+	
+	/**
+	 * 공지게시판 상세보기
+	 */
+	@RequestMapping("/noticeBoardRead/{noticeNum}")
+	public ModelAndView noticeRead(@PathVariable int noticeNum) throws Exception {
+		NoticeBoardDTO boardDTO = noticeService.selectByBoardNum(noticeNum, true);
+		
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("board/noticeBoardRead");
+		mv.addObject("board", boardDTO);
+		return mv;
+	}
+	
 }

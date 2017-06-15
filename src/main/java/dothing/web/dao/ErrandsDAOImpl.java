@@ -67,6 +67,17 @@ public class ErrandsDAOImpl implements ErrandsDAO{
 		map.put("maxPrice", maxPrice);
 		return sqlSession.selectList("mapper.errandsMapper.searchErrands", map);
 	}
+
+	@Override
+	public List<ErrandsDTO> myRequestErrands(String userId) {
+		return sqlSession.selectList("mapper.errandsMapper.myErrandsRequest", userId);
+	}
+
+	@Override
+	public List<ErrandsDTO> myResponseErrands(String userId) {
+		return sqlSession.selectList("mapper.errandsMapper.myErrandsResponse", userId);
+	}
+	
 	
 	
 	

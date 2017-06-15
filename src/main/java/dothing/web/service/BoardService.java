@@ -30,7 +30,7 @@ public interface BoardService {
 	int delete(int inquiryNum) throws Exception;
 
 	/**
-	 * 모델번호에 해당하는 레코드 수정
+	 * 보드번호에 해당하는 레코드 수정
 	 */
 	/* int update(BoardDTO boardDTO) throws Exception; */
 

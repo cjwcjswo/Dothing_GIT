@@ -7,30 +7,33 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<link href="${pageContext.request.contextPath}/assets/fonts/font-awesome.css" rel="stylesheet"
-	type="text/css">
+<link
+	href="${pageContext.request.contextPath}/assets/fonts/font-awesome.css"
+	rel="stylesheet" type="text/css">
 <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700'
 	rel='stylesheet' type='text/css'>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/main.css" type="text/css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/user.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/Article-List.css">
-<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/Team-Boxed.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/assets/css/main.css"
+	type="text/css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/assets/css/user.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/assets/css/Article-List.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/assets/css/Team-Boxed.css">
 
 
 <title>메인 페이지</title>
-
+<script>
+</script>
 </head>
-
 <body onunload="" class="page-subpage page-faq navigation-off-canvas"
 	id="page-top">
 
-
-
-
 	<div class="video-part">
-		<video autoplay="autoplay" loop="loop" muted="muted"> <source
-			src="http://lightofweb.com/zanzo-website/video/Typing.mp4"
-			type="video/mp4"> </video>
+		<video autoplay="autoplay" loop="loop"> <source
+			src="${pageContext.request.contextPath}/assets/img/Lady_in_ST.mp4"
+			type="video/mp4"></video>
 
 		<div class="container">
 			<div class="video-part-content">
@@ -55,7 +58,7 @@
 								</center>
 								<div class="full-width animated fadeInUp">
 									<h1>무엇이든지 이웃에게, 이웃으로</h1>
-									<p>따뜻한 커피가 마시고 싶은데 아픈 경험이 있나요?</p>
+									<p>작은 도움이 필요할 때가 있으신가요?</p>
 									<a href="#" class="btn btn-info">로그인하기</a>
 								</div>
 							</div>
@@ -85,7 +88,7 @@
 									<h1>1분,1초가 당신의 가치를 보여주는 곳</h1>
 									<p>당신의 자투리 시간이 당신의 가치를 보여 줄 수 있습니다. 집에 가는 길, 회사 가는 길 . 순간의
 										가치로 이웃과 행복을 나눠보세요.</p>
-									<a href="#" class="btn btn-info" >About DoThing</a>
+									<a href="#" class="btn btn-info">About DoThing</a>
 								</div>
 							</div>
 						</div>
@@ -116,9 +119,10 @@
 		
 		
 	</div> -->
-	<section class="features">
-	<div class="container" style="margin-top: 500px;">
+	<section class="features" id="features">
+	<div class="container">
 		<div class="row">
+		
 			<div class="col-md-6">
 				<h2>Connecting you to your community</h2>
 				<p>Dothing 서비스는 주위의 누군가가 나 대신 무엇이든지 해주는 서비스입니다. 당신이 원하는 배달비를 통해
@@ -190,7 +194,8 @@
 			<div class="row people">
 				<div class="col-md-4 col-sm-6 item">
 					<div class="box">
-						<img class="img-circle" src="${pageContext.request.contextPath}/assets/img/1.jpg">
+						<img class="img-circle"
+							src="${pageContext.request.contextPath}/assets/img/1.jpg">
 						<h3 class="name">Ben Johnson</h3>
 						<p class="title">Musician</p>
 						<p class="description">Aenean tortor est, vulputate quis leo
@@ -206,7 +211,8 @@
 				</div>
 				<div class="col-md-4 col-sm-6 item">
 					<div class="box">
-						<img class="img-circle" src="${pageContext.request.contextPath}/assets/img/2.jpg">
+						<img class="img-circle"
+							src="${pageContext.request.contextPath}/assets/img/2.jpg">
 						<h3 class="name">Emily Clark</h3>
 						<p class="title">Artist</p>
 						<p class="description">Aenean tortor est, vulputate quis leo
@@ -222,7 +228,8 @@
 				</div>
 				<div class="col-md-4 col-sm-6 item">
 					<div class="box">
-						<img class="img-circle" src="${pageContext.request.contextPath}/assets/img/3.jpg">
+						<img class="img-circle"
+							src="${pageContext.request.contextPath}/assets/img/3.jpg">
 						<h3 class="name">Carl Kent</h3>
 						<p class="title">Stylist</p>
 						<p class="description">Aenean tortor est, vulputate quis leo

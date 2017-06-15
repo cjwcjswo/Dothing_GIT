@@ -27,14 +27,33 @@ public class ErrandsServiceImpl implements ErrandsService {
 
 	@Override
 	public List<ErrandsDTO> selectAll() {
+		List<ErrandsDTO> list = errandsDAO.selectAll();
+		calHashes(list);
 		return errandsDAO.selectAll();
 	}
 
 	@Override
 	public ErrandsDTO selectErrands(int errandsNum) {
-		return errandsDAO.selectErrands(errandsNum);
+		ErrandsDTO dto = errandsDAO.selectErrands(errandsNum);
+		dto.setHashes(new ArrayList<>());
+		List<String> hashes = dto.getHashes();
+		int index = 0;
+		String content = dto.getContent();
+		while ((index = content.indexOf("#", index)) != -1) {
+			int restIndex = content.indexOf(" ", index);
+			if (restIndex == -1) {
+				restIndex = content.length();
+			}
+			String result = content.substring(index + 1, restIndex);
+			hashes.add(result);
+			index = restIndex;
+		}
+		return dto;
 	}
 
+	/**
+	 * 심부름 삽입
+	 */
 	@Override
 	public int insertErrands(ErrandsDTO dto, String path) throws FileNotFoundException, IOException {
 		ErrandsHashProperties hp = new ErrandsHashProperties();
@@ -43,7 +62,10 @@ public class ErrandsServiceImpl implements ErrandsService {
 		
 		return 1;
 	}
-
+	
+	/**
+	 * 해당 심부름의 심부름 번호 셀렉트
+	 */
 	@Override
 	public int selectNum() {
 		return errandsDAO.selectNum();
@@ -66,7 +88,9 @@ public class ErrandsServiceImpl implements ErrandsService {
 
 	@Override
 	public List<ErrandsDTO> searchErrands(String hash, Integer minPrice, Integer maxPrice) {
-		return errandsDAO.searchErrands(hash, minPrice, maxPrice);
+		List<ErrandsDTO> list = errandsDAO.searchErrands(hash, minPrice, maxPrice);
+		calHashes(list);
+		return list;
 	}
 
 	@Override
@@ -115,6 +139,47 @@ public class ErrandsServiceImpl implements ErrandsService {
 		});
 		Collections.reverse(list); // 주석시 오름차순
 		return list;
+	}
+	/**
+	 * 내 요청 심부름 조회
+	 */
+	@Override
+	public List<ErrandsDTO> myErrandsRequest(String userId) {
+		List<ErrandsDTO> list = errandsDAO.myRequestErrands(userId);
+		calHashes(list);
+		return list;
+	}
+
+	/**
+	 * 내 응답 심부름 조회
+	 */
+	@Override
+	public List<ErrandsDTO> myErrandsResponse(String userId) {
+		List<ErrandsDTO> list = errandsDAO.myResponseErrands(userId);
+		calHashes(list);
+		return list;
+	}
+
+	/**
+	 * 해쉬를 뽑는 메서드
+	 */
+	@Override
+	public void calHashes(List<ErrandsDTO> list) {
+		for(ErrandsDTO dto : list){
+			dto.setHashes(new ArrayList<>());
+			List<String> hashes = dto.getHashes();
+			int index = 0;
+			String content = dto.getContent();
+			while ((index = content.indexOf("#", index)) != -1) {
+				int restIndex = content.indexOf(" ", index);
+				if (restIndex == -1) {
+					restIndex = content.length();
+				}
+				String result = content.substring(index + 1, restIndex);
+				hashes.add(result);
+				index = restIndex;
+			}
+		}
 	}
 
 }

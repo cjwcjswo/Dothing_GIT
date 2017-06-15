@@ -1,21 +1,21 @@
 
-
-.icon-feature {
+ .icon-feature {
   text-align:center;
-}
+} 
 
-.icon-feature .fa {
+ .icon-feature .fa {
   font-size:60px;
-}
-
-section.features {
+} 
+  
+  #features {
   background-color:#474747;
   padding:40px 0;
   color:#fff;
-}
-
+  z-index : -5 ;
+}  
+  
 .features h2 {
-  color:#fff;
+  color:#F89E43;
 }
 
 .features .icon-features {
