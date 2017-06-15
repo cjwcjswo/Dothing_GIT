@@ -14,11 +14,11 @@
 
 
 <!-- 공지게시물 등록 -->
-	<insert id="boardInsert" parameterType="noticeBoardDTO">
+	<insert id="boardInsert" parameterType="NoticeBoardDTO">
 		insert into notice_board(
-		notice_num,member_id,notice_title,notice_content
-		,notice_date,readnum)
-		values(SEQ_NOTICE_NUM.NEXTVAL,'tester',#{noticeTitle},#{noticeContent},
+		notice_num,member_id,notice_title,notice_content,
+		notice_date,READNUM)
+		values(SEQ_NOTICE_NUM.NEXTVAL,#{userId},#{noticeTitle},#{noticeContent},
 		to_char(sysdate, 'YYYY-MM-DD HH:MI:SS AM'),0)
 	</insert>
 	
