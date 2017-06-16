@@ -57,6 +57,9 @@
 			<if test="value != 0">
 				ERRANDS_NUM = #{value}
 			</if>
+			<if test="value == 0">
+				RESPONSE_ID is NULL
+			</if>
 		</where>
 		order by ERRANDS_NUM desc
 	</select>
@@ -105,7 +108,7 @@
 				REQUEST_ID = #{value}
 			</if>
 		</where>
-		order by ERRANDS_NUM desc
+		order by RESPONSE_ID, ERRANDS_NUM desc
 	</select>
 
 	<select id="myErrandsResponse" parameterType="string" resultMap="errandsMap">
@@ -117,4 +120,22 @@
 		</where>
 		order by ERRANDS_NUM desc
 	</select>
+	<update id="updateErrands" parameterType="map">
+		update ERRANDS
+		<set>
+			<if test="responseId != null">
+				RESPONSE_ID = #{responseId},
+			</if>
+			<if test="arrivalTime != null">
+				ARRIVAL_TIME = #{arrivalTime},
+			</if>
+			<if test="finishTime != null">
+				FINISH_TIME = #{finishTime}
+			</if>
+			<if test="startTime != null">
+				START_TIME = to_char(sysdate, 'YYYY-MM-DD HH:MI:SS')
+			</if>
+		</set>
+		where ERRANDS_NUM = #{num}
+	</update>
 </mapper>

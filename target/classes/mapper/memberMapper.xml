@@ -66,5 +66,9 @@
 	where MEMBER_ID = #{userId}
 </update>
 
-
+<!-- 포인트 수정 -->
+<update id="updatePoint" parameterType="map">
+	update POINT set CURRENT_POINT = CURRENT_POINT + #{point}
+	where MEMBER_ID = #{userId}
+</update>
 </mapper>

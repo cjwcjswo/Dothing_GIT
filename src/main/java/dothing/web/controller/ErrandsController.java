@@ -113,7 +113,9 @@ public class ErrandsController {
 		mv.setViewName("jsonView");
 		return mv;
 	}
-	
+	/**
+	 * 심부름 요청내역 확인
+	 */
 	@RequestMapping("/myRequest")
 	public ModelAndView myRequest(Authentication aut){
 		ModelAndView mv = new ModelAndView();
@@ -122,6 +124,9 @@ public class ErrandsController {
 		return mv;
 	}
 	
+	/**
+	 * 심부름 수행내역 확인
+	 */
 	@RequestMapping("/myResponse")
 	public ModelAndView myResponse(Authentication aut){
 		ModelAndView mv = new ModelAndView();
@@ -130,4 +135,23 @@ public class ErrandsController {
 		return mv;
 	}
 	
+	/**
+	 * 심부름 수행 프로세스(심부름꾼 선택했을 때)
+	 */
+	@RequestMapping("/startErrand")
+	public ModelAndView startErrand(Authentication aut, int num, String responseId) throws Exception{
+		ModelAndView mv = new ModelAndView();
+		MemberDTO requestUser = (MemberDTO)aut.getPrincipal();
+		ErrandsDTO currentErrand = errandsService.selectErrands(num);
+		int totalPrice = currentErrand.getProductPrice() + currentErrand.getErrandsPrice();
+		if(totalPrice > requestUser.getPoint().getCurrentPoint()){
+			throw new Exception("포인트가 부족합니다! 충전해주세요.");
+		}
+		errandsService.updateErrands(num, responseId, requestUser.getUserId(), "startTime", null, null, totalPrice);
+		mv.addObject("num", num);
+		mv.setViewName("/errand/okay");
+		return mv;
+	}
+	
+
 }

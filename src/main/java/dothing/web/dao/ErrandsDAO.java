@@ -18,8 +18,11 @@ public interface ErrandsDAO {
 	int deleteErrands(int num);
 	int countErrands();
 	int selectNum();
+	int updateErrands(int errandsNum, String responseId, String startTime,
+			String arrivalTime, String finishTime);
 	
 	
 	int insertReply(ErrandsReplyDTO dto);
 	int deleteReply(int num);
+	
 }

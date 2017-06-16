@@ -86,6 +86,18 @@ public class ErrandsDAOImpl implements ErrandsDAO{
 	public int deleteReply(int num) {
 		return sqlSession.delete("mapper.errandsReplyMapper.deleteErrandsReply", num);
 	}
+
+	@Override
+	public int updateErrands(int errandsNum, String responseId, String startTime, String arrivalTime,
+			String finishTime) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("responseId", responseId);
+		map.put("startTime", startTime);
+		map.put("arrivalTime", arrivalTime);
+		map.put("finishTime", finishTime);
+		map.put("num", errandsNum);
+		return sqlSession.update("mapper.errandsMapper.updateErrands", map);
+	}
 	
 	
 	
