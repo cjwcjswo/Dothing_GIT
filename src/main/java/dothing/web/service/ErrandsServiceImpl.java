@@ -194,7 +194,7 @@ public class ErrandsServiceImpl implements ErrandsService {
 	public int updateErrands(int errandsNum, String responseId, String requestId, String startTime, String arrivalTime,
 			String finishTime, int point) {
 		if(startTime != null){
-			memberDAO.updatePoint(point, requestId);
+			memberDAO.updatePoint(point * -1, requestId);
 		}
 		System.out.println("*포인트 수정됨!*");
 		return errandsDAO.updateErrands(errandsNum, responseId, startTime, arrivalTime, finishTime);
