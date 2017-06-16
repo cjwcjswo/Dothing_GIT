@@ -17,6 +17,7 @@ import dothing.web.dto.MemberDTO;
 import dothing.web.dto.NoticeBoardDTO;
 import dothing.web.service.BoardService;
 import dothing.web.service.NoticeBoardService;
+import dothing.web.util.PageMaker;
 
 @Controller
 @RequestMapping("/board")
@@ -143,10 +144,18 @@ public class BoardController {
      * 공지게시판 메인
      */
 	@RequestMapping("/noticeBoardList")
-	public ModelAndView notice() {
-		List<NoticeBoardDTO> list = noticeService.selectAll();
+	public ModelAndView notice(Integer page) {
+		if (page == null)
+			page = new Integer(1);
+		
+		PageMaker pm = new PageMaker(page, noticeService.countNoticeList()/ 6 + 1);
+		//System.out.println("noticeService.countNoticeList()/ 6 + 1:" + noticeService.countNoticeList()/ 6 + 1);
+		pm.start();
+		List<NoticeBoardDTO> list = noticeService.selectAll(page);
 		ModelAndView mv = new ModelAndView();
+		
 		mv.setViewName("board/noticeBoardList");
+		mv.addObject("pm", pm);
 		mv.addObject("list", list);
 
 		return mv;

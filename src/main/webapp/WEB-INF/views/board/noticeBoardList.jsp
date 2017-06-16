@@ -53,7 +53,6 @@ body p {
 									<td align="left"><Strong>글제목</Strong></td>
 								</tr>
 							</thead>
-							<div id="history">
 								<c:choose>
 									<c:when test="${empty requestScope.list}">
 										<tr>
@@ -80,14 +79,12 @@ body p {
 															title="삭제하기"></i>
 													</a> <a><i class="fa fa-pencil" data-toggle="tooltip"
 															title="수정하기"></i></a> <span style="color: #ff513f;">${boardDto.noticeDate}</span>
-
 													</td>
 												</tr>
 											</tbody>
 										</c:forEach>
 									</c:otherwise>
-								</c:choose>
-							</div>
+								</c:choose>		
 						</table>
 					</div>
 
@@ -101,6 +98,33 @@ body p {
 						<li><a href="#">Next</a></li>
 					</ul>
  -->
+
+					<ul class="pagination" style="margin-left: 35%">
+						<c:if test="${pm.previous}">
+							<li><a
+								href="${pageContext.request.contextPath}/board/noticeBoardList?page=${pm.lastPage - 5}"><span
+									class="glyphicon glyphicon-chevron-left"></span></a></li>
+						</c:if>
+						<c:forEach begin="${pm.startPage}" end="${pm.lastPage}"
+							varStatus="state">
+							<c:if test="${pm.currentPage == (pm.startPage + state.count-1)}">
+								<li class="active"><a
+									href='${pageContext.request.contextPath}/board/noticeBoardList?page=${pm.startPage + state.count-1}'>${pm.startPage + state.count-1}</a>
+								</li>
+							</c:if>
+							<c:if test="${pm.currentPage != (pm.startPage + state.count-1)}">
+								<li><a
+									href='${pageContext.request.contextPath}/board/noticeBoardList?page=${pm.startPage + state.count-1}'>${pm.startPage + state.count-1}</a>
+								</li>
+							</c:if>
+						</c:forEach>
+						<c:if test="${pm.next}">
+							<li><a
+								href="${pageContext.request.contextPath}/board/noticeBoardList?page=${pm.lastPage + 1}"><span
+									class="glyphicon glyphicon-chevron-right"></span></a></li>
+						</c:if>
+
+					</ul>
 					<!-- 페이지네이션 종료 -->
 
 					<div class="form-group" align="center">

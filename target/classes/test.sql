@@ -73,4 +73,8 @@ where inquiry_num = 4
 		,notice_date,readnum)
 		values(SEQ_NOT_NUM.NEXTVAL,'tester','블랙 회원 안내입니다.','응 업써~',
 		to_char(sysdate, 'YYYY-MM-DD HH:MI:SS AM'),0)
+		
+		
+		
+select count(*) from notice_board where notice_num=3
  
