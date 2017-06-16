@@ -45,7 +45,6 @@
 			$("#myModal").modal('toggle');
 		})
 
-		
 	});
 	function checkValid() {
 		var form = document.f;
@@ -68,14 +67,19 @@
 			location.href = "${pageContext.request.contextPath}/errand/deleteErrands?num=${errands.errandsNum}&id=<security:authentication property='principal.userId'/>";
 		}
 	}
-	function clickUser(id, predict, content,photo) {
-		var src = "${pageContext.request.contextPath}/users/"+id+"/"+photo;
-		var imgSrc = "<img class='img-responsive' src='"+src+"' style='width: 71px; border-radius: 43px;'>";
+	function clickUser(id, predict, content, photo) {
+		var src = "${pageContext.request.contextPath}/users/" + id + "/" + photo;
+		var imgSrc = "<img class='img-responsive' src='" + src + "' style='width: 71px; border-radius: 43px;'>";
 		$('#myModal').modal('toggle');
 		$("#errandsId").html(id);
 		$("#errandsPredict").html(predict);
 		$("#errandsContent").html(content);
 		$("#errandsUserImg").html(imgSrc);
+		$("#responseIdHidden").val(id);
+	}
+	function startProcess() {
+		var responseId = document.getElementById("responseIdHidden").value;
+		location.href = "${pageContext.request.contextPath}/errand/startErrand?num=${errands.errandsNum}&responseId=" + responseId;
 	}
 </script>
 
@@ -200,8 +204,10 @@
 
 									</section>
 									<!--end Events-->
-									<button type="button" onclick="delErrands()"
-										class="btn btn-default">삭제하기</button>
+									<c:if test="${errands.responseUser.userId == null }">
+										<button type="button" onclick="delErrands()"
+											class="btn btn-default">삭제하기</button>
+									</c:if>
 								</aside>
 								<!--end Detail Sidebar-->
 								<!--Content-->
@@ -222,6 +228,12 @@
 										<article class="block">
 											<header>
 												<h2>상세설명</h2>
+												<c:if test="${errands.responseUser.userId != null}">
+													<h3>
+														<span class="label label-warning">심부름꾼:
+															${errands.responseUser.userId}</span>
+													</h3>
+												</c:if>
 											</header>
 											<p>
 											<div id="comment">${errands.content}</div>
@@ -274,19 +286,26 @@
 														<img
 															src="${pageContext.request.contextPath}/users/${reply.user.userId}/${reply.user.selfImg}"
 															alt="">
-														<div class="date"><b>예상 도착</b><br>${reply.arrivalTime}</div>
+														<div class="date">
+															<b>예상 도착</b><br>${reply.arrivalTime}</div>
 													</figure>
 													<!-- /.author-->
 
 													<div class="wrapper">
+														<c:if
+															test="${reply.user.userId == errands.responseUser.userId}">
+															<i class="fa fa-user-o"></i>
+														</c:if>
 														<h5>${reply.user.userId}</h5>
+
 														<c:if test="${currentId == reply.user.userId}">
 															<button type="button" class="btn btn-danger"
 																onclick="location.href='${pageContext.request.contextPath}/errand/deleteReply?num=${reply.replyNum}&eNum=${errands.errandsNum}'">
 																삭제</button>
 														</c:if>
 														<figure class="rating big color" data-rating="4"></figure>
-														<c:if test="${currentId == errands.requestUser.userId}">
+														<c:if
+															test="${(currentId == errands.requestUser.userId) && (errands.responseUser.userId == null)}">
 															<button type="button"
 																class="btn framed icon pull-right roll"
 																onclick="clickUser('${reply.user.userId}','${reply.arrivalTime}', '${reply.replyContent}', '${reply.user.selfImg}')">
@@ -307,47 +326,50 @@
 									<!-- /#reviews -->
 									<!--end Reviews-->
 									<!--Review Form-->
-									<c:if test="${errands.responseUser.userId == null }">
-										<c:if test="${count != 1}">
-											<section id="write-review">
-												<header>
-													<h2>심부름 댓글 등록</h2>
-												</header>
-												<form name="f" method="post" action="insertReply"
-													onsubmit="return checkValid()"
-													class="background-color-white">
-													<div class="row">
-														<div class="col-md-8">
-															<!-- /.form-group -->
-															<div class="form-group">
-																<label for="form-review-message">댓글 입력</label>
-																<textarea class="form-control" id="form-review-message"
-																	name="replyContent" rows="3" required="" placeholder=""></textarea>
-															</div>
-															<div class="form-group">
-																<label for="form-review-email">도착예정시간</label> <input
-																	type="datetime-local" class="form-control"
-																	name="arrivalTime" />
-															</div>
-															<input type="hidden" name="errands.errandsNum"
-																value="${errands.errandsNum}"> <input
-																type="hidden" name="user.userId"
-																value="<security:authentication property='principal.userId'/>">
-															<input type="hidden" name="${_csrf.parameterName}"
-																value="${_csrf.token}" />
+									<c:if test="${errands.requestUser.userId != currentId}">
+										<c:if test="${errands.responseUser.userId == null }">
+											<c:if test="${count != 1}">
+												<section id="write-review">
+													<header>
+														<h2>심부름 댓글 등록</h2>
+													</header>
+													<form name="f" method="post" action="insertReply"
+														onsubmit="return checkValid()"
+														class="background-color-white">
+														<div class="row">
+															<div class="col-md-8">
+																<!-- /.form-group -->
+																<div class="form-group">
+																	<label for="form-review-message">댓글 입력</label>
+																	<textarea class="form-control" id="form-review-message"
+																		name="replyContent" rows="3" required=""
+																		placeholder=""></textarea>
+																</div>
+																<div class="form-group">
+																	<label for="form-review-email">도착예정시간</label> <input
+																		type="datetime-local" class="form-control"
+																		name="arrivalTime" />
+																</div>
+																<input type="hidden" name="errands.errandsNum"
+																	value="${errands.errandsNum}"> <input
+																	type="hidden" name="user.userId"
+																	value="<security:authentication property='principal.userId'/>">
+																<input type="hidden" name="${_csrf.parameterName}"
+																	value="${_csrf.token}" />
 
-															<!-- /.form-group -->
-															<div class="form-group">
-																<button type="submit" class="btn btn-default">등록하기</button>
+																<!-- /.form-group -->
+																<div class="form-group">
+																	<button type="submit" class="btn btn-default">등록하기</button>
+																</div>
+																<!-- /.form-group -->
 															</div>
-															<!-- /.form-group -->
+
+
 														</div>
-
-
-													</div>
-												</form>
-												<!-- /.main-search -->
-											</section>
+													</form>
+													<!-- /.main-search -->
+												</section>
+											</c:if>
 										</c:if>
 									</c:if>
 									<!--end Review Form-->
@@ -521,9 +543,7 @@
 				<div class="row">
 					<div class="receipt-header">
 						<div class="col-xs-6 col-sm-6 col-md-6">
-							<div class="receipt-left" id="errandsUserImg">
-								
-							</div>
+							<div class="receipt-left" id="errandsUserImg"></div>
 						</div>
 						<div class="col-xs-6 col-sm-6 col-md-6 text-right">
 							<div class="receipt-right">
@@ -543,7 +563,8 @@
 						<div class="col-xs-8 col-sm-8 col-md-8 text-left">
 							<div class="receipt-right">
 								<h5>
-									회원 아이디 <small id="errandsId">  |   Lucky Number : 156</small>
+									회원 아이디 <br> <small id="errandsId">  |   Lucky
+										Number : 156</small>
 								</h5>
 
 							</div>
@@ -604,8 +625,11 @@
 						</div>
 						<div class="col-xs-4 col-sm-4 col-md-4">
 							<div class="receipt-left">
-								<a class="btn framed icon pull-right roll" href="#">시작<i
-									class="fa fa-check"></i></a>
+								<input type="hidden" id="responseIdHidden">
+								<button class="btn framed icon pull-right roll"
+									onclick="startProcess()">
+									시작<i class="fa fa-check"></i>
+								</button>
 							</div>
 							<div class="receipt-left"></div>
 						</div>

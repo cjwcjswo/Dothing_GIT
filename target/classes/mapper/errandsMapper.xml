@@ -36,7 +36,7 @@
 			<result column="REPLY_DATE" property="replyDate" />
 			<association property="user" javaType="memberDTO">
 				<id column="MEMBER_ID" property="userId" />
-				<result column="SELF_IMG" property="selfImg"/>
+				<result column="SELF_IMG" property="selfImg" />
 			</association>
 		</collection>
 	</resultMap>
@@ -56,6 +56,9 @@
 		<where>
 			<if test="value != 0">
 				ERRANDS_NUM = #{value}
+			</if>
+			<if test="value == 0">
+				RESPONSE_ID is NULL
 			</if>
 		</where>
 		order by ERRANDS_NUM desc
@@ -105,9 +108,17 @@
 				REQUEST_ID = #{value}
 			</if>
 		</where>
-		order by ERRANDS_NUM desc
+		order by RESPONSE_ID, ERRANDS_NUM desc
 	</select>
 
+	<select id="countRequest" resultType="int" parameterType="string">
+		select count(*) from ERRANDS_REPLY_GPA_VIEW
+		<where>
+			<if test="value != null">
+				REQUEST_ID = #{value}
+			</if>
+		</where>
+	</select>
 	<select id="myErrandsResponse" parameterType="string" resultMap="errandsMap">
 		select * from ERRANDS_REPLY_GPA_VIEW
 		<where>
@@ -117,4 +128,30 @@
 		</where>
 		order by ERRANDS_NUM desc
 	</select>
+	<select id="countResponse" resultType="int" parameterType="string">
+		select count(*) from ERRANDS_REPLY_GPA_VIEW
+		<where>
+			<if test="value != null">
+				MEMBER_ID = #{value}
+			</if>
+		</where>
+	</select>
+	<update id="updateErrands" parameterType="map">
+		update ERRANDS
+		<set>
+			<if test="responseId != null">
+				RESPONSE_ID = #{responseId},
+			</if>
+			<if test="arrivalTime != null">
+				ARRIVAL_TIME = #{arrivalTime},
+			</if>
+			<if test="finishTime != null">
+				FINISH_TIME = #{finishTime}
+			</if>
+			<if test="startTime != null">
+				START_TIME = to_char(sysdate, 'YYYY-MM-DD HH:MI:SS')
+			</if>
+		</set>
+		where ERRANDS_NUM = #{num}
+	</update>
 </mapper>

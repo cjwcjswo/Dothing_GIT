@@ -236,7 +236,7 @@
 				<div class="items-list">
 					<div class="inner">
 						<header>
-							<h3>검색ㄴ 결과</h3>
+							<h3>검색 결과</h3>
 						</header>
 						<ul class="results list">
 							<c:forEach items="${errandsList}" var="errands" varStatus="state">

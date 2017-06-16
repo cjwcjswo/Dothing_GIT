@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import dothing.web.dao.ErrandsDAO;
+import dothing.web.dao.MemberDAO;
 import dothing.web.dto.ErrandsDTO;
 import dothing.web.dto.ErrandsReplyDTO;
 import dothing.web.properties.ErrandsHashProperties;
@@ -24,6 +24,8 @@ import dothing.web.properties.ErrandsHashProperties;
 public class ErrandsServiceImpl implements ErrandsService {
 	@Autowired
 	ErrandsDAO errandsDAO;
+	@Autowired
+	MemberDAO memberDAO;
 
 	@Override
 	public List<ErrandsDTO> selectAll() {
@@ -145,8 +147,8 @@ public class ErrandsServiceImpl implements ErrandsService {
 	 * 내 요청 심부름 조회
 	 */
 	@Override
-	public List<ErrandsDTO> myErrandsRequest(String userId) {
-		List<ErrandsDTO> list = errandsDAO.myRequestErrands(userId);
+	public List<ErrandsDTO> myErrandsRequest(String userId,int page) {
+		List<ErrandsDTO> list = errandsDAO.myRequestErrands(userId, page);
 		calHashes(list);
 		return list;
 	}
@@ -155,10 +157,20 @@ public class ErrandsServiceImpl implements ErrandsService {
 	 * 내 응답 심부름 조회
 	 */
 	@Override
-	public List<ErrandsDTO> myErrandsResponse(String userId) {
-		List<ErrandsDTO> list = errandsDAO.myResponseErrands(userId);
+	public List<ErrandsDTO> myErrandsResponse(String userId,int page) {
+		List<ErrandsDTO> list = errandsDAO.myResponseErrands(userId, page);
 		calHashes(list);
 		return list;
+	}
+	
+	@Override
+	public int countMyRequest() {
+		return errandsDAO.countMyRequest();
+	}
+
+	@Override
+	public int countMyResponse() {
+		return errandsDAO.countMyResponse();
 	}
 
 	/**
@@ -186,6 +198,16 @@ public class ErrandsServiceImpl implements ErrandsService {
 	@Override
 	public int deleteReply(int num) {
 		return errandsDAO.deleteReply(num);
+	}
+
+	@Override
+	public int updateErrands(int errandsNum, String responseId, String requestId, String startTime, String arrivalTime,
+			String finishTime, int point) {
+		if(startTime != null){
+			memberDAO.updatePoint(point * -1, requestId);
+		}
+		System.out.println("*포인트 수정됨!*");
+		return errandsDAO.updateErrands(errandsNum, responseId, startTime, arrivalTime, finishTime);
 	}
 
 }

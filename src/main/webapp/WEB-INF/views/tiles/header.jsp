@@ -32,8 +32,8 @@
 						<security:authorize access="isAuthenticated()">
 							<li><security:authentication property="principal.name" /> 님
 								환영합니다.</li>
-							<li>보유 포인트: <security:authentication
-									property="principal.point.currentPoint" /></li>
+							<li>보유 포인트: <fmt><security:authentication
+									property="principal.point.currentPoint" /></fmt></li>
 									<li><a href="${pageContext.request.contextPath}/user/myPage">마이페이지</a></li>
 							<li><a href="javascript:logout();">로그아웃</a></li>
 							<li><a href="${pageContext.request.contextPath}/errand/errand">심부름 목록</a></li>
