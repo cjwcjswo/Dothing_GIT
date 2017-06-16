@@ -15,10 +15,12 @@ public interface ErrandsService {
 
 	ErrandsDTO selectErrands(int errandsNum);
 
-	List<ErrandsDTO> myErrandsRequest(String userId);
+	List<ErrandsDTO> myErrandsRequest(String userId, int page);
 	
-	List<ErrandsDTO> myErrandsResponse(String userId);
+	List<ErrandsDTO> myErrandsResponse(String userId, int page);
 	
+	int countMyRequest();
+	int countMyResponse();
 	int insertErrands(ErrandsDTO dto, String path) throws FileNotFoundException, IOException;
 
 	int deleteErrands(int num);

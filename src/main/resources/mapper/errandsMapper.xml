@@ -36,7 +36,7 @@
 			<result column="REPLY_DATE" property="replyDate" />
 			<association property="user" javaType="memberDTO">
 				<id column="MEMBER_ID" property="userId" />
-				<result column="SELF_IMG" property="selfImg"/>
+				<result column="SELF_IMG" property="selfImg" />
 			</association>
 		</collection>
 	</resultMap>
@@ -111,6 +111,14 @@
 		order by RESPONSE_ID, ERRANDS_NUM desc
 	</select>
 
+	<select id="countRequest" resultType="int" parameterType="string">
+		select count(*) from ERRANDS_REPLY_GPA_VIEW
+		<where>
+			<if test="value != null">
+				REQUEST_ID = #{value}
+			</if>
+		</where>
+	</select>
 	<select id="myErrandsResponse" parameterType="string" resultMap="errandsMap">
 		select * from ERRANDS_REPLY_GPA_VIEW
 		<where>
@@ -119,6 +127,14 @@
 			</if>
 		</where>
 		order by ERRANDS_NUM desc
+	</select>
+	<select id="countResponse" resultType="int" parameterType="string">
+		select count(*) from ERRANDS_REPLY_GPA_VIEW
+		<where>
+			<if test="value != null">
+				MEMBER_ID = #{value}
+			</if>
+		</where>
 	</select>
 	<update id="updateErrands" parameterType="map">
 		update ERRANDS

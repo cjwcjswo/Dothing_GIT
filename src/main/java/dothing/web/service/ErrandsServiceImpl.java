@@ -147,8 +147,8 @@ public class ErrandsServiceImpl implements ErrandsService {
 	 * 내 요청 심부름 조회
 	 */
 	@Override
-	public List<ErrandsDTO> myErrandsRequest(String userId) {
-		List<ErrandsDTO> list = errandsDAO.myRequestErrands(userId);
+	public List<ErrandsDTO> myErrandsRequest(String userId,int page) {
+		List<ErrandsDTO> list = errandsDAO.myRequestErrands(userId, page);
 		calHashes(list);
 		return list;
 	}
@@ -157,10 +157,20 @@ public class ErrandsServiceImpl implements ErrandsService {
 	 * 내 응답 심부름 조회
 	 */
 	@Override
-	public List<ErrandsDTO> myErrandsResponse(String userId) {
-		List<ErrandsDTO> list = errandsDAO.myResponseErrands(userId);
+	public List<ErrandsDTO> myErrandsResponse(String userId,int page) {
+		List<ErrandsDTO> list = errandsDAO.myResponseErrands(userId, page);
 		calHashes(list);
 		return list;
+	}
+	
+	@Override
+	public int countMyRequest() {
+		return errandsDAO.countMyRequest();
+	}
+
+	@Override
+	public int countMyResponse() {
+		return errandsDAO.countMyResponse();
 	}
 
 	/**
