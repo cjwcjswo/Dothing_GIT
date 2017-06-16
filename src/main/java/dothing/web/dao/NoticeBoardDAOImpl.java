@@ -18,10 +18,6 @@ public class NoticeBoardDAOImpl implements NoticeBoardDAO {
 	@Override
 	public List<NoticeBoardDTO> selectAll(int page) {
 		List<NoticeBoardDTO>list = sqlSession.selectList("mapper.noticeBoardMapper.selectAll",null,new RowBounds((page-1)*5, 5));
-		/*for(NoticeBoardDTO dto:list){
-			System.out.println(dto);
-		}*/
-		System.out.println(list.size());
 		return list;
 	}
 
