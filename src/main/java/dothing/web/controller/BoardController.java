@@ -27,7 +27,11 @@ public class BoardController {
 	
 	@Autowired
 	private NoticeBoardService noticeService;
-
+	
+	
+    /////////////////////////////////////////////////////////////////
+    ///////////////////////////1대1게시판////////////////////////////
+    /////////////////////////////////////////////////////////////////
 	/**
 	 * 1대1게시판 보기
 	 */
@@ -43,7 +47,7 @@ public class BoardController {
 	}
 
 	/**
-	 * 게시판 글 쓰기뷰
+	 * 1대1게시판 글 쓰기뷰
 	 */
 	@RequestMapping("/inquiryBoardWrite")
 	public void write() {
@@ -51,7 +55,7 @@ public class BoardController {
 	}
 
 	/**
-	 * 게시판 글쓰기 기능
+	 * 1대1게시판 글쓰기 기능
 	 */
 	@RequestMapping(value = "/insert", produces = "text/html;charset=UTF-8")
 	public String insert(Authentication auth, BoardDTO boardDTO) throws Exception {
@@ -74,7 +78,7 @@ public class BoardController {
 	}
 
 	/**
-	 * 상세보기
+	 * 1대1게시판 상세보기
 	 */
 	@RequestMapping("/inquiryBoardRead/{inquiryNum}")
 	public ModelAndView read(@PathVariable int inquiryNum) throws Exception {
@@ -82,13 +86,13 @@ public class BoardController {
 		List<BoardReplyDTO> replyList = boardService.selectReply(inquiryNum);
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("board/inquiryBoardRead");
-		mv.addObject("board", boardDTO);
-		mv.addObject("reply", replyList);
+		mv.addObject("board", boardDTO);  //게시판 내용
+		mv.addObject("reply", replyList); //댓글
 		return mv;
 	}
 
 	/**
-	 * 수정^^
+	 * 1대1게시판 수정
 	 */
 	/*
 	 * @RequestMapping("/updateForm") public ModelAndView
@@ -99,7 +103,7 @@ public class BoardController {
 	 */
 
 	/**
-	 * 삭제
+	 * 1대1게시판 삭제
 	 */
 	@RequestMapping("/delete")
 	public String delete(Authentication auth, int inquiryNum) throws Exception {
@@ -124,9 +128,7 @@ public class BoardController {
 	 */
 
 	/**
-	 * 댓글삽입
-	 * 
-	 * @throws Exception
+	 * 1대1게시판 댓글삽입
 	 */
 	@RequestMapping("/insertReply")
 	public String insertReply(BoardReplyDTO brDTO) throws Exception {
@@ -134,8 +136,10 @@ public class BoardController {
 		return "redirect:/board/inquiryBoardRead/" + brDTO.getBoard().getInquiryNum();
 	}
 	
-	
-    /**
+	/////////////////////////////////////////////////////////////////
+	///////////////////////////공지게시판////////////////////////////
+    /////////////////////////////////////////////////////////////////
+	/**
      * 공지게시판 메인
      */
 	@RequestMapping("/noticeBoardList")

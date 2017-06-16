@@ -22,23 +22,14 @@
 
 
 <style type="text/css">
-body p{
-  overflow:hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  width: 100px;
-  height: 20px;
+body p {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width: 100px;
+	height: 20px;
 }
 </style>
-
-<!-- <script>
-
-function sendDelete(){
-		document.requestForm.action="${pageContext.request.contextPath}/board/noticeDelete";
-	    document.requestForm.submit();
-		return true;
-}
-</script> -->
 
 </head>
 <body onunload=""
@@ -53,67 +44,69 @@ function sendDelete(){
 			<div id="page-canvas">
 				<!--Page Content-->
 				<div id="page-content">
-					<div class="container" >
+					<div class="container">
 						<h2>Notice</h2>
-						<span style="color:#9999ff;">여러분은 최고의 서비스 DoThing에 있습니다.</span>
-						<table class="table table-hover"  >
+						<span style="color: #9999ff;">여러분은 최고의 서비스 DoThing에 있습니다.</span>
+						<table class="table table-hover">
 							<thead align="left">
 								<tr>
-									<td align="left" ><Strong>글제목</Strong></td>
+									<td align="left"><Strong>글제목</Strong></td>
 								</tr>
 							</thead>
-							
-							<c:choose>
-								<c:when test="${empty requestScope.list}">
-									<tr>
-										<td colspan="5">
-											<div align="center">
-												<b><span style="font-size: 9pt;">등록된 게시물이 없습니다.</span></b>
-											</div>
-										</td>
-									</tr>
-								</c:when>
-							<c:otherwise>
-							<c:forEach items="${requestScope.list}" var="boardDto">
-							<tbody align="left">								
-								<tr>
-									<td>
-									<a href="${pageContext.request.contextPath}/board/noticeBoardRead/${boardDto.noticeNum}"><h1>${boardDto.noticeTitle}</h1></a>
-									
-									<input type=hidden name="noticeNum" value="${boardDto.noticeNum}">
-									<input type="hidden" name="${_csrf.parameterName}"
-                                     value="${_csrf.token}">
-									<a href="#" onclick="location.href='${pageContext.request.contextPath}/board/noticeDelete?noticeNum=${boardDto.noticeNum}'">
-									<i class="fa fa-trash-o" data-toggle="tooltip" title="삭제하기"></i></a>
-									
-									
-									<a><i class="fa fa-pencil" data-toggle="tooltip" title="수정하기"></i></a>
-									<span style="color:#ff513f;">${boardDto.noticeDate}</span>
-									
-									</td>
-								</tr>
-							</tbody>
-							</c:forEach>
-							</c:otherwise>
-							</c:choose>
+							<div id="history">
+								<c:choose>
+									<c:when test="${empty requestScope.list}">
+										<tr>
+											<td colspan="5">
+												<div align="center">
+													<b><span style="font-size: 9pt;">등록된 게시물이 없습니다.</span></b>
+												</div>
+											</td>
+										</tr>
+									</c:when>
+									<c:otherwise>
+										<c:forEach items="${requestScope.list}" var="boardDto">
+											<tbody align="left">
+												<tr>
+													<td><a
+														href="${pageContext.request.contextPath}/board/noticeBoardRead/${boardDto.noticeNum}"><h1>${boardDto.noticeTitle}</h1></a>
+
+														<input type=hidden name="noticeNum"
+														value="${boardDto.noticeNum}"> <input
+														type="hidden" name="${_csrf.parameterName}"
+														value="${_csrf.token}"> <a href="#"
+														onclick="location.href='${pageContext.request.contextPath}/board/noticeDelete?noticeNum=${boardDto.noticeNum}'">
+															<i class="fa fa-trash-o" data-toggle="tooltip"
+															title="삭제하기"></i>
+													</a> <a><i class="fa fa-pencil" data-toggle="tooltip"
+															title="수정하기"></i></a> <span style="color: #ff513f;">${boardDto.noticeDate}</span>
+
+													</td>
+												</tr>
+											</tbody>
+										</c:forEach>
+									</c:otherwise>
+								</c:choose>
+							</div>
 						</table>
 					</div>
 
 					<!-- 페이지네이션 -->
 
-					<ul class="pager">
+					<!-- <ul class="pager">
 						<li><a href="#">Previous</a></li>
 						<li><a href="#">1</a></li>
 						<li><a href="#">2</a></li>
 						<li><a href="#">3</a></li>
 						<li><a href="#">Next</a></li>
 					</ul>
-
+ -->
 					<!-- 페이지네이션 종료 -->
 
 					<div class="form-group" align="center">
 						<button type="submit" class="btn btn-large btn-default"
-							id="submit" onclick="location.href='${pageContext.request.contextPath}/board/noticeBoardWrite'" >글작성하기</button>
+							id="submit"
+							onclick="location.href='${pageContext.request.contextPath}/board/noticeBoardWrite'">글작성하기</button>
 					</div>
 					<!-- /.form-group -->
 				</div>
@@ -144,5 +137,11 @@ function sendDelete(){
 	<!--[if lte IE 9]>
 <script type="text/javascript" src="assets/js/ie-scripts.js"></script>
 <![endif]-->
+
+	<script>
+		if ($('#page-content').length > 0) {
+			$("#page-content").mCustomScrollbar();
+		}
+	</script>
 </body>
 </html>
