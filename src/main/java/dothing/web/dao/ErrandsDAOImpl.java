@@ -81,6 +81,11 @@ public class ErrandsDAOImpl implements ErrandsDAO{
 	public List<ErrandsDTO> myResponseErrands(String userId) {
 		return sqlSession.selectList("mapper.errandsMapper.myErrandsResponse", userId);
 	}
+
+	@Override
+	public int deleteReply(int num) {
+		return sqlSession.delete("mapper.errandsReplyMapper.deleteErrandsReply", num);
+	}
 	
 	
 	

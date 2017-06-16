@@ -4,6 +4,7 @@
 <%@ taglib uri="http://www.springframework.org/security/tags"
 	prefix="security"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,10 +40,12 @@
 			}
 			return zero + n;
 		}
-		
-		$("#close").click(function(){
+
+		$("#close").click(function() {
 			$("#myModal").modal('toggle');
 		})
+
+		
 	});
 	function checkValid() {
 		var form = document.f;
@@ -64,6 +67,15 @@
 		} else {
 			location.href = "${pageContext.request.contextPath}/errand/deleteErrands?num=${errands.errandsNum}&id=<security:authentication property='principal.userId'/>";
 		}
+	}
+	function clickUser(id, predict, content,photo) {
+		var src = "${pageContext.request.contextPath}/users/"+id+"/"+photo;
+		var imgSrc = "<img class='img-responsive' src='"+src+"' style='width: 71px; border-radius: 43px;'>";
+		$('#myModal').modal('toggle');
+		$("#errandsId").html(id);
+		$("#errandsPredict").html(predict);
+		$("#errandsContent").html(content);
+		$("#errandsUserImg").html(imgSrc);
 	}
 </script>
 
@@ -238,6 +250,7 @@
 										<!-- /.block -->
 									</section>
 									<!--Reviews-->
+									<c:set value="0" var="count" />
 									<section class="block" id="reviews">
 										<header class="clearfix">
 											<h2 class="pull-left">심부름 요청 댓글</h2>
@@ -254,23 +267,33 @@
 										<section class="reviews">
 											<article class="review">
 												<c:forEach items="${errands.errandsReply}" var="reply">
+													<c:if test="${currentId == reply.user.userId}">
+														<c:set value="${count + 1}" var="count" />
+													</c:if>
 													<figure class="author">
 														<img
-															src="${pageContext.request.contextPath}/assets/img/default-avatar.png"
+															src="${pageContext.request.contextPath}/users/${reply.user.userId}/${reply.user.selfImg}"
 															alt="">
-														<div class="date">${reply.arrivalTime}</div>
+														<div class="date"><b>예상 도착</b><br>${reply.arrivalTime}</div>
 													</figure>
 													<!-- /.author-->
 
 													<div class="wrapper">
 														<h5>${reply.user.userId}</h5>
+														<c:if test="${currentId == reply.user.userId}">
+															<button type="button" class="btn btn-danger"
+																onclick="location.href='${pageContext.request.contextPath}/errand/deleteReply?num=${reply.replyNum}&eNum=${errands.errandsNum}'">
+																삭제</button>
+														</c:if>
 														<figure class="rating big color" data-rating="4"></figure>
-														<button type="button"
-															class="btn framed icon pull-right roll" onclick="$('#myModal').modal('toggle');">
-															선택<i class="fa fa-check"></i>
-														</button>
+														<c:if test="${currentId == errands.requestUser.userId}">
+															<button type="button"
+																class="btn framed icon pull-right roll"
+																onclick="clickUser('${reply.user.userId}','${reply.arrivalTime}', '${reply.replyContent}', '${reply.user.selfImg}')">
+																선택<i class="fa fa-check"></i>
+															</button>
+														</c:if>
 														<p>${reply.replyContent}</p>
-
 
 													</div>
 												</c:forEach>
@@ -284,44 +307,49 @@
 									<!-- /#reviews -->
 									<!--end Reviews-->
 									<!--Review Form-->
-									<section id="write-review">
-										<header>
-											<h2>심부름 댓글 등록</h2>
-										</header>
-										<form name="f" method="post" action="insertReply"
-											onsubmit="return checkValid()" class="background-color-white">
-											<div class="row">
-												<div class="col-md-8">
-													<!-- /.form-group -->
-													<div class="form-group">
-														<label for="form-review-message">댓글 입력</label>
-														<textarea class="form-control" id="form-review-message"
-															name="replyContent" rows="3" required="" placeholder=""></textarea>
-													</div>
-													<div class="form-group">
-														<label for="form-review-email">도착예정시간</label> <input
-															type="datetime-local" class="form-control"
-															name="arrivalTime" />
-													</div>
-													<input type="hidden" name="errands.errandsNum"
-														value="${errands.errandsNum}"> <input
-														type="hidden" name="user.userId"
-														value="<security:authentication property='principal.userId'/>">
-													<input type="hidden" name="${_csrf.parameterName}"
-														value="${_csrf.token}" />
+									<c:if test="${errands.responseUser.userId == null }">
+										<c:if test="${count != 1}">
+											<section id="write-review">
+												<header>
+													<h2>심부름 댓글 등록</h2>
+												</header>
+												<form name="f" method="post" action="insertReply"
+													onsubmit="return checkValid()"
+													class="background-color-white">
+													<div class="row">
+														<div class="col-md-8">
+															<!-- /.form-group -->
+															<div class="form-group">
+																<label for="form-review-message">댓글 입력</label>
+																<textarea class="form-control" id="form-review-message"
+																	name="replyContent" rows="3" required="" placeholder=""></textarea>
+															</div>
+															<div class="form-group">
+																<label for="form-review-email">도착예정시간</label> <input
+																	type="datetime-local" class="form-control"
+																	name="arrivalTime" />
+															</div>
+															<input type="hidden" name="errands.errandsNum"
+																value="${errands.errandsNum}"> <input
+																type="hidden" name="user.userId"
+																value="<security:authentication property='principal.userId'/>">
+															<input type="hidden" name="${_csrf.parameterName}"
+																value="${_csrf.token}" />
 
-													<!-- /.form-group -->
-													<div class="form-group">
-														<button type="submit" class="btn btn-default">등록하기</button>
+															<!-- /.form-group -->
+															<div class="form-group">
+																<button type="submit" class="btn btn-default">등록하기</button>
+															</div>
+															<!-- /.form-group -->
+														</div>
+
+
 													</div>
-													<!-- /.form-group -->
-												</div>
-
-
-											</div>
-										</form>
-										<!-- /.main-search -->
-									</section>
+												</form>
+												<!-- /.main-search -->
+											</section>
+										</c:if>
+									</c:if>
 									<!--end Review Form-->
 								</div>
 								<!-- /.col-md-8-->
@@ -341,141 +369,142 @@
 	</div>
 	<!-- end Page Canvas-->
 	<!--  chat 시작 -->
-	<div class="row chat-window col-xs-5 col-md-3" id="chat_window_1"
-		style="margin-left: 10px;">
-		<div class="col-xs-12 col-md-12">
-			<div class="panel panel-default" id="chat">
-				<div class="panel-heading top-bar">
-					<div class="col-md-8 col-xs-8">
-						<h3 class="panel-title">
-							<span class="glyphicon glyphicon-comment"></span> Chat - Miguel
-						</h3>
+	<c:if test="${errands.responseUser.userId != null }">
+		<div class="row chat-window col-xs-5 col-md-3" id="chat_window_1"
+			style="margin-left: 10px;">
+			<div class="col-xs-12 col-md-12">
+				<div class="panel panel-default" id="chat">
+					<div class="panel-heading top-bar">
+						<div class="col-md-8 col-xs-8">
+							<h3 class="panel-title">
+								<span class="glyphicon glyphicon-comment"></span> Chat - Miguel
+							</h3>
+						</div>
+						<div class="col-md-4 col-xs-4" style="text-align: right;">
+							<a href="#"><span id="minim_chat_window"
+								class="glyphicon glyphicon-minus icon_minim"></span></a>
+						</div>
 					</div>
-					<div class="col-md-4 col-xs-4" style="text-align: right;">
-						<a href="#"><span id="minim_chat_window"
-							class="glyphicon glyphicon-minus icon_minim"></span></a>
-					</div>
-				</div>
-				<div class="panel-body msg_container_base" id="chatList">
-					<div class="row msg_container base_sent">
-						<div class="col-md-10 col-xs-10">
-							<div class="messages msg_sent">
-								<p>that mongodb thing looks good, huh? tiny master db, and
-									huge document store</p>
-								<time datetime="2009-11-13T20:00">Timothy • 51 min</time>
+					<div class="panel-body msg_container_base" id="chatList">
+						<div class="row msg_container base_sent">
+							<div class="col-md-10 col-xs-10">
+								<div class="messages msg_sent">
+									<p>that mongodb thing looks good, huh? tiny master db, and
+										huge document store</p>
+									<time datetime="2009-11-13T20:00">Timothy • 51 min</time>
+								</div>
+							</div>
+							<div class="col-md-2 col-xs-2 avatar">
+								<img
+									src="http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg"
+									class=" img-responsive ">
 							</div>
 						</div>
-						<div class="col-md-2 col-xs-2 avatar">
-							<img
-								src="http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg"
-								class=" img-responsive ">
+						<div class="row msg_container base_receive">
+							<div class="col-md-2 col-xs-2 avatar">
+								<img
+									src="http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg"
+									class=" img-responsive ">
+							</div>
+							<div class="col-md-10 col-xs-10">
+								<div class="messages msg_receive">
+									<p>that mongodb thing looks good, huh? tiny master db, and
+										huge document store</p>
+									<time datetime="2009-11-13T20:00">Timothy • 51 min</time>
+								</div>
+							</div>
 						</div>
-					</div>
-					<div class="row msg_container base_receive">
-						<div class="col-md-2 col-xs-2 avatar">
-							<img
-								src="http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg"
-								class=" img-responsive ">
+						<div class="row msg_container base_receive">
+							<div class="col-md-2 col-xs-2 avatar">
+								<img
+									src="http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg"
+									class=" img-responsive ">
+							</div>
+							<div class="col-xs-10 col-md-10">
+								<div class="messages msg_receive">
+									<p>that mongodb thing looks good, huh? tiny master db, and
+										huge document store</p>
+									<time datetime="2009-11-13T20:00">Timothy • 51 min</time>
+								</div>
+							</div>
 						</div>
-						<div class="col-md-10 col-xs-10">
-							<div class="messages msg_receive">
-								<p>that mongodb thing looks good, huh? tiny master db, and
-									huge document store</p>
-								<time datetime="2009-11-13T20:00">Timothy • 51 min</time>
+						<div class="row msg_container base_sent">
+							<div class="col-xs-10 col-md-10">
+								<div class="messages msg_sent">
+									<p>that mongodb thing looks good, huh? tiny master db, and
+										huge document store</p>
+									<time datetime="2009-11-13T20:00">Timothy • 51 min</time>
+								</div>
+							</div>
+							<div class="col-md-2 col-xs-2 avatar">
+								<img
+									src="http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg"
+									class=" img-responsive ">
+							</div>
+						</div>
+						<div class="row msg_container base_receive">
+							<div class="col-md-2 col-xs-2 avatar">
+								<img
+									src="http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg"
+									class=" img-responsive ">
+							</div>
+							<div class="col-xs-10 col-md-10">
+								<div class="messages msg_receive">
+									<p>that mongodb thing looks good, huh? tiny master db, and
+										huge document store</p>
+									<time datetime="2009-11-13T20:00">Timothy • 51 min</time>
+								</div>
+							</div>
+						</div>
+						<div class="row msg_container base_sent">
+							<div class="col-md-10 col-xs-10 ">
+								<div class="messages msg_sent">
+									<p>that mongodb thing looks good, huh? tiny master db, and
+										huge document store</p>
+									<time datetime="2009-11-13T20:00">Timothy • 51 min</time>
+								</div>
+							</div>
+							<div class="col-md-2 col-xs-2 avatar">
+								<img
+									src="http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg"
+									class=" img-responsive ">
 							</div>
 						</div>
 					</div>
-					<div class="row msg_container base_receive">
-						<div class="col-md-2 col-xs-2 avatar">
-							<img
-								src="http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg"
-								class=" img-responsive ">
-						</div>
-						<div class="col-xs-10 col-md-10">
-							<div class="messages msg_receive">
-								<p>that mongodb thing looks good, huh? tiny master db, and
-									huge document store</p>
-								<time datetime="2009-11-13T20:00">Timothy • 51 min</time>
-							</div>
-						</div>
-					</div>
-					<div class="row msg_container base_sent">
-						<div class="col-xs-10 col-md-10">
-							<div class="messages msg_sent">
-								<p>that mongodb thing looks good, huh? tiny master db, and
-									huge document store</p>
-								<time datetime="2009-11-13T20:00">Timothy • 51 min</time>
-							</div>
-						</div>
-						<div class="col-md-2 col-xs-2 avatar">
-							<img
-								src="http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg"
-								class=" img-responsive ">
-						</div>
-					</div>
-					<div class="row msg_container base_receive">
-						<div class="col-md-2 col-xs-2 avatar">
-							<img
-								src="http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg"
-								class=" img-responsive ">
-						</div>
-						<div class="col-xs-10 col-md-10">
-							<div class="messages msg_receive">
-								<p>that mongodb thing looks good, huh? tiny master db, and
-									huge document store</p>
-								<time datetime="2009-11-13T20:00">Timothy • 51 min</time>
-							</div>
-						</div>
-					</div>
-					<div class="row msg_container base_sent">
-						<div class="col-md-10 col-xs-10 ">
-							<div class="messages msg_sent">
-								<p>that mongodb thing looks good, huh? tiny master db, and
-									huge document store</p>
-								<time datetime="2009-11-13T20:00">Timothy • 51 min</time>
-							</div>
-						</div>
-						<div class="col-md-2 col-xs-2 avatar">
-							<img
-								src="http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg"
-								class=" img-responsive ">
-						</div>
-					</div>
-				</div>
-				<div class="panel-footer">
-					<div class="input-group">
-						<input id="inputText" type="text"
-							class="form-control input-sm chat_input"
-							placeholder="Write your message here..." /> <span
-							class="input-group-btn">
-							<button class="btn btn-primary btn-sm" id="send">Send</button>
+					<div class="panel-footer">
+						<div class="input-group">
+							<input id="inputText" type="text"
+								class="form-control input-sm chat_input"
+								placeholder="Write your message here..." /> <span
+								class="input-group-btn">
+								<button class="btn btn-primary btn-sm" id="send">Send</button>
 
-						</span>
+							</span>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 
-	<div class="btn-group dropup">
-		<button type="button" class="btn btn-default dropdown-toggle"
-			data-toggle="dropdown">
-			<span class="glyphicon glyphicon-cog"></span> <span class="sr-only">Toggle
-				Dropdown</span>
-		</button>
-		<ul class="dropdown-menu" role="menu">
-			<li><a href="#"><span id="chatComplete" class="fa fa-check"></span>심부름
-					완료</a></li>
-			<li><a href="#"><span class="glyphicon glyphicon-list"></span>
-					Ver outras</a></li>
-			<li><a href="#"><span class="glyphicon glyphicon-remove"></span>
-					Fechar Tudo</a></li>
-			<li class="divider"></li>
-			<li><a href="#"><span class="glyphicon glyphicon-eye-close"></span>
-					Invisivel</a></li>
-		</ul>
-	</div>
-
+		<div class="btn-group dropup">
+			<button type="button" class="btn btn-default dropdown-toggle"
+				data-toggle="dropdown">
+				<span class="glyphicon glyphicon-cog"></span> <span class="sr-only">Toggle
+					Dropdown</span>
+			</button>
+			<ul class="dropdown-menu" role="menu">
+				<li><a href="#"><span id="chatComplete" class="fa fa-check"></span>심부름
+						완료</a></li>
+				<li><a href="#"><span class="glyphicon glyphicon-list"></span>
+						Ver outras</a></li>
+				<li><a href="#"><span class="glyphicon glyphicon-remove"></span>
+						Fechar Tudo</a></li>
+				<li class="divider"></li>
+				<li><a href="#"><span class="glyphicon glyphicon-eye-close"></span>
+						Invisivel</a></li>
+			</ul>
+		</div>
+	</c:if>
 	<!--  chat 끝 -->
 
 
@@ -492,19 +521,17 @@
 				<div class="row">
 					<div class="receipt-header">
 						<div class="col-xs-6 col-sm-6 col-md-6">
-							<div class="receipt-left">
-								<img class="img-responsive" alt="iamgurdeeposahan"
-									src="http://bootsnipp.com/img/avatars/bcf1c0d13e5500875fdd5a7e8ad9752ee16e7462.jpg"
-									style="width: 71px; border-radius: 43px;">
+							<div class="receipt-left" id="errandsUserImg">
+								
 							</div>
 						</div>
 						<div class="col-xs-6 col-sm-6 col-md-6 text-right">
 							<div class="receipt-right">
 								<a href="#myModal" id="close"><i class="fa fa-close"></i></a>
-								<h5>심부름제목</h5>
+								<h5 id="errandsTitle">심부름제목</h5>
 
-								<p>
-									심부름위치 <i class="fa fa-location-arrow"></i>
+								<p id="errandsAddr">
+									${errands.errandsPos.addr} <i class="fa fa-location-arrow"></i>
 								</p>
 							</div>
 						</div>
@@ -516,17 +543,9 @@
 						<div class="col-xs-8 col-sm-8 col-md-8 text-left">
 							<div class="receipt-right">
 								<h5>
-									회원 아이디 <small>  |   Lucky Number : 156</small>
+									회원 아이디 <small id="errandsId">  |   Lucky Number : 156</small>
 								</h5>
-								<p>
-									<b>Mobile :</b> +91 12345-6789
-								</p>
-								<p>
-									<b>Email :</b> info@gmail.com
-								</p>
-								<p>
-									<b>Address :</b> Australia
-								</p>
+
 							</div>
 						</div>
 						<div class="col-xs-4 col-sm-4 col-md-4">
@@ -547,42 +566,24 @@
 						</thead>
 						<tbody>
 							<tr>
-								<td class="col-md-9">물품명 :맥도날드 빅맥</td>
-								<td class="col-md-3"><i class="fa fa-krw"></i>5,000</td>
+								<td class="col-md-9">물품 값</td>
+								<td class="col-md-3"><i class="fa fa-krw"></i> <fmt:formatNumber
+										value="${errands.productPrice}" /></td>
 							</tr>
 							<tr>
 								<td class="col-md-9">심부름 삯</td>
-								<td class="col-md-3"><i class="fa fa-krw"></i> 2,000</td>
+								<td class="col-md-3"><i class="fa fa-krw"></i> <fmt:formatNumber
+										value="${errands.errandsPrice}" /></td>
 							</tr>
 							<tr>
-							<tr>
-								<td class="text-right">
-									<p>
-										<strong>총 가격: </strong>
-									</p>
-
-									<p>
-										<strong>수수료 : </strong>
-									</p>
-
-								</td>
-								<td>
-									<p>
-										<strong><i class="fa fa-krw"></i> 7,000</strong>
-									</p>
-									<p>
-										<strong><i class="fa fa-krw"></i> 500</strong>
-									</p>
-
-								</td>
-							</tr>
 							<tr>
 
 								<td class="text-right"><h2>
 										<strong>Total: </strong>
 									</h2></td>
 								<td class="text-left text-danger"><h2>
-										<strong><i class="fa fa-krw"></i>7,500</strong>
+										<strong><i class="fa fa-krw"></i> <fmt:formatNumber
+												value="${errands.productPrice + errands.errandsPrice}" /></strong>
 									</h2></td>
 							</tr>
 						</tbody>
@@ -595,9 +596,10 @@
 							<div class="receipt-right">
 								<p>
 									<b>도착예정시간 :</b>
-								<p>2017-06-15 오후 2:21</p>
+								<p id="errandsPredict">2017-06-15 오후 2:21</p>
+								<p>
+									<b id="errandsContent"></b>
 								</p>
-								<h5 style="color: rgb(140, 140, 140);">도와주셔서 감사합니다!</h5>
 							</div>
 						</div>
 						<div class="col-xs-4 col-sm-4 col-md-4">

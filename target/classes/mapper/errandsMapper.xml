@@ -36,6 +36,7 @@
 			<result column="REPLY_DATE" property="replyDate" />
 			<association property="user" javaType="memberDTO">
 				<id column="MEMBER_ID" property="userId" />
+				<result column="SELF_IMG" property="selfImg"/>
 			</association>
 		</collection>
 	</resultMap>

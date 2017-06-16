@@ -183,4 +183,9 @@ public class ErrandsServiceImpl implements ErrandsService {
 		}
 	}
 
+	@Override
+	public int deleteReply(int num) {
+		return errandsDAO.deleteReply(num);
+	}
+
 }
