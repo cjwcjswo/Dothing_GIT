@@ -292,11 +292,12 @@
 													<!-- /.author-->
 
 													<div class="wrapper">
-													<c:if test="${reply.user.userId == errands.responseUser.userId}">
+														<c:if
+															test="${reply.user.userId == errands.responseUser.userId}">
 															<i class="fa fa-user-o"></i>
 														</c:if>
 														<h5>${reply.user.userId}</h5>
-														
+
 														<c:if test="${currentId == reply.user.userId}">
 															<button type="button" class="btn btn-danger"
 																onclick="location.href='${pageContext.request.contextPath}/errand/deleteReply?num=${reply.replyNum}&eNum=${errands.errandsNum}'">
@@ -325,47 +326,50 @@
 									<!-- /#reviews -->
 									<!--end Reviews-->
 									<!--Review Form-->
-									<c:if test="${errands.responseUser.userId == null }">
-										<c:if test="${count != 1}">
-											<section id="write-review">
-												<header>
-													<h2>심부름 댓글 등록</h2>
-												</header>
-												<form name="f" method="post" action="insertReply"
-													onsubmit="return checkValid()"
-													class="background-color-white">
-													<div class="row">
-														<div class="col-md-8">
-															<!-- /.form-group -->
-															<div class="form-group">
-																<label for="form-review-message">댓글 입력</label>
-																<textarea class="form-control" id="form-review-message"
-																	name="replyContent" rows="3" required="" placeholder=""></textarea>
-															</div>
-															<div class="form-group">
-																<label for="form-review-email">도착예정시간</label> <input
-																	type="datetime-local" class="form-control"
-																	name="arrivalTime" />
-															</div>
-															<input type="hidden" name="errands.errandsNum"
-																value="${errands.errandsNum}"> <input
-																type="hidden" name="user.userId"
-																value="<security:authentication property='principal.userId'/>">
-															<input type="hidden" name="${_csrf.parameterName}"
-																value="${_csrf.token}" />
+									<c:if test="${errands.requestUser.userId != currentId}">
+										<c:if test="${errands.responseUser.userId == null }">
+											<c:if test="${count != 1}">
+												<section id="write-review">
+													<header>
+														<h2>심부름 댓글 등록</h2>
+													</header>
+													<form name="f" method="post" action="insertReply"
+														onsubmit="return checkValid()"
+														class="background-color-white">
+														<div class="row">
+															<div class="col-md-8">
+																<!-- /.form-group -->
+																<div class="form-group">
+																	<label for="form-review-message">댓글 입력</label>
+																	<textarea class="form-control" id="form-review-message"
+																		name="replyContent" rows="3" required=""
+																		placeholder=""></textarea>
+																</div>
+																<div class="form-group">
+																	<label for="form-review-email">도착예정시간</label> <input
+																		type="datetime-local" class="form-control"
+																		name="arrivalTime" />
+																</div>
+																<input type="hidden" name="errands.errandsNum"
+																	value="${errands.errandsNum}"> <input
+																	type="hidden" name="user.userId"
+																	value="<security:authentication property='principal.userId'/>">
+																<input type="hidden" name="${_csrf.parameterName}"
+																	value="${_csrf.token}" />
 
-															<!-- /.form-group -->
-															<div class="form-group">
-																<button type="submit" class="btn btn-default">등록하기</button>
+																<!-- /.form-group -->
+																<div class="form-group">
+																	<button type="submit" class="btn btn-default">등록하기</button>
+																</div>
+																<!-- /.form-group -->
 															</div>
-															<!-- /.form-group -->
+
+
 														</div>
-
-
-													</div>
-												</form>
-												<!-- /.main-search -->
-											</section>
+													</form>
+													<!-- /.main-search -->
+												</section>
+											</c:if>
 										</c:if>
 									</c:if>
 									<!--end Review Form-->
