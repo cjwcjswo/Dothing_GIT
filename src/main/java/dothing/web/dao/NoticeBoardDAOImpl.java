@@ -2,6 +2,7 @@ package dothing.web.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -15,13 +16,14 @@ public class NoticeBoardDAOImpl implements NoticeBoardDAO {
 	private SqlSession sqlSession;
 
 	@Override
-	public List<NoticeBoardDTO> selectAll() {
-		return sqlSession.selectList("mapper.noticeBoardMapper.selectAll");
+	public List<NoticeBoardDTO> selectAll(int page) {
+		List<NoticeBoardDTO>list = sqlSession.selectList("mapper.noticeBoardMapper.selectAll",null,new RowBounds((page-1)*5, 5));
+		return list;
 	}
 
 	@Override
 	public NoticeBoardDTO selectByBoardNum(int noticeNum) {
-		return sqlSession.selectOne("mapper.noticeBoardMapper.selectAll", noticeNum);
+		return sqlSession.selectOne("mapper.noticeBoardMapper.selectByNoticeNum", noticeNum);
 	}
 
 	@Override
@@ -37,6 +39,11 @@ public class NoticeBoardDAOImpl implements NoticeBoardDAO {
 	@Override
 	public int delete(int noticeNum) {
 		return sqlSession.delete("mapper.noticeBoardMapper.boardDelete", noticeNum);
+	}
+	
+	@Override
+	public int countNoticeList() {
+		return sqlSession.selectOne("mapper.noticeBoardMapper.countNoticeList");
 	}
 
 }

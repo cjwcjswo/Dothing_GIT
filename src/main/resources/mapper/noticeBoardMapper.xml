@@ -22,19 +22,30 @@
 		to_char(sysdate, 'YYYY-MM-DD HH:MI:SS AM'),0)
 	</insert>
 	
-	<!-- 모든레코드 검색 or 글번호에 해당하는 레코드 검색 -->
-	<select id="selectAll" resultMap="noticeSelectMap" parameterType="int">
+	<!-- 모든레코드 검색 -->
+	<select id="selectAll" resultMap="noticeSelectMap">
 		select 
 		notice_num,member_id,notice_title,notice_content,
 		notice_date,READNUM
 		from notice_board
-		<where>
+		order by notice_num desc
+	</select>
+	
+	<!-- 글번호에 해당하는 레코드 검색 -->
+	<select id="selectByNoticeNum" resultMap="noticeSelectMap" parameterType="int">
+		select 
+		notice_num,member_id,notice_title,notice_content,
+		notice_date,READNUM
+		from notice_board
+		<!-- <where>
 			<if test="_parameter!=null">
 				notice_num=#{_parameter}
 			</if>
-		</where>
+		</where> -->
+		where notice_num=#{_parameter}
 		order by notice_num desc
 	</select>
+	
 	
 	<!-- 조회수 증가 -->
 	<update id="boardReadNumPlus" parameterType="NoticeBoardDTO">
@@ -49,5 +60,10 @@
 		delete from notice_board
 		where notice_num = #{_parameter}
 	</delete>
+	
+	<!-- 페이징 -->
+	<select id="countNoticeList" resultType="int">
+		select count(*) from notice_board
+	</select>
 	
 </mapper>
