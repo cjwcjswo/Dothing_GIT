@@ -18,6 +18,23 @@
 <link rel="stylesheet" href="assets/css/style.css" type="text/css">
 <link rel="stylesheet" href="assets/css/user.style.css" type="text/css">
 
+<script type="text/javascript">
+function checkValid() {
+    var f = window.document.writeForm;
+		
+	if ( f.notice_title.value == "") {
+	    alert( "글제목을 입력하세요." );
+	    f.noticeTitle.focus();
+		return false;
+    }
+	if ( f.notice_content.value == "" ) {
+		alert( "글내용을 입력하세요." );
+		f.noticeContent.focus();
+		return false;
+	}	
+    return true;
+}
+</script>
 
 </head>
 <body onunload=""
@@ -30,25 +47,24 @@
 
 			<!-- Page Canvas-->
 			<div id="page-canvas">
-
-
-
-
 				<!--Page Content-->
 				<div id="page-content">
 					<div class="container">
 						<h2>Notice</h2>
-						<p>여러분은 최고의 서비스 DoThing에 있습니다.</p>
-						<form role="form" action="?" method="post" style="width:70% ;margin-left:15%" align="center" >
+						<span style="color:#9999ff;">여러분은 최고의 서비스 DoThing에 있습니다.</span>
+						<form name="writeForm" action="${pageContext.request.contextPath}/board/noticeInsert" onSubmit='return checkValid()' method="post" style="width:70% ;margin-left:15%" align="center" >
+							<input type="hidden" name="${_csrf.parameterName}"
+                             value="${_csrf.token}">
 							<div class="form-group">
-								<label for="faq-form-email">제목</label> <input type="제목입력"
-									class="form-control" id="faq-form-email" required="" >
+								<label for="faq-form-email">제목</label>
+								<input type="text"
+									class="form-control" name="noticeTitle" id="faq-form-email" required="" >
 							</div>
 							<!-- /.form-group -->
 							<div class="form-group">
 								<label for="faq-form-question">게시물 작성</label>
 								<textarea class="form-control" id="faq-form-question"
-									name="faq-form-question" rows="5" required=""></textarea>
+									rows="5" required="" name="noticeContent"></textarea>
 							</div>
 							<!-- /.form-group -->
 							<div class="form-group">
@@ -59,22 +75,12 @@
 						</form>
 
 					</div>
-
-
-
-
 					<!--/.col-md-6-->
 				</div>
 			</div>
 			<!--Password-->
-
-
 		</div>
 		</div>
-
-
-
-
 
 		<script type="text/javascript" src="assets/js/jquery-2.1.0.min.js"></script>
 		<script type="text/javascript" src="assets/js/before.load.js"></script>

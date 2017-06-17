@@ -9,7 +9,7 @@ public interface NoticeBoardService {
 	/**
 	 * 레코드 전체 검색
 	 */
-	List<NoticeBoardDTO> selectAll();
+	List<NoticeBoardDTO> selectAll(int page);
 
 	/**
 	 * 보드번호에 해당하는 레코드 검색
@@ -33,5 +33,11 @@ public interface NoticeBoardService {
 	 * 보드번호에 해당하는 레코드 수정
 	 */
 	/* int update(NoticeBoardDTO boardDTO) throws Exception; */
+	
+	/**
+	 * 페이징
+	 */
+	int countNoticeList();
 
+	
 }

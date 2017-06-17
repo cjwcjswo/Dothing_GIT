@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -73,13 +74,40 @@ public class ErrandsDAOImpl implements ErrandsDAO{
 	}
 
 	@Override
-	public List<ErrandsDTO> myRequestErrands(String userId) {
-		return sqlSession.selectList("mapper.errandsMapper.myErrandsRequest", userId);
+	public List<ErrandsDTO> myRequestErrands(String userId, int page) {
+		return sqlSession.selectList("mapper.errandsMapper.myErrandsRequest", userId, new RowBounds((page-1)*5, 5));
 	}
 
 	@Override
-	public List<ErrandsDTO> myResponseErrands(String userId) {
-		return sqlSession.selectList("mapper.errandsMapper.myErrandsResponse", userId);
+	public List<ErrandsDTO> myResponseErrands(String userId, int page) {
+		return sqlSession.selectList("mapper.errandsMapper.myErrandsResponse", userId, new RowBounds((page-1)*5, 5));
+	}
+
+	@Override
+	public int deleteReply(int num) {
+		return sqlSession.delete("mapper.errandsReplyMapper.deleteErrandsReply", num);
+	}
+
+	@Override
+	public int updateErrands(int errandsNum, String responseId, String startTime, String arrivalTime,
+			String finishTime) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("responseId", responseId);
+		map.put("startTime", startTime);
+		map.put("arrivalTime", arrivalTime);
+		map.put("finishTime", finishTime);
+		map.put("num", errandsNum);
+		return sqlSession.update("mapper.errandsMapper.updateErrands", map);
+	}
+
+	@Override
+	public int countMyRequest() {
+		return sqlSession.selectOne("mapper.errandsMapper.countRequest");
+	}
+
+	@Override
+	public int countMyResponse() {
+		return sqlSession.selectOne("mapper.errandsMapper.countResponse");
 	}
 	
 	

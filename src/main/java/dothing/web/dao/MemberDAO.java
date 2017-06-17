@@ -29,4 +29,8 @@ public interface MemberDAO {
 	 */
 	int updateMember(MemberDTO member);
 	
+	/**
+	 * 포인트 수정
+	 */
+	int updatePoint(Integer point, String id);
 }

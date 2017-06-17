@@ -52,6 +52,8 @@ where inquiry_num = 4
  CREATE SEQUENCE SEQ_REPLY_NUM INCREMENT BY 1 START WITH 1;
  
   CREATE SEQUENCE SEQ_NOTICE_NUM INCREMENT BY 1 START WITH 1;
+  
+  CREATE SEQUENCE SEQ_NOT_NUM INCREMENT BY 1 START WITH 1;
 
  select *from inquiry_reply;
  
@@ -69,6 +71,10 @@ where inquiry_num = 4
  insert into notice_board(
 		notice_num,member_id,notice_title,notice_content
 		,notice_date,readnum)
-		values(SEQ_NOTICE_NUM.NEXTVAL,'tester','블랙 회원 안내입니다.','응 업써~',
+		values(SEQ_NOT_NUM.NEXTVAL,'tester','블랙 회원 안내입니다.','응 업써~',
 		to_char(sysdate, 'YYYY-MM-DD HH:MI:SS AM'),0)
+		
+		
+		
+select count(*) from notice_board where notice_num=3
  
