@@ -15,6 +15,8 @@
 <link rel="stylesheet" href="assets/css/bootstrap-select.min.css"
 	type="text/css">
 <link rel="stylesheet" href="assets/css/dropzone.css" type="text/css">
+<link rel="stylesheet" href="assets/css/owl.carousel.css"
+	type="text/css">
 <link rel="stylesheet" href="assets/css/style.css" type="text/css">
 <link rel="stylesheet" href="assets/css/user.style.css" type="text/css">
 </head>
@@ -41,8 +43,7 @@
 							<thead align="left">
 								<tr>
 									<td align=""><span style="font-size: 16px;">[DoThing]글제목
-											여기에 넣어</span> <br>
-									<br>
+											여기에 넣어</span> <br> <br>
 										<div align="right">
 											<span style="color: #ff513f;">2017-06-14 | 조회수 : 2572</span>
 										</div></td>
@@ -60,12 +61,61 @@
 							</tbody>
 						</table>
 
-					
+						<!-- /.form-group -->
 
+						<!-- reviews -->
+						<section class="" id="reviews"> <header class="clearfix">
+						<h2 class="pull-left">댓글 목록</h2>
+						<a href="#write-review" class="btn framed icon pull-right roll">댓글
+							작성하기 <i class="fa fa-pencil"></i>
+						</a> </header> <section class="reviews"> <article class="review">
+						<figure class="author"> <img
+							src="assets/img/default-avatar.png" alt="">
+						<div class="date">작성일 2017-06-15 오후 5:34</div>
+						</figure> <!-- /.author-->
+						<div class="wrapper">
+							<h5>작성자 아이디</h5>
+							<figure class="rating big color" data-rating="4"></figure>
+							<p>이거 방탄 유리야 새끼야~~~</p>
 
-					
-					
-						
+						</div>
+						<!-- /.wrapper--> </article> <!-- /.review --> <!-- /.review --> </section> <!-- /.reviews-->
+						</section>
+						<!-- /#reviews -->
+						<!--end Reviews-->
+						<!--Review Form-->
+						<section id="write-review"> <header>
+						<h2>댓글 작성하기</h2>
+						</header>
+						<form id="form-review" role="form" method="post" action="?"
+							class="background-color-white">
+							<div class="row">
+								<div class="col-md-8">
+									<div class="form-group">
+										<label for="form-review-name">아이디</label> <input type="text"
+											class="form-control" id="form-review-name"
+											name="form-review-name" required=""  disabled>
+									</div>
+									<!-- /.form-group -->
+									
+									<!-- /.form-group -->
+									<div class="form-group" style="width:100%">
+										<label for="form-review-message">댓글 내용</label>
+										<textarea class="form-control" id="form-review-message"
+											name="form-review-message" rows="3" required=""></textarea>
+									</div>
+									<!-- /.form-group -->
+									<div class="form-group">
+										<button type="submit" class="btn btn-default">댓글등록</button>
+									</div>
+									<!-- /.form-group -->
+								</div>
+							
+							</div>
+						</form>
+						<!-- /.main-search --> </section>
+						<br><br>
+
 						<div class="form-group col-sm-6" align="left">
 							<button type="button" class="btn btn-large btn-default"
 								id="submit">다음글</button>
@@ -74,13 +124,22 @@
 							<button type="submit" class="btn btn-large btn-default"
 								id="submit">목록</button>
 						</div>
-						<!-- /.form-group -->
+
+
 					</div>
+
+
+
+
+
 				</div>
 				<!--/.col-md-6-->
 			</div>
 		</div>
 		<!--Password-->
+
+
+
 
 	</div>
 
