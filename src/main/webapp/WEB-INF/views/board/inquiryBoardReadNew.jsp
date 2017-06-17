@@ -20,6 +20,19 @@
 	type="text/css">
 <link rel="stylesheet" href="assets/css/style.css" type="text/css">
 <link rel="stylesheet" href="assets/css/user.style.css" type="text/css">
+
+<script type="text/javascript">
+function checkValid() {
+    var f = window.document.f;
+	
+	if ( f.reply_content.value == "" ) {
+		alert( "댓글 내용을 입력하세요." );
+		return false;
+	}	
+    return true;
+}
+</script>
+
 </head>
 
 <body onunload=""
@@ -33,13 +46,10 @@
 			<!-- Page Canvas-->
 			<div id="page-canvas">
 
-
-
-
 				<!--Page Content-->
 				<div id="page-content">
 					<div class="container">
-						<h2>Notice</h2>
+						<h2>1:1 게시판</h2>
 						<span style="color: #9999ff;">여러분은 최고의 서비스 DoThing에 있습니다.</span>
 						<table class="table" align="center">
 							<thead align="left">
@@ -181,22 +191,28 @@
 						<div id="write-review"> <div>
 						<h2>댓글 작성하기</h2>
 						</div>
-						<form id="form-review" role="form" method="post" action="?"
-							class="background-color-white">
+						
+						<form id="form-review" role="form" method="post" action="${pageContext.request.contextPath}/board/insertReply"
+							class="background-color-white" onsubmit="return checkValid()">
 							<div class="row">
 								<div class="col-md-8">
 									<div class="form-group">
 										<label for="form-review-name">아이디</label> <input type="text"
-											class="form-control" id="form-review-name"
+											class="form-control" id="form-review-name" value="운영자"
 											name="form-review-name" required=""  disabled>
 									</div>
 									<!-- /.form-group -->
 									
 									<!-- /.form-group -->
+									<input type="hidden" name="board.inquiryNum"
+									value="${board.inquiryNum}">
+								    <input type="hidden" name="${_csrf.parameterName}"
+									value="${_csrf.token}">
+									
 									<div class="form-group" style="width:100%">
 										<label for="form-review-message">댓글 내용</label>
 										<textarea class="form-control" id="form-review-message"
-											name="form-review-message" rows="3" required=""></textarea>
+											name="replyContent" rows="3" required=""></textarea>
 									</div>
 									<!-- /.form-group -->
 									<div class="form-group">
@@ -216,7 +232,7 @@
 						</div>
 						<div class="form-group col-sm-6" align="right">
 							<button type="submit" class="btn btn-large btn-default"
-								id="submit">목록</button>
+								id="submit" onclick="location.href='${pageContext.request.contextPath}/board/inquiryBoardList'">목록</button>
 						</div>
 
 

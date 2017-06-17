@@ -107,12 +107,8 @@ public class BoardController {
 	/**
 	 * 1대1게시판 삭제
 	 */
-	@RequestMapping("/delete")
-	public String delete(Authentication auth, int inquiryNum) throws Exception {
-		String userId = ((MemberDTO) auth.getPrincipal()).getUserId();
-		String re = "";
-
-		// if(userId==)
+	@RequestMapping(value="/inquiryDelete", method=RequestMethod.GET)
+	public String delete(@RequestParam(value="inquiryNum")int inquiryNum) throws Exception {
 
 		boardService.delete(inquiryNum);
 		return "redirect:/board/inquiryBoardList";
@@ -135,7 +131,7 @@ public class BoardController {
 	@RequestMapping("/insertReply")
 	public String insertReply(BoardReplyDTO brDTO) throws Exception {
 		boardService.insertReply(brDTO);
-		return "redirect:/board/inquiryBoardRead/" + brDTO.getBoard().getInquiryNum();
+		return "redirect:/board/inquiryBoardReadNew/" + brDTO.getBoard().getInquiryNum();
 	}
 	
 	/////////////////////////////////////////////////////////////////
