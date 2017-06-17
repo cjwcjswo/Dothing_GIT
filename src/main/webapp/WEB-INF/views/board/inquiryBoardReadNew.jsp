@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
 	pageEncoding="EUC-KR"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -20,6 +21,7 @@
 <link rel="stylesheet" href="assets/css/style.css" type="text/css">
 <link rel="stylesheet" href="assets/css/user.style.css" type="text/css">
 </head>
+
 <body onunload=""
 	class="page-subpage page-profile navigation-top-header" id="page-top">
 
@@ -38,14 +40,13 @@
 				<div id="page-content">
 					<div class="container">
 						<h2>Notice</h2>
-						<p>여러분은 최고의 서비스 DoThing에 있습니다.</p>
+						<span style="color: #9999ff;">여러분은 최고의 서비스 DoThing에 있습니다.</span>
 						<table class="table" align="center">
 							<thead align="left">
 								<tr>
-									<td align=""><span style="font-size: 16px;">[DoThing]글제목
-											여기에 넣어</span> <br> <br>
+									<td align=""><span style="font-size: 16px;"><h1>${board.boardTitle}</h1></span>
 										<div align="right">
-											<span style="color: #ff513f;">2017-06-14 | 조회수 : 2572</span>
+											<span style="color: #ff513f;">${board.boardDate} | 조회수 ${board.readNum}</span>
 										</div></td>
 
 								</tr>
@@ -53,8 +54,7 @@
 							</thead>
 							<tbody align="left">
 								<tr>
-									<td><div class="comment-text">글을 존나게 써보자!!!! 홀로로로롤롤
-											호로로롤</div></td>
+									<td><div class="comment-text">${board.boardContent}</div></td>
 								</tr>
 
 
@@ -63,30 +63,124 @@
 
 						<!-- /.form-group -->
 
-						<!-- reviews -->
-						<section class="" id="reviews"> <header class="clearfix">
+						<%-- <!-- reviews -->
+						<section class="" id="reviews">
+						<header class="clearfix">
 						<h2 class="pull-left">댓글 목록</h2>
 						<a href="#write-review" class="btn framed icon pull-right roll">댓글
 							작성하기 <i class="fa fa-pencil"></i>
-						</a> </header> <section class="reviews"> <article class="review">
-						<figure class="author"> <img
+						</a>
+						</header> 
+						<section class="reviews">
+						<article class="review">
+						<!-- <figure class="author"> 
+						<img
 							src="assets/img/default-avatar.png" alt="">
 						<div class="date">작성일 2017-06-15 오후 5:34</div>
-						</figure> <!-- /.author-->
+						</figure> /.author -->
+						
 						<div class="wrapper">
+						<!-- <c:choose>
 							<h5>작성자 아이디</h5>
 							<figure class="rating big color" data-rating="4"></figure>
 							<p>이거 방탄 유리야 새끼야~~~</p>
+						</c:choose> -->
+						
+						<c:choose>
+						
+						<c:when test="${empty requestScope.reply}">
+								<tr>
+									<td colspan="5">
+										<p align="center">
+											<b><span style="font-size: 9pt;">등록된 댓글이 없습니다.</span></b>
+										</p>
+									</td>
+								</tr>
+						</c:when>
+							
+						<c:otherwise>
+							<c:forEach items="${requestScope.reply}" var="replyDto">
+							
+							<figure class="author"> 
+						    <img
+							src="assets/img/default-avatar.png" alt="">
+						    <!-- <div class="date">작성일 2017-06-15 오후 5:34</div> -->
+						    </figure> <!-- /.author-->
+							
+							<h5>운영자</h5>
+							<figure class="rating big color" data-rating="4">
+							</figure>
+							<p>${replyDto.replyContent}</p>
+							
+							</c:forEach>
+						</c:otherwise>
+						</c:choose>
 
 						</div>
 						<!-- /.wrapper--> </article> <!-- /.review --> <!-- /.review --> </section> <!-- /.reviews-->
 						</section>
 						<!-- /#reviews -->
+						<!--end Reviews--> --%>
+						
+						<!-- NEW -->
+						<div class="" id="reviews">
+						<div class="clearfix">
+						<h2 class="pull-left">댓글 목록</h2>
+						<a href="#write-review" class="btn framed icon pull-right roll">댓글
+							작성하기 <i class="fa fa-pencil"></i>
+						</a>
+						</div> 
+						<div class="reviews">
+						<div class="review">
+						<!-- <figure class="author"> 
+						<img
+							src="assets/img/default-avatar.png" alt="">
+						<div class="date">작성일 2017-06-15 오후 5:34</div>
+						</figure> /.author -->
+						
+						<div class="wrapper">
+						
+						
+						<c:choose>
+						
+						<c:when test="${empty requestScope.reply}">
+								<!-- <tr>
+									<td colspan="5"> -->
+										<p align="center">
+											<b><span style="font-size: 9pt;">등록된 댓글이 없습니다.</span></b>
+										</p>
+									<!-- </td>
+								</tr> -->
+						</c:when>
+							
+						<c:otherwise>
+							<c:forEach items="${requestScope.reply}" var="replyDto">
+							
+							<div class="author"> 
+						    <img
+							src="assets/img/default-avatar.png" alt="">
+						    <!-- <div class="date">작성일 2017-06-15 오후 5:34</div> -->
+						    </div> <!-- /.author-->
+							
+							<h5>운영자</h5>
+							<div class="rating big color" data-rating="4">
+							</div>
+							<p>${replyDto.replyContent}</p>
+							
+							</c:forEach>
+						</c:otherwise>
+						</c:choose>
+
+						</div>
+						<!-- /.wrapper--> </div> <!-- /.review --> <!-- /.review --> </div> <!-- /.reviews-->
+						</div>
+						<!-- /#reviews -->
 						<!--end Reviews-->
+						
 						<!--Review Form-->
-						<section id="write-review"> <header>
+						<div id="write-review"> <div>
 						<h2>댓글 작성하기</h2>
-						</header>
+						</div>
 						<form id="form-review" role="form" method="post" action="?"
 							class="background-color-white">
 							<div class="row">
@@ -113,7 +207,7 @@
 							
 							</div>
 						</form>
-						<!-- /.main-search --> </section>
+						<!-- /.main-search --> </div>
 						<br><br>
 
 						<div class="form-group col-sm-6" align="left">

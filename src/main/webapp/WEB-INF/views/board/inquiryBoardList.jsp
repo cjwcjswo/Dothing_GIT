@@ -1,7 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -78,17 +77,17 @@ function sendDelete(){
 							<tbody align="left">								
 								<tr>
 									<td>
-									<a href="${pageContext.request.contextPath}/board/noticeBoardRead/${boardDto.noticeNum}"><h1>${boardDto.noticeTitle}</h1></a>
+									<a href="${pageContext.request.contextPath}/board/inquiryBoardReadNew/${boardDto.inquiryNum}"><h1>${boardDto.boardTitle}</h1></a>
 									
-									<input type=hidden name="noticeNum" value="${boardDto.noticeNum}">
+									<input type=hidden name="inquiryNum" value="${boardDto.inquiryNum}">
 									<input type="hidden" name="${_csrf.parameterName}"
                                      value="${_csrf.token}">
-									<a href="#" onclick="location.href='${pageContext.request.contextPath}/board/noticeDelete?noticeNum=${boardDto.noticeNum}'">
+									<a href="#" onclick="location.href='${pageContext.request.contextPath}/board/inquiryDelete?inquiryNum=${boardDto.inquiryNum}'">
 									<i class="fa fa-trash-o" data-toggle="tooltip" title="삭제하기"></i></a>
 									
 									
 									<a><i class="fa fa-pencil" data-toggle="tooltip" title="수정하기"></i></a>
-									<span style="color:#ff513f;">${boardDto.noticeDate}</span>
+									<span style="color:#ff513f;">${boardDto.boardDate}</span>
 									
 									</td>
 								</tr>
