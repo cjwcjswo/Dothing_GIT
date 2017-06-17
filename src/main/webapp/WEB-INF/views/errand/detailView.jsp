@@ -204,7 +204,7 @@
 
 									</section>
 									<!--end Events-->
-									<c:if test="${errands.responseUser.userId == null }">
+									<c:if test="${errands.responseUser.userId == null && currentId == errands.requestUser.userId}">
 										<button type="button" onclick="delErrands()"
 											class="btn btn-default">삭제하기</button>
 									</c:if>

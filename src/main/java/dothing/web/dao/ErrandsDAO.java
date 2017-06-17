@@ -11,8 +11,8 @@ public interface ErrandsDAO {
 	List<ErrandsDTO> searchErrands(String hash, Integer minPrice, Integer maxPrice,
 			Integer distance, String latitude, String longitude);
 	List<ErrandsDTO> myRequestErrands(String userId, int page);
-	int countMyRequest();
-	int countMyResponse();
+	int countMyRequest(String id);
+	int countMyResponse(String id);
 	List<ErrandsDTO> myResponseErrands(String userId, int page);
 	ErrandsDTO selectErrands(int errandsNum);
 	int insertErrands(ErrandsDTO dto);

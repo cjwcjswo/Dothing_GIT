@@ -19,8 +19,8 @@ public interface ErrandsService {
 	
 	List<ErrandsDTO> myErrandsResponse(String userId, int page);
 	
-	int countMyRequest();
-	int countMyResponse();
+	int countMyRequest(String id);
+	int countMyResponse(String id);
 	int insertErrands(ErrandsDTO dto, String path) throws FileNotFoundException, IOException;
 
 	int deleteErrands(int num);

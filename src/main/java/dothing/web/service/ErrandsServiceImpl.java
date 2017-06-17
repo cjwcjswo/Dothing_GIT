@@ -164,13 +164,13 @@ public class ErrandsServiceImpl implements ErrandsService {
 	}
 	
 	@Override
-	public int countMyRequest() {
-		return errandsDAO.countMyRequest();
+	public int countMyRequest(String id) {
+		return errandsDAO.countMyRequest(id);
 	}
 
 	@Override
-	public int countMyResponse() {
-		return errandsDAO.countMyResponse();
+	public int countMyResponse(String id) {
+		return errandsDAO.countMyResponse(id);
 	}
 
 	/**

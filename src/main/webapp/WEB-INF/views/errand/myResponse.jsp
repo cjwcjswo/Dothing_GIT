@@ -91,7 +91,7 @@
 							</ul>
 						</aside>
 					</div>
-					<div class="col-md-9 col-sm-9" id="history" style="height: 500px">
+					<div class="col-md-9 col-sm-9" id="history">
 						<section id="items">
 							<c:forEach items="${errandsList}" var="errands">
 								<div class="item list admin-view">
@@ -181,6 +181,36 @@
 							</c:forEach>
 
 						</section>
+						<ul class="pagination" style="margin-left: 25%">
+							<c:if test="${pm.previous}">
+								<li><a
+									href="${pageContext.request.contextPath}/errand/myResponse?page=${pm.lastPage - 5}"><span
+										class="glyphicon glyphicon-chevron-left"></span></a></li>
+							</c:if>
+							<c:if test="${pm.startPage != pm.lastPage }">
+								<c:forEach begin="${pm.startPage}" end="${pm.lastPage}"
+									varStatus="state">
+									<c:if
+										test="${pm.currentPage == (pm.startPage + state.count-1)}">
+										<li class="active"><a
+											href='${pageContext.request.contextPath}/errand/myResponse?page=${pm.startPage + state.count-1}'>${pm.startPage + state.count-1}</a>
+										</li>
+									</c:if>
+									<c:if
+										test="${pm.currentPage != (pm.startPage + state.count-1)}">
+										<li><a
+											href='${pageContext.request.contextPath}/errand/myResponse?page=${pm.startPage + state.count-1}'>${pm.startPage + state.count-1}</a>
+										</li>
+									</c:if>
+								</c:forEach>
+							</c:if>
+							<c:if test="${pm.next}">
+								<li><a
+									href="${pageContext.request.contextPath}/errand/myResponse?page=${pm.lastPage + 1}"><span
+										class="glyphicon glyphicon-chevron-right"></span></a></li>
+							</c:if>
+
+						</ul>
 					</div>
 				</div>
 			</section>
@@ -189,9 +219,6 @@
 	</div>
 	<!-- end Page Canvas-->
 	<script>
-		if ($('#history').length > 0) {
-			$("#history").mCustomScrollbar();
-		}
 	</script>
 </body>
 </html>

@@ -18,5 +18,5 @@ public interface MemberService {
 	/**
 	 * 정보수정
 	 */
-	int updateMember(MemberDTO member);
+	int updateMember(MemberDTO member, MemberDTO original);
 }

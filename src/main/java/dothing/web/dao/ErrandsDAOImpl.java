@@ -101,13 +101,13 @@ public class ErrandsDAOImpl implements ErrandsDAO{
 	}
 
 	@Override
-	public int countMyRequest() {
-		return sqlSession.selectOne("mapper.errandsMapper.countRequest");
+	public int countMyRequest(String id) {
+		return sqlSession.selectOne("mapper.errandsMapper.countRequest", id);
 	}
 
 	@Override
-	public int countMyResponse() {
-		return sqlSession.selectOne("mapper.errandsMapper.countResponse");
+	public int countMyResponse(String id) {
+		return sqlSession.selectOne("mapper.errandsMapper.countResponse", id);
 	}
 	
 	

@@ -16,17 +16,78 @@
 	rel="stylesheet" type="text/css">
 <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700'
 	rel='stylesheet' type='text/css'>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/assets/js/jquery-2.1.0.min.js"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/assets/js/jquery.mCustomScrollbar.concat.min.js"></script>
-<title>심부름 내역</title>
+<link rel="sheet"
+	href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+<link
+	href="${pageContext.request.contextPath}/assets/tags/bootstrap-tagsinput.css">
 
+<style>
+div.stars {
+	width: 270px;
+	display: inline-block;
+}
+
+input.star {
+	display: none;
+}
+
+label.star {
+	float: right;
+	padding: 10px;
+	font-size: 36px;
+	color: #444;
+	transition: all .2s;
+}
+
+input.star:checked ~ label.star:before {
+	content: '\f005';
+	color: #FD4;
+	transition: all .25s;
+}
+
+input.star-5:checked ~ label.star:before {
+	color: #FE7;
+	text-shadow: 0 0 20px #952;
+}
+
+input.star-1:checked ~ label.star:before {
+	color: #F62;
+}
+
+label.star:hover {
+	transform: rotate(-15deg) scale(1.3);
+}
+
+label.star:before {
+	content: '\f006';
+	font-family: FontAwesome;
+}
+</style>
+
+<title>심부름 내역</title>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/assets/tags/bootstrap-tagsinput.js"></script>
+<script>
+	$(function() {
+		$(document).on("click", "button[me='eval']", function(){
+			var resId = $(this).attr("meId");
+			$(".bootstrap-tagsinput span").remove();
+			$('#ac1').attr("checked", true);
+			$('#sp1').attr("checked", true);
+			$('#kn1').attr("checked", true);
+			$("#modalId").html(resId);
+			$("#modalImg").attr("src", "${pageContext.request.contextPath}/"+resId+"/"+$(this).attr("meImg"))
+			$("#myModal").modal('toggle');
+		});
+
+
+
+	});
+</script>
 </head>
 
 <body onunload=""
 	class="page-subpage page-my-items navigation-off-canvas" id="page-top">
-
 
 	<!-- Page Canvas-->
 	<div id="page-canvas">
@@ -157,6 +218,8 @@
 												<c:if
 													test="${(errands.arrivalTime == null) && (errands.finishTime == null)}">
 													<li><i class="fa fa-taxi"></i>요청 완료</li>
+													<button class="btn btn-danger" meNum="${errands.errandsNum}" me="eval"
+													meId="${errands.responseUser.userId}" meImg="${errands.responseUser.selfImg}">OK</button>
 												</c:if>
 											</c:if>
 											<c:if
@@ -181,25 +244,29 @@
 							</c:forEach>
 
 						</section>
-						<ul class="pagination" style="margin-left:35%">
+						<ul class="pagination" style="margin-left: 25%">
 							<c:if test="${pm.previous}">
 								<li><a
 									href="${pageContext.request.contextPath}/errand/myRequest?page=${pm.lastPage - 5}"><span
 										class="glyphicon glyphicon-chevron-left"></span></a></li>
 							</c:if>
-							<c:forEach begin="${pm.startPage}" end="${pm.lastPage}"
-								varStatus="state">
-								<c:if test="${pm.currentPage == (pm.startPage + state.count-1)}">
-									<li class="active"><a
-										href='${pageContext.request.contextPath}/errand/myRequest?page=${pm.startPage + state.count-1}'>${pm.startPage + state.count-1}</a>
-									</li>
-								</c:if>
-								<c:if test="${pm.currentPage != (pm.startPage + state.count-1)}">
-									<li><a
-										href='${pageContext.request.contextPath}/errand/myRequest?page=${pm.startPage + state.count-1}'>${pm.startPage + state.count-1}</a>
-									</li>
-								</c:if>
-							</c:forEach>
+							<c:if test="${pm.startPage != pm.lastPage }">
+								<c:forEach begin="${pm.startPage}" end="${pm.lastPage}"
+									varStatus="state">
+									<c:if
+										test="${pm.currentPage == (pm.startPage + state.count-1)}">
+										<li class="active"><a
+											href='${pageContext.request.contextPath}/errand/myRequest?page=${pm.startPage + state.count-1}'>${pm.startPage + state.count-1}</a>
+										</li>
+									</c:if>
+									<c:if
+										test="${pm.currentPage != (pm.startPage + state.count-1)}">
+										<li><a
+											href='${pageContext.request.contextPath}/errand/myRequest?page=${pm.startPage + state.count-1}'>${pm.startPage + state.count-1}</a>
+										</li>
+									</c:if>
+								</c:forEach>
+							</c:if>
 							<c:if test="${pm.next}">
 								<li><a
 									href="${pageContext.request.contextPath}/errand/myRequest?page=${pm.lastPage + 1}"><span
@@ -212,7 +279,87 @@
 			</section>
 		</div>
 		<!-- end Page Content-->
+		<!-- Modal -->
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+			<div class="modal-dialog" style="width: 50%">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true"></button>
+						<h4 class="modal-title" id="myModalLabel">평가해주세요!</h4>
+					</div>
+					<div class="modal-body">
+						<center>
+							<img src="" name="aboutme" width="140" height="140" border="0"
+								class="img-circle" id="modalImg">
+							<h3 id="modalId">심부름꾼 아이디</h3>
+							<div class="stars" style="width: 60%">
+								<table style="width: 100%;">
+									<tr>
+										<th>정확성</th>
+										<th><input class="star star-5" id="ac5" type="radio"
+											name="accuracy" /> <label class="star star-5" for="ac5"></label>
+											<input class="star star-4" id="ac4" type="radio"
+											name="accuracy" /> <label class="star star-4" for="ac4"></label>
+											<input class="star star-3" id="ac3" type="radio"
+											name="accuracy" /> <label class="star star-3" for="ac3"></label>
+											<input class="star star-2" id="ac2" type="radio"
+											name="accuracy" /> <label class="star star-2" for="ac2"></label>
+											<input class="star star-1" id="ac1" type="radio"
+											name="accuracy" checked="checked" /> <label
+											class="star star-1" for="ac1"></label></th>
+									</tr>
+									<tr>
+										<th>신속함</th>
+										<th><input class="star star-5" id="sp5" type="radio"
+											name="speed" /> <label class="star star-5" for="sp5"></label>
+											<input class="star star-4" id="sp4" type="radio" name="speed" />
+											<label class="star star-4" for="sp4"></label> <input
+											class="star star-3" id="sp3" type="radio" name="speed" /> <label
+											class="star star-3" for="sp3"></label> <input
+											class="star star-2" id="sp2" type="radio" name="speed" /> <label
+											class="star star-2" for="sp2"></label> <input
+											class="star star-1" id="sp1" type="radio" name="speed"
+											checked="checked" /> <label class="star star-1" for="sp1"></label></th>
+									</tr>
+									<tr>
+										<th>친절도</th>
+										<th><input class="star star-5" id="kn5" type="radio"
+											name="kindness" /> <label class="star star-5" for="kn5"></label>
+											<input class="star star-4" id="kn4" type="radio"
+											name="kindness" /> <label class="star star-4" for="kn4"></label>
+											<input class="star star-3" id="kn3" type="radio"
+											name="kindness" /> <label class="star star-3" for="kn3"></label>
+											<input class="star star-2" id="kn2" type="radio"
+											name="kindness" /> <label class="star star-2" for="kn2"></label>
+											<input class="star star-1" id="kn1" type="radio"
+											name="kindness" checked="checked" /> <label
+											class="star star-1" for="kn1"></label></th>
+									</tr>
+								</table>
+
+							</div>
+						</center>
+						<hr>
+						<center>
+							<p class="text-left">
+								<input type="text" id="evalTag" data-role="tagsinput"
+									placeholder="태그로 사용자를 평가해주세요!" name="evalTag" />
+							</p>
+							<br>
+						</center>
+					</div>
+					<div class="modal-footer">
+						<center>
+							<button type="button" class="btn btn-default" onclick="alert($('#evalTag').val())">심부름 완료</button>
+						</center>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
+
 	<!-- end Page Canvas-->
 	<script>
 		

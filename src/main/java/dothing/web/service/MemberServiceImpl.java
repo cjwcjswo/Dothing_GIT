@@ -47,10 +47,11 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public int updateMember(MemberDTO member) {
+	public int updateMember(MemberDTO member, MemberDTO original) {
 		if(!(member.getPassword() == null || member.getPassword().equals(""))){
 		String encodePass = passwordEncoder.encode(member.getPassword());
 		member.setPassword(encodePass);
+		original.setPassword(encodePass);
 		} else{
 			member.setPassword(null);
 		}

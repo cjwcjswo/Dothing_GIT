@@ -123,13 +123,14 @@ public class ErrandsController {
 	 */
 	@RequestMapping("/myRequest")
 	public ModelAndView myRequest(Authentication aut, Integer page) {
+		MemberDTO dto = (MemberDTO) aut.getPrincipal();
 		if (page == null)
 			page = new Integer(1);
-		PageMaker pm = new PageMaker(page, errandsService.countMyRequest()/ 6 + 1);
+		PageMaker pm = new PageMaker(page, errandsService.countMyRequest(dto.getUserId())/ 6 + 1);
 		pm.start();
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("pm", pm);
-		mv.addObject("errandsList", errandsService.myErrandsRequest(((MemberDTO) aut.getPrincipal()).getUserId(), page));
+		mv.addObject("errandsList", errandsService.myErrandsRequest(dto.getUserId(), page));
 		mv.setViewName("/errand/myRequest");
 		return mv;
 	}
@@ -139,12 +140,13 @@ public class ErrandsController {
 	 */
 	@RequestMapping("/myResponse")
 	public ModelAndView myResponse(Authentication aut, Integer page) {
+		MemberDTO dto = (MemberDTO) aut.getPrincipal();
 		if (page == null)
 			page = new Integer(1);
-		PageMaker pm = new PageMaker(page, errandsService.countMyResponse() / 6 + 1);
+		PageMaker pm = new PageMaker(page, errandsService.countMyResponse(dto.getUserId()) / 6 + 1);
 		pm.start();
 		ModelAndView mv = new ModelAndView();
-		mv.addObject("errandsList", errandsService.myErrandsResponse(((MemberDTO) aut.getPrincipal()).getUserId(), page));
+		mv.addObject("errandsList", errandsService.myErrandsResponse((dto).getUserId(), page));
 		mv.setViewName("/errand/myResponse");
 		return mv;
 	}
@@ -162,6 +164,7 @@ public class ErrandsController {
 			throw new Exception("포인트가 부족합니다! 충전해주세요.");
 		}
 		errandsService.updateErrands(num, responseId, requestUser.getUserId(), "startTime", null, null, totalPrice);
+		requestUser.getPoint().setCurrentPoint((requestUser.getPoint().getCurrentPoint()) - totalPrice);
 		mv.addObject("num", num);
 		mv.setViewName("/errand/okay");
 		return mv;
