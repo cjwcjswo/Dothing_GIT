@@ -175,7 +175,13 @@ public class BoardController {
 	 * 공지게시판 삭제
 	 */
 	@RequestMapping(value="/noticeDelete", method=RequestMethod.GET)
-	public String noticeDelete(@RequestParam(value="noticeNum")int noticeNum) throws Exception {
+	public String noticeDelete(Authentication auth, @RequestParam(value="noticeNum")int noticeNum) throws Exception {
+		
+		String userId = ((MemberDTO) auth.getPrincipal()).getUserId();
+		
+		if(!userId.equals("tester")){
+			throw new Exception("Id가 tester인 운영자만 삭제할 수 있습니다.");
+		}
        
 		noticeService.delete(noticeNum);
 		return "redirect:/board/noticeBoardList";
@@ -193,9 +199,16 @@ public class BoardController {
 	 * 공지게시판 글쓰기 기능
 	 */
 	@RequestMapping(value = "/noticeInsert", produces = "text/html;charset=UTF-8")
-	public String noticeInsert(NoticeBoardDTO boardDTO) throws Exception {
+	public String noticeInsert(Authentication auth, NoticeBoardDTO boardDTO) throws Exception {
 
 		String re = "";
+		
+		String userId = ((MemberDTO) auth.getPrincipal()).getUserId();
+		
+		System.out.println("userId: " + userId);
+		if(!userId.equals("tester")){
+			throw new Exception("Id가 tester인 운영자만 글을 쓸 수 있습니다.");
+		}
 		
 		boardDTO.setUserId("tester");
 
