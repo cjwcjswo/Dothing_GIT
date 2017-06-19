@@ -256,7 +256,18 @@
 										<header class="pull-left">
 											<a href="#reviews" class="roll"><h3>평점</h3></a>
 										</header>
-										<figure class="rating big pull-right" data-rating="4"></figure>
+										<c:choose>
+											<c:when test="${errands.requestUser.gpaList.size() == 0}">
+												<figure class="rating big pull-right" data-rating="0"></figure>
+											</c:when>
+											<c:otherwise>
+												<c:set var="count" value="0"/>
+												<c:forEach items="${errands.requestUser.gpaList}" var="gpa">
+													<c:set var="count" value="${count + gpa.requestManners}"/>
+												</c:forEach>
+												<figure class="rating big pull-right" data-rating="${count / errands.requestUser.gpaList.size()}"></figure>
+											</c:otherwise>
+										</c:choose>
 									</section>
 									<!--end Rating-->
 									<!--Events-->
@@ -273,10 +284,11 @@
 													<c:if test="${errands.requestUser.hashList.size()== 0}">
 														등록된 해시태그가 없습니다.
 													</c:if>
-														<c:forEach items="${errands.requestUser.hashList}" var="hash">
-															<span class="label label-success">${hash.hashtag}</span> 
-														</c:forEach>
-													
+													<c:forEach items="${errands.requestUser.hashList}"
+														var="hash">
+														<span class="label label-success">${hash.hashtag}</span>
+													</c:forEach>
+
 												</div>
 											</div>
 											<a href="#" class="show-more expand-content"
@@ -367,8 +379,7 @@
 														<img
 															src="${pageContext.request.contextPath}/users/${reply.user.userId}/${reply.user.selfImg}"
 															alt="">
-														<div class="date">
-															<b>예상 도착</b><br>${reply.arrivalTime}</div>
+														
 													</figure>
 													<!-- /.author-->
 
@@ -378,13 +389,13 @@
 															<i class="fa fa-user-o"></i>
 														</c:if>
 														<h5>${reply.user.userId}</h5>
-
+<div class="date">
+															<b>예상 도착</b><br>${reply.arrivalTime}</div>
 														<c:if test="${currentId == reply.user.userId}">
 															<button type="button" class="btn btn-danger"
 																onclick="location.href='${pageContext.request.contextPath}/errand/deleteReply?num=${reply.replyNum}&eNum=${errands.errandsNum}'">
 																삭제</button>
 														</c:if>
-														<figure class="rating big color" data-rating="4"></figure>
 														<c:if
 															test="${(currentId == errands.requestUser.userId) && (errands.responseUser.userId == null)}">
 															<button type="button"
