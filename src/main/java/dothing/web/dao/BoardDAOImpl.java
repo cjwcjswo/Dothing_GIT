@@ -15,10 +15,15 @@ public class BoardDAOImpl implements BoardDAO {
 	
 	@Autowired
 	private SqlSession sqlSession;
-
+	
 	@Override
 	public List<BoardDTO> selectAll(int page) {
 		return sqlSession.selectList("mapper.boardMapper.selectAll",null,new RowBounds((page-1)*5, 5));
+	}
+	
+	@Override
+	public List<BoardDTO> selectAllMember(int page, String userId) {
+		return sqlSession.selectList("mapper.boardMapper.selectAllMember",userId,new RowBounds((page-1)*5, 5));
 	}
 
 	@Override

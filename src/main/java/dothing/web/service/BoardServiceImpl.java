@@ -22,6 +22,12 @@ public class BoardServiceImpl implements BoardService {
 		List<BoardDTO> list = boardDAO.selectAll(page);
 		return list;
 	}
+	
+	@Override
+	public List<BoardDTO> selectAllMember(int page, String userId) {
+		List<BoardDTO> list = boardDAO.selectAllMember(page, userId);
+		return list;
+	}
 
 	@Override
 	public BoardDTO selectByBoardNum(int inquiryNum, boolean state) throws Exception {

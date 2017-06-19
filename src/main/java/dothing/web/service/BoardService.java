@@ -10,6 +10,11 @@ public interface BoardService {
 	 * 레코드 전체 검색
 	 */
 	List<BoardDTO> selectAll(int page);
+	
+	/**
+	 * 레코드 전체 검색 일반회원권한으로 보기
+	 */
+	List<BoardDTO> selectAllMember(int page, String userId);
 
 	/**
 	 * 보드번호에 해당하는 레코드 검색
