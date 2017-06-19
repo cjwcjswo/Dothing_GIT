@@ -34,50 +34,96 @@
 
 				<!--Page Content-->
 				<div id="page-content">
-					<div class="container">
-						<h2>포인트 충전</h2>
-						<p>여러분은 최고의 서비스 DoThing에 있습니다.</p>
-						<table class="table table-hover">
-							<thead align="left">
-								<tr>
+					<section class="container"> <header>
+					<ul class="nav nav-pills">
+						<li><a href="profile.html"><h1 class="page-title">유저
+									이름 넣어</h1></a></li>
+						<li><a href="my-items.html"><h1 class="page-title">심부름
+									요청 및 수행 내역</h1></a></li>
+						<li><a href="safetyRegister.jsp"><h1 class="page-title">안전
+									심부름꾼 신청</h1></a></li>
+						<li class="active"><a href="safetyRegister.jsp"><h1
+									class="page-title">포인트 충전 및 내역</h1></a></li>
+					</ul>
+					</header>
+					<table class="table table-hover">
+						<thead align="left">
+							<tr>
 
-									<td align="left">결제 수단 :<label class="radio-inline"><input
-											type="radio" name="optradio">무통장 입금</label> <label
-										class="radio-inline"><input type="radio"
-											name="optradio">카드결제</label></td>
-								</tr>
-							</thead>
-							<tbody align="left">
-								<tr>
-									<div class="form-group col-xs-4">
-										<label for="sel1">포인트 액수</label> <select class="form-control"
-											id="sel1">
-											<option>5,000p(5,000원)</option>
-											<option>10,000p(10,000원)</option>
-											<option>20,000p(20,000원)</option>
-											<option>50,000p(50,000원)</option>
-											<option>100,000p(100,000원)</option>
+								<td align="left">결제 수단 :<label class="radio-inline"><input
+										type="radio" name="optradio">무통장 입금</label> <label
+									class="radio-inline"><input type="radio"
+										name="optradio">카드결제</label></td>
+							</tr>
+						</thead>
+						<tbody align="left">
+							<tr>
+								<div class="form-group col-xs-4">
+									<label for="sel1">포인트 액수</label> <select class="form-control"
+										id="sel1">
+										<option>5,000p(5,000원)</option>
+										<option>10,000p(10,000원)</option>
+										<option>20,000p(20,000원)</option>
+										<option>50,000p(50,000원)</option>
+										<option>100,000p(100,000원)</option>
 
-										</select>
-									</div>
+									</select>
+								</div>
 
-								</tr>
+							</tr>
 
 
-							</tbody>
+						</tbody>
 
-						</table>
-					</div>
-
+					</table>
 					<div class="form-group" align="center">
 						<button type="submit" class="btn btn-large btn-default"
 							id="submit">충전</button>
 
-						<button type="button" class="btn btn-large btn-default"
-							id="submit">돌아가기</button>
 
 					</div>
-					<!-- /.form-group -->
+
+					<h1>
+						<i class="fa fa-check"></i>최근 결제 내역
+					</h1>
+
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th>구입일</th>
+								<th>결제 포인트</th>
+								<th>사용 포인트</th>
+								<th>잔여 포인트</th>
+								<th>환전 포인트</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>2017-06-19</td>
+								<td>5,000</td>
+								<td>0</td>
+								<td>12,000</td>
+								<td>-</td>
+
+							</tr>
+
+						</tbody>
+					</table>
+
+
+					<!-- 페이지네이션 -->
+
+					<ul class="pager">
+						<li><a href="#">Previous</a></li>
+						<li><a href="#">1</a></li>
+						<li><a href="#">2</a></li>
+						<li><a href="#">3</a></li>
+						<li><a href="#">Next</a></li>
+					</ul>
+
+					<!-- 페이지네이션 종료 --> <!-- /.form-group --> </section>
+
+
 				</div>
 				<!--/.col-md-6-->
 			</div>
