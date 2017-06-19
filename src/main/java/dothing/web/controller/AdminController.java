@@ -25,8 +25,11 @@ public class AdminController {
 	
 	@RequestMapping("/adminMoney")
 	public ModelAndView adminMoney(){
+		
 		List<PointDTO> list = adminMoneyService.selectAll();
+		
 		ModelAndView mv = new ModelAndView();
+		
 		mv.setViewName("admin/adminMoney");
 		mv.addObject("list", list);
 		

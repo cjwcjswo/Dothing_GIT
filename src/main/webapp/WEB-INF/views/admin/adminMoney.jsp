@@ -53,9 +53,7 @@
 						</header>
 						<div class="row">
 							<div class="col-md-9">
-
 								<div class="row">
-
 									<!--Contact Info-->
 									<div class="col-md-9 col-sm-9">
 										<!-- 	아이디 포인트액수 비밀번호확인 승인 버튼 삭제버튼  -->
@@ -70,7 +68,7 @@
 											<c:choose>
 												<c:when test="${empty requestScope.list}">
 													<tr>
-														<td colspan="5">
+														<td colspan="3">
 															<div align="center">
 																<b><span style="font-size: 9pt;">등록된 무통장입금
 																		포인트 요청이 없습니다.</span></b>
@@ -84,7 +82,6 @@
 															<tr>
 																<td>${pointDto.user.userId}</td>
 																<td><i class="fa fa-krw"></i>${pointDto.requestPoint}</td>
-
 																<td><a href="#"><i class="fa fa-check"
 																		title="포인트로전환"></i></a> <a href="#"><i
 																		class="fa fa-close" title="취소"></i></a></td>
@@ -93,39 +90,18 @@
 													</c:forEach>
 												</c:otherwise>
 											</c:choose>
-											<!-- <tbody>
-												<tr>
-													<td>tester</td>
-													<td><i class="fa fa-krw"></i>20,000</td>
-													
-													<td>
-													<a href="#"><i
-																class="fa fa-check" title="포인트로전환"></i></a>
-													<a href="#"><i
-																class="fa fa-close" title="취소"></i></a>
-													</td>
-												</tr>
-
-											</tbody> -->
+											
 										</table>
-
-
-
-
-
-
-
-
 
 										<!-- 페이지네이션 -->
 
-										<ul class="pager">
+										<!-- <ul class="pager">
 											<li><a href="#">Previous</a></li>
 											<li><a href="#">1</a></li>
 											<li><a href="#">2</a></li>
 											<li><a href="#">3</a></li>
 											<li><a href="#">Next</a></li>
-										</ul>
+										</ul> -->
 
 										<!-- 페이지네이션 종료 -->
 

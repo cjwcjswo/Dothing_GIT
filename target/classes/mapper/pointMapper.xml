@@ -14,6 +14,7 @@
 	<select id="selectAll" resultMap="pointSelectMap">
 		select 
 		current_point,request_point,member_id 
-		from point
+		from point 
+		where (request_point != 0)
 	</select>
 </mapper>
