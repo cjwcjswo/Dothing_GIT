@@ -42,10 +42,12 @@
 					<section class="container">
 					<header>
 							<ul class="nav nav-pills">
-								<li class="active"><a href="adminSafe.jsp"><h1
-											class="page-title">무통장 입금 확인</h1></a></li>
-								<li><a href="my-items.html"><h1 class="page-title">안전 심부름꾼 승인</h1></a></li>
-								<li><a href="adminUserList.jsp"><h1 class="page-title">회원관리</h1></a></li>
+								<li class="active"><a href="${pageContext.request.contextPath}/admin/adminMoney"><h1 class="page-title">무통장
+											입금 확인</h1></a></li>
+								<li><a href="${pageContext.request.contextPath}/admin/adminSafe"><h1 class="page-title">안전
+											심부름꾼 승인</h1></a></li>
+								<li><a href="${pageContext.request.contextPath}/admin/adminUserList"><h1
+											class="page-title">회원관리</h1></a></li>
 							</ul>
 						</header>
 						<div class="row">

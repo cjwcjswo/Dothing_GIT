@@ -6,7 +6,12 @@ import dothing.web.dto.MemberDTO;
 import dothing.web.dto.MemberHashDTO;
 
 public interface MemberDAO {
-
+	int deleteUser(String id);
+	/**
+	 * 모든 유저 불러오기
+	 */
+	List<MemberDTO> selectAll(int page, String id);
+	int countAll(String id);
 	/**
 	 * 회원가입
 	 * */
