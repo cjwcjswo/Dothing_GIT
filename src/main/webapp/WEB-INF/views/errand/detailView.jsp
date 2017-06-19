@@ -38,7 +38,25 @@
    
    $(function() {
 	 
+	   $('#inputText').keyup(function(e) {
+	          if (e.keyCode == 13)
+	             sendMessage();
+	    });
+	   $("#send").click(function() {
+	         sendMessage();
+	      });
+
 	   
+	   
+	   function sendMessage() {
+	      //WebSocket으로 메시지를 전달한다.
+	      var msg = $('#inputText').val();
+			//separator -> #/separator/#
+		  ws.send(${errands.errandsNum}+"#/separator/#"+sender+"#/separator/#"+msg+"#/separator/#"+today);
+		  $('#inputText').val('');
+	      $('#inputText').focus();
+		}
+
 	    if(${list == null}){
 			chatLoad();
 	    }
@@ -47,12 +65,12 @@
 			//location.href='${pageContext.request.contextPath}/errand/chatLoads?errandsNum=${errands.errandsNum}';
 		};
 		
-	    $(document).on("click", "#send", function(){
+	    /* $(document).on("click", "#send", function(){
 			var msg = $('#inputText').val();
 			//separator -> #/separator/#
 			ws.send(${errands.errandsNum}+"#/separator/#"+sender+"#/separator/#"+msg+"#/separator/#"+today);
 			$('#inputText').val('');
-		});
+		}); */
 	   	
 	   	 ws.onopen = function() {
 	  		//스크롤 맨 아래로
@@ -553,10 +571,10 @@
                         placeholder="Write your message here..." /> <span
                         class="input-group-btn">
                         <button class="btn btn-primary btn-sm" id="send">Send</button>
-
                      </span>
                   </div>
                </div>
+               
             </div>
          </div>
       </div>

@@ -83,6 +83,8 @@ public class WebSocketHandler extends TextWebSocketHandler{
 				}
 			}
 			
+			
+			
 			if(msg.length() > 20){
 				chatService.write(msgArr);
 			}
