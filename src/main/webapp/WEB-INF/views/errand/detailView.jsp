@@ -198,6 +198,21 @@
 							<header class="page-title">
 								<div class="title">
 									<h1>${errands.title}</h1>
+									<c:if
+										test="${errands.arrivalTime != null and errands.finishTime != null}">
+										<div class="alert alert-success" role="alert">완료된 심부름입니다
+											:)</div>
+									</c:if>
+									<c:if
+										test="${errands.arrivalTime != null and errands.finishTime == null}">
+										<div class="alert alert-warning" role="alert">요청자 확인
+											대기중입니다 :)</div>
+									</c:if>
+									<c:if
+										test="${errands.arrivalTime == null and errands.finishTime != null}">
+										<div class="alert alert-warning" role="alert">심부름꾼 확인
+											대기중입니다 :)</div>
+									</c:if>
 								</div>
 								<div class="info">
 									<div class="type">
@@ -253,13 +268,13 @@
 											<div class="expandable-content collapsed show-60"
 												id="detail-sidebar-event">
 												<div class="content">
-													<c:if test="${errands.requestUser.hashList.size() == 0}">
-														등록된 태그가 없습니다.
+
+
+													<c:if test="${errands.hashes.size()	 != 0}">
+														<c:forEach items="${errands.hashes}" var="hash">
+															<span class="label label-info">#${hash}</span>
+														</c:forEach>
 													</c:if>
-													<c:forEach items="${errands.requestUser.hashList}"
-														var="hash">
-														<span class="label label-success">${hash.hashtag}</span>
-													</c:forEach>
 												</div>
 											</div>
 											<a href="#" class="show-more expand-content"
@@ -336,7 +351,6 @@
 											</a>
 										</header>
 										<!--   <article class="clearfix overall-rating">
->>>>>>> 3562bc3552ac06ba0385990562f6b5f008933006
                                                 <strong class="pull-left">Over Rating</strong>
                                                 <figure class="rating big color pull-right" data-rating="4"></figure>
                                                 /.rating
