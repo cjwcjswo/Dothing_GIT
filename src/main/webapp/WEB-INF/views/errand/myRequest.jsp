@@ -152,6 +152,9 @@ label.star:before {
 						<li class="active"><a
 							href="${pageContext.request.contextPath}/errand/myRequest"><h1
 									class="page-title">심부름 요청 및 수행 내역</h1></a></li>
+						<li><a
+							href="${pageContext.request.contextPath}/user/safetyRegister"><h1
+									class="page-title">안전심부름꾼 신청</h1></a></li>
 					</ul>
 				</header>
 				<div class="row">
@@ -215,11 +218,10 @@ label.star:before {
 											</div>
 											<c:if
 												test="${errands.finishTime != null and errands.arrivalTime != null}">
-										
+
 												<c:forEach items="${errands.gpa}" var="gpa">
 													<c:if test="${gpa.requestManners != 0}">
-														<div class="rating"
-															data-rating="${gpa.requestManners}"></div>
+														<div class="rating" data-rating="${gpa.requestManners}"></div>
 													</c:if>
 
 												</c:forEach>
