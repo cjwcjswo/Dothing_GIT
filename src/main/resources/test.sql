@@ -1,5 +1,6 @@
 select *from tab;
 
+select *from point;
 select *from member;
 
 SELECT a.TABLE_NAME, c.COMMENTS, a.COLUMN_NAME, b.COMMENTS, a.DATA_TYPE, a.DATA_LENGTH, a.NULLABLE
