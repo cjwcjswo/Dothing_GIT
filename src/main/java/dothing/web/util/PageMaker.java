@@ -70,6 +70,6 @@ public class PageMaker {
 		if(lastPage <= 5) previous = false;
 		System.out.println("startPage: " + startPage);
 		System.out.println("lastPage: " + lastPage);
-		System.out.println("totalPage");
+		System.out.println("totalPage: " + totalPage);
 	}
 }

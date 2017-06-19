@@ -23,9 +23,19 @@ public class MemberDTO {
 	
 	private PointDTO point;
 	private List<GPADTO> gpaList;
+	private List<MemberHashDTO> hashList;
 	
 	
 	
+	
+
+	public List<MemberHashDTO> getHashList() {
+		return hashList;
+	}
+
+	public void setHashList(List<MemberHashDTO> hashList) {
+		this.hashList = hashList;
+	}
 
 	public MemberDTO() {
 		super();

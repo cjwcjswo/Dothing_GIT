@@ -12,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -115,6 +116,7 @@ public class MemberController {
 				throw new Exception("상세 주소를 입력하세요");
 			} else {
 				updateMember.setAddr(preAddr + " " + detailAddr);
+				member.setAddr(preAddr + " " + detailAddr);
 			}
 		} else{
 			updateMember.setAddr(null);
@@ -123,6 +125,7 @@ public class MemberController {
 		MultipartFile newProfile = updateMember.getSelfImgFile();
 		if ((newProfile.getOriginalFilename() != null && newProfile.getSize() != 0)) {
 			updateMember.setSelfImg(newProfile.getOriginalFilename());
+			member.setSelfImg(newProfile.getOriginalFilename());
 			String path = session.getServletContext().getRealPath("") + "\\users\\" + member.getUserId();
 			File folder = new File(path);
 			folder.mkdirs();
@@ -134,15 +137,23 @@ public class MemberController {
 			updateMember.setPassword(newPassword);
 		}
 		updateMember.setUserId(member.getUserId());
-		memberService.updateMember(updateMember);
-		session.invalidate();
-		mv.setViewName("redirect:/");
-		
+		memberService.updateMember(updateMember, member);
+		mv.setViewName("redirect:/user/myPage");
 		return mv;
 	}
 	
 	@RequestMapping("/history")
 	public String history(){
 		return "/user/history";
+	}
+	
+	/**
+	 * Ajax로 멤버 정보 가져오기
+	 */
+
+	@RequestMapping("/selectMember")
+	@ResponseBody
+	public MemberDTO selectMember(String id){
+		return memberService.selectMemberById(id);
 	}
 }
