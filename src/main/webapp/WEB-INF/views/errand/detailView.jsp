@@ -139,6 +139,15 @@
 							<header class="page-title">
 								<div class="title">
 									<h1>${errands.title}</h1>
+									<c:if test="${errands.arrivalTime != null and errands.finishTime != null}">
+									<div class="alert alert-success" role="alert">완료된 심부름입니다 :)</div>
+									</c:if>
+									<c:if test="${errands.arrivalTime != null and errands.finishTime == null}">
+									<div class="alert alert-warning" role="alert">요청자 확인 대기중입니다 :)</div>
+									</c:if>
+									<c:if test="${errands.arrivalTime == null and errands.finishTime != null}">
+									<div class="alert alert-warning" role="alert">심부름꾼 확인 대기중입니다 :)</div>
+									</c:if>
 								</div>
 								<div class="info">
 									<div class="type">
@@ -188,14 +197,20 @@
 									<!--Events-->
 									<section>
 										<header>
-											<h3>해시태그 리뷰</h3>
+											<h3>태그 리뷰</h3>
 										</header>
 										<figure>
 											<div class="expandable-content collapsed show-60"
 												id="detail-sidebar-event">
 												<div class="content">
-													<p>#믿을만함 #착함 #호갱 #돈많이줌 #배달빠름 #믿을만함 #착함 #호갱 #돈많이줌 #배달빠름
-														#믿을만함 #착함 #호갱 #돈많이줌 #배달빠름 #믿을만함 #착함 #호갱 #돈많이줌 #배달빠름</p>
+													<p>
+													<c:if test="${errands.requestUser.hashList.size() == 0}">
+														등록된 태그가 없습니다.
+													</c:if>
+													<c:forEach items="${errands.requestUser.hashList}" var="hash">
+														<span class="label label-success">${hash.hashtag}</span> 
+													</c:forEach>
+													</p>
 												</div>
 											</div>
 											<a href="#" class="show-more expand-content"

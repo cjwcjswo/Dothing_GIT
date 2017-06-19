@@ -5,6 +5,7 @@ import java.util.List;
 import dothing.web.dto.ErrandsDTO;
 import dothing.web.dto.ErrandsPosDTO;
 import dothing.web.dto.ErrandsReplyDTO;
+import dothing.web.dto.GPADTO;
 
 public interface ErrandsDAO {
 	List<ErrandsDTO> selectAll();
@@ -26,5 +27,9 @@ public interface ErrandsDAO {
 	
 	int insertReply(ErrandsReplyDTO dto);
 	int deleteReply(int num);
+	List<ErrandsReplyDTO> selectByErrands(int num);
 	
+	List<GPADTO> selectGPA(int num);
+	List<GPADTO> selectGPAById(String id);
+	int insertGPA(GPADTO dto);
 }

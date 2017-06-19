@@ -9,6 +9,7 @@ import dothing.web.dao.AuthorityDAO;
 import dothing.web.dao.MemberDAO;
 import dothing.web.dto.AuthorityDTO;
 import dothing.web.dto.MemberDTO;
+import dothing.web.dto.MemberHashDTO;
 import dothing.web.util.Constants;
 
 @Service
@@ -61,4 +62,29 @@ public class MemberServiceImpl implements MemberService{
 		memberDao.updateMember(member);
 		return 1;
 	}
+
+	@Override
+	public MemberDTO selectMemberById(String id) {
+		return memberDao.selectMemberById(id);
+	}
+	
+	/**
+	 * 포인트 수정
+	 */
+	public int updatePoint(Integer point, String id){
+		return memberDao.updatePoint(point, id);
+	}
+
+	/**
+	 * 해쉬태그 삽입
+	 */
+	@Override
+	public int insertHashtag(int errandsNum, String id, String evalTag) {
+		String[] tagList = evalTag.split(",");
+		for(String tag : tagList){
+			memberDao.insertHashtag(new MemberHashDTO(errandsNum, id, tag.trim()));
+		}
+		return 1;
+	}
+	
 }

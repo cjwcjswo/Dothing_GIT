@@ -23,12 +23,12 @@
 			<result column="LATITUDE" property="latitude" />
 			<result column="LONGITUDE" property="longitude" />
 		</association>
-		<association property="gpa" javaType="GPADTO">
+		<collection property="gpa" ofType="GPADTO">
 			<result column="RESPONSE_ACCURACY" property="responseAccuracy" />
 			<result column="RESPONSE_SPEED" property="responseSpeed" />
 			<result column="RESPONSE_KINDNESS" property="responseKindness" />
 			<result column="REQUEST_MANNERS" property="requestManners" />
-		</association>
+		</collection>
 		<collection property="errandsReply" ofType="errandsReplyDTO">
 			<id column="ERRANDS_REPLY_NUM" property="replyNum" />
 			<result column="REPLY_CONTENT" property="replyContent" />
@@ -61,7 +61,7 @@
 				RESPONSE_ID is NULL
 			</if>
 		</where>
-		order by ERRANDS_NUM desc
+		order by ERRANDS_NUM desc, RESPONSE_ACCURACY
 	</select>
 
 	<select id="selectNum" resultType="int">
@@ -102,17 +102,17 @@
 	</select>
 
 	<select id="myErrandsRequest" parameterType="string" resultMap="errandsMap">
-		select * from ERRANDS_REPLY_GPA_VIEW
+		select * from ERRANDS
 		<where>
 			<if test="value != null">
 				REQUEST_ID = #{value}
 			</if>
 		</where>
-		order by RESPONSE_ID, ERRANDS_NUM desc
+		order by ARRIVAL_TIME desc, FINISH_TIME desc, ERRANDS_NUM desc
 	</select>
 
 	<select id="countRequest" resultType="int" parameterType="string">
-		select count(*) from ERRANDS_REPLY_GPA_VIEW
+		select count(*) from ERRANDS
 		<where>
 			<if test="value != null">
 				REQUEST_ID = #{value}
@@ -120,16 +120,16 @@
 		</where>
 	</select>
 	<select id="myErrandsResponse" parameterType="string" resultMap="errandsMap">
-		select * from ERRANDS_REPLY_GPA_VIEW
+		select * from ERRANDS_REPLY_VIEW
 		<where>
 			<if test="value != null">
 				MEMBER_ID = #{value}
 			</if>
 		</where>
-		order by ERRANDS_NUM desc
+		order by ARRIVAL_TIME desc, FINISH_TIME desc, ERRANDS_NUM desc
 	</select>
 	<select id="countResponse" resultType="int" parameterType="string">
-		select count(*) from ERRANDS_REPLY_GPA_VIEW
+		select count(*) from ERRANDS_REPLY_VIEW
 		<where>
 			<if test="value != null">
 				MEMBER_ID = #{value}
@@ -143,10 +143,10 @@
 				RESPONSE_ID = #{responseId},
 			</if>
 			<if test="arrivalTime != null">
-				ARRIVAL_TIME = #{arrivalTime},
+				ARRIVAL_TIME = to_char(sysdate, 'YYYY-MM-DD HH:MI:SS'),
 			</if>
 			<if test="finishTime != null">
-				FINISH_TIME = #{finishTime}
+				FINISH_TIME = to_char(sysdate, 'YYYY-MM-DD HH:MI:SS'),
 			</if>
 			<if test="startTime != null">
 				START_TIME = to_char(sysdate, 'YYYY-MM-DD HH:MI:SS')

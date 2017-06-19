@@ -69,14 +69,32 @@ label.star:before {
 	src="${pageContext.request.contextPath}/assets/tags/bootstrap-tagsinput.js"></script>
 <script>
 	$(function() {
-		$(document).on("click", "button[me='eval']", function(){
-			var resId = $(this).attr("meId");
+
+		$(document).on("click", "button[me='eval']", function() {
 			$(".bootstrap-tagsinput span").remove();
 			$('#ac1').attr("checked", true);
 			$('#sp1').attr("checked", true);
 			$('#kn1').attr("checked", true);
-			$("#modalId").html(resId);
-			$("#modalImg").attr("src", "${pageContext.request.contextPath}/"+resId+"/"+$(this).attr("meImg"))
+			var errandsNum = $(this).attr("id");
+			$.ajax({
+				url : "${pageContext.request.contextPath}/user/selectMember",
+				type : "post",
+				data : "id=" + $(this).attr("meId") + "&_csrf=${_csrf.token}",
+				dataType : "json",
+				success : function(result) {
+					$("#modalId").html(result.userId);
+					$("#errandsNum").val(errandsNum);
+					$("#modalImg").attr("src", "${pageContext.request.contextPath}/users/" + result.userId + "/" + result.selfImg);
+				},
+				error : function(error) {
+					console.log(error);
+				}
+			})
+
+
+
+
+
 			$("#myModal").modal('toggle');
 		});
 
@@ -182,7 +200,7 @@ label.star:before {
 									<div class="wrapper">
 										<a
 											href="${pageContext.request.contextPath}/errand/detailView?num=${errands.errandsNum}"><h3>${errands.title}</h3></a>
-										<a>${errands.content}</a>
+										<a>${errands.content} </a>
 										<figure>${errands.errandsPos.addr}
 										</figure>
 										<div class="info">
@@ -195,12 +213,17 @@ label.star:before {
 													</c:forEach>
 												</c:if>
 											</div>
-											<c:if test="${errands.gpa == null}">
-												<div class="rating" data-rating="0"></div>
-											</c:if>
-											<c:if test="${errands.gpa != null}">
-												<div class="rating"
-													data-rating="${errands.gpa.requestManners}"></div>
+											<c:if
+												test="${errands.finishTime != null and errands.arrivalTime != null}">
+										
+												<c:forEach items="${errands.gpa}" var="gpa">
+													<c:if test="${gpa.requestManners != 0}">
+														<div class="rating"
+															data-rating="${gpa.requestManners}"></div>
+													</c:if>
+
+												</c:forEach>
+
 											</c:if>
 											<br> <a>마감시간: ${errands.endTime}</a>
 											<!-- 평점 -->
@@ -215,25 +238,32 @@ label.star:before {
 												<li><i class="fa fa-close"></i>심부름꾼 대기중</li>
 											</c:if>
 											<c:if test="${errands.startTime != null}">
-												<c:if
-													test="${(errands.arrivalTime == null) && (errands.finishTime == null)}">
+												<c:if test="${(errands.finishTime == null)}">
 													<li><i class="fa fa-taxi"></i>요청 완료</li>
-													<button class="btn btn-danger" meNum="${errands.errandsNum}" me="eval"
-													meId="${errands.responseUser.userId}" meImg="${errands.responseUser.selfImg}">OK</button>
+													<br>
+													<span class="label label-warning">심부름꾼:
+														${errands.responseUser.userId}</span>
+													<button class="btn btn-danger" id="${errands.errandsNum}"
+														me="eval" meId="${errands.responseUser.userId}">OK</button>
 												</c:if>
 											</c:if>
 											<c:if
 												test="${(errands.finishTime != null) && (errands.arrivalTime == null)}">
 												<li><i class="fa fa-check"></i>심부름꾼 확인 대기중</li>
+												<span class="label label-warning">심부름꾼:
+													${errands.responseUser.userId}</span>
 											</c:if>
 											<c:if
 												test="${(errands.finishTime != null) && (errands.arrivalTime != null)}">
 												<li><i class="fa fa-check"></i>심부름 완료</li>
+												<span class="label label-warning">심부름꾼:
+													${errands.responseUser.userId}</span>
 											</c:if>
 
 										</ul>
 									</div>
-									<c:if test="${errands.finishTime != null}">
+									<c:if
+										test="${(errands.finishTime != null) && (errands.arrivalTime != null)}">
 										<div class="ribbon">
 											<!-- 완료 시 <! class="fa fa-check> 
                                         미완료시 <! class=fa fa-close" -->
@@ -281,81 +311,103 @@ label.star:before {
 		<!-- end Page Content-->
 		<!-- Modal -->
 		<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
-			aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+			aria-labelledby="myModalLabel" aria-hidden="true"
+			data-backdrop="static">
 			<div class="modal-dialog" style="width: 50%">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal"
-							aria-hidden="true"></button>
-						<h4 class="modal-title" id="myModalLabel">평가해주세요!</h4>
-					</div>
-					<div class="modal-body">
-						<center>
-							<img src="" name="aboutme" width="140" height="140" border="0"
-								class="img-circle" id="modalImg">
-							<h3 id="modalId">심부름꾼 아이디</h3>
-							<div class="stars" style="width: 60%">
-								<table style="width: 100%;">
-									<tr>
-										<th>정확성</th>
-										<th><input class="star star-5" id="ac5" type="radio"
-											name="accuracy" /> <label class="star star-5" for="ac5"></label>
-											<input class="star star-4" id="ac4" type="radio"
-											name="accuracy" /> <label class="star star-4" for="ac4"></label>
-											<input class="star star-3" id="ac3" type="radio"
-											name="accuracy" /> <label class="star star-3" for="ac3"></label>
-											<input class="star star-2" id="ac2" type="radio"
-											name="accuracy" /> <label class="star star-2" for="ac2"></label>
-											<input class="star star-1" id="ac1" type="radio"
-											name="accuracy" checked="checked" /> <label
-											class="star star-1" for="ac1"></label></th>
-									</tr>
-									<tr>
-										<th>신속함</th>
-										<th><input class="star star-5" id="sp5" type="radio"
-											name="speed" /> <label class="star star-5" for="sp5"></label>
-											<input class="star star-4" id="sp4" type="radio" name="speed" />
-											<label class="star star-4" for="sp4"></label> <input
-											class="star star-3" id="sp3" type="radio" name="speed" /> <label
-											class="star star-3" for="sp3"></label> <input
-											class="star star-2" id="sp2" type="radio" name="speed" /> <label
-											class="star star-2" for="sp2"></label> <input
-											class="star star-1" id="sp1" type="radio" name="speed"
-											checked="checked" /> <label class="star star-1" for="sp1"></label></th>
-									</tr>
-									<tr>
-										<th>친절도</th>
-										<th><input class="star star-5" id="kn5" type="radio"
-											name="kindness" /> <label class="star star-5" for="kn5"></label>
-											<input class="star star-4" id="kn4" type="radio"
-											name="kindness" /> <label class="star star-4" for="kn4"></label>
-											<input class="star star-3" id="kn3" type="radio"
-											name="kindness" /> <label class="star star-3" for="kn3"></label>
-											<input class="star star-2" id="kn2" type="radio"
-											name="kindness" /> <label class="star star-2" for="kn2"></label>
-											<input class="star star-1" id="kn1" type="radio"
-											name="kindness" checked="checked" /> <label
-											class="star star-1" for="kn1"></label></th>
-									</tr>
-								</table>
+				<form name="f" id="f"
+					action="${pageContext.request.contextPath}/errand/confirmErrand"
+					method="post">
+					<input type="hidden" name="requestId"
+						value="${errandsList[0].requestUser.userId}" />
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="fa fa-close" data-dismiss="modal"></button>
+							<h4 class="modal-title" id="myModalLabel">평가해주세요!</h4>
+						</div>
+						<div class="modal-body">
+							<center>
+								<img src="" name="aboutme" width="140" height="140" border="0"
+									class="img-circle" id="modalImg">
+								<h3 id="modalId">심부름꾼 아이디</h3>
+								<div class="stars" style="width: 60%">
+									<table style="width: 100%;">
+										<tr>
+											<th>정확성</th>
+											<th><input class="star star-5" id="ac5" type="radio"
+												name="responseAccuracy" value="5" /> <label
+												class="star star-5" for="ac5"></label> <input
+												class="star star-4" id="ac4" type="radio"
+												name="responseAccuracy" value="4" /> <label
+												class="star star-4" for="ac4"></label> <input
+												class="star star-3" id="ac3" type="radio"
+												name="responseAccuracy" value="3" /> <label
+												class="star star-3" for="ac3"></label> <input
+												class="star star-2" id="ac2" type="radio"
+												name="responseAccuracy" value="2" /> <label
+												class="star star-2" for="ac2"></label> <input
+												class="star star-1" id="ac1" type="radio"
+												name="responseAccuracy" value="1" checked="checked" /> <label
+												class="star star-1" for="ac1"></label></th>
+										</tr>
+										<tr>
+											<th>신속함</th>
+											<th><input class="star star-5" id="sp5" type="radio"
+												name="responseSpeed" value="5" /> <label
+												class="star star-5" for="sp5"></label> <input
+												class="star star-4" id="sp4" type="radio"
+												name="responseSpeed" value="4" /> <label
+												class="star star-4" for="sp4"></label> <input
+												class="star star-3" id="sp3" type="radio"
+												name="responseSpeed" value="3" /> <label
+												class="star star-3" for="sp3"></label> <input
+												class="star star-2" id="sp2" type="radio"
+												name="responseSpeed" value="2" /> <label
+												class="star star-2" for="sp2"></label> <input
+												class="star star-1" id="sp1" type="radio"
+												name="responseSpeed" value="1" checked="checked" /> <label
+												class="star star-1" for="sp1"></label></th>
+										</tr>
+										<tr>
+											<th>친절도</th>
+											<th><input class="star star-5" id="kn5" type="radio"
+												name="responseKindness" value="5" /> <label
+												class="star star-5" for="kn5"></label> <input
+												class="star star-4" id="kn4" type="radio"
+												name="responseKindness" value="4" /> <label
+												class="star star-4" for="kn4"></label> <input
+												class="star star-3" id="kn3" type="radio"
+												name="responseKindness" value="3" /> <label
+												class="star star-3" for="kn3"></label> <input
+												class="star star-2" id="kn2" type="radio"
+												name="responseKindness" value="2" /> <label
+												class="star star-2" for="kn2"></label> <input
+												class="star star-1" id="kn1" type="radio"
+												name="responseKindness" value="1" checked="checked" /> <label
+												class="star star-1" for="kn1"></label></th>
+										</tr>
+									</table>
 
-							</div>
-						</center>
-						<hr>
-						<center>
-							<p class="text-left">
-								<input type="text" id="evalTag" data-role="tagsinput"
-									placeholder="태그로 사용자를 평가해주세요!" name="evalTag" />
-							</p>
-							<br>
-						</center>
+								</div>
+							</center>
+							<hr>
+							<center>
+								<p class="text-left">
+									<input type="text" id="evalTag" data-role="tagsinput"
+										placeholder="태그로 사용자를 평가해주세요!" name="evalTag" />
+								</p>
+								<br>
+							</center>
+						</div>
+						<div class="modal-footer">
+							<center>
+								<button type="button" class="btn btn-default"
+									onclick="document.getElementById('f').submit()">심부름 완료</button>
+							</center>
+						</div>
 					</div>
-					<div class="modal-footer">
-						<center>
-							<button type="button" class="btn btn-default" onclick="alert($('#evalTag').val())">심부름 완료</button>
-						</center>
-					</div>
-				</div>
+					<input type="hidden" id="errandsNum" name="errandsNum"> <input
+						type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+				</form>
 			</div>
 		</div>
 	</div>

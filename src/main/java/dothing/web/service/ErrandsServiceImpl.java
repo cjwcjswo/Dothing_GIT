@@ -17,6 +17,8 @@ import dothing.web.dao.ErrandsDAO;
 import dothing.web.dao.MemberDAO;
 import dothing.web.dto.ErrandsDTO;
 import dothing.web.dto.ErrandsReplyDTO;
+import dothing.web.dto.GPADTO;
+import dothing.web.dto.MemberDTO;
 import dothing.web.properties.ErrandsHashProperties;
 
 @Service
@@ -26,7 +28,8 @@ public class ErrandsServiceImpl implements ErrandsService {
 	ErrandsDAO errandsDAO;
 	@Autowired
 	MemberDAO memberDAO;
-
+	@Autowired
+	MemberService memberService;
 	@Override
 	public List<ErrandsDTO> selectAll() {
 		List<ErrandsDTO> list = errandsDAO.selectAll();
@@ -37,6 +40,9 @@ public class ErrandsServiceImpl implements ErrandsService {
 	@Override
 	public ErrandsDTO selectErrands(int errandsNum) {
 		ErrandsDTO dto = errandsDAO.selectErrands(errandsNum);
+		MemberDTO request = dto.getRequestUser();
+		request.setGpaList(errandsDAO.selectGPAById(request.getUserId()));
+		request.setHashList(memberDAO.selectHashtag(request.getUserId()));
 		dto.setHashes(new ArrayList<>());
 		List<String> hashes = dto.getHashes();
 		int index = 0;
@@ -61,10 +67,10 @@ public class ErrandsServiceImpl implements ErrandsService {
 		ErrandsHashProperties hp = new ErrandsHashProperties();
 		errandsDAO.insertErrands(dto);
 		errandsDAO.insertErrandsPos(dto.getErrandsPos());
-		
+
 		return 1;
 	}
-	
+
 	/**
 	 * 해당 심부름의 심부름 번호 셀렉트
 	 */
@@ -89,8 +95,8 @@ public class ErrandsServiceImpl implements ErrandsService {
 	}
 
 	@Override
-	public List<ErrandsDTO> searchErrands(String hash, Integer minPrice, Integer maxPrice,
-			Integer distance, String latitude, String longitude) {
+	public List<ErrandsDTO> searchErrands(String hash, Integer minPrice, Integer maxPrice, Integer distance,
+			String latitude, String longitude) {
 		List<ErrandsDTO> list = errandsDAO.searchErrands(hash, minPrice, maxPrice, distance, latitude, longitude);
 		calHashes(list);
 		return list;
@@ -143,13 +149,18 @@ public class ErrandsServiceImpl implements ErrandsService {
 		Collections.reverse(list); // 주석시 오름차순
 		return list;
 	}
+
 	/**
 	 * 내 요청 심부름 조회
 	 */
 	@Override
-	public List<ErrandsDTO> myErrandsRequest(String userId,int page) {
+	public List<ErrandsDTO> myErrandsRequest(String userId, int page) {
 		List<ErrandsDTO> list = errandsDAO.myRequestErrands(userId, page);
 		calHashes(list);
+		for(ErrandsDTO dto : list){
+			dto.setErrandsReply(errandsDAO.selectByErrands(dto.getErrandsNum()));
+			dto.setGpa(errandsDAO.selectGPA(dto.getErrandsNum()));
+		}
 		return list;
 	}
 
@@ -157,12 +168,16 @@ public class ErrandsServiceImpl implements ErrandsService {
 	 * 내 응답 심부름 조회
 	 */
 	@Override
-	public List<ErrandsDTO> myErrandsResponse(String userId,int page) {
+	public List<ErrandsDTO> myErrandsResponse(String userId, int page) {
 		List<ErrandsDTO> list = errandsDAO.myResponseErrands(userId, page);
 		calHashes(list);
+		for(ErrandsDTO dto : list){
+			dto.setErrandsReply(errandsDAO.selectByErrands(dto.getErrandsNum()));
+			dto.setGpa(errandsDAO.selectGPA(dto.getErrandsNum()));
+		}
 		return list;
 	}
-	
+
 	@Override
 	public int countMyRequest(String id) {
 		return errandsDAO.countMyRequest(id);
@@ -178,7 +193,7 @@ public class ErrandsServiceImpl implements ErrandsService {
 	 */
 	@Override
 	public void calHashes(List<ErrandsDTO> list) {
-		for(ErrandsDTO dto : list){
+		for (ErrandsDTO dto : list) {
 			dto.setHashes(new ArrayList<>());
 			List<String> hashes = dto.getHashes();
 			int index = 0;
@@ -203,11 +218,23 @@ public class ErrandsServiceImpl implements ErrandsService {
 	@Override
 	public int updateErrands(int errandsNum, String responseId, String requestId, String startTime, String arrivalTime,
 			String finishTime, int point) {
-		if(startTime != null){
-			memberDAO.updatePoint(point * -1, requestId);
+		if (startTime != null) {
+			memberDAO.updatePoint(point, requestId);
 		}
-		System.out.println("*포인트 수정됨!*");
 		return errandsDAO.updateErrands(errandsNum, responseId, startTime, arrivalTime, finishTime);
+	}
+
+	@Override
+	public int insertGPA(GPADTO dto) {
+		return errandsDAO.insertGPA(dto);
+	}
+
+	@Override
+	public int okRequest(GPADTO gpaDTO, String id, String evalTag) {
+		updateErrands(gpaDTO.getErrandsNum(), null, null, null, null, "finish", 0);
+		insertGPA(gpaDTO);
+		memberService.insertHashtag(gpaDTO.getErrandsNum(), id, evalTag);
+		return 1;
 	}
 
 }

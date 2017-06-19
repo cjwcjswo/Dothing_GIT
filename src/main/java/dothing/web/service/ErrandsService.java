@@ -7,6 +7,7 @@ import java.util.Map;
 
 import dothing.web.dto.ErrandsDTO;
 import dothing.web.dto.ErrandsReplyDTO;
+import dothing.web.dto.GPADTO;
 
 public interface ErrandsService {
 	List<ErrandsDTO> selectAll();
@@ -48,4 +49,15 @@ public interface ErrandsService {
 	Map<String, Integer> requestHash(String hash);
 	
 	void calHashes(List<ErrandsDTO> list);
+	
+	/**
+	 * GPA삽입
+	 */
+	int insertGPA(GPADTO dto);
+	
+	/**
+	 * 요청자 확인
+	 */
+	int okRequest(GPADTO gpaDTO, String id, String evalTag);
+
 }

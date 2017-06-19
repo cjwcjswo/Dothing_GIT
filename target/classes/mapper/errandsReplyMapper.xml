@@ -30,4 +30,7 @@
 	<delete id="deleteErrandsReply" parameterType="int">
 		delete from ERRANDS_REPLY where ERRANDS_REPLY_NUM = #{value}
 	</delete>
+	<select id="selectByErrands" parameterType="int" resultType="errandsReplyDTO">
+		select * from ERRANDS_REPLY where ERRANDS_NUM = #{value}
+	</select>
 </mapper>

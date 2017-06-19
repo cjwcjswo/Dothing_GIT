@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import dothing.web.dto.ErrandsDTO;
 import dothing.web.dto.ErrandsPosDTO;
 import dothing.web.dto.ErrandsReplyDTO;
+import dothing.web.dto.GPADTO;
 
 @Repository
 public class ErrandsDAOImpl implements ErrandsDAO{
@@ -108,6 +109,26 @@ public class ErrandsDAOImpl implements ErrandsDAO{
 	@Override
 	public int countMyResponse(String id) {
 		return sqlSession.selectOne("mapper.errandsMapper.countResponse", id);
+	}
+
+	@Override
+	public int insertGPA(GPADTO dto) {
+		return sqlSession.insert("mapper.errandsGPAMapper.insertGPA", dto);
+	}
+
+	@Override
+	public List<ErrandsReplyDTO> selectByErrands(int num) {
+		return sqlSession.selectList("mapper.errandsReplyMapper.selectByErrands", num);
+	}
+
+	@Override
+	public List<GPADTO> selectGPA(int num) {
+		return sqlSession.selectList("mapper.errandsGPAMapper.selectGPA",num);
+	}
+
+	@Override
+	public List<GPADTO> selectGPAById(String id) {
+		return sqlSession.selectList("mapper.errandsGPAMapper.selectGPAById",id);
 	}
 	
 	
