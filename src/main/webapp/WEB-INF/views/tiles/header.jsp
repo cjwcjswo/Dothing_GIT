@@ -28,7 +28,7 @@
 			<nav class="navigation-items">
 				<div class="wrapper">
 					<!-- <ul class="main-navigation navigation-top-header"></ul> -->
-					
+					<security:authorize access="isAuthenticated()">
 					<ul class="user-area">
 						<li class="dropdown"><a class="dropdown-toggle"
 							data-toggle="dropdown" href="#">게시판<span class="caret"></span></a>
@@ -37,6 +37,7 @@
 								<li><a href="${pageContext.request.contextPath}/board/inquiryBoardList">1대1 문의 게시판</a></li>
 							</ul></li>
 					</ul>
+					</security:authorize>
 					
 					<ul class="user-area">
 						<security:authorize access="isAuthenticated()">
@@ -57,7 +58,12 @@
 								href="${pageContext.request.contextPath}/user/loginForm">로그인</a></li>
 							<li><a href="${pageContext.request.contextPath}/user/signIn"><strong>회원가입</strong></a></li>
 						</security:authorize>
-
+					
+						<security:authorize access="hasRole('ROLE_ADMIN')">
+							<li>
+								<a href="${pageContext.request.contextPath}/admin/adminUserList">운영자모드</a>
+							</li>
+						</security:authorize>
 					</ul>
 					<a href="${pageContext.request.contextPath}/errand/register"
 						class="submit-item">

@@ -4,9 +4,9 @@
 <%@ taglib uri="http://www.springframework.org/security/tags"
    prefix="security"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<%@ page import="java.util.*" %>
-<%@ page import="java.text.SimpleDateFormat" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ page import="java.util.*"%>
+<%@ page import="java.text.SimpleDateFormat"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -171,7 +171,6 @@
       location.href = "${pageContext.request.contextPath}/errand/startErrand?num=${errands.errandsNum}&responseId=" + responseId;
    }
    
-   
 </script>
 
 </head>
@@ -230,6 +229,21 @@
                      <header class="page-title">
                         <div class="title">
                            <h1>${errands.title}</h1>
+                           <c:if
+                              test="${errands.arrivalTime != null and errands.finishTime != null}">
+                              <div class="alert alert-success" role="alert">완료된 심부름입니다
+                                 :)</div>
+                           </c:if>
+                           <c:if
+                              test="${errands.arrivalTime != null and errands.finishTime == null}">
+                              <div class="alert alert-warning" role="alert">요청자 확인
+                                 대기중입니다 :)</div>
+                           </c:if>
+                           <c:if
+                              test="${errands.arrivalTime == null and errands.finishTime != null}">
+                              <div class="alert alert-warning" role="alert">심부름꾼 확인
+                                 대기중입니다 :)</div>
+                           </c:if>
                         </div>
                         <div class="info">
                            <div class="type">
@@ -273,7 +287,18 @@
                               <header class="pull-left">
                                  <a href="#reviews" class="roll"><h3>평점</h3></a>
                               </header>
-                              <figure class="rating big pull-right" data-rating="4"></figure>
+                              <c:choose>
+                                 <c:when test="${errands.requestUser.gpaList.size() == 0}">
+                                    <figure class="rating big pull-right" data-rating="0"></figure>
+                                 </c:when>
+                                 <c:otherwise>
+                                    <c:set var="count" value="0"/>
+                                    <c:forEach items="${errands.requestUser.gpaList}" var="gpa">
+                                       <c:set var="count" value="${count + gpa.requestManners}"/>
+                                    </c:forEach>
+                                    <figure class="rating big pull-right" data-rating="${count / errands.requestUser.gpaList.size()}"></figure>
+                                 </c:otherwise>
+                              </c:choose>
                            </section>
                            <!--end Rating-->
                            <!--Events-->
@@ -285,8 +310,16 @@
                                  <div class="expandable-content collapsed show-60"
                                     id="detail-sidebar-event">
                                     <div class="content">
-                                       <p>#믿을만함 #착함 #호갱 #돈많이줌 #배달빠름 #믿을만함 #착함 #호갱 #돈많이줌 #배달빠름
-                                          #믿을만함 #착함 #호갱 #돈많이줌 #배달빠름 #믿을만함 #착함 #호갱 #돈많이줌 #배달빠름</p>
+
+
+                                       <c:if test="${errands.requestUser.hashList.size()== 0}">
+                                          등록된 해시태그가 없습니다.
+                                       </c:if>
+                                       <c:forEach items="${errands.requestUser.hashList}"
+                                          var="hash">
+                                          <span class="label label-success">${hash.hashtag}</span>
+                                       </c:forEach>
+
                                     </div>
                                  </div>
                                  <a href="#" class="show-more expand-content"
@@ -377,8 +410,7 @@
                                           <img
                                              src="${pageContext.request.contextPath}/users/${reply.user.userId}/${reply.user.selfImg}"
                                              alt="">
-                                          <div class="date">
-                                             <b>예상 도착</b><br>${reply.arrivalTime}</div>
+                                          
                                        </figure>
                                        <!-- /.author-->
 
@@ -388,13 +420,13 @@
                                              <i class="fa fa-user-o"></i>
                                           </c:if>
                                           <h5>${reply.user.userId}</h5>
-
+<div class="date">
+                                             <b>예상 도착</b><br>${reply.arrivalTime}</div>
                                           <c:if test="${currentId == reply.user.userId}">
                                              <button type="button" class="btn btn-danger"
                                                 onclick="location.href='${pageContext.request.contextPath}/errand/deleteReply?num=${reply.replyNum}&eNum=${errands.errandsNum}'">
                                                 삭제</button>
                                           </c:if>
-                                          <figure class="rating big color" data-rating="4"></figure>
                                           <c:if
                                              test="${(currentId == errands.requestUser.userId) && (errands.responseUser.userId == null)}">
                                              <button type="button"
@@ -481,20 +513,20 @@
       <!-- end Page Content-->
    </div>
    <!-- end Page Canvas-->
-   
+
    <!--  chat 시작 -->
-   <c:if test="${errands.responseUser.userId == currentId || 
-   					errands.requestUser.userId == currentId &&
-   					 errands.responseUser.userId != null}">
-      <div class="row chat-window col-xs-5 col-md-3" id="chat_window_1"
-         style="margin-left: 10px;">
-         <div class="col-xs-12 col-md-12">
-            <div class="panel panel-default" id="chat">
-               <div class="panel-heading top-bar">
-                  <div class="col-md-8 col-xs-8">
-                     <h3 class="panel-title">
-                        <span class="glyphicon glyphicon-comment"></span> Chat - 
-                        <c:if test="${currentId == errands.responseUser.userId}">
+	<c:if test="${errands.responseUser.userId == currentId || 
+  					errands.requestUser.userId == currentId &&
+  					 errands.responseUser.userId != null}">
+		<div class="row chat-window col-xs-5 col-md-3" id="chat_window_1"
+			style="margin-left: 10px;">
+			<div class="col-xs-12 col-md-12">
+				<div class="panel panel-default" id="chat">
+					<div class="panel-heading top-bar">
+						<div class="col-md-8 col-xs-8">
+							<h3 class="panel-title">
+								<span class="glyphicon glyphicon-comment"></span> Chat -
+								<c:if test="${currentId == errands.responseUser.userId}">
                         	${errands.requestUser.userId}
                         </c:if>
                         <c:if test="${currentId == errands.requestUser.userId}">
@@ -598,6 +630,7 @@
          </ul>
       </div>
    </c:if>
+   
    <!--  chat 끝 -->
 
 

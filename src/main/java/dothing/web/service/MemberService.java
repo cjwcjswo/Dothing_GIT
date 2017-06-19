@@ -1,11 +1,20 @@
 package dothing.web.service;
 
+import java.util.List;
+
 import dothing.web.dto.MemberDTO;
 import dothing.web.dto.MemberHashDTO;
 
 public interface MemberService {
-
-	
+	/**
+	 * 회원 강퇴
+	 */
+	int deleteUser(String id);
+	/**
+	 * 회원 목록 불러오기
+	 */
+	List<MemberDTO> selectAll(int page, String id);
+	int countAll(String id);
 	/**
 	 * 회원가입
 	 * */
