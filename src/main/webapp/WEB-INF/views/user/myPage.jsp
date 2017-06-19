@@ -91,6 +91,9 @@
 						<li><a
 							href="${pageContext.request.contextPath}/errand/myRequest"><h1
 									class="page-title">심부름 요청 및 수행 내역</h1></a></li>
+						<li><a
+							href="${pageContext.request.contextPath}/user/safetyRegister"><h1
+									class="page-title">안전심부름꾼 신청</h1></a></li>			
 					</ul>
 				</header>
 				<form name="f" role="form" method="post" action="update"
