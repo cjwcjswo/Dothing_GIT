@@ -10,7 +10,7 @@ public interface BoardDAO{
 	/**
 	 * 레코드 전체 검색
 	 **/
-	List<BoardDTO> selectAll();
+	List<BoardDTO> selectAll(int page);
 
 	/**
 	 * 게시판번호에 해당하는 레코드 검색
@@ -46,5 +46,10 @@ public interface BoardDAO{
 	 * 게시판 번호에 해당하는 댓글 불러오기
 	 */
 	List<BoardReplyDTO> selectReply(int inquiryNum);
+	
+	/**
+	 * 페이징
+	 */
+	int countNoticeList();
 
 }

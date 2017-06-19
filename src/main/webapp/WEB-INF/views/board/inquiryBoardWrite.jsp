@@ -47,7 +47,7 @@ function checkValid() {
 				<input type="hidden" name="${_csrf.parameterName}"
                value="${_csrf.token}">
 				<h2 class="text-center">
-					<strong>1:1 게시판 작성하기</strong>
+					<strong>1:1 문의 게시판 작성하기</strong>
 				</h2>
 				<div class="form-group" align="center">
 					<img

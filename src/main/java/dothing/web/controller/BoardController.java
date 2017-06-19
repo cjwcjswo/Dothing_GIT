@@ -37,11 +37,18 @@ public class BoardController {
 	 * 1대1게시판 보기
 	 */
 	@RequestMapping("/inquiryBoardList")
-	public ModelAndView list() {
+	public ModelAndView list(Integer page) {
+		
+		if (page == null)
+			page = new Integer(1);
+		
+		PageMaker pm = new PageMaker(page, boardService.countNoticeList()/ 6 + 1);
+		pm.start();
 
-		List<BoardDTO> list = boardService.selectAll();
+		List<BoardDTO> list = boardService.selectAll(page);
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("board/inquiryBoardList");
+		mv.addObject("pm", pm);
 		mv.addObject("list", list);
 
 		return mv;
@@ -50,7 +57,7 @@ public class BoardController {
 	/**
 	 * 1대1게시판 글 쓰기뷰
 	 */
-	@RequestMapping("/inquiryBoardWrite")
+	@RequestMapping("/inquiryBoardWriteNew")
 	public void write() {
 
 	}
@@ -146,7 +153,7 @@ public class BoardController {
 			page = new Integer(1);
 		
 		PageMaker pm = new PageMaker(page, noticeService.countNoticeList()/ 6 + 1);
-		//System.out.println("noticeService.countNoticeList()/ 6 + 1:" + noticeService.countNoticeList()/ 6 + 1);
+		
 		pm.start();
 		List<NoticeBoardDTO> list = noticeService.selectAll(page);
 		ModelAndView mv = new ModelAndView();
