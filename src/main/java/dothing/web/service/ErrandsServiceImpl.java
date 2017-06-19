@@ -37,6 +37,7 @@ public class ErrandsServiceImpl implements ErrandsService {
 		return errandsDAO.selectAll();
 	}
 
+	
 	@Override
 	public ErrandsDTO selectErrands(int errandsNum) {
 		ErrandsDTO dto = errandsDAO.selectErrands(errandsNum);

@@ -67,7 +67,7 @@ public class ChatService {
 			
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+		
 		}
 		
 		

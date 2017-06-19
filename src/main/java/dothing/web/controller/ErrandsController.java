@@ -2,6 +2,7 @@ package dothing.web.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -49,8 +50,21 @@ public class ErrandsController {
 	public ModelAndView detail(int num, Authentication aut) {
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("currentId", ((MemberDTO) aut.getPrincipal()).getUserId());
-		mv.addObject("errands", errandsService.selectErrands(num));
-		mv.addObject("list", chatService.getContent(num+""));
+		mv.addObject("currentUser", (MemberDTO) aut.getPrincipal());
+		ErrandsDTO errands = errandsService.selectErrands(num);
+		mv.addObject("errands", errands);
+		String requestId = errands.getRequestUser().getUserId();
+		String responseId = errands.getResponseUser().getUserId();
+		
+		String requestSelfImg = memberService.selectMemberById(requestId).getSelfImg();
+		String responseSelfImg = memberService.selectMemberById(responseId).getSelfImg();
+		
+		mv.addObject("requestSelfImg", requestSelfImg);
+		mv.addObject("responseSelfImg", responseSelfImg);
+		List<String> list = chatService.getContent(num+"");
+		if(list != null){
+			mv.addObject("list", chatService.getContent(num+""));
+		}
 		mv.setViewName("/errand/detailView");
 		return mv;
 	}
