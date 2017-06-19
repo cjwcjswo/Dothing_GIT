@@ -4,7 +4,9 @@
 <%@ taglib uri="http://www.springframework.org/security/tags"
 	prefix="security"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ page import="java.util.*"%>
+<%@ page import="java.text.SimpleDateFormat"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,60 +29,117 @@
 
 
 
-<script>
+<!-- SocketJS -->
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/sockjs.js"></script>
+<script type="text/javascript">
+   var ws = new SockJS('/controller/websocket');
+   var sender = '<security:authentication property="principal.userId"/>';
+   var today = '<%=new java.text.SimpleDateFormat("MM/dd HH:mm").format(new java.util.Date())%>';
+   
+   $(function() {
 
-	$(function() {
-		function leadingZeros(n, digits) {
-			var zero = '';
-			n = n.toString();
+	    if(${list == null}){
+			chatLoad();
+	    }
+		function chatLoad(){
+			location.href='${pageContext.request.contextPath}/errand/detailView?num=59';
+			//location.href='${pageContext.request.contextPath}/errand/chatLoads?errandsNum=${errands.errandsNum}';
+		};
+		
+	    $(document).on("click", "#send", function(){
+			var msg = $('#inputText').val();
+			alert("send msg : " + msg);
+			//separator -> #/separator/#
+			ws.send(${errands.errandsNum}+"#/separator/#"+sender+"#/separator/#"+msg+"#/separator/#"+today);
+			$('#inputText').val('');
+		});
+	   	
+	   	 ws.onopen = function() {
+	  		//스크롤 맨 아래로
+	  		 ws.send(${errands.errandsNum}+'#/separator/#');
+	 		document.getElementById('chatList').scrollTop = document.getElementById('chatList').scrollHeight;
+		}; 
+		ws.onmessage = function(message) {
+			var arr = message.data.split('#/separator/#');
+			//59#/separator/#tester#/separator/#ggaa#/separator/#06/17 09:27
+			
+			var str = '';
+			  if(arr[1] == sender){
+				str = '<div class="row msg_container base_sent"><div class="col-xs-10 col-md-10">'+
+	            '<div class="messages msg_sent"><p>' + arr[2] + '</p>'+
+	               '<time datetime="2009-11-13T20:00">' + arr[1] +'•'+ arr[3] + '</time>'+
+	            '</div></div><div class="col-md-2 col-xs-2 avatar">'+
+	            '<img src="http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg"'+
+	               ' class="img-responsive"></div></div>';
+			}else{
+				str='<div class="row msg_container base_receive">'+
+	                '<div class="col-md-2 col-xs-2 avatar"><img src="http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg"'+
+	                ' class=" img-responsive "></div><div class="col-xs-10 col-md-10">'+
+	            '<div class="messages msg_receive"><p>' + arr[2] + '</p>'+
+	               '<time datetime="2009-11-13T20:00">' + arr[1] + '•' + arr[3] + '</time></div></div></div>';
+			}  
+		
+		 	$('#chatList').append(str); 
+		 	
+		 	//스크롤 맨 아래로
+		 	document.getElementById('chatList').scrollTop = document.getElementById('chatList').scrollHeight;
+		};
+			 
+   	
+      function leadingZeros(n, digits) {
+         var zero = '';
+         n = n.toString();
 
-			if (n.length < digits) {
-				for (var i = 0; i < digits - n.length; i++)
-					zero += '0';
-			}
-			return zero + n;
-		}
+         if (n.length < digits) {
+            for (var i = 0; i < digits - n.length; i++)
+               zero += '0';
+         }
+         return zero + n;
+      }
 
-		$("#close").click(function() {
-			$("#myModal").modal('toggle');
-		})
+      $("#close").click(function() {
+         $("#myModal").modal('toggle');
+      })	
 
-	});
-	function checkValid() {
-		var form = document.f;
-		if (form.replyContent.value.trim() == "") {
-			alert("댓글 내용을 입력하세요");
-			return false;
-		}
-		if (form.arrivalTime.value.trim() == "") {
-			alert("시간을 입력하세요");
-			return false;
-		}
-		return true;
-	}
+   });
+   function checkValid() {
+      var form = document.f;
+      if (form.replyContent.value.trim() == "") {
+         alert("댓글 내용을 입력하세요");
+         return false;
+      }
+      if (form.arrivalTime.value.trim() == "") {
+         alert("시간을 입력하세요");
+         return false;
+      }
+      return true;
+   }
 
-	function delErrands() {
-		if ("${errands.requestUser.userId}" != "<security:authentication property='principal.userId'/>") {
-			alert("작성자가 아닙니다");
-			return;
-		} else {
-			location.href = "${pageContext.request.contextPath}/errand/deleteErrands?num=${errands.errandsNum}&id=<security:authentication property='principal.userId'/>";
-		}
-	}
-	function clickUser(id, predict, content, photo) {
-		var src = "${pageContext.request.contextPath}/users/" + id + "/" + photo;
-		var imgSrc = "<img class='img-responsive' src='" + src + "' style='width: 71px; border-radius: 43px;'>";
-		$('#myModal').modal('toggle');
-		$("#errandsId").html(id);
-		$("#errandsPredict").html(predict);
-		$("#errandsContent").html(content);
-		$("#errandsUserImg").html(imgSrc);
-		$("#responseIdHidden").val(id);
-	}
-	function startProcess() {
-		var responseId = document.getElementById("responseIdHidden").value;
-		location.href = "${pageContext.request.contextPath}/errand/startErrand?num=${errands.errandsNum}&responseId=" + responseId;
-	}
+   function delErrands() {
+      if ("${errands.requestUser.userId}" != "<security:authentication property='principal.userId'/>") {
+         alert("작성자가 아닙니다");
+         return;
+      } else {
+         location.href = "${pageContext.request.contextPath}/errand/deleteErrands?num=${errands.errandsNum}&id=<security:authentication property='principal.userId'/>";
+      }
+   }
+   function clickUser(id, predict, content, photo) {
+      var src = "${pageContext.request.contextPath}/users/" + id + "/" + photo;
+      var imgSrc = "<img class='img-responsive' src='" + src + "' style='width: 71px; border-radius: 43px;'>";
+      $('#myModal').modal('toggle');
+      $("#errandsId").html(id);
+      $("#errandsPredict").html(predict);
+      $("#errandsContent").html(content);
+      $("#errandsUserImg").html(imgSrc);
+      $("#responseIdHidden").val(id);
+   }
+   function startProcess() {
+      var responseId = document.getElementById("responseIdHidden").value;
+      location.href = "${pageContext.request.contextPath}/errand/startErrand?num=${errands.errandsNum}&responseId=" + responseId;
+   }
+   
+   
 </script>
 
 </head>
@@ -139,20 +198,11 @@
 							<header class="page-title">
 								<div class="title">
 									<h1>${errands.title}</h1>
-									<c:if test="${errands.arrivalTime != null and errands.finishTime != null}">
-									<div class="alert alert-success" role="alert">완료된 심부름입니다 :)</div>
-									</c:if>
-									<c:if test="${errands.arrivalTime != null and errands.finishTime == null}">
-									<div class="alert alert-warning" role="alert">요청자 확인 대기중입니다 :)</div>
-									</c:if>
-									<c:if test="${errands.arrivalTime == null and errands.finishTime != null}">
-									<div class="alert alert-warning" role="alert">심부름꾼 확인 대기중입니다 :)</div>
-									</c:if>
 								</div>
 								<div class="info">
 									<div class="type">
 										<div id="hashList">
-											<c:if test="${errands.hashes.size()	 != 0}">
+											<c:if test="${errands.hashes.size()    != 0}">
 												<c:forEach items="${errands.hashes}" var="hash">
 													<span class="label label-info">#${hash}</span>
 												</c:forEach>
@@ -197,20 +247,19 @@
 									<!--Events-->
 									<section>
 										<header>
-											<h3>태그 리뷰</h3>
+											<h3>해시태그 리뷰</h3>
 										</header>
 										<figure>
 											<div class="expandable-content collapsed show-60"
 												id="detail-sidebar-event">
 												<div class="content">
-													<p>
 													<c:if test="${errands.requestUser.hashList.size() == 0}">
 														등록된 태그가 없습니다.
 													</c:if>
-													<c:forEach items="${errands.requestUser.hashList}" var="hash">
-														<span class="label label-success">${hash.hashtag}</span> 
+													<c:forEach items="${errands.requestUser.hashList}"
+														var="hash">
+														<span class="label label-success">${hash.hashtag}</span>
 													</c:forEach>
-													</p>
 												</div>
 											</div>
 											<a href="#" class="show-more expand-content"
@@ -219,7 +268,7 @@
 
 									</section>
 									<!--end Events-->
-									<c:if test="${errands.responseUser.userId == null && currentId == errands.requestUser.userId}">
+									<c:if test="${errands.responseUser.userId == null }">
 										<button type="button" onclick="delErrands()"
 											class="btn btn-default">삭제하기</button>
 									</c:if>
@@ -287,6 +336,7 @@
 											</a>
 										</header>
 										<!--   <article class="clearfix overall-rating">
+>>>>>>> 3562bc3552ac06ba0385990562f6b5f008933006
                                                 <strong class="pull-left">Over Rating</strong>
                                                 <figure class="rating big color pull-right" data-rating="4"></figure>
                                                 /.rating
@@ -405,8 +455,10 @@
 		<!-- end Page Content-->
 	</div>
 	<!-- end Page Canvas-->
+
 	<!--  chat 시작 -->
-	<c:if test="${errands.responseUser.userId != null }">
+	<c:if
+		test="${errands.responseUser.userId == currentId || errands.requestUser.userId == currentId}">
 		<div class="row chat-window col-xs-5 col-md-3" id="chat_window_1"
 			style="margin-left: 10px;">
 			<div class="col-xs-12 col-md-12">
@@ -414,7 +466,13 @@
 					<div class="panel-heading top-bar">
 						<div class="col-md-8 col-xs-8">
 							<h3 class="panel-title">
-								<span class="glyphicon glyphicon-comment"></span> Chat - Miguel
+								<span class="glyphicon glyphicon-comment"></span> Chat -
+								<c:if test="${currentId == errands.responseUser.userId}">
+                        	${errands.requestUser.userId}
+                        </c:if>
+								<c:if test="${currentId == errands.requestUser.userId}">
+                        	${errands.responseUser.userId}
+                        </c:if>
 							</h3>
 						</div>
 						<div class="col-md-4 col-xs-4" style="text-align: right;">
@@ -422,107 +480,78 @@
 								class="glyphicon glyphicon-minus icon_minim"></span></a>
 						</div>
 					</div>
-					<div class="panel-body msg_container_base" id="chatList">
-						<div class="row msg_container base_sent">
-							<div class="col-md-10 col-xs-10">
-								<div class="messages msg_sent">
-									<p>that mongodb thing looks good, huh? tiny master db, and
-										huge document store</p>
-									<time datetime="2009-11-13T20:00">Timothy • 51 min</time>
-								</div>
-							</div>
-							<div class="col-md-2 col-xs-2 avatar">
-								<img
-									src="http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg"
-									class=" img-responsive ">
-							</div>
-						</div>
-						<div class="row msg_container base_receive">
-							<div class="col-md-2 col-xs-2 avatar">
-								<img
-									src="http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg"
-									class=" img-responsive ">
-							</div>
-							<div class="col-md-10 col-xs-10">
-								<div class="messages msg_receive">
-									<p>that mongodb thing looks good, huh? tiny master db, and
-										huge document store</p>
-									<time datetime="2009-11-13T20:00">Timothy • 51 min</time>
-								</div>
-							</div>
-						</div>
-						<div class="row msg_container base_receive">
-							<div class="col-md-2 col-xs-2 avatar">
-								<img
-									src="http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg"
-									class=" img-responsive ">
-							</div>
-							<div class="col-xs-10 col-md-10">
-								<div class="messages msg_receive">
-									<p>that mongodb thing looks good, huh? tiny master db, and
-										huge document store</p>
-									<time datetime="2009-11-13T20:00">Timothy • 51 min</time>
-								</div>
-							</div>
-						</div>
-						<div class="row msg_container base_sent">
-							<div class="col-xs-10 col-md-10">
-								<div class="messages msg_sent">
-									<p>that mongodb thing looks good, huh? tiny master db, and
-										huge document store</p>
-									<time datetime="2009-11-13T20:00">Timothy • 51 min</time>
-								</div>
-							</div>
-							<div class="col-md-2 col-xs-2 avatar">
-								<img
-									src="http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg"
-									class=" img-responsive ">
-							</div>
-						</div>
-						<div class="row msg_container base_receive">
-							<div class="col-md-2 col-xs-2 avatar">
-								<img
-									src="http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg"
-									class=" img-responsive ">
-							</div>
-							<div class="col-xs-10 col-md-10">
-								<div class="messages msg_receive">
-									<p>that mongodb thing looks good, huh? tiny master db, and
-										huge document store</p>
-									<time datetime="2009-11-13T20:00">Timothy • 51 min</time>
-								</div>
-							</div>
-						</div>
-						<div class="row msg_container base_sent">
-							<div class="col-md-10 col-xs-10 ">
-								<div class="messages msg_sent">
-									<p>that mongodb thing looks good, huh? tiny master db, and
-										huge document store</p>
-									<time datetime="2009-11-13T20:00">Timothy • 51 min</time>
-								</div>
-							</div>
-							<div class="col-md-2 col-xs-2 avatar">
-								<img
-									src="http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg"
-									class=" img-responsive ">
-							</div>
-						</div>
-					</div>
-					<div class="panel-footer">
-						<div class="input-group">
-							<input id="inputText" type="text"
-								class="form-control input-sm chat_input"
-								placeholder="Write your message here..." /> <span
-								class="input-group-btn">
-								<button class="btn btn-primary btn-sm" id="send">Send</button>
+					<div>
+						<div class="panel-body msg_container_base" id="chatList">
+							<c:forEach items="${list}" var="items">
+								<c:set var="msgInfo" value="${items}" />
+								<c:set var="usernameNotTrim"
+									value="${fn:substringBefore(msgInfo, '#/separator/#')}" />
+								<c:set var="username" value="${fn:trim(usernameNotTrim)}" />
+								<c:set var="startTemp" value="${usernameNotTrim}#/separator/#" />
+								<c:set var="startIndex" value="${fn:length(startTemp)}" />
+								<c:set var="endIndex"
+									value="${fn:indexOf(msgInfo , '/#separator#/')}" />
+								<c:set var="msg"
+									value="${fn:substring(msgInfo, startIndex, endIndex)}" />
+								<c:set var="timeStartTemp"
+									value="${fn:substringBefore(msgInfo, '/#separator#/')}/#separator#/" />
+								<c:set var="timeStartIndex" value="${fn:length(timeStartTemp)}" />
+								<c:set var="time"
+									value="${fn:substringAfter(msgInfo, '/#separator#/')}" />
 
-							</span>
+								<%-- <c:set var="msg" value="${fn:substring(msgInfo, ${fn:length(msgInfo)}-${fn:length('/#separator#/06/15 10:32#startendtag#')})}"/> --%>
+								<c:choose>
+									<c:when test="${currentId eq username}">
+										<div class="row msg_container base_sent">
+											<div class="col-xs-10 col-md-10">
+												<div class="messages msg_sent">
+													<p>${msg}</p>
+													<time datetime="2009-11-13T20:00">${username} •
+														${time}</time>
+												</div>
+											</div>
+											<div class="col-md-2 col-xs-2 avatar">
+												<img
+													src="http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg"
+													class=" img-responsive ">
+											</div>
+										</div>
+									</c:when>
+									<c:otherwise>
+										<div class="row msg_container base_receive">
+											<div class="col-md-2 col-xs-2 avatar">
+												<img
+													src="http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg"
+													class=" img-responsive ">
+											</div>
+											<div class="col-xs-10 col-md-10">
+												<div class="messages msg_receive">
+													<p>${msg}</p>
+													<time datetime="2009-11-13T20:00">${username} •
+														${time}</time>
+												</div>
+											</div>
+										</div>
+									</c:otherwise>
+								</c:choose>
+							</c:forEach>
+						</div>
+
+						<div class="panel-footer">
+							<div class="input-group">
+								<input id="inputText" type="text"
+									class="form-control input-sm chat_input"
+									placeholder="Write your message here..." /> <span
+									class="input-group-btn">
+									<button class="btn btn-primary btn-sm" id="send">Send</button>
+
+								</span>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-
 		<div class="btn-group dropup">
 			<button type="button" class="btn btn-default dropdown-toggle"
 				data-toggle="dropdown">

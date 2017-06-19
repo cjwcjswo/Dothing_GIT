@@ -41,15 +41,13 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public int delete(int inquiryNum) throws Exception {
-		BoardDTO dbBoard = boardDAO.selectByBoardNum(inquiryNum);
+		int re = boardDAO.delete(inquiryNum);
 
-		/*
-		 * if(dbBoard.getPassword().equals(password)){ int re =
-		 * boardDAO.delete(inquiryNum); if(re == 0){ throw new
-		 * Exception("삭제되지 않았습니다."); } }else{ throw new Exception("삭제 오류입니다.");
-		 * }
-		 */
-		return 1;
+		if (re == 0) {
+			throw new Exception("삭제오류입니다. 다시이용해주세요.");
+		}
+
+		return re;
 	}
 
 	/*

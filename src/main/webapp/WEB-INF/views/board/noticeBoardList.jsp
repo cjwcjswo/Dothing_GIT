@@ -162,10 +162,5 @@ body p {
 <script type="text/javascript" src="assets/js/ie-scripts.js"></script>
 <![endif]-->
 
-	<script>
-		if ($('#page-content').length > 0) {
-			$("#page-content").mCustomScrollbar();
-		}
-	</script>
 </body>
 </html>

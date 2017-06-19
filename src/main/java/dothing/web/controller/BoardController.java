@@ -81,14 +81,15 @@ public class BoardController {
 	/**
 	 * 1대1게시판 상세보기
 	 */
-	@RequestMapping("/inquiryBoardRead/{inquiryNum}")
+	@RequestMapping("/inquiryBoardReadNew/{inquiryNum}")
 	public ModelAndView read(@PathVariable int inquiryNum) throws Exception {
 		BoardDTO boardDTO = boardService.selectByBoardNum(inquiryNum, true);
 		List<BoardReplyDTO> replyList = boardService.selectReply(inquiryNum);
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("board/inquiryBoardRead");
+		mv.setViewName("board/inquiryBoardReadNew");
 		mv.addObject("board", boardDTO);  //게시판 내용
 		mv.addObject("reply", replyList); //댓글
+		System.out.println("리플사이즈" + replyList.size());
 		return mv;
 	}
 
@@ -106,12 +107,8 @@ public class BoardController {
 	/**
 	 * 1대1게시판 삭제
 	 */
-	@RequestMapping("/delete")
-	public String delete(Authentication auth, int inquiryNum) throws Exception {
-		String userId = ((MemberDTO) auth.getPrincipal()).getUserId();
-		String re = "";
-
-		// if(userId==)
+	@RequestMapping(value="/inquiryDelete", method=RequestMethod.GET)
+	public String delete(@RequestParam(value="inquiryNum")int inquiryNum) throws Exception {
 
 		boardService.delete(inquiryNum);
 		return "redirect:/board/inquiryBoardList";
@@ -134,7 +131,7 @@ public class BoardController {
 	@RequestMapping("/insertReply")
 	public String insertReply(BoardReplyDTO brDTO) throws Exception {
 		boardService.insertReply(brDTO);
-		return "redirect:/board/inquiryBoardRead/" + brDTO.getBoard().getInquiryNum();
+		return "redirect:/board/inquiryBoardReadNew/" + brDTO.getBoard().getInquiryNum();
 	}
 	
 	/////////////////////////////////////////////////////////////////
@@ -210,5 +207,10 @@ public class BoardController {
 			throw new Exception("글 등록 실패");
 		}
 		return re;
+	}
+	
+	@RequestMapping("/inquiryBoardRead(new)")
+	public void inquiryBoardRead(){
+		
 	}
 }

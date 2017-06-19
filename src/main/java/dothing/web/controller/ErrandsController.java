@@ -18,6 +18,7 @@ import dothing.web.dto.ErrandsDTO;
 import dothing.web.dto.ErrandsReplyDTO;
 import dothing.web.dto.GPADTO;
 import dothing.web.dto.MemberDTO;
+import dothing.web.service.ChatService;
 import dothing.web.service.ErrandsService;
 import dothing.web.service.MemberService;
 import dothing.web.util.PageMaker;
@@ -27,8 +28,13 @@ import dothing.web.util.PageMaker;
 public class ErrandsController {
 	@Autowired
 	ErrandsService errandsService;
+
 	@Autowired
 	MemberService memberService;
+
+	
+	@Autowired
+	ChatService chatService;
 
 	@RequestMapping("/errand")
 	public ModelAndView errandsList(Integer page) {
@@ -44,6 +50,7 @@ public class ErrandsController {
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("currentId", ((MemberDTO) aut.getPrincipal()).getUserId());
 		mv.addObject("errands", errandsService.selectErrands(num));
+		mv.addObject("list", chatService.getContent(num+""));
 		mv.setViewName("/errand/detailView");
 		return mv;
 	}
