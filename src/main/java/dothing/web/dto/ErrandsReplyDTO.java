@@ -8,6 +8,7 @@ public class ErrandsReplyDTO {
 	private String replyDate;
 	private MemberDTO user;
 	
+	
 	@Override
 	public String toString() {
 		return "ErrandsReplyDTO [replyNum=" + replyNum + ", errands=" + errands + ", replyContent=" + replyContent

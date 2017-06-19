@@ -23,7 +23,7 @@ public class ErrandsDTO {
 	
 	private ErrandsPosDTO errandsPos;
 	
-	private GPADTO gpa;
+	private List<GPADTO> gpa;
 	
 	private List<String> hashes;
 
@@ -31,6 +31,16 @@ public class ErrandsDTO {
 	
 	
 
+
+	@Override
+	public String toString() {
+		return "ErrandsDTO [errandsNum=" + errandsNum + ", requestUser=" + requestUser + ", responseUser="
+				+ responseUser + ", startTime=" + startTime + ", endTime=" + endTime + ", arrivalTime=" + arrivalTime
+				+ ", finishTime=" + finishTime + ", productPrice=" + productPrice + ", errandsPrice=" + errandsPrice
+				+ ", errandsPhoto=" + errandsPhoto + ", title=" + title + ", content=" + content + ", errandsPhotoFile="
+				+ errandsPhotoFile + ", errandsReply=" + errandsReply + ", errandsPos=" + errandsPos + ", gpa=" + gpa
+				+ ", hashes=" + hashes + "]";
+	}
 
 	public List<String> getHashes() {
 		return hashes;
@@ -74,11 +84,13 @@ public class ErrandsDTO {
 		this.errandsReply = errandsReply;
 	}
 
-	public GPADTO getGpa() {
+
+
+	public List<GPADTO> getGpa() {
 		return gpa;
 	}
 
-	public void setGpa(GPADTO gpa) {
+	public void setGpa(List<GPADTO> gpa) {
 		this.gpa = gpa;
 	}
 

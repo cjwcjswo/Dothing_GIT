@@ -1,51 +1,55 @@
 package dothing.web.dto;
 
 public class GPADTO {
-	private ErrandsDTO errands;
-	private MemberDTO user;
-	private int responseAccuracy;
-	private int responseSpeed;
-	private int responseKindness;
-	private int requestManners;
-	
-	
-	
-	public ErrandsDTO getErrands() {
-		return errands;
-	}
-	public void setErrands(ErrandsDTO errands) {
-		this.errands = errands;
-	}
-	public MemberDTO getUser() {
-		return user;
-	}
-	public void setUser(MemberDTO user) {
-		this.user = user;
-	}
-	public int getResponseAccuracy() {
+	private int errandsNum;
+	private String userId;
+	private Integer responseAccuracy;
+	private Integer responseSpeed;
+	private Integer responseKindness;
+	private Integer requestManners;
+
+	public Integer getResponseAccuracy() {
 		return responseAccuracy;
 	}
-	public void setResponseAccuracy(int responseAccuracy) {
+	public void setResponseAccuracy(Integer responseAccuracy) {
 		this.responseAccuracy = responseAccuracy;
 	}
-	public int getResponseSpeed() {
+	public Integer getResponseSpeed() {
 		return responseSpeed;
 	}
-	public void setResponseSpeed(int responseSpeed) {
+	public void setResponseSpeed(Integer responseSpeed) {
 		this.responseSpeed = responseSpeed;
 	}
-	public int getResponseKindness() {
+	public Integer getResponseKindness() {
 		return responseKindness;
 	}
-	public void setResponseKindness(int responseKindness) {
+	public void setResponseKindness(Integer responseKindness) {
 		this.responseKindness = responseKindness;
 	}
-	public int getRequestManners() {
+	public Integer getRequestManners() {
 		return requestManners;
 	}
-	public void setRequestManners(int requestManners) {
+	public void setRequestManners(Integer requestManners) {
 		this.requestManners = requestManners;
 	}
-	
+	public int getErrandsNum() {
+		return errandsNum;
+	}
+	public void setErrandsNum(int errandsNum) {
+		this.errandsNum = errandsNum;
+	}
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+	@Override
+	public String toString() {
+		return "GPADTO [errandsNum=" + errandsNum + ", userId=" + userId + ", responseAccuracy=" + responseAccuracy
+				+ ", responseSpeed=" + responseSpeed + ", responseKindness=" + responseKindness + ", requestManners="
+				+ requestManners + "]";
+	}
+
 	
 }

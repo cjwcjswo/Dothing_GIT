@@ -5,14 +5,15 @@ import java.util.List;
 import dothing.web.dto.ErrandsDTO;
 import dothing.web.dto.ErrandsPosDTO;
 import dothing.web.dto.ErrandsReplyDTO;
+import dothing.web.dto.GPADTO;
 
 public interface ErrandsDAO {
 	List<ErrandsDTO> selectAll();
 	List<ErrandsDTO> searchErrands(String hash, Integer minPrice, Integer maxPrice,
 			Integer distance, String latitude, String longitude);
 	List<ErrandsDTO> myRequestErrands(String userId, int page);
-	int countMyRequest();
-	int countMyResponse();
+	int countMyRequest(String id);
+	int countMyResponse(String id);
 	List<ErrandsDTO> myResponseErrands(String userId, int page);
 	ErrandsDTO selectErrands(int errandsNum);
 	int insertErrands(ErrandsDTO dto);
@@ -26,5 +27,9 @@ public interface ErrandsDAO {
 	
 	int insertReply(ErrandsReplyDTO dto);
 	int deleteReply(int num);
+	List<ErrandsReplyDTO> selectByErrands(int num);
 	
+	List<GPADTO> selectGPA(int num);
+	List<GPADTO> selectGPAById(String id);
+	int insertGPA(GPADTO dto);
 }

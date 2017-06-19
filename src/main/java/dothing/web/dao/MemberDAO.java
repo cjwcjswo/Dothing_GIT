@@ -1,6 +1,9 @@
 package dothing.web.dao;
 
+import java.util.List;
+
 import dothing.web.dto.MemberDTO;
+import dothing.web.dto.MemberHashDTO;
 
 public interface MemberDAO {
 
@@ -33,4 +36,14 @@ public interface MemberDAO {
 	 * 포인트 수정
 	 */
 	int updatePoint(Integer point, String id);
+	
+	/**
+	 * 유저 해쉬태그 추가
+	 */
+	int insertHashtag(MemberHashDTO dto);
+	
+	/**
+	 * 유저 해쉬태그 검색
+	 */
+	List<MemberHashDTO> selectHashtag(String id);
 }

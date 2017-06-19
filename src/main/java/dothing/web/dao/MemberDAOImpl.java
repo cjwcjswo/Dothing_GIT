@@ -1,6 +1,7 @@
 package dothing.web.dao;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import dothing.web.dto.MemberDTO;
+import dothing.web.dto.MemberHashDTO;
 
 @Repository
 public class MemberDAOImpl implements MemberDAO {
@@ -52,5 +54,15 @@ public class MemberDAOImpl implements MemberDAO {
 		map.put("point", point);
 		map.put("userId", id);
 		return sqlSession.update("memberMapper.updatePoint", map);
+	}
+
+	@Override
+	public int insertHashtag(MemberHashDTO dto) {
+		return sqlSession.insert("mapper.hashtagMapper.insert", dto);
+	}
+
+	@Override
+	public List<MemberHashDTO> selectHashtag(String id) {
+		return sqlSession.selectList("mapper.hashtagMapper.selectById", id);
 	}
 }
