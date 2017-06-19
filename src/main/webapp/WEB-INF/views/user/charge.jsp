@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
 	pageEncoding="EUC-KR"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -30,47 +29,63 @@
 			<!-- Page Canvas-->
 			<div id="page-canvas">
 
+
+
+
 				<!--Page Content-->
 				<div id="page-content">
 					<div class="container">
-						<h2>Notice</h2>
-						<span style="color:#9999ff;">여러분은 최고의 서비스 DoThing에 있습니다.</span>
-						<table class="table" align="center">
+						<h2>포인트 충전</h2>
+						<p>여러분은 최고의 서비스 DoThing에 있습니다.</p>
+						<table class="table table-hover">
 							<thead align="left">
 								<tr>
-									<td align=""><span style="font-size: 16px;"><h1>${board.noticeTitle}</h1></span>
-									<br>
-										<div align="right">
-											<span style="color: #ff513f;">${board.noticeDate} | 조회수 ${board.readNum}</span>
-										</div></td>
-								</tr>
 
+									<td align="left">결제 수단 :<label class="radio-inline"><input
+											type="radio" name="optradio">무통장 입금</label> <label
+										class="radio-inline"><input type="radio"
+											name="optradio">카드결제</label></td>
+								</tr>
 							</thead>
 							<tbody align="left">
 								<tr>
-									<td><div class="comment-text">${board.noticeContent}</div></td>
-								</tr>
-							</tbody>
-						</table>
+									<div class="form-group col-xs-4">
+										<label for="sel1">포인트 액수</label> <select
+											class="form-control" id="sel1">
+											<option>5,000p(5,000원)</option>
+											<option>10,000p(10,000원)</option>
+											<option>20,000p(20,000원)</option>
+											<option>50,000p(50,000원)</option>
+											<option>100,000p(100,000원)</option>
+										
+										</select>
+									</div>
 
-						<!-- <div class="form-group col-sm-6" align="left">
-							<button type="button" class="btn btn-large btn-default"
-								id="submit">다음글</button>
-						</div> -->
-						<div class="form-group col-sm-6" align="right">
-							<button type="submit" class="btn btn-large btn-default"
-								id="submit" onclick="location.href='${pageContext.request.contextPath}/board/noticeBoardList'">목록</button>
-						</div>
-						<!-- /.form-group -->
+								</tr>
+
+
+							</tbody>
+						
+						</table>
 					</div>
+
+					<div class="form-group" align="center">
+						<button type="submit" class="btn btn-large btn-default"
+							id="submit">충전</button>
+						
+						<button type="button" class="btn btn-large btn-default"
+							id="submit">돌아가기</button>
+							
+					</div>
+					<!-- /.form-group -->
 				</div>
 				<!--/.col-md-6-->
 			</div>
+
 		</div>
-		<!--Password-->
-
+		
 	</div>
-
+	</section>
 
 
 
