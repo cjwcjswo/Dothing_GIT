@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.pointMapper">
+	<!-- Point DTO -->
+	<resultMap type="pointDTO" id="pointSelectMap">
+		<result column="current_point" property="currentPoint" />
+		<result column="request_point" property="requestPoint" />
+		<association property="user" javaType="memberDTO">
+			<id column="member_id" property="userId" />
+		</association>
+	</resultMap>
+	
+	<!-- 무통장 입금 신청 리스트(전환 안된 리스트만) -->
+	<select id="selectAll" resultMap="pointSelectMap">
+		select 
+		current_point,request_point,member_id 
+		from point 
+		where (request_point != 0)
+	</select>
+</mapper>

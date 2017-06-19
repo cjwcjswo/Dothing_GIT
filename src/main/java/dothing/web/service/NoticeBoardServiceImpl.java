@@ -20,7 +20,6 @@ public class NoticeBoardServiceImpl implements NoticeBoardService {
 
 	@Override
 	public List<NoticeBoardDTO> selectAll(int page) {
-		//System.out.println(page);
 		List<NoticeBoardDTO> list = boardDAO.selectAll(page);
 		return list;
 	}
@@ -37,10 +36,6 @@ public class NoticeBoardServiceImpl implements NoticeBoardService {
 
 	@Override
 	public int insert(NoticeBoardDTO boardDTO) {
-		
-		System.out.println(boardDTO.getNoticeContent());
-		System.out.println(boardDTO.getNoticeTitle());
-		System.out.println(boardDTO.getUserId());
 		return boardDAO.insert(boardDTO);
 	}
 

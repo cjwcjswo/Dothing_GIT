@@ -1,7 +1,11 @@
 select *from tab;
 
 select *from point;
+
 select *from member;
+
+update point set request_point=1000 where member_id='qwer'
+commit
 
 SELECT a.TABLE_NAME, c.COMMENTS, a.COLUMN_NAME, b.COMMENTS, a.DATA_TYPE, a.DATA_LENGTH, a.NULLABLE
 
@@ -17,7 +21,7 @@ where 1=1
 
    and a.COLUMN_NAME=b.COLUMN_NAME
 
-   and a.TABLE_NAME = 'INQUIRY_BOARD'
+   and a.TABLE_NAME = 'point'
 
 order by a.TABLE_NAME, a.COLUMN_ID
 

@@ -8,7 +8,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import dothing.web.dto.BoardDTO;
 import dothing.web.dto.MemberDTO;
+import dothing.web.dto.PointDTO;
+import dothing.web.service.AdminMoneyService;
 import dothing.web.service.MemberService;
 import dothing.web.util.PageMaker;
 
@@ -17,8 +20,22 @@ import dothing.web.util.PageMaker;
 public class AdminController {
 	@Autowired
 	MemberService memberService;
+	
+	@Autowired
+	AdminMoneyService adminMoneyService;
+	
 	@RequestMapping("/adminMoney")
-	public void adminMoney(){}
+	public ModelAndView adminMoney(){
+		
+		List<PointDTO> list = adminMoneyService.selectAll();
+		
+		ModelAndView mv = new ModelAndView();
+		
+		mv.setViewName("admin/adminMoney");
+		mv.addObject("list", list);
+		
+		return mv;
+	}
 	
 	@RequestMapping("/adminSafe")
 	public ModelAndView adminSafe(Integer page){
