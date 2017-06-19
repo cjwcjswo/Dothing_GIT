@@ -37,6 +37,7 @@ public class ErrandsServiceImpl implements ErrandsService {
 		return errandsDAO.selectAll();
 	}
 
+	
 	@Override
 	public ErrandsDTO selectErrands(int errandsNum) {
 		ErrandsDTO dto = errandsDAO.selectErrands(errandsNum);
@@ -225,6 +226,7 @@ public class ErrandsServiceImpl implements ErrandsService {
 		if (startTime != null) {
 			memberDAO.updatePoint(point, requestId);
 		}
+		System.out.println(arrivalTime + " " + finishTime);
 		return errandsDAO.updateErrands(errandsNum, responseId, startTime, arrivalTime, finishTime);
 	}
 
@@ -235,9 +237,16 @@ public class ErrandsServiceImpl implements ErrandsService {
 
 	@Override
 	public int okRequest(GPADTO gpaDTO, String id, String evalTag) {
-		updateErrands(gpaDTO.getErrandsNum(), null, null, null, null, "finish", 0);
 		insertGPA(gpaDTO);
 		memberService.insertHashtag(gpaDTO.getErrandsNum(), id, evalTag);
+		return 1;
+	}
+
+
+	@Override
+	public int cancleErrands(int num, int point, String id) {
+		memberDAO.updatePoint(point, id);
+		errandsDAO.deleteErrands(num);
 		return 1;
 	}
 

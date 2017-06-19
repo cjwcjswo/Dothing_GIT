@@ -123,12 +123,15 @@
 	</insert>
 
 	<select id="selectNotSafety" resultMap="memberSelectMap">
-		select m.MEMBER_ID, m.NAME, m.ADDR, m.PHONE, m.SSN_IMG
+		select m.MEMBER_ID,
+		m.NAME, m.ADDR, m.PHONE, m.SSN_IMG
 		from MEMBER m left join
 		AUTH aut
-		on m.MEMBER_ID = aut.USERNAME
+		on
+		m.MEMBER_ID = aut.USERNAME
 		where aut.ROLE not in
-		('ROLE_SAFETY', 'ROLE_ADMIN')
+		('ROLE_SAFETY',
+		'ROLE_ADMIN')
 		and m.SSN_IMG is not null
 	</select>
 
@@ -137,8 +140,18 @@
 		from MEMBER m left join AUTH
 		aut
 		on m.MEMBER_ID = aut.USERNAME
-		where aut.ROLE not in ('ROLE_SAFETY',
+		where
+		aut.ROLE not in ('ROLE_SAFETY',
 		'ROLE_ADMIN')
 		and m.SSN_IMG is not null
+	</select>
+
+	<select id="isSafety" resultType="memberDTO" parameterType="string">
+		select m.MEMBER_ID from MEMBER
+		m left join
+		AUTH aut
+		on m.MEMBER_ID = aut.USERNAME
+		where aut.ROLE in
+		('ROLE_SAFETY') and MEMBER_ID = #{value};
 	</select>
 </mapper>

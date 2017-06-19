@@ -1,5 +1,6 @@
 package dothing.web.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +24,12 @@ public class AdminController {
 	public ModelAndView adminSafe(Integer page){
 		if(page == null) page = 1;
 		ModelAndView mv = new ModelAndView();
-		PageMaker pm = new PageMaker(page, memberService.countNotSafety() / 6 + 1);
+		List<MemberDTO> memberList = new ArrayList<>();
+		PageMaker pm = new PageMaker(page, memberList.size() / 6 + 1);
 		pm.start();
 		mv.setViewName("/admin/adminSafe");
 		mv.addObject("pm", pm);
-		mv.addObject("memberList", memberService.selectNotSafety(page));
+		mv.addObject("memberList", memberList);
 		return mv;
 	}
 	

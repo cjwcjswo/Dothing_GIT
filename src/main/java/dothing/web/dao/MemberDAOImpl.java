@@ -9,6 +9,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import dothing.web.dto.GPADTO;
 import dothing.web.dto.MemberDTO;
 import dothing.web.dto.MemberHashDTO;
 
@@ -54,6 +55,8 @@ public class MemberDAOImpl implements MemberDAO {
 		Map<String, Object> map = new HashMap<>();
 		map.put("point", point);
 		map.put("userId", id);
+		System.out.println(map.get("point"));
+		System.out.println(map.get("userId"));
 		return sqlSession.update("memberMapper.updatePoint", map);
 	}
 
@@ -110,5 +113,17 @@ public class MemberDAOImpl implements MemberDAO {
 	@Override
 	public int countNotSafety(){
 		return sqlSession.selectOne("memberMapper.countNotSafety");
+	}
+
+	@Override
+	public List<GPADTO> averageGPA(String id) {
+		return sqlSession.selectList("mapper.errandsGPAMapper.averageGPA", id);
+	}
+
+	@Override
+	public boolean isSafety(String id) {
+		MemberDTO member = sqlSession.selectOne("memberMapper.isSafety", id);
+		if(member == null) return false;
+		else return true;
 	}
 }

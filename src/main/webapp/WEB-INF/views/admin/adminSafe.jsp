@@ -96,7 +96,7 @@
 														<h4 class="media-heading">주소: ${member.addr}</h4>
 														<div class="form-group">
 												<button type="button" class="btn btn-large btn-default"
-													id="okay">확인</button>
+													id="okay" onclick="location.href='${pageContext.request.contextPath}/admin/adminSafe/submit?id=${member.userId}'">확인</button>
 											</div>
 													</div>
 												</div>

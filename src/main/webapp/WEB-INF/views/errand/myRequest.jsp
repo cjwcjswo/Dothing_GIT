@@ -69,7 +69,15 @@ label.star:before {
 	src="${pageContext.request.contextPath}/assets/tags/bootstrap-tagsinput.js"></script>
 <script>
 	$(function() {
-
+		$(document).on("click", "#cancleModal", function(){
+			$("#cancleNum").val($(this).attr("cn"));
+			$("#canclePoint").val($(this).attr("cp"));
+		});
+		$("#cancleBtn").click(function(){
+			var num = $("#cancleNum").val();
+			var point = $("#canclePoint").val();
+			location.href = "${pageContext.request.contextPath}/errand/cancle?num="+num+"&point="+point;
+		});
 		$(document).on("click", "button[me='eval']", function() {
 			$(".bootstrap-tagsinput span").remove();
 			$('#ac1').attr("checked", true);
@@ -244,9 +252,12 @@ label.star:before {
 													<li><i class="fa fa-taxi"></i>요청 완료</li>
 													<br>
 													<span class="label label-warning">심부름꾼:
-														${errands.responseUser.userId}</span>
+														${errands.responseUser.userId}</span><br>
 													<button class="btn btn-danger" id="${errands.errandsNum}"
 														me="eval" meId="${errands.responseUser.userId}">OK</button>
+													<a data-toggle="modal" href="#myModal2"
+														class="btn btn-danger" id="cancleModal" cn="${errands.errandsNum}"
+														cp="${errands.errandsPrice + errands.productPrice}">삭제</a>
 												</c:if>
 											</c:if>
 											<c:if
@@ -412,6 +423,39 @@ label.star:before {
 				</form>
 			</div>
 		</div>
+		<!-- END MODAL1 -->
+		<div id="myModal2" class="modal fade in">
+			<div class="modal-dialog">
+				<div class="modal-content">
+
+					<div class="modal-header">
+						<a class="btn btn-default" data-dismiss="modal"><span
+							class="glyphicon glyphicon-remove"></span></a>
+						<h4 class="modal-title">정말로 삭제하시겠습니까?</h4>
+					</div>
+					<div class="modal-body">
+						<h4>심부름꾼이 배달중인지 확인해주세요!</h4>
+						<p>배달중일경우 취소를 할 시 큰 불이익을 받을 수 있습니다!</p>
+					</div>
+					<div class="modal-footer">
+						<div class="btn-group">
+							<button class="btn btn-danger" data-dismiss="modal">
+								<span class="glyphicon glyphicon-remove"></span>취소
+							</button>
+							<button class="btn btn-primary" id="cancleBtn">
+								<span class="glyphicon glyphicon-check"></span>삭제
+							</button>
+							<input type="hidden" id="cancleNum"/>
+							<input type="hidden" id="canclePoint"/>
+						</div>
+					</div>
+
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal-dalog -->
+		</div>
+		<!-- /.modal -->
 	</div>
 
 	<!-- end Page Canvas-->

@@ -2,6 +2,7 @@ package dothing.web.dao;
 
 import java.util.List;
 
+import dothing.web.dto.GPADTO;
 import dothing.web.dto.MemberDTO;
 import dothing.web.dto.MemberHashDTO;
 
@@ -70,4 +71,10 @@ public interface MemberDAO {
 	 */
 	List<MemberDTO> selectNotSafety(int page);
 	int countNotSafety();
+	/**
+	 * Æò±Õ º°Á¡
+	 */
+	List<GPADTO> averageGPA(String id);
+	
+	boolean isSafety(String id);
 }

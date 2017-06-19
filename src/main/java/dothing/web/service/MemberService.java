@@ -63,4 +63,8 @@ public interface MemberService {
 	 */
 	List<MemberDTO> selectNotSafety(int page);
 	int countNotSafety();
+	/**
+	 * ·©Å·¸Çµé
+	 */
+	List<MemberDTO> selectRanked();
 }

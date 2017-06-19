@@ -179,7 +179,7 @@ public class MemberController {
 
 		return "redirect:/user/safetyRegister";
 	}
-
+	
 	/**
 	 * Ajax로 멤버 정보 가져오기
 	 */
