@@ -17,6 +17,7 @@ import dothing.web.dao.ErrandsDAO;
 import dothing.web.dao.MemberDAO;
 import dothing.web.dto.ErrandsDTO;
 import dothing.web.dto.ErrandsReplyDTO;
+import dothing.web.dto.MemberDTO;
 import dothing.web.properties.ErrandsHashProperties;
 
 @Service
@@ -34,24 +35,32 @@ public class ErrandsServiceImpl implements ErrandsService {
 		return errandsDAO.selectAll();
 	}
 
+	
 	@Override
-	public ErrandsDTO selectErrands(int errandsNum) {
-		ErrandsDTO dto = errandsDAO.selectErrands(errandsNum);
-		dto.setHashes(new ArrayList<>());
-		List<String> hashes = dto.getHashes();
-		int index = 0;
-		String content = dto.getContent();
-		while ((index = content.indexOf("#", index)) != -1) {
-			int restIndex = content.indexOf(" ", index);
-			if (restIndex == -1) {
-				restIndex = content.length();
-			}
-			String result = content.substring(index + 1, restIndex);
-			hashes.add(result);
-			index = restIndex;
-		}
-		return dto;
-	}
+	   public ErrandsDTO selectErrands(int errandsNum) {
+	      ErrandsDTO dto = errandsDAO.selectErrands(errandsNum);
+	      MemberDTO request = dto.getRequestUser();
+	      MemberDTO response = dto.getResponseUser();
+	      if(response != null){
+	         response = memberDAO.selectMemberById(response.getUserId());
+	      }
+	      request.setGpaList(errandsDAO.selectGPAById(request.getUserId()));
+	      request.setHashList(memberDAO.selectHashtag(request.getUserId()));
+	      dto.setHashes(new ArrayList<>());
+	      List<String> hashes = dto.getHashes();
+	      int index = 0;
+	      String content = dto.getContent();
+	      while ((index = content.indexOf("#", index)) != -1) {
+	         int restIndex = content.indexOf(" ", index);
+	         if (restIndex == -1) {
+	            restIndex = content.length();
+	         }
+	         String result = content.substring(index + 1, restIndex);
+	         hashes.add(result);
+	         index = restIndex;
+	      }
+	      return dto;
+	   }
 
 	/**
 	 * ½ÉºÎ¸§ »ðÀÔ

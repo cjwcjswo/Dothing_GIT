@@ -37,18 +37,16 @@
    var today = '<%= new java.text.SimpleDateFormat("MM/dd HH:mm").format(new java.util.Date())%>';
    
    $(function() {
-
 	    if(${list == null}){
 			chatLoad();
 	    }
 		function chatLoad(){
-			location.href='${pageContext.request.contextPath}/errand/detailView?num=59';
+			location.href='${pageContext.request.contextPath}/errand/detailView?num=${errands.errandsNum}';
 			//location.href='${pageContext.request.contextPath}/errand/chatLoads?errandsNum=${errands.errandsNum}';
 		};
 		
 	    $(document).on("click", "#send", function(){
 			var msg = $('#inputText').val();
-			alert("send msg : " + msg);
 			//separator -> #/separator/#
 			ws.send(${errands.errandsNum}+"#/separator/#"+sender+"#/separator/#"+msg+"#/separator/#"+today);
 			$('#inputText').val('');
@@ -69,11 +67,11 @@
 	            '<div class="messages msg_sent"><p>' + arr[2] + '</p>'+
 	               '<time datetime="2009-11-13T20:00">' + arr[1] +'•'+ arr[3] + '</time>'+
 	            '</div></div><div class="col-md-2 col-xs-2 avatar">'+
-	            '<img src="http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg"'+
+	            '<img src="${pageContext.request.contextPath}/users/${currentId}/${currentUser.selfImg}"'+
 	               ' class="img-responsive"></div></div>';
 			}else{
 				str='<div class="row msg_container base_receive">'+
-	                '<div class="col-md-2 col-xs-2 avatar"><img src="http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg"'+
+	                '<div class="col-md-2 col-xs-2 avatar"><img src="${pageContext.request.contextPath}/users/${currentId}/${currentUser.selfImg}"'+
 	                ' class=" img-responsive "></div><div class="col-xs-10 col-md-10">'+
 	            '<div class="messages msg_receive"><p>' + arr[2] + '</p>'+
 	               '<time datetime="2009-11-13T20:00">' + arr[1] + '•' + arr[3] + '</time></div></div></div>';
@@ -450,7 +448,9 @@
    <!-- end Page Canvas-->
    
    <!--  chat 시작 -->
-   <c:if test="${errands.responseUser.userId == currentId || errands.requestUser.userId == currentId}">
+   <c:if test="${errands.responseUser.userId == currentId || 
+   					errands.requestUser.userId == currentId &&
+   					 errands.responseUser.userId != null}">
       <div class="row chat-window col-xs-5 col-md-3" id="chat_window_1"
          style="margin-left: 10px;">
          <div class="col-xs-12 col-md-12">
@@ -498,7 +498,7 @@
 				                     </div>
 				                     <div class="col-md-2 col-xs-2 avatar">
 				                        <img
-				                           src="http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg"
+				                           src="${pageContext.request.contextPath}/users/${currentId}/${currentUser.selfImg}"
 				                           class=" img-responsive ">
 			                    	 </div>
 			                  	 </div>
@@ -506,9 +506,16 @@
 			            		<c:otherwise>
 				       				<div class="row msg_container base_receive">
 					                     <div class="col-md-2 col-xs-2 avatar">
-					                        <img
-					                           src="http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg"
-					                           class=" img-responsive ">
+					                     	<c:if test="${currentId eq errands.requestUser.userId}">
+						                        <img
+						                           src="${pageContext.request.contextPath}/users/${errands.responseUser.userId}/${responseUser.selfImg}"
+						                           class=" img-responsive ">
+					                        </c:if>
+					                        <c:if test="${currentId eq errands.responseUser.userId}">
+						                        <img
+						                           src="${pageContext.request.contextPath}/users/${errands.requestUser.userId}/${requestUser.selfImg}"
+						                           class=" img-responsive ">
+					                        </c:if>
 					                     </div>
 					                     <div class="col-xs-10 col-md-10">
 					                        <div class="messages msg_receive">
