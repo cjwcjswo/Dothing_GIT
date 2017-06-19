@@ -24,23 +24,13 @@
 
 	<!-- websocket -->
 	<websocket:handlers>
-	    <websocket:mapping handler="webSocketHandler" path="/errand/register" />
-	    <websocket:handshake-interceptors>
-	    	<beans:bean class="dothing.web.socket.handler.HandshakeInterceptor"/>
-	    </websocket:handshake-interceptors>
+	    <websocket:mapping handler="webSocketHandler" path="/websocket"/>
 	    <websocket:sockjs />
-	</websocket:handlers>
-	
-	<!-- 
-	
-	<beans:bean class="dothing.web.socket.handler.WebSocketHandler" id="webSocketHandler"/>
-		<websocket:mapping handler="webSocketHandler" path="/websocket" />
-		<websocket:sockjs />
 	</websocket:handlers>
 
 	<beans:bean class="dothing.web.socket.handler.WebSocketHandler"
 		id="webSocketHandler" />
- -->
+
 
 
 	<!-- tiles 등록하기 -->

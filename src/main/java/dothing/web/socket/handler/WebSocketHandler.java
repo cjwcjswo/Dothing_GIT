@@ -29,28 +29,24 @@ public class WebSocketHandler extends TextWebSocketHandler{
 	@Autowired
 	private ChatService chatService;
 	
+	private String errandsNum;
+	
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		super.afterConnectionEstablished(session);
-		
-		Map<String, Object> map = session.getAttributes();
-		String errandsNum = (String) map.get("errandsNum");
-		
-		if(sessionMap.get(errandsNum) == null){
-			List<WebSocketSession> list = new ArrayList<>();
-			list.add(session);
-			sessionMap.put(errandsNum, list);
-		}else{
-			sessionMap.get(errandsNum).add(session);
-		}
+		System.out.println("connect!!!");
 	}
 	
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 		super.afterConnectionClosed(session, status);
-		Map<String, Object> map = session.getAttributes();
-		String errandsNum = (String) map.get("errandsNum");
-		sessionMap.remove(errandsNum);
+		System.out.println("close!!!");
+		  sessionMap.get(errandsNum).remove(session);
+	      
+	      if ( sessionMap.get(errandsNum).isEmpty()){
+	    	  sessionMap.remove(errandsNum);
+	      }
+
 	}
 	
 	
@@ -67,20 +63,35 @@ public class WebSocketHandler extends TextWebSocketHandler{
 				}
 			}
 		}else{
-			Map<String, Object> map = session.getAttributes();
-			String errandsNum = (String) map.get("errandsNum");
-			
 			String msgArr[] = msg.split("#/separator/#");
 			//msgArr[0] = errandsNum;
 			//msgArr[1] = sender;
 			//msgArr[2] = msg;
 			//msgArr[3] = writeday;
+			errandsNum = msgArr[0];
+			System.out.println("handler e no : " + errandsNum);
 			
-			chatService.write(msgArr);
+			System.out.println("receive msg : " + msg);
+			
+			if(sessionMap.get(errandsNum) == null){
+				List<WebSocketSession> list = new ArrayList<>();
+				list.add(session);
+				sessionMap.put(errandsNum, list);
+			}else{
+				if(!sessionMap.get(errandsNum).contains(session)){
+					sessionMap.get(errandsNum).add(session);
+				}
+			}
+			
+			if(msg.length() > 20){
+				chatService.write(msgArr);
+			}
 			
 			List<WebSocketSession> list = sessionMap.get(errandsNum);
 			for(WebSocketSession sess : list){
-				sess.sendMessage(new TextMessage(msg));
+				if(msg.length() > 20){
+					sess.sendMessage(new TextMessage(msg));
+				}
 			}
 			
 		}
