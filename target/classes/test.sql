@@ -17,7 +17,7 @@ where 1=1
 
    and a.COLUMN_NAME=b.COLUMN_NAME
 
-   and a.TABLE_NAME = 'INQUIRY_BOARD'
+   and a.TABLE_NAME = 'point'
 
 order by a.TABLE_NAME, a.COLUMN_ID
 
