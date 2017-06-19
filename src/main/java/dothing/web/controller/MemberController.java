@@ -118,10 +118,10 @@ public class MemberController {
 				updateMember.setAddr(preAddr + " " + detailAddr);
 				member.setAddr(preAddr + " " + detailAddr);
 			}
-		} else{
+		} else {
 			updateMember.setAddr(null);
 		}
-		
+
 		MultipartFile newProfile = updateMember.getSelfImgFile();
 		if ((newProfile.getOriginalFilename() != null && newProfile.getSize() != 0)) {
 			updateMember.setSelfImg(newProfile.getOriginalFilename());
@@ -130,7 +130,7 @@ public class MemberController {
 			File folder = new File(path);
 			folder.mkdirs();
 			newProfile.transferTo(new File(path + "\\" + updateMember.getSelfImg()));
-		} else{
+		} else {
 			updateMember.setSelfImg(null);
 		}
 		if (!(newPassword == null || newPassword.equals(""))) {
@@ -141,19 +141,52 @@ public class MemberController {
 		mv.setViewName("redirect:/user/myPage");
 		return mv;
 	}
-	
 
-	
 	@RequestMapping("/safetyRegister")
-	public void safetyRegister(){
+	public ModelAndView safetyRegister(Authentication aut) {
+		boolean isSafety = false;
+		MemberDTO currentUser = (MemberDTO) aut.getPrincipal();
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("/user/safetyRegister");
+		mv.addObject("member", memberService.selectMemberById(currentUser.getUserId()));
+		for (String role : memberService.selectAuth(currentUser.getUserId())) {
+			if (role.equals("ROLE_SAFETY")) {
+				isSafety = true;
+			}
+		}
+		mv.addObject("isSafety", isSafety);
+		return mv;
 	}
+
+	/**
+	 * 안전심부름꾼 등록
+	 * 
+	 * @throws Exception
+	 */
+	@RequestMapping("/submitSafety")
+	public String submitSafety(HttpSession session, Authentication aut, MemberDTO member) throws Exception {
+		MultipartFile ssnImgFile = member.getSsnImgFile();
+		if (ssnImgFile == null || ssnImgFile.getSize() == 0) {
+			throw new Exception("사진을 넣어주세요!");
+		}
+		member.setUserId(((MemberDTO) aut.getPrincipal()).getUserId());
+		member.setSsnImg(ssnImgFile.getOriginalFilename());
+		memberService.updateSafety(member);
+		String path = session.getServletContext().getRealPath("") + "\\users\\" + member.getUserId() + "\\ssn\\";
+		File folder = new File(path);
+		folder.mkdirs();
+		ssnImgFile.transferTo(new File(path + "\\" + member.getSsnImg()));
+
+		return "redirect:/user/safetyRegister";
+	}
+
 	/**
 	 * Ajax로 멤버 정보 가져오기
 	 */
 
 	@RequestMapping("/selectMember")
 	@ResponseBody
-	public MemberDTO selectMember(String id){
+	public MemberDTO selectMember(String id) {
 		return memberService.selectMemberById(id);
 	}
 }

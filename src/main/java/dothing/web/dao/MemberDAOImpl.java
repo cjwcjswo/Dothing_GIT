@@ -87,4 +87,28 @@ public class MemberDAOImpl implements MemberDAO {
 	public int deleteUser(String id) {
 		return sqlSession.delete("memberMapper.deleteMember", id);
 	}
+
+	@Override
+	public List<String> selectAuth(String id) {
+		return sqlSession.selectList("memberMapper.selectAuth", id);
+	}
+
+	@Override
+	public int updateSafety(MemberDTO dto) {
+		return sqlSession.update("memberMapper.updateSafety", dto);
+	}
+
+	@Override
+	public int insertSafety(String id) {
+		return sqlSession.insert("memberMapper.insertSafety", id);
+	}
+
+	@Override
+	public List<MemberDTO> selectNotSafety(int page) {
+		return sqlSession.selectList("memberMapper.selectNotSafety", null, new RowBounds((page-1)*5, 5));
+	}
+	@Override
+	public int countNotSafety(){
+		return sqlSession.selectOne("memberMapper.countNotSafety");
+	}
 }

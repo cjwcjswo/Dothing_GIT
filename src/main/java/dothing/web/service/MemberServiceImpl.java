@@ -102,5 +102,29 @@ public class MemberServiceImpl implements MemberService{
 	public int deleteUser(String id) {
 		return memberDao.deleteUser(id);
 	}
+
+	@Override
+	public List<String> selectAuth(String id) {
+		return memberDao.selectAuth(id);
+	}
+
+	@Override
+	public int updateSafety(MemberDTO dto) {
+		return memberDao.updateSafety(dto);
+	}
+
+	@Override
+	public int insertSafety(String id) {
+		return memberDao.insertSafety(id);
+	}
+
+	@Override
+	public List<MemberDTO> selectNotSafety(int page) {
+		return memberDao.selectNotSafety(page);
+	}
 	
+	@Override
+	public int countNotSafety(){
+		return memberDao.countNotSafety();
+	}
 }

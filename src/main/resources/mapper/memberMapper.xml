@@ -2,95 +2,143 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="memberMapper">
 
-<sql id="memberColumn">
-	MEMBER_ID, NAME, PASSWORD, EMAIL, SELF_IMG, SSN_IMG, ADDR, PHONE, SEX
-</sql>
+	<sql id="memberColumn">
+		MEMBER_ID, NAME, PASSWORD, EMAIL, SELF_IMG, SSN_IMG, ADDR,
+		PHONE, SEX
+	</sql>
 
-<resultMap type="memberDTO" id="memberSelectMap">
-	<id column="MEMBER_ID" property="userId"/>
-	<result column="NAME" property="name"/>
-	<result column="PASSWORD" property="password"/>
-	<result column="EMAIL" property="email"/>
-	<result column="SELF_IMG" property="selfImg"/>
-	<result column="SSN_IMG" property="ssnImg"/>
-	<result column="ADDR" property="addr"/>
-	<result column="PHONE" property="phone"/>
-	<result column="SEX" property="sex"/>
-	<association property="point" javaType="pointDTO">
-		<result column="CURRENT_POINT" property="currentPoint"/>
-		<result column="REQUEST_POINT" property="requestPoint"/>
-	</association>
-</resultMap>
-<!-- 초기 포인트 생성 -->
-<insert id="createPoint" parameterType="string">
-	insert into POINT values(0, 0, #{value})
-</insert>
-<!-- 모든 유저 검색 -->
-<select id="selectAll" resultMap="memberSelectMap" parameterType="string">
-	select * from MEMBER
-	<where>
-		<if test="value != null">
-			MEMBER_ID like #{value}
-		</if>
-	</where>
-</select>
-<!-- 모든 유저 카운트 -->
-<select id="countAll" resultType="int" parameterType="string">
-	select count(*) from MEMBER
-	<where>
-		<if test="value != null">
-			MEMBER_ID = #{value}
-		</if>
-	</where>
-</select>
-<!-- 유저 강퇴 -->
-<delete id="deleteMember" parameterType="string">
-	delete from MEMBER where MEMBER_ID = #{value}
-</delete>
-<!-- id에 해당하는 정보 검색 -->
-<select id="selectMemberById" parameterType="string" resultMap="memberSelectMap">
-	select <include refid="memberColumn"/>, CURRENT_POINT, REQUEST_POINT
-	from member_point_view
-	where member_id=#{_parameter}
-</select>
+	<resultMap type="memberDTO" id="memberSelectMap">
+		<id column="MEMBER_ID" property="userId" />
+		<result column="NAME" property="name" />
+		<result column="PASSWORD" property="password" />
+		<result column="EMAIL" property="email" />
+		<result column="SELF_IMG" property="selfImg" />
+		<result column="SSN_IMG" property="ssnImg" />
+		<result column="ADDR" property="addr" />
+		<result column="PHONE" property="phone" />
+		<result column="SEX" property="sex" />
+		<association property="point" javaType="pointDTO">
+			<result column="CURRENT_POINT" property="currentPoint" />
+			<result column="REQUEST_POINT" property="requestPoint" />
+		</association>
+	</resultMap>
+	<!-- 초기 포인트 생성 -->
+	<insert id="createPoint" parameterType="string">
+		insert into POINT
+		values(0, 0, #{value})
+	</insert>
+	<!-- 모든 유저 검색 -->
+	<select id="selectAll" resultMap="memberSelectMap"
+		parameterType="string">
+		select * from MEMBER
+		<where>
+			<if test="value != null">
+				MEMBER_ID like #{value}
+			</if>
+		</where>
+	</select>
+	<!-- 모든 유저 카운트 -->
+	<select id="countAll" resultType="int" parameterType="string">
+		select count(*) from MEMBER
+		<where>
+			<if test="value != null">
+				MEMBER_ID = #{value}
+			</if>
+		</where>
+	</select>
+	<!-- 유저 강퇴 -->
+	<delete id="deleteMember" parameterType="string">
+		delete from MEMBER where
+		MEMBER_ID = #{value}
+	</delete>
+	<!-- id에 해당하는 정보 검색 -->
+	<select id="selectMemberById" parameterType="string" resultMap="memberSelectMap">
+		select
+		<include refid="memberColumn" />
+		, CURRENT_POINT, REQUEST_POINT
+		from member_point_view
+		where
+		member_id=#{_parameter}
+	</select>
 
-<!-- 회원가입 -->
-<insert id="insertMember" parameterType="memberDTO">
-	insert into member(<include refid="memberColumn"/>)
-	values(#{userId},#{name},#{password},#{email},#{selfImg}, null, #{addr},#{phone},#{sex})
-</insert>
+	<!-- 회원가입 -->
+	<insert id="insertMember" parameterType="memberDTO">
+		insert into member(
+		<include refid="memberColumn" />
+		)
+		values(#{userId},#{name},#{password},#{email},#{selfImg}, null,
+		#{addr},#{phone},#{sex})
+	</insert>
 
-<!-- ID 중복체크 -->
-<select id="memberSelect" parameterType="String" resultMap="memberSelectMap">
-	select <include refid="memberColumn"/>
-	from member
-	<where>
-		<if test="_parameter!=null">
-			MEMBER_ID=#{_parameter}
-		</if>
-	</where>
-</select>
+	<!-- ID 중복체크 -->
+	<select id="memberSelect" parameterType="String" resultMap="memberSelectMap">
+		select
+		<include refid="memberColumn" />
+		from member
+		<where>
+			<if test="_parameter!=null">
+				MEMBER_ID=#{_parameter}
+			</if>
+		</where>
+	</select>
 
-<!-- 정보 수정 -->
-<update id="updateMember" parameterType="memberDTO">
-	update MEMBER
-	<set>
-		<if test="addr != null">
-			ADDR = #{addr},
-		</if>
-		<if test="password != null">
-			PASSWORD = #{password},
-		</if>
-		<if test="selfImg != null">
-			SELF_IMG = #{selfImg}
-		</if>
-	</set>
-	where MEMBER_ID = #{userId}
-</update>
+	<!-- 정보 수정 -->
+	<update id="updateMember" parameterType="memberDTO">
+		update MEMBER
+		<set>
+			<if test="addr != null">
+				ADDR = #{addr},
+			</if>
+			<if test="password != null">
+				PASSWORD = #{password},
+			</if>
+			<if test="selfImg != null">
+				SELF_IMG = #{selfImg}
+			</if>
+		</set>
+		where MEMBER_ID = #{userId}
+	</update>
 
-<!-- 포인트 수정 -->
-<update id="updatePoint" parameterType="map">
-	update POINT set CURRENT_POINT = CURRENT_POINT + #{point}
-	where MEMBER_ID = #{userId}
-</update>
+	<!-- 포인트 수정 -->
+	<update id="updatePoint" parameterType="map">
+		update POINT set
+		CURRENT_POINT = CURRENT_POINT + #{point}
+		where MEMBER_ID = #{userId}
+	</update>
+
+	<select id="selectAuth" parameterType="string" resultType="string">
+		select ROLE from AUTH where USERNAME = #{value}
+	</select>
+
+	<!-- 안전이미지 등록 -->
+	<update id="updateSafety" parameterType="memberDTO">
+		update MEMBER set
+		SSN_IMG = #{ssnImg} where MEMBER_ID = #{userId}
+	</update>
+
+	<!-- 안전권한 등록 -->
+	<insert id="insertSafety" parameterType="string">
+		insert into AUTH
+		values(#{value}, 'ROLE_SAFETY')
+	</insert>
+
+	<select id="selectNotSafety" resultMap="memberSelectMap">
+		select m.MEMBER_ID, m.NAME, m.ADDR, m.PHONE, m.SSN_IMG
+		from MEMBER m left join
+		AUTH aut
+		on m.MEMBER_ID = aut.USERNAME
+		where aut.ROLE not in
+		('ROLE_SAFETY', 'ROLE_ADMIN')
+		and m.SSN_IMG is not null
+	</select>
+
+	<select id="countNotSafety" resultType="int">
+		select count(m.MEMBER_ID)
+		from MEMBER m left join AUTH
+		aut
+		on m.MEMBER_ID = aut.USERNAME
+		where aut.ROLE not in ('ROLE_SAFETY',
+		'ROLE_ADMIN')
+		and m.SSN_IMG is not null
+	</select>
 </mapper>
