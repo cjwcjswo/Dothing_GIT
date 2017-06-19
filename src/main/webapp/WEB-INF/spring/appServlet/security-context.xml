@@ -12,7 +12,7 @@
 <context:component-scan base-package="dothing.web.security.handler,dothing.web.security.provider"/>
 
 <security:http use-expressions="true" auto-config="true">
-	<security:intercept-url pattern="/main" access="hasRole('ROLE_ADMIN')"/>
+	<security:intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"/>
 	<security:intercept-url pattern="/errand/**" access="isAuthenticated()"/>
 	
 	

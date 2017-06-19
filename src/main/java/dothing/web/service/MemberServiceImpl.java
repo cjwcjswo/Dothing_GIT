@@ -1,5 +1,7 @@
 package dothing.web.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -85,6 +87,20 @@ public class MemberServiceImpl implements MemberService{
 			memberDao.insertHashtag(new MemberHashDTO(errandsNum, id, tag.trim()));
 		}
 		return 1;
+	}
+
+	@Override
+	public List<MemberDTO> selectAll(int page, String id) {
+		return memberDao.selectAll(page, id);
+	}
+	@Override
+	public int countAll(String id){
+		return memberDao.countAll(id);
+	}
+
+	@Override
+	public int deleteUser(String id) {
+		return memberDao.deleteUser(id);
 	}
 	
 }

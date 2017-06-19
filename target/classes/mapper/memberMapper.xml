@@ -25,6 +25,28 @@
 <insert id="createPoint" parameterType="string">
 	insert into POINT values(0, 0, #{value})
 </insert>
+<!-- 모든 유저 검색 -->
+<select id="selectAll" resultMap="memberSelectMap" parameterType="string">
+	select * from MEMBER
+	<where>
+		<if test="value != null">
+			MEMBER_ID like #{value}
+		</if>
+	</where>
+</select>
+<!-- 모든 유저 카운트 -->
+<select id="countAll" resultType="int" parameterType="string">
+	select count(*) from MEMBER
+	<where>
+		<if test="value != null">
+			MEMBER_ID = #{value}
+		</if>
+	</where>
+</select>
+<!-- 유저 강퇴 -->
+<delete id="deleteMember" parameterType="string">
+	delete from MEMBER where MEMBER_ID = #{value}
+</delete>
 <!-- id에 해당하는 정보 검색 -->
 <select id="selectMemberById" parameterType="string" resultMap="memberSelectMap">
 	select <include refid="memberColumn"/>, CURRENT_POINT, REQUEST_POINT

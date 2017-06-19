@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -64,5 +65,26 @@ public class MemberDAOImpl implements MemberDAO {
 	@Override
 	public List<MemberHashDTO> selectHashtag(String id) {
 		return sqlSession.selectList("mapper.hashtagMapper.selectById", id);
+	}
+
+	@Override
+	public List<MemberDTO> selectAll(int page, String id) {
+		if(id != null)
+			return sqlSession.selectList("memberMapper.selectAll", "%"+id+"%", new RowBounds((page-1)*10, 10));
+		else
+			return sqlSession.selectList("memberMapper.selectAll", null, new RowBounds((page-1)*10, 10));
+	}
+	@Override
+	public int countAll(String id){
+		if(id!=null)
+		return sqlSession.selectOne("memberMapper.countAll", "%"+id+"%");
+		else{
+			return sqlSession.selectOne("memberMapper.countAll", null);
+		}
+	}
+
+	@Override
+	public int deleteUser(String id) {
+		return sqlSession.delete("memberMapper.deleteMember", id);
 	}
 }
