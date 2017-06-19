@@ -8,9 +8,14 @@ import dothing.web.dto.BoardReplyDTO;
 
 public interface BoardDAO{
 	/**
-	 * 레코드 전체 검색
+	 * 레코드 전체 검색 운영자권한으로 보기 
 	 **/
 	List<BoardDTO> selectAll(int page);
+	
+	/**
+	 * 레코드 전체 검색 일반회원권한으로 보기
+	 */
+	List<BoardDTO> selectAllMember(int page, String userId);
 
 	/**
 	 * 게시판번호에 해당하는 레코드 검색

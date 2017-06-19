@@ -37,7 +37,7 @@ public class BoardController {
 	 * 1대1게시판 보기
 	 */
 	@RequestMapping("/inquiryBoardList")
-	public ModelAndView list(Integer page) {
+	public ModelAndView list(Authentication auth, Integer page) throws Exception{
 		
 		if (page == null)
 			page = new Integer(1);
@@ -45,11 +45,27 @@ public class BoardController {
 		PageMaker pm = new PageMaker(page, boardService.countNoticeList()/ 6 + 1);
 		pm.start();
 
-		List<BoardDTO> list = boardService.selectAll(page);
+		String userId = ((MemberDTO) auth.getPrincipal()).getUserId();
+		
+		if(userId == null){
+			throw new Exception("로그인하세요.");
+		}
+		
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("board/inquiryBoardList");
-		mv.addObject("pm", pm);
-		mv.addObject("list", list);
+
+		if (userId.equals("tester")) {
+			List<BoardDTO> list = boardService.selectAll(page);
+
+			mv.setViewName("board/inquiryBoardList");
+			mv.addObject("pm", pm);
+			mv.addObject("list", list);
+		}
+		else{
+			List<BoardDTO> list = boardService.selectAllMember(page, userId);
+			mv.setViewName("board/inquiryBoardList");
+			mv.addObject("pm", pm);
+			mv.addObject("list", list);
+		}
 
 		return mv;
 	}
@@ -136,9 +152,17 @@ public class BoardController {
 	 * 1대1게시판 댓글삽입
 	 */
 	@RequestMapping("/insertReply")
-	public String insertReply(BoardReplyDTO brDTO) throws Exception {
-		boardService.insertReply(brDTO);
+	public String insertReply(Authentication auth, BoardReplyDTO brDTO) throws Exception {
+		String userId = ((MemberDTO) auth.getPrincipal()).getUserId();
+		
+		if (userId.equals("tester")) {
+			boardService.insertReply(brDTO);
+		}
+		else{
+			throw new Exception("운영자만이 댓글을 등록할 수 있습니다.");
+		}
 		return "redirect:/board/inquiryBoardReadNew/" + brDTO.getBoard().getInquiryNum();
+
 	}
 	
 	/////////////////////////////////////////////////////////////////

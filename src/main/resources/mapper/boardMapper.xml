@@ -41,12 +41,22 @@
 		to_char(sysdate, 'YYYY-MM-DD HH:MI:SS AM'),0)
 	</insert>
 	
-	<!-- 모든레코드 검색 -->
+	<!-- 모든레코드 검색 운영자 권한 -->
 	<select id="selectAll" resultMap="boardSelectMap">
 		select
 		<include refid="columnName" />
 		,inquiry_date ,READNUM
 		from inquiry_board
+		order by inquiry_num desc
+	</select>
+	
+	<!-- 모든레코드 검색 일반회원 권한 -->
+	<select id="selectAllMember" resultMap="boardSelectMap" parameterType="string">
+	    select
+	    <include refid="columnName" />
+		,inquiry_date ,READNUM
+		from inquiry_board
+		where member_id=#{_parameter}
 		order by inquiry_num desc
 	</select>
 

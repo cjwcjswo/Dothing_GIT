@@ -53,10 +53,10 @@
 							</tbody>
 						</table>
 
-						<div class="form-group col-sm-6" align="left">
+						<!-- <div class="form-group col-sm-6" align="left">
 							<button type="button" class="btn btn-large btn-default"
 								id="submit">다음글</button>
-						</div>
+						</div> -->
 						<div class="form-group col-sm-6" align="right">
 							<button type="submit" class="btn btn-large btn-default"
 								id="submit" onclick="location.href='${pageContext.request.contextPath}/board/noticeBoardList'">목록</button>
