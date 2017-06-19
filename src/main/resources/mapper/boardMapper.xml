@@ -40,18 +40,23 @@
 		values(SEQ_ID.NEXTVAL,#{userId},#{boardTitle},#{boardContent},
 		to_char(sysdate, 'YYYY-MM-DD HH:MI:SS AM'),0)
 	</insert>
-
-	<!-- 모든레코드 검색 or 글번호에 해당하는 레코드 검색 -->
-	<select id="selectAll" resultMap="boardSelectMap" parameterType="int">
+	
+	<!-- 모든레코드 검색 -->
+	<select id="selectAll" resultMap="boardSelectMap">
 		select
 		<include refid="columnName" />
 		,inquiry_date ,READNUM
 		from inquiry_board
-		<where>
-			<if test="_parameter!=null">
-				inquiry_num=#{_parameter}
-			</if>
-		</where>
+		order by inquiry_num desc
+	</select>
+
+	<!-- 글번호에 해당하는 레코드 검색 -->
+	<select id="selectByInquriyNum" resultMap="boardSelectMap" parameterType="int">
+		select
+		<include refid="columnName" />
+		,inquiry_date ,READNUM
+		from inquiry_board
+		where inquiry_num=#{_parameter}
 		order by inquiry_num desc
 	</select>
 
@@ -86,5 +91,10 @@
 	<select id="callReply" parameterType="int" resultMap="replySelectMap">
 		select inquiry_reply_num,reply_content,inquiry_num from inquiry_reply where
 		inquiry_num = #{inquiry_num}
+	</select>
+	
+	<!-- 페이징 -->
+	<select id="countNoticeList" resultType="int">
+		select count(*) from inquiry_board
 	</select>
 </mapper>
