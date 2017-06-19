@@ -142,11 +142,11 @@ public class MemberController {
 		return mv;
 	}
 	
-	@RequestMapping("/history")
-	public String history(){
-		return "/user/history";
-	}
+
 	
+	@RequestMapping("/safetyRegister")
+	public void safetyRegister(){
+	}
 	/**
 	 * Ajax로 멤버 정보 가져오기
 	 */

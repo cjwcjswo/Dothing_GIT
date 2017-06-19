@@ -2,14 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.hashtagMapper">
 	<resultMap type="memberHashDTO" id="hashMap">
-		<id column="MEMBER_ID" property="memberId"/>
-		<result column="ERRANDS_NUM" property="errandsNum"/>
-		<result column="HASHTAG" property="hashtag"/>
+		<id column="MEMBER_ID" property="memberId" />
+		<result column="ERRANDS_NUM" property="errandsNum" />
+		<result column="HASHTAG2" property="hashtag" />
 	</resultMap>
 	<insert id="insert" parameterType="memberHashDTO">
-		insert into MEMBER_HASHTAG values(#{memberId},#{errandsNum},#{hashtag})
+		insert into MEMBER_HASHTAG
+		values(#{memberId},#{errandsNum},#{hashtag})
 	</insert>
 	<select id="selectById" parameterType="string" resultMap="hashMap">
-		select * from MEMBER_HASHTAG where MEMBER_ID = #{value}
+		select
+		MEMBER_ID, max(HASHTAG) as HASHTAG2 from member_hashtag
+		where member_id = #{value}
+		group by (MEMBER_ID, hashtag) order by count(hashtag) desc
 	</select>
 </mapper>

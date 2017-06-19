@@ -41,6 +41,10 @@ public class ErrandsServiceImpl implements ErrandsService {
 	public ErrandsDTO selectErrands(int errandsNum) {
 		ErrandsDTO dto = errandsDAO.selectErrands(errandsNum);
 		MemberDTO request = dto.getRequestUser();
+		MemberDTO response = dto.getResponseUser();
+		if(response != null){
+			response = memberDAO.selectMemberById(response.getUserId());
+		}
 		request.setGpaList(errandsDAO.selectGPAById(request.getUserId()));
 		request.setHashList(memberDAO.selectHashtag(request.getUserId()));
 		dto.setHashes(new ArrayList<>());

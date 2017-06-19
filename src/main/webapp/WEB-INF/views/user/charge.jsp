@@ -50,14 +50,14 @@
 							<tbody align="left">
 								<tr>
 									<div class="form-group col-xs-4">
-										<label for="sel1">포인트 액수</label> <select
-											class="form-control" id="sel1">
+										<label for="sel1">포인트 액수</label> <select class="form-control"
+											id="sel1">
 											<option>5,000p(5,000원)</option>
 											<option>10,000p(10,000원)</option>
 											<option>20,000p(20,000원)</option>
 											<option>50,000p(50,000원)</option>
 											<option>100,000p(100,000원)</option>
-										
+
 										</select>
 									</div>
 
@@ -65,17 +65,17 @@
 
 
 							</tbody>
-						
+
 						</table>
 					</div>
 
 					<div class="form-group" align="center">
 						<button type="submit" class="btn btn-large btn-default"
 							id="submit">충전</button>
-						
+
 						<button type="button" class="btn btn-large btn-default"
 							id="submit">돌아가기</button>
-							
+
 					</div>
 					<!-- /.form-group -->
 				</div>
@@ -83,7 +83,7 @@
 			</div>
 
 		</div>
-		
+
 	</div>
 	</section>
 
