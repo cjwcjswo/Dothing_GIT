@@ -270,11 +270,13 @@
 												<div class="content">
 
 
-													<c:if test="${errands.hashes.size()	 != 0}">
-														<c:forEach items="${errands.hashes}" var="hash">
-															<span class="label label-info">#${hash}</span>
-														</c:forEach>
+													<c:if test="${errands.requestUser.hashList.size()== 0}">
+														등록된 해시태그가 없습니다.
 													</c:if>
+														<c:forEach items="${errands.requestUser.hashList}" var="hash">
+															<span class="label label-success">${hash.hashtag}</span> 
+														</c:forEach>
+													
 												</div>
 											</div>
 											<a href="#" class="show-more expand-content"
