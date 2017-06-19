@@ -37,6 +37,8 @@
    var today = '<%= new java.text.SimpleDateFormat("MM/dd HH:mm").format(new java.util.Date())%>';
    
    $(function() {
+	 
+	   
 	    if(${list == null}){
 			chatLoad();
 	    }
@@ -71,10 +73,25 @@
 	               ' class="img-responsive"></div></div>';
 			}else{
 				str='<div class="row msg_container base_receive">'+
-	                '<div class="col-md-2 col-xs-2 avatar"><img src="${pageContext.request.contextPath}/users/${currentId}/${currentUser.selfImg}"'+
-	                ' class=" img-responsive "></div><div class="col-xs-10 col-md-10">'+
-	            '<div class="messages msg_receive"><p>' + arr[2] + '</p>'+
-	               '<time datetime="2009-11-13T20:00">' + arr[1] + '•' + arr[3] + '</time></div></div></div>';
+                    '<div class="col-md-2 col-xs-2 avatar">'+
+             	'<c:if test="${currentId eq errands.requestUser.userId}">'+
+                      '<img'+
+                      ' src="${pageContext.request.contextPath}/users/${errands.responseUser.userId}/${responseSelfImg}"'+
+                      ' class=" img-responsive ">'+
+                '</c:if>'+
+                '<c:if test="${currentId eq errands.responseUser.userId}">'+
+                    '<img'+
+                      ' src="${pageContext.request.contextPath}/users/${errands.requestUser.userId}/${requestSelfImg}"'+
+                     ' class=" img-responsive "> '+
+                '</c:if>'+
+             '</div>'+
+             '<div class="col-xs-10 col-md-10">'+
+                '<div class="messages msg_receive">'+
+                   '<p>'+arr[2]+'</p>'+
+                   '<time datetime="2009-11-13T20:00">'+arr[1]+' • '+arr[3]+'</time>'+
+                '</div>'+
+             '</div>'+
+          '</div>';
 			}  
 		
 		 	$('#chatList').append(str); 
@@ -507,14 +524,14 @@
 				       				<div class="row msg_container base_receive">
 					                     <div class="col-md-2 col-xs-2 avatar">
 					                     	<c:if test="${currentId eq errands.requestUser.userId}">
-						                        <img
-						                           src="${pageContext.request.contextPath}/users/${errands.responseUser.userId}/${responseUser.selfImg}"
+						                          <img
+						                           src="${pageContext.request.contextPath}/users/${errands.responseUser.userId}/${responseSelfImg}"
 						                           class=" img-responsive ">
 					                        </c:if>
 					                        <c:if test="${currentId eq errands.responseUser.userId}">
 						                        <img
-						                           src="${pageContext.request.contextPath}/users/${errands.requestUser.userId}/${requestUser.selfImg}"
-						                           class=" img-responsive ">
+						                           src="${pageContext.request.contextPath}/users/${errands.requestUser.userId}/${requestSelfImg}"
+						                           class=" img-responsive "> 
 					                        </c:if>
 					                     </div>
 					                     <div class="col-xs-10 col-md-10">

@@ -2503,7 +2503,6 @@ height: 20px ;
 
 .modal {
   overflow: hidden;
-  top: 50px;
 }
 .modal .modal-dialog {
   width: 750px;

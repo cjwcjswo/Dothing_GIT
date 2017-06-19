@@ -50,25 +50,25 @@ function checkValid() {
 				<!--Page Content-->
 				<div id="page-content">
 					<div class="container">
-						<h2>Notice</h2>
+						<h2>1대1 문의 게시판</h2>
 						<span style="color:#9999ff;">여러분은 최고의 서비스 DoThing에 있습니다.</span>
-						<form name="writeForm" action="${pageContext.request.contextPath}/board/noticeInsert" onSubmit='return checkValid()' method="post" style="width:70% ;margin-left:15%" align="center" >
+						<form name="writeForm" action="${pageContext.request.contextPath}/board/insert" onSubmit='return checkValid()' method="post" style="width:70% ;margin-left:15%" align="center" >
 							<input type="hidden" name="${_csrf.parameterName}"
                              value="${_csrf.token}">
 							<div class="form-group">
 								<label for="faq-form-email">제목</label>
 								<input type="text"
-									class="form-control" name="noticeTitle" id="faq-form-email" required="" >
+									class="form-control" name="boardTitle" id="faq-form-email" required="" >
 							</div>
 							<!-- /.form-group -->
 							<div class="form-group">
 								<label for="faq-form-question">게시물 작성</label>
 								<textarea class="form-control" id="faq-form-question"
-									rows="5" required="" name="noticeContent"></textarea>
+									rows="5" required="" name="boardContent"></textarea>
 							</div>
 							<!-- /.form-group -->
 							<div class="form-group">
-							<span align="left"><a href="${pageContext.request.contextPath}/board/noticeBoardList"><i class="fa fa-backward"></i>돌아가기</a></span>
+							<span align="left"><a href="${pageContext.request.contextPath}/board/inquiryBoardList" ><i class="fa fa-backward"></i>돌아가기</a></span>
 								<button type="submit" class="btn btn-default">등록하기</button>
 							</div>
 							<!-- /.form-group -->
