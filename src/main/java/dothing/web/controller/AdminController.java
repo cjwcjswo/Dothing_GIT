@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import dothing.web.dto.BoardDTO;
@@ -25,17 +27,43 @@ public class AdminController {
 	AdminMoneyService adminMoneyService;
 	
 	@RequestMapping("/adminMoney")
-	public ModelAndView adminMoney(){
+	public ModelAndView adminMoney(Integer page){
 		
-		List<PointDTO> list = adminMoneyService.selectAll();
-		
+		if (page == null)
+			page = new Integer(1);
+		PageMaker pm = new PageMaker(page, adminMoneyService.countPointList()/ 6 + 1);
+		pm.start();
+				
+		List<PointDTO> list = adminMoneyService.selectAll(page);
+		for(PointDTO dto : list){
+			System.out.println("dto: " + dto);
+		}
 		ModelAndView mv = new ModelAndView();
 		
 		mv.setViewName("admin/adminMoney");
+		mv.addObject("pm", pm);
 		mv.addObject("list", list);
 		
 		return mv;
 	}
+	
+	@RequestMapping(value="/pointChange", method=RequestMethod.GET)
+	public String pointChange(@RequestParam(value="userId")String userId) throws Exception{
+		
+		adminMoneyService.changePoint(userId);
+
+		return "redirect:/admin/adminMoney";
+	}
+	
+	@RequestMapping(value="/pointCancel", method=RequestMethod.GET)
+	public String pointCancel(@RequestParam(value="userId")String userId) throws Exception{
+		
+		adminMoneyService.pointCancel(userId);
+
+		return "redirect:/admin/adminMoney";
+	}
+	
+	
 	
 	@RequestMapping("/adminSafe")
 	public ModelAndView adminSafe(Integer page){
