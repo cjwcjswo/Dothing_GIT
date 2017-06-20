@@ -1,21 +1,11 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<link href="assets/fonts/font-awesome.css" rel="stylesheet"
-	type="text/css">
-<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700'
-	rel='stylesheet' type='text/css'>
-<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.css"
-	type="text/css">
-<link rel="stylesheet" href="assets/css/bootstrap-select.min.css"
-	type="text/css">
-<link rel="stylesheet" href="assets/css/style.css" type="text/css">
-<link rel="stylesheet" href="assets/css/user.style.css" type="text/css">
 
-<title>Spotter - Universal Directory Listing HTML Template</title>
+<title>1:1ê²Œì‹œíŒ</title>
 </head>
 <body onunload="" class="page-subpage page-faq navigation-off-canvas"
 	id="page-top">
@@ -26,6 +16,7 @@
 
 			<!-- Page Canvas-->
 			<div id="page-canvas">
+			
 				<!--Off Canvas Navigation-->
 				<nav class="off-canvas-navigation"> <header>Navigation</header>
 				<div class="main-navigation navigation-off-canvas"></div>
@@ -39,13 +30,7 @@
 				<!-- /.search-bar -->
 				<div class="breadcrumb-wrapper">
 					<div class="container">
-						<div class="redefine-search">
-							<a href="#redefine-search-form" class="inner"
-								data-toggle="collapse" aria-expanded="false"
-								aria-controls="redefine-search-form"> <span class="icon"></span>
-								<span>Redefine Search</span>
-							</a>
-						</div>
+
 						<ol class="breadcrumb">
 							<li><a href="index-directory.html"><i class="fa fa-home"></i></a></li>
 							<li><a href="#">Page</a></li>
@@ -71,12 +56,12 @@
 							<i class="fa fa-question"></i>
 							<div class="wrapper">
 								<div class="pull-left">
-									<strong>±Ã±İÇÏ½Å Á¡À» ¸øÃ£À¸¼Ì³ª¿ä?</strong>
-									<h3>1:1 ¹®ÀÇ °Ô½ÃÆÇ¿¡ ¿Ã¸®±â</h3>
+									<strong>ê¶ê¸ˆí•˜ì‹  ì ì„ ëª»ì°¾ìœ¼ì…¨ë‚˜ìš”?</strong>
+									<h3>1:1 ë¬¸ì˜ ê²Œì‹œíŒì— ì˜¬ë¦¬ê¸°</h3>
 								</div>
 								<a href="#form-faq" class="btn btn-default pull-right"
 									data-toggle="collapse" aria-expanded="false"
-									aria-controls="form-faq">Áú¹®ÇÏ·¯ °¡±â</a>
+									aria-controls="form-faq">ì§ˆë¬¸í•˜ëŸ¬ ê°€ê¸°</a>
 							</div>
 							</figure>
 							<div class="collapse" id="form-faq">
@@ -89,13 +74,13 @@
 										</div>
 										<!-- /.form-group -->
 										<div class="form-group">
-											<label for="faq-form-question">Áú¹®</label>
+											<label for="faq-form-question">ì§ˆë¬¸</label>
 											<textarea class="form-control" id="faq-form-question"
 												name="faq-form-question" rows="3" required=""></textarea>
 										</div>
 										<!-- /.form-group -->
 										<div class="form-group">
-											<button type="submit" class="btn btn-default">Á¦ÃâÇÏ±â</button>
+											<button type="submit" class="btn btn-default">ì œì¶œí•˜ê¸°</button>
 										</div>
 										<!-- /.form-group -->
 									</form>
@@ -108,9 +93,9 @@
 							<article class="faq-single"> <i
 								class="fa fa-question-circle"></i>
 							<div class="wrapper">
-								<h4>¾î¶»°Ô ½ÉºÎ¸§²ÛÀ» ¹Ï¾î¿ä?</h4>
+								<h4>ì–´ë–»ê²Œ ì‹¬ë¶€ë¦„ê¾¼ì„ ë¯¿ì–´ìš”?</h4>
 								<div class="answer">
-									<figure>¹ÏÀ» ¼ö ÀÖ´Â ÀÎÁõ Á¤º¸¸¦ ÅëÇÏ¿©</figure>
+									<figure>ë¯¿ì„ ìˆ˜ ìˆëŠ” ì¸ì¦ ì •ë³´ë¥¼ í†µí•˜ì—¬</figure>
 									<p>Vivamus ut turpis risus. Vestibulum gravida dictum sem a
 										rutrum. Fusce tincidunt rhoncus nulla vel rutrum. Nunc vel
 										luctus dui. Phasellus egestas interdum lacinia. Class aptent
@@ -230,7 +215,7 @@
 								</div>
 							</a> <!--/.item-horizontal small--> <a href="item-detail.html"
 								class="item-horizontal small">
-								<h3>Eddie¡¯s Fast Food</h3> <figure>4365 Bruce Street</figure>
+								<h3>Eddieâ€™s Fast Food</h3> <figure>4365 Bruce Street</figure>
 								<div class="wrapper">
 									<div class="image">
 										<img src="assets/img/items/3.jpg" alt="">
@@ -286,17 +271,6 @@
 		<!-- end Inner Wrapper -->
 	</div>
 	<!-- end Outer Wrapper-->
-
-	<script type="text/javascript" src="assets/js/jquery-2.1.0.min.js"></script>
-	<script type="text/javascript" src="assets/js/before.load.js"></script>
-	<script type="text/javascript"
-		src="assets/js/jquery-migrate-1.2.1.min.js"></script>
-	<script type="text/javascript"
-		src="assets/bootstrap/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="assets/js/smoothscroll.js"></script>
-	<script type="text/javascript" src="assets/js/bootstrap-select.min.js"></script>
-	<script type="text/javascript" src="assets/js/jquery.hotkeys.js"></script>
-	<script type="text/javascript" src="assets/js/custom.js"></script>
 
 	<!--[if lte IE 9]>
 <script type="text/javascript" src="assets/js/ie-scripts.js"></script>

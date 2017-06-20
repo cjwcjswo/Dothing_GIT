@@ -23,7 +23,10 @@ public interface ErrandsDAO {
 	int selectNum();
 	int updateErrands(int errandsNum, String responseId, String startTime,
 			String arrivalTime, String finishTime);
-	
+	/**
+	 * 돈되는 심부름
+	 * */
+	List<ErrandsDTO> moneyErrands();
 	
 	int insertReply(ErrandsReplyDTO dto);
 	int deleteReply(int num);
