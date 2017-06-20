@@ -3,7 +3,7 @@
 <mapper namespace="memberMapper">
 
 <sql id="memberColumn">
-	MEMBER_ID, NAME, PASSWORD, EMAIL, SELF_IMG, SSN_IMG, ADDR, PHONE, SEX
+	MEMBER_ID, NAME, PASSWORD, EMAIL, SELF_IMG, SSN_IMG, ADDR, PHONE, SEX, JOIN_DATE, INTRODUCE
 </sql>
 
 <resultMap type="memberDTO" id="memberSelectMap">
@@ -16,6 +16,8 @@
 	<result column="ADDR" property="addr"/>
 	<result column="PHONE" property="phone"/>
 	<result column="SEX" property="sex"/>
+	<result column="JOIN_DATE" property="joinDate"/>
+	<result column="INTRODUCE" property="introduce"/>
 	<association property="point" javaType="pointDTO">
 		<result column="CURRENT_POINT" property="currentPoint"/>
 		<result column="REQUEST_POINT" property="requestPoint"/>
@@ -35,7 +37,7 @@
 <!-- 회원가입 -->
 <insert id="insertMember" parameterType="memberDTO">
 	insert into member(<include refid="memberColumn"/>)
-	values(#{userId},#{name},#{password},#{email},#{selfImg}, null, #{addr},#{phone},#{sex})
+	values(#{userId},#{name},#{password},#{email},#{selfImg}, null, #{addr},#{phone},#{sex},to_char(sysdate, 'YYYY-MM-DD HH:MI:SS'),#{introduce})
 </insert>
 
 <!-- ID 중복체크 -->
@@ -61,6 +63,9 @@
 		</if>
 		<if test="selfImg != null">
 			SELF_IMG = #{selfImg}
+		</if>
+		<if test="introduce != null">
+			introduce = #{introduce}
 		</if>
 	</set>
 	where MEMBER_ID = #{userId}

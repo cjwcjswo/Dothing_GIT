@@ -12,6 +12,14 @@
 	rel="stylesheet" type="text/css">
 <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700'
 	rel='stylesheet' type='text/css'>
+	
+	<!-- google platform library -->
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+
+<!-- specify client ID -->
+<meta name="google-signin-client_id" content="852010525738-koadhapuooddd7np0govnv6lfgg5tsqf.apps.googleusercontent.com">
+
+	
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/assets/js/jquery-2.1.0.min.js"></script>
 <title>회원가입</title>
@@ -306,8 +314,14 @@
 									<label for="form-register-full-name">성별</label> <input
 										type="radio" name="sex" id="man" value="man">Man <input
 										type="radio" id="woman" name="sex" value="woman">Woman
-
 								</div>
+								
+								<div class="form-group">
+									<label for="form-register-full-name">자기소개</label>
+									<textarea class="form-control" name="introduce" id="introduce"
+									data-length="200" placeholder="200자 이내로 작성하세요."></textarea>
+								</div>
+								
 								<div class="form-group">
 									<label for="form-register-full-name">프로필 사진 업로드</label> <input
 										class="form-control" type="file" name="selfImgFile"
