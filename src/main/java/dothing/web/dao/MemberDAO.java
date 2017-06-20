@@ -2,6 +2,7 @@ package dothing.web.dao;
 
 import java.util.List;
 
+import dothing.web.dto.GPADTO;
 import dothing.web.dto.MemberDTO;
 import dothing.web.dto.MemberHashDTO;
 
@@ -51,4 +52,29 @@ public interface MemberDAO {
 	 * 유저 해쉬태그 검색
 	 */
 	List<MemberHashDTO> selectHashtag(String id);
+	
+	/**
+	 * 권한 가져오기
+	 */
+	List<String> selectAuth(String id);
+	
+	/**
+	 * 안전심부름꾼 이미지 등록
+	 */
+	int updateSafety(MemberDTO dto);
+	/**
+	 * 안전권한등록
+	 */
+	int insertSafety(String id);
+	/**
+	 * 안전사진은 올렸는데 권한이 없는자
+	 */
+	List<MemberDTO> selectNotSafety(int page);
+	int countNotSafety();
+	/**
+	 * 평균 별점
+	 */
+	List<GPADTO> averageGPA(String id);
+	
+	boolean isSafety(String id);
 }

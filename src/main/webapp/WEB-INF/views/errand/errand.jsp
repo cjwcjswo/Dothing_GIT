@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page import="java.util.*" %>
-<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.*"%>
+<%@ page import="java.text.SimpleDateFormat"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
 <!DOCTYPE html>
@@ -15,24 +15,24 @@
 알림 CSS
 **/
 .error {
-   width: 250px;
-   height: 20px;
-   height: auto;
-   position: fixed;
-   left: 50%;
-   margin-left: -125px;
-   bottom: 100px;
-   z-index: 9999;
-   background-color: #383838;
-   color: #F0F0F0;
-   font-family: Calibri;
-   font-size: 15px;
-   padding: 10px;
-   text-align: center;
-   border-radius: 2px;
-   -webkit-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
-   -moz-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
-   box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
+	width: 250px;
+	height: 20px;
+	height: auto;
+	position: fixed;
+	left: 50%;
+	margin-left: -125px;
+	bottom: 100px;
+	z-index: 9999;
+	background-color: #383838;
+	color: #F0F0F0;
+	font-family: Calibri;
+	font-size: 15px;
+	padding: 10px;
+	text-align: center;
+	border-radius: 2px;
+	-webkit-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
+	-moz-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
+	box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
 }
 </style>
 <script type="text/javascript"
@@ -41,14 +41,15 @@
 <script type="text/javascript"
 	src="//apis.daum.net/maps/maps3.js?apikey=900302937c725fa5d96ac225cbc2db10&libraries=services"></script>
 <script>
-	function clickDetail(num){
-		location.href="${pageContext.request.contextPath}/errand/detailView?num="+num;
+	function clickDetail(num) {
+		location.href = "${pageContext.request.contextPath}/errand/detailView?num=" + num;
 	}
 </script>
 <!-- SocketJS -->
- <script type="text/javascript" src="${pageContext.request.contextPath}/resources/sockjs.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/sockjs.js"></script>
 <script>
-	var today = '<%= new java.text.SimpleDateFormat("MM/dd HH:mm").format(new java.util.Date())%>'
+	var today = '<%=new java.text.SimpleDateFormat("MM/dd HH:mm").format(new java.util.Date())%>'
 	var sock = new SockJS('${pageContext.request.contextPath}/errand/register');
 	var msg = '새로운 심부름이 등록되었습니다.';
 	var insertRe = <%=session.getAttribute("insertResult")%>
@@ -86,8 +87,8 @@
 	};
 
   */
-</script>	
-	<script>
+</script>
+<script>
 	function clickDetail(num) {
 		location.href = "${pageContext.request.contextPath}/errand/detailView?num=" + num;
 	}
@@ -302,165 +303,54 @@
 				class="block background-color-grey-dark equal-height">
 				<div class="container">
 					<header>
-						<h2>추천 인증 심부름꾼</h2>
+						<h2>최고의 심부름꾼</h2>
 					</header>
 					<div class="row">
-						<div class="col-md-3 col-sm-3">
-							<div class="item featured">
-								<div class="image">
-									<div class="quick-view" id="1">
-										<i class="fa fa-eye"></i><span>Quick View</span>
-									</div>
-									<a href="item-detail.html">
-										<div class="overlay">
-											<div class="inner">
-												<div class="content">
-													<h4>설명</h4>
-													<p>빠른 배달, 최고 친절 , 모든 것을 보여줍니다.(심부름꾼)</p>
+						<c:forEach items="${rankedList}" var="ranked" end="3"
+							varStatus="status">
+							<div class="col-md-3 col-sm-3">
+								<div class="item featured">
+									<div class="image">
+										<div class="quick-view" id="1">
+											<i class="fa fa-eye"></i><span>Quick View</span>
+										</div>
+										<a href="item-detail.html">
+											<div class="overlay">
+												<div class="inner">
+													<div class="content">
+														<p>정확성: ${ranked.gpaList[0].responseAccuracy}</p>
+														<p>친절성: ${ranked.gpaList[0].responseKindness}</p>
+														<p>신속성: ${ranked.gpaList[0].responseSpeed}</p>
+														<p>매너: ${ranked.gpaList[0].requestManners}</p>
+													</div>
 												</div>
-											</div>
-										</div>
-										<div class="icon">
-											<i class="fa fa-thumbs-up"></i>
-										</div> <img
-										src="${pageContext.request.contextPath}/resources/img/errands/img.png"
-										alt="">
-									</a>
-								</div>
-								<div class="wrapper">
-									<a href="item-detail.html"><h3>심부름꾼 아이디</h3></a>
-									<figure>심부름꾼 위치(주소)
-									</figure>
-									<div class="info">
-										<div class="type">
-											<i><img
-												src="${pageContext.request.contextPath}/resources/img/errands/img.png"
-												alt=""></i> <span>#친절함 #존잘 #이태호</span>
-										</div>
-										<div class="rating" data-rating="4"></div>
-									</div>
-								</div>
-							</div>
-							<!-- /.item-->
-						</div>
-						<!--/.col-sm-4-->
-						<div class="col-md-3 col-sm-3">
-							<div class="item featured">
-								<div class="image">
-									<div class="quick-view">
-										<i class="fa fa-eye"></i><span>Quick View</span>
-									</div>
-									<a href="item-detail.html">
-										<div class="overlay">
-											<div class="inner">
-												<div class="content">
-													<h4>Description</h4>
-													<p>Curabitur odio nibh, luctus non pulvinar a,
-														ultricies ac diam. Donec neque massa</p>
+											</div> <c:if test="${status.index == 0}">
+												<div class="icon">
+													<i class="fa fa-thumbs-up"></i>
 												</div>
+											</c:if><img
+											src="${pageContext.request.contextPath}/users/${ranked.userId}/${ranked.selfImg}"
+											alt="">
+										</a>
+									</div>
+									<div class="wrapper">
+										<a href="item-detail.html"><h3>${ranked.userId}</h3></a>
+										<figure>${ranked.addr}
+										</figure>
+										<div class="info">
+											<div class="type">
+													<c:forEach items="${ranked.hashList}" var="hash" end="5">
+													<span class="label label-info">${hash.hashtag}</span> 
+													</c:forEach>
 											</div>
-										</div> <img
-										src="${pageContext.request.contextPath}/resources/img/errands/img.png"
-										alt="">
-									</a>
-								</div>
-								<div class="wrapper">
-									<a href="item-detail.html"><h3>Benny’s Cafeteria</h3></a>
-									<figure>63 Birch Street
-									</figure>
-									<div class="info">
-										<div class="type">
-											<i><img
-												src="${pageContext.request.contextPath}/resources/img/errands/img.png"
-												alt=""></i> <span>Cafeteria</span>
+											<div class="rating"
+												data-rating="${(ranked.gpaList[0].responseAccuracy + ranked.gpaList[0].responseKindness + ranked.gpaList[0].responseSpeed + ranked.gpaList[0].requestManners) / 4}"></div>
 										</div>
-										<div class="rating" data-rating="4"></div>
 									</div>
 								</div>
+								<!-- /.item-->
 							</div>
-							<!-- /.item-->
-						</div>
-						<!--/.col-sm-4-->
-						<div class="col-md-3 col-sm-3">
-							<div class="item featured">
-								<div class="image">
-									<div class="quick-view">
-										<i class="fa fa-eye"></i><span>Quick View</span>
-									</div>
-									<a href="item-detail.html">
-										<div class="overlay">
-											<div class="inner">
-												<div class="content">
-													<h4>Description</h4>
-													<p>Curabitur odio nibh, luctus non pulvinar a,
-														ultricies ac diam. Donec neque massa</p>
-												</div>
-											</div>
-										</div>
-										<div class="item-specific">
-											<span>Daily menu from: $6</span>
-										</div> <img
-										src="${pageContext.request.contextPath}/resources/img/errands/img.png"
-										alt="">
-									</a>
-								</div>
-								<div class="wrapper">
-									<a href="item-detail.html"><h3>Big Bamboo</h3></a>
-									<figure>4662 Bruce Street
-									</figure>
-									<div class="info">
-										<div class="type">
-											<i><img
-												src="${pageContext.request.contextPath}/resources/img/errands/img.png"
-												alt=""></i> <span>Sushi</span>
-										</div>
-										<div class="rating" data-rating="3"></div>
-									</div>
-								</div>
-							</div>
-							<!-- /.item-->
-						</div>
-						<!--/.col-sm-4-->
-						<div class="col-md-3 col-sm-3">
-							<div class="item featured">
-								<div class="image">
-									<div class="quick-view">
-										<i class="fa fa-eye"></i><span>Quick View</span>
-									</div>
-									<a href="item-detail.html">
-										<div class="overlay">
-											<div class="inner">
-												<div class="content">
-													<h4>Description</h4>
-													<p>Curabitur odio nibh, luctus non pulvinar a,
-														ultricies ac diam. Donec neque massa</p>
-												</div>
-											</div>
-										</div>
-										<div class="item-specific">
-											<span>Daily menu from: $6</span>
-										</div> <img
-										src="${pageContext.request.contextPath}/resources/img/errands/img.png"
-										alt="">
-									</a>
-								</div>
-								<div class="wrapper">
-									<a href="item-detail.html"><h3>Sushi Wooshi Bar</h3></a>
-									<figure>357 Trainer Avenue
-									</figure>
-									<div class="info">
-										<div class="type">
-											<i><img
-												src="${pageContext.request.contextPath}/resources/img/errands/img.png"
-												alt=""></i> <span>Sushi Bar</span>
-										</div>
-										<div class="rating" data-rating="3"></div>
-									</div>
-								</div>
-							</div>
-							<!-- /.item-->
-						</div>
-						<!--/.col-sm-4-->
+						</c:forEach>
 					</div>
 					<!--/.row-->
 				</div>
@@ -710,121 +600,7 @@
 							</div>
 							<!--/.row-->
 
-							<!--Recent-->
-							<section id="recent">
-								<header>
-									<h2>최근 심부름</h2>
-								</header>
-								<div class="item list">
-									<div class="image">
-										<div class="quick-view">
-											<i class="fa fa-eye"></i><span>Quick View</span>
-										</div>
-										<a href="item-detail.html">
-											<div class="overlay">
-												<div class="inner">
-													<div class="content">
-														<h4>설명</h4>
-														<p>옥수수 사줘 옥수수수수수수</p>
-													</div>
-												</div>
-											</div>
-											<div class="item-specific">물품 가격 + 심부름 가격 = 4,500원</div>
-											<div class="icon">
-												<i class="fa fa-thumbs-up"></i>
-											</div> <img
-											src="${pageContext.request.contextPath}/resources/img/errands/img.png"
-											alt="">
-										</a>
-									</div>
-									<div class="wrapper">
-										<a href="item-detail.html"><h3>심부름 제목</h3></a>
-										<figure>심부름 위치
-										</figure>
-										<div class="info">
-											<div class="type">
-												<span>해시태그
-													<p>#예시 #예시 #예시</p>
-												</span>
-											</div>
-											<div class="rating" data-rating="4"></div>
-										</div>
-									</div>
-								</div>
-								<!-- /.item-->
-								<div class="item list">
-									<div class="image">
-										<div class="quick-view">
-											<i class="fa fa-eye"></i><span>Quick View</span>
-										</div>
-										<a href="item-detail.html">
-											<div class="overlay">
-												<div class="inner">
-													<div class="content">
-														<h4>Description</h4>
-														<p>Curabitur odio nibh, luctus non pulvinar a,
-															ultricies ac diam. Donec neque massa</p>
-													</div>
-												</div>
-											</div> <img
-											src="${pageContext.request.contextPath}/resources/img/errands/img.png"
-											alt="">
-										</a>
-									</div>
-									<div class="wrapper">
-										<a href="item-detail.html"><h3>Benny’s Cafeteria</h3></a>
-										<figure>63 Birch Street
-										</figure>
-										<div class="info">
-											<div class="type">
-												<i><img
-													src="${pageContext.request.contextPath}/resources/img/errands/img.png"
-													alt=""></i> <span>Cafeteria</span>
-											</div>
-											<div class="rating" data-rating="4"></div>
-										</div>
-									</div>
-								</div>
-								<!-- /.item-->
-								<div class="item list">
-									<div class="image">
-										<div class="quick-view">
-											<i class="fa fa-eye"></i><span>Quick View</span>
-										</div>
-										<a href="item-detail.html">
-											<div class="overlay">
-												<div class="inner">
-													<div class="content">
-														<h4>Description</h4>
-														<p>Curabitur odio nibh, luctus non pulvinar a,
-															ultricies ac diam. Donec neque massa</p>
-													</div>
-												</div>
-											</div>
-											<div class="item-specific">
-												<span>Daily menu from: $6</span>
-											</div> <img
-											src="${pageContext.request.contextPath}/resources/img/errands/img.png"
-											alt="">
-										</a>
-									</div>
-									<div class="wrapper">
-										<a href="item-detail.html"><h3>Big Bamboo</h3></a>
-										<figure>4662 Bruce Street
-										</figure>
-										<div class="info">
-											<div class="type">
-												<i><img
-													src="${pageContext.request.contextPath}/resources/img/errands/img.png"
-													alt=""></i> <span>Sushi</span>
-											</div>
-											<div class="rating" data-rating="3"></div>
-										</div>
-									</div>
-								</div>
-								<!-- /.item-->
-							</section>
-							<!--end Recent-->
+						
 
 							<!--end Categories-->
 						</div>
