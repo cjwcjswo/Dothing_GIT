@@ -12,7 +12,7 @@ select
 update point set request_point = NULL, current_point=request_point + current_point 
 where member_id='tester'
 
-update point set request_point=1000 where member_id='ghostman'
+update point set request_point=1000 where member_id='qwer'
 
 select *from point;
 
