@@ -317,7 +317,6 @@
 							<div class="col-md-3 col-sm-3">
 								<div class="item featured">
 									<div class="image">
-										<a href="item-detail.html">
 											<div class="overlay">
 												<div class="inner">
 													<div class="content">
@@ -336,8 +335,7 @@
 											alt="">
 										</a>
 									</div>
-									<div class="wrapper">
-										<a href="item-detail.html"><h3>${ranked.userId}</h3></a>
+									<div class="wrapper"><h3>${ranked.userId}</h3></a>
 										<figure>${ranked.addr}
 										</figure>
 										<div class="info">
@@ -361,120 +359,7 @@
 			</section>
 			<!--end Featured-->
 
-			<!--Popular-->
-			<section id="popular" class="block background-color-white">
-				<div class="container">
-					<header>
-						<h2>이달의 심부름꾼</h2>
-					</header>
-					<div class="owl-carousel wide carousel">
-						<div class="slide">
-							<div class="inner">
-								<div class="image">
-									<div class="item-specific">
-										<div class="inner">
-											<div class="content">
-												<dl>
-													<dt>심부름 수행횟수</dt>
-													<dd>20회</dd>
-													<dt>평균 심부름 소요시간</dt>
-													<dd>12분 23초</dd>
-													<dt>인증 심부름 여부</dt>
-													<dd>O</dd>
-
-												</dl>
-											</div>
-										</div>
-									</div>
-									<img
-										src="${pageContext.request.contextPath}/resources/img/errands/img.png"
-										alt="">
-								</div>
-								<div class="wrapper">
-									<a href="item-detail.html"><h3>유저 아이디</h3></a>
-									<figure>
-										<i class="fa fa-map-marker"></i>
-										<span>심부름꾼 위치 여부</span>
-									</figure>
-									<div class="info">
-										<div class="rating" data-rating="4">
-											<aside class="reviews">6개의 리뷰</aside>
-										</div>
-
-									</div>
-									<!--/.info-->
-									<p>자기 소개 블라블랍자기 소개 블라블랍자기 소개 블라블랍자기 소개 블라블랍자기 소개 블라블랍자기 소개
-										블라블랍자기 소개 블라블랍자기 소개 블라블랍자기 소개 블라블랍자기 소개 블라블랍자기 소개 블라블랍자기 소개
-										블라블랍</p>
-									<a href="item-detail.html" class="read-more icon">더 알아보기</a>
-								</div>
-								<!--/.wrapper-->
-							</div>
-							<!--/.inner-->
-						</div>
-						<!--/.slide-->
-						<div class="slide">
-							<div class="inner">
-								<div class="image">
-									<div class="item-specific">
-										<div class="inner">
-											<div class="content">
-												<dl>
-													<dt>Bedrooms</dt>
-													<dd>2</dd>
-													<dt>Bathrooms</dt>
-													<dd>2</dd>
-													<dt>Area</dt>
-													<dd>
-														240m<sup>2</sup>
-													</dd>
-													<dt>Garages</dt>
-													<dd>1</dd>
-													<dt>Build Year</dt>
-													<dd>1990</dd>
-												</dl>
-											</div>
-										</div>
-									</div>
-									<img
-										src="${pageContext.request.contextPath}/resources/img/errands/img.png"
-										alt="">
-								</div>
-								<div class="wrapper">
-									<a href="item-detail.html"><h3>Saguaro Tavern</h3></a>
-									<figure>
-										<i class="fa fa-map-marker"></i>
-										<span>2476 Whispering Pines Circle</span>
-									</figure>
-									<div class="info">
-										<div class="rating" data-rating="4">
-											<aside class="reviews">6 reviews</aside>
-										</div>
-										<div class="type">
-											<i><img
-												src="${pageContext.request.contextPath}/resources/img/errands/img.png"
-												alt=""></i> <span>Restaurant</span>
-										</div>
-									</div>
-									<!--/.info-->
-									<p>Curabitur odio nibh, luctus non pulvinar a, ultricies ac
-										diam. Donec neque massa, viverra interdum eros ut, imperdiet
-										pellentesque mauris. Proin sit amet scelerisque risus. Donec
-										semper semper erat ut mollis. Curabitur suscipit, justo eu
-										dignissim lacinia, ante sapien pharetra dui...</p>
-									<a href="item-detail.html" class="read-more icon">Read More</a>
-								</div>
-								<!--/.wrapper-->
-							</div>
-							<!--/.inner-->
-						</div>
-						<!--/.slide-->
-					</div>
-					<!--/.owl-carousel-->
-				</div>
-				<!--/.container-->
-			</section>
-			<!--end Popular-->
+			
 			<section class="block equal-height">
 				<div class="container">
 					<div class="row">

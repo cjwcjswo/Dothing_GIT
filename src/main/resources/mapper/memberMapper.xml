@@ -3,8 +3,8 @@
 <mapper namespace="memberMapper">
 
 	<sql id="memberColumn">
-		MEMBER_ID, NAME, PASSWORD, EMAIL, SELF_IMG, SSN_IMG, ADDR,
-		PHONE, SEX
+		MEMBER_ID, NAME, PASSWORD, EMAIL, SELF_IMG, SSN_IMG, ADDR, PHONE, SEX,
+		JOIN_DATE, INTRODUCE
 	</sql>
 
 	<resultMap type="memberDTO" id="memberSelectMap">
@@ -17,6 +17,8 @@
 		<result column="ADDR" property="addr" />
 		<result column="PHONE" property="phone" />
 		<result column="SEX" property="sex" />
+		<result column="JOIN_DATE" property="joinDate" />
+		<result column="INTRODUCE" property="introduce" />
 		<association property="point" javaType="pointDTO">
 			<result column="CURRENT_POINT" property="currentPoint" />
 			<result column="REQUEST_POINT" property="requestPoint" />
@@ -24,9 +26,27 @@
 	</resultMap>
 	<!-- 초기 포인트 생성 -->
 	<insert id="createPoint" parameterType="string">
-		insert into POINT
-		values(0, 0, #{value})
+		insert into POINT values(0, 0, #{value})
 	</insert>
+	<!-- id에 해당하는 정보 검색 -->
+	<select id="selectMemberById" parameterType="string" resultMap="memberSelectMap">
+		select
+		<include refid="memberColumn" />
+		, CURRENT_POINT, REQUEST_POINT
+		from member_point_view
+		where member_id=#{_parameter}
+	</select>
+
+	<!-- 회원가입 -->
+	<insert id="insertMember" parameterType="memberDTO">
+		insert into member(
+		<include refid="memberColumn" />
+		)
+		values(#{userId},#{name},#{password},#{email},#{selfImg}, null, #{addr},#{phone},#{sex},to_char(sysdate, 'YYYY-MM-DD
+		HH:MI:SS'),#{introduce})
+	</insert>
+
+
 	<!-- 모든 유저 검색 -->
 	<select id="selectAll" resultMap="memberSelectMap"
 		parameterType="string">
@@ -51,24 +71,7 @@
 		delete from MEMBER where
 		MEMBER_ID = #{value}
 	</delete>
-	<!-- id에 해당하는 정보 검색 -->
-	<select id="selectMemberById" parameterType="string" resultMap="memberSelectMap">
-		select
-		<include refid="memberColumn" />
-		, CURRENT_POINT, REQUEST_POINT
-		from member_point_view
-		where
-		member_id=#{_parameter}
-	</select>
 
-	<!-- 회원가입 -->
-	<insert id="insertMember" parameterType="memberDTO">
-		insert into member(
-		<include refid="memberColumn" />
-		)
-		values(#{userId},#{name},#{password},#{email},#{selfImg}, null,
-		#{addr},#{phone},#{sex})
-	</insert>
 
 	<!-- ID 중복체크 -->
 	<select id="memberSelect" parameterType="String" resultMap="memberSelectMap">
@@ -81,6 +84,7 @@
 			</if>
 		</where>
 	</select>
+
 
 	<!-- 정보 수정 -->
 	<update id="updateMember" parameterType="memberDTO">
@@ -98,6 +102,7 @@
 		</set>
 		where MEMBER_ID = #{userId}
 	</update>
+
 
 	<!-- 포인트 수정 -->
 	<update id="updatePoint" parameterType="map">
@@ -150,7 +155,8 @@
 		select m.MEMBER_ID from MEMBER
 		m left join
 		AUTH aut
-		on m.MEMBER_ID = aut.USERNAME
+		on m.MEMBER_ID =
+		aut.USERNAME
 		where aut.ROLE in
 		('ROLE_SAFETY') and MEMBER_ID = #{value};
 	</select>

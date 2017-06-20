@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-   pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/security/tags"
-   prefix="security"%>
+	prefix="security"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ page import="java.util.*"%>
@@ -14,27 +14,29 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link rel="stylesheet"
-   href="${pageContext.request.contextPath}/resources/css/chat/chat.css"
-   type="text/css">
+	href="${pageContext.request.contextPath}/resources/css/chat/chat.css"
+	type="text/css">
 <link
-   href="${pageContext.request.contextPath}/assets/fonts/font-awesome.css"
-   rel="stylesheet" type="text/css">
+	href="${pageContext.request.contextPath}/assets/fonts/font-awesome.css"
+	rel="stylesheet" type="text/css">
 <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700'
-   rel='stylesheet' type='text/css'>
+	rel='stylesheet' type='text/css'>
 <link href="${pageContext.request.contextPath}/assets/css/receipt.css"
-   rel="stylesheet" type="text/css">
+	rel="stylesheet" type="text/css">
 <title>Spotter - Universal Directory Listing HTML Template</title>
 <script type="text/javascript"
-   src="//apis.daum.net/maps/maps3.js?apikey=900302937c725fa5d96ac225cbc2db10&libraries=services"></script>
+	src="//apis.daum.net/maps/maps3.js?apikey=900302937c725fa5d96ac225cbc2db10&libraries=services"></script>
 
 
-
+<script>
+</script>
 <!-- SocketJS -->
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/sockjs.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/sockjs.js"></script>
 <script type="text/javascript">
    var ws = new SockJS('/controller/websocket');
    var sender = '<security:authentication property="principal.userId"/>';
-   var today = '<%= new java.text.SimpleDateFormat("MM/dd HH:mm").format(new java.util.Date())%>';
+   var today = '<%=new java.text.SimpleDateFormat("MM/dd HH:mm").format(new java.util.Date())%>';
    
    $(function() {
 	 
@@ -176,340 +178,342 @@
 </head>
 
 <body onunload=""
-   class="page-subpage page-item-detail navigation-off-canvas"
-   id="page-top">
+	class="page-subpage page-item-detail navigation-off-canvas"
+	id="page-top">
 
-   <!-- end Navigation-->
-   <!-- Page Canvas-->
-   <div id="page-canvas">
-      <!--Off Canvas Navigation-->
-      <nav class="off-canvas-navigation">
-         <header>메뉴</header>
-         <div class="main-navigation navigation-off-canvas"></div>
-      </nav>
-      <!--end Off Canvas Navigation-->
-      <!--Sub Header-->
-      <section class="sub-header">
-         <div class="search-bar horizontal collapse" id="redefine-search-form"></div>
-         <!-- /.search-bar -->
-         <div class="breadcrumb-wrapper">
-            <div class="container">
+	<!-- end Navigation-->
+	<!-- Page Canvas-->
+	<div id="page-canvas">
+		<!--Off Canvas Navigation-->
+		<nav class="off-canvas-navigation">
+			<header>메뉴</header>
+			<div class="main-navigation navigation-off-canvas"></div>
+		</nav>
+		<!--end Off Canvas Navigation-->
+		<!--Sub Header-->
+		<section class="sub-header">
+			<div class="search-bar horizontal collapse" id="redefine-search-form"></div>
+			<!-- /.search-bar -->
+			<div class="breadcrumb-wrapper">
+				<div class="container">
 
-               <ol class="breadcrumb">
-                  <li><a href="${pageContext.request.contextPath}/"><i
-                        class="fa fa-home"></i></a></li>
-                  <li><a
-                     href="${pageContext.request.contextPath}/errand/errand">심부름
-                        목록</a></li>
-                  <li class="active">${errands.errandsNum}번심부름</li>
-               </ol>
-               <!-- /.breadcrumb-->
-            </div>
-            <!-- /.container-->
-         </div>
-         <!-- /.breadcrumb-wrapper-->
-      </section>
-      <!--end Sub Header-->
+					<ol class="breadcrumb">
+						<li><a href="${pageContext.request.contextPath}/"><i
+								class="fa fa-home"></i></a></li>
+						<li><a
+							href="${pageContext.request.contextPath}/errand/errand">심부름
+								목록</a></li>
+						<li class="active">${errands.errandsNum}번심부름</li>
+					</ol>
+					<!-- /.breadcrumb-->
+				</div>
+				<!-- /.container-->
+			</div>
+			<!-- /.breadcrumb-wrapper-->
+		</section>
+		<!--end Sub Header-->
 
-      <!--Page Content-->
-      <div id="page-content">
+		<!--Page Content-->
+		<div id="page-content">
 
-         <div id="map-detail"></div>
-         <section class="container">
-            <div class="row">
-               <!--Item Detail Content-->
-               <div class="col-md-12">
-                  <section class="block" id="main-content">
-                     <header class="page-title">
-                        <div class="title">
-                           <h1>${errands.title}</h1>
-                           <c:if
-                              test="${errands.arrivalTime != null and errands.finishTime != null}">
-                              <div class="alert alert-success" role="alert">완료된 심부름입니다
-                                 :)</div>
-                           </c:if>
-                           <c:if
-                              test="${errands.arrivalTime != null and errands.finishTime == null}">
-                              <div class="alert alert-warning" role="alert">요청자 확인
-                                 대기중입니다 :)</div>
-                           </c:if>
-                           <c:if
-                              test="${errands.arrivalTime == null and errands.finishTime != null}">
-                              <div class="alert alert-warning" role="alert">심부름꾼 확인
-                                 대기중입니다 :)</div>
-                           </c:if>
-                        </div>
-                        <div class="info">
-                           <div class="type">
-                              <div id="hashList">
-                                 <c:if test="${errands.hashes.size()    != 0}">
-                                    <c:forEach items="${errands.hashes}" var="hash">
-                                       <span class="label label-info">#${hash}</span>
-                                    </c:forEach>
-                                 </c:if>
-                              </div>
-                           </div>
-                        </div>
-                     </header>
-                     <div class="row">
-                        <!--Detail Sidebar-->
-                        <aside class="col-md-3" id="detail-sidebar">
-                           <!--Contact-->
-                           <section>
-                              <header>
-                                 <h3>Contact</h3>
-                              </header>
-                              <address>
+			<div id="map-detail"></div>
+			<section class="container">
+				<div class="row">
+					<!--Item Detail Content-->
+					<div class="col-md-12">
+						<section class="block" id="main-content">
+							<header class="page-title">
+								<div class="title">
+									<h1>${errands.title}</h1>
+									<c:if
+										test="${errands.arrivalTime != null and errands.finishTime != null}">
+										<div class="alert alert-success" role="alert">완료된 심부름입니다
+											:)</div>
+									</c:if>
+									<c:if
+										test="${errands.arrivalTime != null and errands.finishTime == null}">
+										<div class="alert alert-warning" role="alert">요청자 확인
+											대기중입니다 :)</div>
+									</c:if>
+									<c:if
+										test="${errands.arrivalTime == null and errands.finishTime != null}">
+										<div class="alert alert-warning" role="alert">심부름꾼 확인
+											대기중입니다 :)</div>
+									</c:if>
+								</div>
+								<div class="info">
+									<div class="type">
+										<div id="hashList">
+											<c:if test="${errands.hashes.size()    != 0}">
+												<c:forEach items="${errands.hashes}" var="hash">
+													<span class="label label-info">#${hash}</span>
+												</c:forEach>
+											</c:if>
+										</div>
+									</div>
+								</div>
+							</header>
+							<div class="row">
+								<!--Detail Sidebar-->
+								<aside class="col-md-3" id="detail-sidebar">
+									<!--Contact-->
+									<section>
+										<header>
+											<h3>Contact</h3>
+										</header>
+										<address>
 
-                                 <figure>
-                                    <div class="info">
-                                       <i class="fa fa-child"></i> <span>${errands.requestUser.userId}</span>
-                                    </div>
-                                    <div class="info">
-                                       <i class="fa fa-calendar"></i> <span>${errands.endTime}
-                                          까지</span>
-                                    </div>
-                                    <div class="info">
-                                       <i class="fa fa-globe"></i> <span>${errands.errandsPos.addr}</span>
-                                    </div>
-                                 </figure>
-                              </address>
-                           </section>
-                           <!--end Contact-->
-                           <!--Rating-->
-                           <section class="clearfix">
-                              <header class="pull-left">
-                                 <a href="#reviews" class="roll"><h3>평점</h3></a>
-                              </header>
-                              <c:choose>
-                                 <c:when test="${errands.requestUser.gpaList.size() == 0}">
-                                    <figure class="rating big pull-right" data-rating="0"></figure>
-                                 </c:when>
-                                 <c:otherwise>
-                                    <c:set var="count" value="0"/>
-                                    <c:forEach items="${errands.requestUser.gpaList}" var="gpa">
-                                       <c:set var="count" value="${count + gpa.requestManners}"/>
-                                    </c:forEach>
-                                    <figure class="rating big pull-right" data-rating="${count / errands.requestUser.gpaList.size()}"></figure>
-                                 </c:otherwise>
-                              </c:choose>
-                           </section>
-                           <!--end Rating-->
-                           <!--Events-->
-                           <section>
-                              <header>
-                                 <h3>해시태그 리뷰</h3>
-                              </header>
-                              <figure>
-                                 <div class="expandable-content collapsed show-60"
-                                    id="detail-sidebar-event">
-                                    <div class="content">
+											<figure>
+												<div class="info">
+													<i class="fa fa-child"></i> <span>${errands.requestUser.userId}</span>
+												</div>
+												<div class="info">
+													<i class="fa fa-calendar"></i> <span>${errands.endTime}
+														까지</span>
+												</div>
+												<div class="info">
+													<i class="fa fa-globe"></i> <span>${errands.errandsPos.addr}</span>
+												</div>
+											</figure>
+										</address>
+									</section>
+									<!--end Contact-->
+									<!--Rating-->
+									<section class="clearfix">
+										<header class="pull-left">
+											<a href="#reviews" class="roll"><h3>평점</h3></a>
+										</header>
+										<c:choose>
+											<c:when test="${errands.requestUser.gpaList.size() == 0}">
+												<figure class="rating big pull-right" data-rating="0"></figure>
+											</c:when>
+											<c:otherwise>
+												<c:set var="count" value="0" />
+												<c:forEach items="${errands.requestUser.gpaList}" var="gpa">
+													<c:set var="count" value="${count + gpa.requestManners}" />
+												</c:forEach>
+												<figure class="rating big pull-right"
+													data-rating="${count / errands.requestUser.gpaList.size()}"></figure>
+											</c:otherwise>
+										</c:choose>
+									</section>
+									<!--end Rating-->
+									<!--Events-->
+									<section>
+										<header>
+											<h3>해시태그 리뷰</h3>
+										</header>
+										<figure>
+											<div class="expandable-content collapsed show-60"
+												id="detail-sidebar-event">
+												<div class="content">
 
 
-                                       <c:if test="${errands.requestUser.hashList.size()== 0}">
+													<c:if test="${errands.requestUser.hashList.size()== 0}">
                                           등록된 해시태그가 없습니다.
                                        </c:if>
-                                       <c:forEach items="${errands.requestUser.hashList}"
-                                          var="hash">
-                                          <span class="label label-success">${hash.hashtag}</span>
-                                       </c:forEach>
+													<c:forEach items="${errands.requestUser.hashList}"
+														var="hash">
+														<span class="label label-success">${hash.hashtag}</span>
+													</c:forEach>
 
-                                    </div>
-                                 </div>
-                                 <a href="#" class="show-more expand-content"
-                                    data-expand="#detail-sidebar-event">더보기</a>
-                              </figure>
+												</div>
+											</div>
+											<a href="#" class="show-more expand-content"
+												data-expand="#detail-sidebar-event">더보기</a>
+										</figure>
 
-                           </section>
-                           <!--end Events-->
-                           <c:if test="${errands.responseUser.userId == null }">
-                              <button type="button" onclick="delErrands()"
-                                 class="btn btn-default">삭제하기</button>
-                           </c:if>
-                        </aside>
-                        <!--end Detail Sidebar-->
-                        <!--Content-->
-                        <div class="col-md-8">
-                           <section>
-                              <article class="item-gallery">
-
-
-                                 <c:if test="${errands.errandsPhoto != null}">
-                                    <img
-                                       src="${pageContext.request.contextPath}/errands/${errands.errandsNum}/${errands.errandsPhoto}" />
-                                 </c:if>
+									</section>
+									<!--end Events-->
+									<c:if test="${errands.responseUser.userId == null }">
+										<button type="button" onclick="delErrands()"
+											class="btn btn-default">삭제하기</button>
+									</c:if>
+								</aside>
+								<!--end Detail Sidebar-->
+								<!--Content-->
+								<div class="col-md-8">
+									<section>
+										<article class="item-gallery">
 
 
-
-                              </article>
-                              <!-- /.item-gallery -->
-                              <article class="block">
-                                 <header>
-                                    <h2>상세설명</h2>
-                                    <c:if test="${errands.responseUser.userId != null}">
-                                       <h3>
-                                          <span class="label label-warning">심부름꾼:
-                                             ${errands.responseUser.userId}</span>
-                                       </h3>
-                                    </c:if>
-                                 </header>
-                                 <p>
-                                 <div id="comment">${errands.content}</div>
-                                 </p>
-                              </article>
-                              <article class="block">
-                                 <header>
-                                    <h2>돈 내용</h2>
-                                 </header>
-                                 <ul class="bullets">
-
-                                    <li>물품 가격 : <fmt:formatNumber
-                                          value="${errands.productPrice}" />원
-                                    </li>
-                                    <li>심부름가격 : <fmt:formatNumber
-                                          value="${errands.errandsPrice}" />원
-                                    </li>
-
-                                    <li>Total : <fmt:formatNumber
-                                          value="${errands.errandsPrice + errands.productPrice}" />원
-                                    </li>
-                                 </ul>
-                              </article>
+											<c:if test="${errands.errandsPhoto != null}">
+												<img
+													src="${pageContext.request.contextPath}/errands/${errands.errandsNum}/${errands.errandsPhoto}" />
+											</c:if>
 
 
-                              <!-- /.block -->
-                           </section>
-                           <!--Reviews-->
-                           <c:set value="0" var="count" />
-                           <section class="block" id="reviews">
-                              <header class="clearfix">
-                                 <h2 class="pull-left">심부름 요청 댓글</h2>
-                                 <a href="#write-review"
-                                    class="btn framed icon pull-right roll">댓글로 심부름 신청하기 <i
-                                    class="fa fa-pencil"></i>
-                                 </a>
-                              </header>
-                              <!--   <article class="clearfix overall-rating">
+
+										</article>
+										<!-- /.item-gallery -->
+										<article class="block">
+											<header>
+												<h2>상세설명</h2>
+												<c:if test="${errands.responseUser.userId != null}">
+													<h3>
+														<span class="label label-warning">심부름꾼:
+															${errands.responseUser.userId}</span>
+													</h3>
+												</c:if>
+											</header>
+											<p>
+											<div id="comment">${errands.content}</div>
+											</p>
+										</article>
+										<article class="block">
+											<header>
+												<h2>돈 내용</h2>
+											</header>
+											<ul class="bullets">
+
+												<li>물품 가격 : <fmt:formatNumber
+														value="${errands.productPrice}" />원
+												</li>
+												<li>심부름가격 : <fmt:formatNumber
+														value="${errands.errandsPrice}" />원
+												</li>
+
+												<li>Total : <fmt:formatNumber
+														value="${errands.errandsPrice + errands.productPrice}" />원
+												</li>
+											</ul>
+										</article>
+
+
+										<!-- /.block -->
+									</section>
+									<!--Reviews-->
+									<c:set value="0" var="count" />
+									<section class="block" id="reviews">
+										<header class="clearfix">
+											<h2 class="pull-left">심부름 요청 댓글</h2>
+											<a href="#write-review"
+												class="btn framed icon pull-right roll">댓글로 심부름 신청하기 <i
+												class="fa fa-pencil"></i>
+											</a>
+										</header>
+										<!--   <article class="clearfix overall-rating">
                                                 <strong class="pull-left">Over Rating</strong>
                                                 <figure class="rating big color pull-right" data-rating="4"></figure>
                                                 /.rating
                                             </article>/.overall-rating -->
-                              <section class="reviews">
-                                 <article class="review">
-                                    <c:forEach items="${errands.errandsReply}" var="reply">
-                                       <c:if test="${currentId == reply.user.userId}">
-                                          <c:set value="${count + 1}" var="count" />
-                                       </c:if>
-                                       <figure class="author">
-                                          <img
-                                             src="${pageContext.request.contextPath}/users/${reply.user.userId}/${reply.user.selfImg}"
-                                             alt="">
-                                          
-                                       </figure>
-                                       <!-- /.author-->
+										<section class="reviews">
+											<article class="review">
+												<c:forEach items="${errands.errandsReply}" var="reply">
+													<c:if test="${currentId == reply.user.userId}">
+														<c:set value="${count + 1}" var="count" />
+													</c:if>
+													<figure class="author">
+														<img
+															src="${pageContext.request.contextPath}/users/${reply.user.userId}/${reply.user.selfImg}"
+															alt="">
 
-                                       <div class="wrapper">
-                                          <c:if
-                                             test="${reply.user.userId == errands.responseUser.userId}">
-                                             <i class="fa fa-user-o"></i>
-                                          </c:if>
-                                          <h5>${reply.user.userId}</h5>
-<div class="date">
-                                             <b>예상 도착</b><br>${reply.arrivalTime}</div>
-                                          <c:if test="${currentId == reply.user.userId}">
-                                             <button type="button" class="btn btn-danger"
-                                                onclick="location.href='${pageContext.request.contextPath}/errand/deleteReply?num=${reply.replyNum}&eNum=${errands.errandsNum}'">
-                                                삭제</button>
-                                          </c:if>
-                                          <c:if
-                                             test="${(currentId == errands.requestUser.userId) && (errands.responseUser.userId == null)}">
-                                             <button type="button"
-                                                class="btn framed icon pull-right roll"
-                                                onclick="clickUser('${reply.user.userId}','${reply.arrivalTime}', '${reply.replyContent}', '${reply.user.selfImg}')">
-                                                선택<i class="fa fa-check"></i>
-                                             </button>
-                                          </c:if>
-                                          <p>${reply.replyContent}</p>
+													</figure>
+													<!-- /.author-->
 
-                                       </div>
-                                    </c:forEach>
-                                    <!-- /.wrapper-->
-                                 </article>
-                                 <!-- /.review -->
+													<div class="wrapper">
+														<c:if
+															test="${reply.user.userId == errands.responseUser.userId}">
+															<i class="fa fa-user-o"></i>
+														</c:if>
+														<h5 class="imgSelect">${reply.user.userId}</h5>
+														<div class="date">
+															<b>예상 도착</b><br>${reply.arrivalTime}</div>
+														<c:if test="${currentId == reply.user.userId}">
+															<button type="button" class="btn btn-danger"
+																onclick="location.href='${pageContext.request.contextPath}/errand/deleteReply?num=${reply.replyNum}&eNum=${errands.errandsNum}'">
+																삭제</button>
+														</c:if>
+														<c:if
+															test="${(currentId == errands.requestUser.userId) && (errands.responseUser.userId == null)}">
+															<button type="button"
+																class="btn framed icon pull-right roll"
+																onclick="clickUser('${reply.user.userId}','${reply.arrivalTime}', '${reply.replyContent}', '${reply.user.selfImg}')">
+																선택<i class="fa fa-check"></i>
+															</button>
+														</c:if>
+														<p>${reply.replyContent}</p>
 
-                              </section>
-                              <!-- /.reviews-->
-                           </section>
-                           <!-- /#reviews -->
-                           <!--end Reviews-->
-                           <!--Review Form-->
-                           <c:if test="${errands.requestUser.userId != currentId}">
-                              <c:if test="${errands.responseUser.userId == null }">
-                                 <c:if test="${count != 1}">
-                                    <section id="write-review">
-                                       <header>
-                                          <h2>심부름 댓글 등록</h2>
-                                       </header>
-                                       <form name="f" method="post" action="insertReply"
-                                          onsubmit="return checkValid()"
-                                          class="background-color-white">
-                                          <div class="row">
-                                             <div class="col-md-8">
-                                                <!-- /.form-group -->
-                                                <div class="form-group">
-                                                   <label for="form-review-message">댓글 입력</label>
-                                                   <textarea class="form-control" id="form-review-message"
-                                                      name="replyContent" rows="3" required=""
-                                                      placeholder=""></textarea>
-                                                </div>
-                                                <div class="form-group">
-                                                   <label for="form-review-email">도착예정시간</label> <input
-                                                      type="datetime-local" class="form-control"
-                                                      name="arrivalTime" />
-                                                </div>
-                                                <input type="hidden" name="errands.errandsNum"
-                                                   value="${errands.errandsNum}"> <input
-                                                   type="hidden" name="user.userId"
-                                                   value="<security:authentication property='principal.userId'/>">
-                                                <input type="hidden" name="${_csrf.parameterName}"
-                                                   value="${_csrf.token}" />
+													</div>
+												</c:forEach>
+												<!-- /.wrapper-->
+											</article>
+											<!-- /.review -->
 
-                                                <!-- /.form-group -->
-                                                <div class="form-group">
-                                                   <button type="submit" class="btn btn-default">등록하기</button>
-                                                </div>
-                                                <!-- /.form-group -->
-                                             </div>
+										</section>
+										<!-- /.reviews-->
+									</section>
+									<!-- /#reviews -->
+									<!--end Reviews-->
+									<!--Review Form-->
+									<c:if test="${errands.requestUser.userId != currentId}">
+										<c:if test="${errands.responseUser.userId == null }">
+											<c:if test="${count != 1}">
+												<section id="write-review">
+													<header>
+														<h2>심부름 댓글 등록</h2>
+													</header>
+													<form name="f" method="post" action="insertReply"
+														onsubmit="return checkValid()"
+														class="background-color-white">
+														<div class="row">
+															<div class="col-md-8">
+																<!-- /.form-group -->
+																<div class="form-group">
+																	<label for="form-review-message">댓글 입력</label>
+																	<textarea class="form-control" id="form-review-message"
+																		name="replyContent" rows="3" required=""
+																		placeholder=""></textarea>
+																</div>
+																<div class="form-group">
+																	<label for="form-review-email">도착예정시간</label> <input
+																		type="datetime-local" class="form-control"
+																		name="arrivalTime" />
+																</div>
+																<input type="hidden" name="errands.errandsNum"
+																	value="${errands.errandsNum}"> <input
+																	type="hidden" name="user.userId"
+																	value="<security:authentication property='principal.userId'/>">
+																<input type="hidden" name="${_csrf.parameterName}"
+																	value="${_csrf.token}" />
+
+																<!-- /.form-group -->
+																<div class="form-group">
+																	<button type="submit" class="btn btn-default">등록하기</button>
+																</div>
+																<!-- /.form-group -->
+															</div>
 
 
-                                          </div>
-                                       </form>
-                                       <!-- /.main-search -->
-                                    </section>
-                                 </c:if>
-                              </c:if>
-                           </c:if>
-                           <!--end Review Form-->
-                        </div>
-                        <!-- /.col-md-8-->
-                     </div>
-                     <!-- /.row -->
-                  </section>
-                  <!-- /#main-content-->
-               </div>
-               <!-- /.col-md-8-->
+														</div>
+													</form>
+													<!-- /.main-search -->
+												</section>
+											</c:if>
+										</c:if>
+									</c:if>
+									<!--end Review Form-->
+								</div>
+								<!-- /.col-md-8-->
+							</div>
+							<!-- /.row -->
+						</section>
+						<!-- /#main-content-->
+					</div>
+					<!-- /.col-md-8-->
 
-            </div>
-            <!-- /.row-->
-         </section>
-         <!-- /.container-->
-      </div>
-      <!-- end Page Content-->
-   </div>
-   <!-- end Page Canvas-->
-
-   <!--  chat 시작 -->
-	<c:if test="${errands.responseUser.userId == currentId || 
+				</div>
+				<!-- /.row-->
+			</section>
+			<!-- /.container-->
+		</div>
+		<!-- end Page Content-->
+	</div>
+	<!-- end Page Canvas-->
+=
+	<!--  chat 시작 -->
+	<c:if
+		test="${errands.responseUser.userId == currentId || 
   					errands.requestUser.userId == currentId &&
   					 errands.responseUser.userId != null}">
 		<div class="row chat-window col-xs-5 col-md-3" id="chat_window_1"
@@ -523,257 +527,228 @@
 								<c:if test="${currentId == errands.responseUser.userId}">
                         	${errands.requestUser.userId}
                         </c:if>
-                        <c:if test="${currentId == errands.requestUser.userId}">
+								<c:if test="${currentId == errands.requestUser.userId}">
                         	${errands.responseUser.userId}
                         </c:if>
-                     </h3>
-                  </div>
-                  <div class="col-md-4 col-xs-4" style="text-align: right;">
-                     <a href="#"><span id="minim_chat_window"
-                        class="glyphicon glyphicon-minus icon_minim"></span></a>
-                  </div>
-               </div>
-               <div>
-               <div class="panel-body msg_container_base" id="chatList">
-			               <c:forEach items="${list}" var="items"> 
-					        	 <c:set var="msgInfo" value="${items}"/> 
-					        	<c:set var="usernameNotTrim" value="${fn:substringBefore(msgInfo, '#/separator/#')}"/>
-					        	<c:set var="username" value="${fn:trim(usernameNotTrim)}"/>
-					        	<c:set var="startTemp" value="${usernameNotTrim}#/separator/#"/>
-					        	<c:set var="startIndex" value="${fn:length(startTemp)}"/>
-					        	<c:set var="endIndex" value="${fn:indexOf(msgInfo , '/#separator#/')}"/>
-					        	<c:set var="msg" value="${fn:substring(msgInfo, startIndex, endIndex)}"/>
-					        	<c:set var="timeStartTemp" value="${fn:substringBefore(msgInfo, '/#separator#/')}/#separator#/"/>
-					        	<c:set var="timeStartIndex" value="${fn:length(timeStartTemp)}"/>
-					        	<c:set var="time" value="${fn:substringAfter(msgInfo, '/#separator#/')}"/>
-					        	
-					        	<%-- <c:set var="msg" value="${fn:substring(msgInfo, ${fn:length(msgInfo)}-${fn:length('/#separator#/06/15 10:32#startendtag#')})}"/> --%>
-			            	<c:choose>
-			            	<c:when test="${currentId eq username}">
-			            		 <div class="row msg_container base_sent">
-				                     <div class="col-xs-10 col-md-10">
-				                        <div class="messages msg_sent">
-				                           <p>${msg}</p>
-				                           <time datetime="2009-11-13T20:00">${username} • ${time}</time>
-				                        </div>
-				                     </div>
-				                     <div class="col-md-2 col-xs-2 avatar">
-				                        <img
-				                           src="${pageContext.request.contextPath}/users/${currentId}/${currentUser.selfImg}"
-				                           class=" img-responsive ">
-			                    	 </div>
-			                  	 </div>
-			            		</c:when>
-			            		<c:otherwise>
-				       				<div class="row msg_container base_receive">
-					                     <div class="col-md-2 col-xs-2 avatar">
-					                     	<c:if test="${currentId eq errands.requestUser.userId}">
-						                          <img
-						                           src="${pageContext.request.contextPath}/users/${errands.responseUser.userId}/${responseSelfImg}"
-						                           class=" img-responsive ">
-					                        </c:if>
-					                        <c:if test="${currentId eq errands.responseUser.userId}">
-						                        <img
-						                           src="${pageContext.request.contextPath}/users/${errands.requestUser.userId}/${requestSelfImg}"
-						                           class=" img-responsive "> 
-					                        </c:if>
-					                     </div>
-					                     <div class="col-xs-10 col-md-10">
-					                        <div class="messages msg_receive">
-					                           <p>${msg}</p>
-					                           <time datetime="2009-11-13T20:00">${username} • ${time}</time>
-					                        </div>
-					                     </div>
-					                  </div>
-					            </c:otherwise>
-					       </c:choose>
-                  </c:forEach>
-               </div>
-               <c:if test="${!((errands.arrivalTime != null) and (errands.finishTime != null))}">
-               <div class="panel-footer">
-                  <div class="input-group">
-                     <input id="inputText" type="text"
-                        class="form-control input-sm chat_input"
-                        placeholder="Write your message here..." /> <span
-                        class="input-group-btn">
-                        <button class="btn btn-primary btn-sm" id="send">Send</button>
-                     </span>
-                  </div>
-               </div>
-               </c:if>
-               
-            </div>
-         </div>
-      </div>
-	</div>
-      <div class="btn-group dropup">
-         <button type="button" class="btn btn-default dropdown-toggle"
-            data-toggle="dropdown">
-            <span class="glyphicon glyphicon-cog"></span> <span class="sr-only">Toggle
-               Dropdown</span>
-         </button>
-         <ul class="dropdown-menu" role="menu">
-            <li><a href="#"><span id="chatComplete" class="fa fa-check"></span>심부름
-                  완료</a></li>
-         </ul>
-      </div>
-   </c:if>
-   
-   <!--  chat 끝 -->
+							</h3>
+						</div>
+						<div class="col-md-4 col-xs-4" style="text-align: right;">
+							<a href="#"><span id="minim_chat_window"
+								class="glyphicon glyphicon-minus icon_minim"></span></a>
+						</div>
+					</div>
+					<div>
+						<div class="panel-body msg_container_base" id="chatList">
+							<c:forEach items="${list}" var="items">
+								<c:set var="msgInfo" value="${items}" />
+								<c:set var="usernameNotTrim"
+									value="${fn:substringBefore(msgInfo, '#/separator/#')}" />
+								<c:set var="username" value="${fn:trim(usernameNotTrim)}" />
+								<c:set var="startTemp" value="${usernameNotTrim}#/separator/#" />
+								<c:set var="startIndex" value="${fn:length(startTemp)}" />
+								<c:set var="endIndex"
+									value="${fn:indexOf(msgInfo , '/#separator#/')}" />
+								<c:set var="msg"
+									value="${fn:substring(msgInfo, startIndex, endIndex)}" />
+								<c:set var="timeStartTemp"
+									value="${fn:substringBefore(msgInfo, '/#separator#/')}/#separator#/" />
+								<c:set var="timeStartIndex" value="${fn:length(timeStartTemp)}" />
+								<c:set var="time"
+									value="${fn:substringAfter(msgInfo, '/#separator#/')}" />
 
+								<%-- <c:set var="msg" value="${fn:substring(msgInfo, ${fn:length(msgInfo)}-${fn:length('/#separator#/06/15 10:32#startendtag#')})}"/> --%>
+								<c:choose>
+									<c:when test="${currentId eq username}">
+										<div class="row msg_container base_sent">
+											<div class="col-xs-10 col-md-10">
+												<div class="messages msg_sent">
+													<p>${msg}</p>
+													<time datetime="2009-11-13T20:00">${username} •
+														${time}</time>
+												</div>
+											</div>
+											<div class="col-md-2 col-xs-2 avatar">
+												<img
+													src="${pageContext.request.contextPath}/users/${currentId}/${currentUser.selfImg}"
+													class=" img-responsive ">
+											</div>
+										</div>
+									</c:when>
+									<c:otherwise>
+										<div class="row msg_container base_receive">
+											<div class="col-md-2 col-xs-2 avatar">
+												<c:if test="${currentId eq errands.requestUser.userId}">
+													<img
+														src="${pageContext.request.contextPath}/users/${errands.responseUser.userId}/${responseSelfImg}"
+														class=" img-responsive ">
+												</c:if>
+												<c:if test="${currentId eq errands.responseUser.userId}">
+													<img
+														src="${pageContext.request.contextPath}/users/${errands.requestUser.userId}/${requestSelfImg}"
+														class=" img-responsive ">
+												</c:if>
+											</div>
+											<div class="col-xs-10 col-md-10">
+												<div class="messages msg_receive">
+													<p>${msg}</p>
+													<time datetime="2009-11-13T20:00">${username} •
+														${time}</time>
+												</div>
+											</div>
+										</div>
+									</c:otherwise>
+								</c:choose>
+							</c:forEach>
+						</div>
+						<c:if
+							test="${!((errands.arrivalTime != null) and (errands.finishTime != null))}">
+							<div class="panel-footer">
+								<div class="input-group">
+									<input id="inputText" type="text"
+										class="form-control input-sm chat_input"
+										placeholder="Write your message here..." /> <span
+										class="input-group-btn">
+										<button class="btn btn-primary btn-sm" id="send">Send</button>
+									</span>
+								</div>
+							</div>
+						</c:if>
 
-
-
-   <!-- 심부름 선택시 나오는 영수증 모달창 -->
-
-   <div id="myModal" class="modal fade" role="dialog">
-      <div class="modal-dialog">
-
-
-         <div
-            class="receipt-main col-xs-10 col-sm-10 col-md-6 col-xs-offset-1 col-sm-offset-1 col-md-offset-3">
-            <div class="row">
-               <div class="receipt-header">
-                  <div class="col-xs-6 col-sm-6 col-md-6">
-                     <div class="receipt-left" id="errandsUserImg"></div>
-                  </div>
-                  <div class="col-xs-6 col-sm-6 col-md-6 text-right">
-                     <div class="receipt-right">
-                        <a href="#myModal" id="close"><i class="fa fa-close"></i></a>
-                        <h5 id="errandsTitle">심부름제목</h5>
-
-                        <p id="errandsAddr">
-                           ${errands.errandsPos.addr} <i class="fa fa-location-arrow"></i>
-                        </p>
-                     </div>
-                  </div>
-               </div>
-            </div>
-
-            <div class="row">
-               <div class="receipt-header receipt-header-mid">
-                  <div class="col-xs-8 col-sm-8 col-md-8 text-left">
-                     <div class="receipt-right">
-                        <h5>
-                           회원 아이디 <br> <small id="errandsId">  |   Lucky
-                              Number : 156</small>
-                        </h5>
-
-                     </div>
-                  </div>
-                  <div class="col-xs-4 col-sm-4 col-md-4">
-                     <div class="receipt-left">
-                        <h1>명세서</h1>
-                     </div>
-                  </div>
-               </div>
-            </div>
-
-            <div>
-               <table class="table table-bordered">
-                  <thead>
-                     <tr>
-                        <th>설명</th>
-                        <th>금액</th>
-                     </tr>
-                  </thead>
-                  <tbody>
-                     <tr>
-                        <td class="col-md-9">물품 값</td>
-                        <td class="col-md-3"><i class="fa fa-krw"></i> <fmt:formatNumber
-                              value="${errands.productPrice}" /></td>
-                     </tr>
-                     <tr>
-                        <td class="col-md-9">심부름 삯</td>
-                        <td class="col-md-3"><i class="fa fa-krw"></i> <fmt:formatNumber
-                              value="${errands.errandsPrice}" /></td>
-                     </tr>
-                     <tr>
-                     <tr>
-
-                        <td class="text-right"><h2>
-                              <strong>Total: </strong>
-                           </h2></td>
-                        <td class="text-left text-danger"><h2>
-                              <strong><i class="fa fa-krw"></i> <fmt:formatNumber
-                                    value="${errands.productPrice + errands.errandsPrice}" /></strong>
-                           </h2></td>
-                     </tr>
-                  </tbody>
-               </table>
-            </div>
-
-            <div class="row">
-               <div class="receipt-header receipt-header-mid receipt-footer">
-                  <div class="col-xs-8 col-sm-8 col-md-8 text-left">
-                     <div class="receipt-right">
-                        <p>
-                           <b>도착예정시간 :</b>
-                        <p id="errandsPredict">2017-06-15 오후 2:21</p>
-                        <p>
-                           <b id="errandsContent"></b>
-                        </p>
-                     </div>
-                  </div>
-                  <div class="col-xs-4 col-sm-4 col-md-4">
-                     <div class="receipt-left">
-                        <input type="hidden" id="responseIdHidden">
-                        <button class="btn framed icon pull-right roll"
-                           onclick="startProcess()">
-                           시작<i class="fa fa-check"></i>
-                        </button>
-                     </div>
-                     <div class="receipt-left"></div>
-                  </div>
-               </div>
-            </div>
-
-         </div>
-      </div>
-
-
-   </div>
-   <!-- 심부름 선택시 나오는 영수증 모달창 끝 -->
-	<!-- 폼 레이어  -->
-	<div class="popupLayer" >
-		<div align="right">
-			<span onClick="closeLayer(this)" style="cursor: pointer;" title="닫기"><i
-				class="fa fa-close"></i></span>
-		</div>
-
-		<div class="span3">
-			<div class="col-sm-3" style="padding: 0% ;width=50px; height=50px;" >
-				<img
-					src="${pageContext.request.contextPath}/assets/img/main/shakehands.png"
-					class="img-rounded" alt="Cinque Terre" width="50px" height="50px">
+					</div>
+				</div>
 			</div>
-			<div class="col-sm-9" style="padding: 0%">
-				<p>
-					<strong>테스터</strong>
-				</p>
+		</div>
+		<div class="btn-group dropup">
+			<button type="button" class="btn btn-default dropdown-toggle"
+				data-toggle="dropdown">
+				<span class="glyphicon glyphicon-cog"></span> <span class="sr-only">Toggle
+					Dropdown</span>
+			</button>
+			<ul class="dropdown-menu" role="menu">
+				<li><a href="#"><span id="chatComplete" class="fa fa-check"></span>심부름
+						완료</a></li>
+			</ul>
+		</div>
+	</c:if>
+
+	<!--  chat 끝 -->
+
+
+
+
+	<!-- 심부름 선택시 나오는 영수증 모달창 -->
+
+	<div id="myModal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+
+
+			<div
+				class="receipt-main col-xs-10 col-sm-10 col-md-6 col-xs-offset-1 col-sm-offset-1 col-md-offset-3">
 				<div class="row">
-					<strong class="pull-left">총 평점</strong> <i class="fa fa-star"></i><i
-						class="fa fa-star"></i><i class="fa fa-star"></i><i
-						class="fa fa-star"></i>
+					<div class="receipt-header">
+						<div class="col-xs-6 col-sm-6 col-md-6">
+							<div class="receipt-left" id="errandsUserImg"></div>
+						</div>
+						<div class="col-xs-6 col-sm-6 col-md-6 text-right">
+							<div class="receipt-right">
+								<a href="#myModal" id="close"><i class="fa fa-close"></i></a>
+								<h5 id="errandsTitle">심부름제목</h5>
+
+								<p id="errandsAddr">
+									${errands.errandsPos.addr} <i class="fa fa-location-arrow"></i>
+								</p>
+							</div>
+						</div>
+					</div>
 				</div>
+
 				<div class="row">
-				<p>
-					<strong>#태그</strong>
-					<strong>#태그</strong>
-					<strong>#태그</strong>
-					<strong>#태그</strong>
-				</p>
-				
+					<div class="receipt-header receipt-header-mid">
+						<div class="col-xs-8 col-sm-8 col-md-8 text-left">
+							<div class="receipt-right">
+								<h5>
+									회원 아이디 <br> <small id="errandsId">  |   Lucky
+										Number : 156</small>
+								</h5>
+
+							</div>
+						</div>
+						<div class="col-xs-4 col-sm-4 col-md-4">
+							<div class="receipt-left">
+								<h1>명세서</h1>
+							</div>
+						</div>
+					</div>
 				</div>
-				
-				<span class=" badge badge-warning">안전 심부름꾼</span> <span
-					class=" badge badge-info">인기 심부름꾼</span>
+
+				<div>
+					<table class="table table-bordered">
+						<thead>
+							<tr>
+								<th>설명</th>
+								<th>금액</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="col-md-9">물품 값</td>
+								<td class="col-md-3"><i class="fa fa-krw"></i> <fmt:formatNumber
+										value="${errands.productPrice}" /></td>
+							</tr>
+							<tr>
+								<td class="col-md-9">심부름 삯</td>
+								<td class="col-md-3"><i class="fa fa-krw"></i> <fmt:formatNumber
+										value="${errands.errandsPrice}" /></td>
+							</tr>
+							<tr>
+							<tr>
+
+								<td class="text-right"><h2>
+										<strong>Total: </strong>
+									</h2></td>
+								<td class="text-left text-danger"><h2>
+										<strong><i class="fa fa-krw"></i> <fmt:formatNumber
+												value="${errands.productPrice + errands.errandsPrice}" /></strong>
+									</h2></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+				<div class="row">
+					<div class="receipt-header receipt-header-mid receipt-footer">
+						<div class="col-xs-8 col-sm-8 col-md-8 text-left">
+							<div class="receipt-right">
+								<p>
+									<b>도착예정시간 :</b>
+								<p id="errandsPredict">2017-06-15 오후 2:21</p>
+								<p>
+									<b id="errandsContent"></b>
+								</p>
+							</div>
+						</div>
+						<div class="col-xs-4 col-sm-4 col-md-4">
+							<div class="receipt-left">
+								<input type="hidden" id="responseIdHidden">
+								<button class="btn framed icon pull-right roll"
+									onclick="startProcess()">
+									시작<i class="fa fa-check"></i>
+								</button>
+							</div>
+							<div class="receipt-left"></div>
+						</div>
+					</div>
+				</div>
+
 			</div>
 		</div>
 
-	</div>
 
-   <script>
+	</div>
+	<!-- 심부름 선택시 나오는 영수증 모달창 끝 -->
+
+
+	<script>
 
     
     $(document).on('click', '.panel-heading span.icon_minim', function (e) {
@@ -842,7 +817,7 @@
 
    </script>
 
-   <!--[if lte IE 9]>
+	<!--[if lte IE 9]>
 <script type="text/javascript" src="assets/js/ie-scripts.js"></script>
 <![endif]-->
 </body>
