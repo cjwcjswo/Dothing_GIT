@@ -99,31 +99,7 @@ function sendDelete(){
 
 										</td>
 									</tr>
-<<<<<<< HEAD
-								</c:when>
-							<c:otherwise>
-							<c:forEach items="${requestScope.list}" var="boardDto">
-							<tbody align="left">								
-								<tr>
-									<td>
-									<a href="${pageContext.request.contextPath}/board/inquiryBoardReadNew/${boardDto.inquiryNum}"><h1>${boardDto.boardTitle}</h1></a>
-									
-									<input type="hidden" name="inquiryNum" value="${boardDto.inquiryNum}">
-									<input type="hidden" name="${_csrf.parameterName}"
-                                     value="${_csrf.token}">
-									<a href="#" onclick="location.href='${pageContext.request.contextPath}/board/inquiryDelete?inquiryNum=${boardDto.inquiryNum}'">
-									<i class="fa fa-trash-o" data-toggle="tooltip" title="삭제하기"></i></a>
-									
-									
-									<a><i class="fa fa-pencil" data-toggle="tooltip" title="수정하기"></i></a>
-									<span style="color:#ff513f;">${boardDto.boardDate}</span>
-									
-									</td>
-								</tr>
-							</tbody>
-=======
 								</tbody>
->>>>>>> bd00c05a186d1248554212229c368a653601bfc0
 							</c:forEach>
 						</c:otherwise>
 					</c:choose>

@@ -1,142 +1,106 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html PUBLIC>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>알림</title>
 
-<link href="assets/fonts/font-awesome.css" rel="stylesheet"
-	type="text/css">
-<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700'
-	rel='stylesheet' type='text/css'>
-<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.css"
-	type="text/css">
-<link rel="stylesheet" href="assets/css/bootstrap-select.min.css"
-	type="text/css">
-<link rel="stylesheet" href="assets/css/dropzone.css" type="text/css">
-<link rel="stylesheet" href="assets/css/style.css" type="text/css">
-<link rel="stylesheet" href="assets/css/user.style.css" type="text/css">
 </head>
 <body onunload=""
-	class="page-subpage page-profile navigation-top-header" id="page-top">
+	class="page-subpage page-my-items navigation-off-canvas" id="page-top">
 
-	<!-- Outer Wrapper-->
-	<div id="outer-wrapper">
-		<!-- Inner Wrapper -->
-		<div id="inner-wrapper">
+	<!-- Page Canvas-->
+	<div id="page-canvas">
+<!--Off Canvas Navigation-->
+		<nav class="off-canvas-navigation">
+			<header>메뉴</header>
+			<div class="main-navigation navigation-off-canvas"></div>
+		</nav>
+		<!--end Off Canvas Navigation-->
 
-			<!-- Page Canvas-->
-			<div id="page-canvas">
+		<!--Sub Header-->
+		<section class="sub-header">
+			<div class="search-bar horizontal collapse" id="redefine-search-form"></div>
+			<!-- /.search-bar -->
+			<div class="breadcrumb-wrapper">
+				<div class="container">
 
-
-
-
-				<!--Page Content-->
-				<div id="page-content">
-					<div class="container" >
-						<h2>알림</h2>
-						<p>여러분은 최고의 서비스 DoThing에 있습니다.</p>
-						<table class="table table-hover"  >
-							
-							<tbody align="left">
-							
-								<tr>
-							
-									<td>
-									<span style="color:#ff513f;">2017-06-14</span><br>
-									<a href="#">아이디</a>님이
-									<a href="#">심부름번호</a>번
-									(<a href="#">심부름제목</a>)을
-									수행했습니다.
-									
-									
-									
-									</td>
-								</tr>
-								
-										<tr>
-							
-									<td>
-									<span style="color:#ff513f;">2017-06-14</span><br>
-									<a href="#">아이디</a>님이
-									<a href="#">심부름번호</a>번
-									(<a href="#">심부름제목</a>)을
-									수행했습니다.
-									
-									
-									
-									</td>
-								</tr>
-								
-										<tr>
-							
-									<td>
-									<span style="color:#ff513f;">2017-06-14</span><br>
-									<a href="#">아이디</a>님이
-									<a href="#">심부름번호</a>번
-									(<a href="#">심부름제목</a>)을
-									수행했습니다.
-									
-									
-									
-									</td>
-								</tr>
-								
-								
-								
-								
-							</tbody>
-						</table>
-					</div>
-
-
-
-
-
-
-
-
-					<!-- 페이지네이션 -->
-
-					<ul class="pager">
-						<li><a href="#">Previous</a></li>
-						<li><a href="#">1</a></li>
-						<li><a href="#">2</a></li>
-						<li><a href="#">3</a></li>
-						<li><a href="#">Next</a></li>
-					</ul>
-
-					<!-- 페이지네이션 종료 -->
-
-					
-					<!-- /.form-group -->
+					<ol class="breadcrumb">
+						<li><a href="${pageContext.request.contextPath}/"><i
+								class="fa fa-home"></i></a></li>
+						<li class="active">알림</li>
+					</ol>
+					<!-- /.breadcrumb-->
 				</div>
-				<!--/.col-md-6-->
+				<!-- /.container-->
+			</div>
+			<!-- /.breadcrumb-wrapper-->
+		</section>
+		<!--end Sub Header-->
+
+
+
+		<!--Page Content-->
+		<div id="page-content">
+			<div class="container">
+				<h2>알림</h2>
+				<table class="table table-hover">
+
+					<tbody align="left">
+
+						<tr>
+
+							<td><span style="color: #ff513f;">2017-06-14</span><br>
+								<a href="#">아이디</a>님이 <a href="#">심부름번호</a>번 (<a href="#">심부름제목</a>)을
+								수행했습니다.</td>
+						</tr>
+
+						<tr>
+
+							<td><span style="color: #ff513f;">2017-06-14</span><br>
+								<a href="#">아이디</a>님이 <a href="#">심부름번호</a>번 (<a href="#">심부름제목</a>)을
+								수행했습니다.</td>
+						</tr>
+
+						<tr>
+
+							<td><span style="color: #ff513f;">2017-06-14</span><br>
+								<a href="#">아이디</a>님이 <a href="#">심부름번호</a>번 (<a href="#">심부름제목</a>)을
+								수행했습니다.</td>
+						</tr>
+
+
+
+
+					</tbody>
+				</table>
 			</div>
 
+
+
+
+
+
+
+
+			<!-- 페이지네이션 -->
+
+			<ul class="pager">
+				<li><a href="#">Previous</a></li>
+				<li><a href="#">1</a></li>
+				<li><a href="#">2</a></li>
+				<li><a href="#">3</a></li>
+				<li><a href="#">Next</a></li>
+			</ul>
+
+			<!-- 페이지네이션 종료 -->
+
+
+			<!-- /.form-group -->
 		</div>
-		<!--Password-->
-
+		<!--/.col-md-6-->
 	</div>
-	</section>
-
-
-
-
-	<script type="text/javascript" src="assets/js/jquery-2.1.0.min.js"></script>
-	<script type="text/javascript" src="assets/js/before.load.js"></script>
-	<script type="text/javascript" src="assets/js/jquery-ui.min.js"></script>
-	<script type="text/javascript"
-		src="assets/js/jquery-migrate-1.2.1.min.js"></script>
-	<script type="text/javascript"
-		src="assets/bootstrap/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="assets/js/smoothscroll.js"></script>
-	<script type="text/javascript" src="assets/js/bootstrap-select.min.js"></script>
-	<script type="text/javascript" src="assets/js/jquery.hotkeys.js"></script>
-	<script type="text/javascript" src="assets/js/dropzone.min.js"></script>
-	<script type="text/javascript" src="assets/js/custom.js"></script>
-	<script type="text/javascript" src="assets/js/maps.js"></script>
 
 
 	<!--[if lte IE 9]>

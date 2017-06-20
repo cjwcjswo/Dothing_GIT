@@ -37,7 +37,7 @@
 							<li><a href="${pageContext.request.contextPath}/user/signIn"><strong>회원가입</strong></a></li>
 						</security:authorize>
 						<security:authorize access="isAuthenticated()">
-							<li><i class="fa fa-bell"></i></li>
+							<li><a href="${pageContext.request.contextPath}/user/alert"><i class="fa fa-bell"></i></a></li>
 							<li><a href="${pageContext.request.contextPath}/user/myPage"><security:authentication
 										property="principal.name" /> 님</a> 환영합니다.</li>
 							<li>보유 포인트: <fmt:formatNumber pattern="#,###">
