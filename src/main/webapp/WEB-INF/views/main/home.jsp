@@ -214,13 +214,15 @@ Notification.requestPermission(function(result) {
 				<div class="col-md-4 col-sm-6 item">
 					<div class="box">
 						<img class="img-circle"
-							src="${pageContext.request.contextPath}/assets/img/1.jpg">
-						<h3 class="name">Ben Johnson</h3>
-						<p class="title">Musician</p>
-						<p class="description">Aenean tortor est, vulputate quis leo
-							in, vehicula rhoncus lacus. Praesent aliquam in tellus eu
-							gravida. Aliquam varius finibus est, et interdum justo suscipit
-							id. Etiam dictum feugiat tellus, a semper massa.</p>
+							src="${pageContext.request.contextPath}/assets/img/main/1.jpg">
+						<h3 class="name">이태호</h3>
+						<p class="title">웹 디자인 및 기획</p>
+						<p class="description">
+						형태는 기능을 따른다. -루이스 설리반</p>
+						<p class="description">
+						  사용자에게 최고의 경험을 선사할 수 있는 수석 디자이너입니다.
+						  웹부터 사용자의 손 끝까지 모든 순간의 행복이 곧 저의 행복입니다.
+						</p>
 						<div class="social">
 							<a href="#"><i class="fa fa-facebook-official"></i></a><a
 								href="#"><i class="fa fa-twitter"></i></a><a href="#"><i
@@ -232,8 +234,8 @@ Notification.requestPermission(function(result) {
 					<div class="box">
 						<img class="img-circle"
 							src="${pageContext.request.contextPath}/assets/img/2.jpg">
-						<h3 class="name">Emily Clark</h3>
-						<p class="title">Artist</p>
+						<h3 class="name">박태규</h3>
+						<p class="title">총 개발감독</p>
 						<p class="description">Aenean tortor est, vulputate quis leo
 							in, vehicula rhoncus lacus. Praesent aliquam in tellus eu
 							gravida. Aliquam varius finibus est, et interdum justo suscipit
@@ -249,12 +251,51 @@ Notification.requestPermission(function(result) {
 					<div class="box">
 						<img class="img-circle"
 							src="${pageContext.request.contextPath}/assets/img/3.jpg">
-						<h3 class="name">Carl Kent</h3>
-						<p class="title">Stylist</p>
+						<h3 class="name">최진우</h3>
+						<p class="title">프로젝트 매니저</p>
 						<p class="description">Aenean tortor est, vulputate quis leo
 							in, vehicula rhoncus lacus. Praesent aliquam in tellus eu
 							gravida. Aliquam varius finibus est, et interdum justo suscipit
 							id. Etiam dictum feugiat tellus, a semper massa.</p>
+						<div class="social">
+							<a href="#"><i class="fa fa-facebook-official"></i></a><a
+								href="#"><i class="fa fa-twitter"></i></a><a href="#"><i
+								class="fa fa-instagram"></i></a>
+						</div>
+					</div>
+				</div>
+				</div>
+<!-- <div class="row people"></div> -->
+<div class="row people" align="center">
+				<div class="col-md-4 col-sm-6 item">
+					<div class="box">
+						<img class="img-circle"
+							src="${pageContext.request.contextPath}/assets/img/main/1.jpg">
+						<h3 class="name">이태호</h3>
+						<p class="title">웹 디자인 및 기획</p>
+						<p class="description">형태는 기능을 따른다. -루이스 설리반</p>
+						<p class="description">사용자에게 최고의 경험을 선사할 수 있는 수석 디자이너입니다. 웹부터
+							사용자의 손 끝까지 모든 순간의 행복이 곧 저의 행복입니다.</p>
+						<div class="social">
+							<a href="#"><i class="fa fa-facebook-official"></i></a><a
+								href="#"><i class="fa fa-twitter"></i></a><a href="#"><i
+								class="fa fa-instagram"></i></a>
+						</div>
+					</div>
+				</div>
+				
+				<div class="col-md-4 col-sm-6 item">
+					<div class="box">
+						<img class="img-circle"
+							src="${pageContext.request.contextPath}/assets/img/main/1.jpg">
+						<h3 class="name">이태호</h3>
+						<p class="title">웹 디자인 및 기획</p>
+						<p class="description">
+						형태는 기능을 따른다. -루이스 설리반</p>
+						<p class="description">
+						  사용자에게 최고의 경험을 선사할 수 있는 수석 디자이너입니다.
+						  웹부터 사용자의 손 끝까지 모든 순간의 행복이 곧 저의 행복입니다.
+						</p>
 						<div class="social">
 							<a href="#"><i class="fa fa-facebook-official"></i></a><a
 								href="#"><i class="fa fa-twitter"></i></a><a href="#"><i
