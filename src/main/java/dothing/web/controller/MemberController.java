@@ -180,6 +180,10 @@ public class MemberController {
 		return "redirect:/user/safetyRegister";
 	}
 	
+	@RequestMapping("/alert")
+	public void alert(){
+		
+	}
 	/**
 	 * Ajax로 멤버 정보 가져오기
 	 */
