@@ -27,7 +27,7 @@
 <script>
 </script>
 </head>
-<body onunload="" class="page-subpage page-faq navigation-off-canvas"
+<body onunload="" class="page-subpage page-profile navigation-top-header"
 	id="page-top">
 
 	<div class="video-part">

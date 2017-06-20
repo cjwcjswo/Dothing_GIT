@@ -250,4 +250,16 @@ public class ErrandsServiceImpl implements ErrandsService {
 		return 1;
 	}
 
+
+	@Override
+	public List<ErrandsDTO> moneyErrands() {
+		List<ErrandsDTO> list = errandsDAO.moneyErrands();
+		calHashes(list);
+		for(ErrandsDTO dto : list){
+			MemberDTO request = dto.getRequestUser();
+			request.setGpaList(memberDAO.averageGPA(request.getUserId()));
+		}
+		return list;
+	}
+
 }

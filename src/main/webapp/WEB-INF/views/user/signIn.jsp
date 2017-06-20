@@ -196,14 +196,14 @@
 </script>
 </head>
 
-<body onunload="" class="page-subpage page-submit navigation-off-canvas"
+<body onunload="" class="page-subpage page-profile navigation-top-header"
 	id="page-top">
 
 	<!-- Page Canvas-->
 	<div id="page-canvas">
 		<!--Off Canvas Navigation-->
 		<nav class="off-canvas-navigation">
-			<header>Navigation</header>
+			<header>메뉴</header>
 			<div class="main-navigation navigation-off-canvas"></div>
 		</nav>
 		<!--end Off Canvas Navigation-->
@@ -214,13 +214,6 @@
 			<!-- /.search-bar -->
 			<div class="breadcrumb-wrapper">
 				<div class="container">
-					<div class="redefine-search">
-						<a href="#redefine-search-form" class="inner"
-							data-toggle="collapse" aria-expanded="false"
-							aria-controls="redefine-search-form"> <span class="icon"></span>
-							<span>Redefine Search</span>
-						</a>
-					</div>
 					<ol class="breadcrumb">
 						<li><a href="${pageContext.request.contextPath}/"><i
 								class="fa fa-home"></i></a></li>

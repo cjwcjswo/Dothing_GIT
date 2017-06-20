@@ -1,32 +1,18 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>Insert title here</title>
-
-<link href="assets/fonts/font-awesome.css" rel="stylesheet"
-	type="text/css">
-<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700'
-	rel='stylesheet' type='text/css'>
-<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.css"
-	type="text/css">
-<link rel="stylesheet" href="assets/css/bootstrap-select.min.css"
-	type="text/css">
-<link rel="stylesheet" href="assets/css/dropzone.css" type="text/css">
-<link rel="stylesheet" href="assets/css/owl.carousel.css"
-	type="text/css">
-<link rel="stylesheet" href="assets/css/style.css" type="text/css">
-<link rel="stylesheet" href="assets/css/user.style.css" type="text/css">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>1:1ê²Œì‹œíŒ</title>
 
 <script type="text/javascript">
 function checkValid() {
     var f = window.document.f;
 	
 	if ( f.reply_content.value == "" ) {
-		alert( "´ñ±Û ³»¿ëÀ» ÀÔ·ÂÇÏ¼¼¿ä." );
+		alert( "ëŒ“ê¸€ ë‚´ìš©ì„ ì…ë ¥í•˜ì„¸ìš”." );
 		return false;
 	}	
     return true;
@@ -36,49 +22,71 @@ function checkValid() {
 </head>
 
 <body onunload=""
-	class="page-subpage page-profile navigation-top-header" id="page-top">
-
-	<!-- Outer Wrapper-->
-	<div id="outer-wrapper">
-		<!-- Inner Wrapper -->
-		<div id="inner-wrapper">
-
-			<!-- Page Canvas-->
-			<div id="page-canvas">
-
-				<!--Page Content-->
-				<div id="page-content">
-					<div class="container">
-						<h2>1:1 °Ô½ÃÆÇ</h2>
-						<span style="color: #9999ff;">¿©·¯ºĞÀº ÃÖ°íÀÇ ¼­ºñ½º DoThing¿¡ ÀÖ½À´Ï´Ù.</span>
-						<table class="table" align="center">
-							<thead align="left">
-								<tr>
-									<td align=""><span style="font-size: 16px;"><h1>${board.boardTitle}</h1></span>
-										<div align="right">
-											<span style="color: #ff513f;">${board.boardDate} | Á¶È¸¼ö ${board.readNum}</span>
-										</div></td>
-
-								</tr>
-
-							</thead>
-							<tbody align="left">
-								<tr>
-									<td><div class="comment-text">${board.boardContent}</div></td>
-								</tr>
+	class="page-subpage page-my-items navigation-off-canvas" id="page-top">
 
 
-							</tbody>
-						</table>
+	<!-- Page Canvas-->
+	<div id="page-canvas">
+	<!--Off Canvas Navigation-->
+		<nav class="off-canvas-navigation">
+			<header>ë©”ë‰´</header>
+			<div class="main-navigation navigation-off-canvas"></div>
+		</nav>
+		<!--end Off Canvas Navigation-->
 
-						<!-- /.form-group -->
+		<!--Sub Header-->
+		<section class="sub-header">
+			<div class="search-bar horizontal collapse" id="redefine-search-form"></div>
+			<!-- /.search-bar -->
+			<div class="breadcrumb-wrapper">
+				<div class="container">
 
-						<%-- <!-- reviews -->
+					<ol class="breadcrumb">
+						<li><a href="${pageContext.request.contextPath}/"><i
+								class="fa fa-home"></i></a></li>
+						<li><a href="${pageContext.request.contextPath}/board/inquiryBoardList">1:1 ê²Œì‹œíŒ</a></li>
+						<li class="active">${board.inquiryNum}ë²ˆ ê¸€</li>
+					</ol>
+					<!-- /.breadcrumb-->
+				</div>
+				<!-- /.container-->
+			</div>
+			<!-- /.breadcrumb-wrapper-->
+		</section>
+		<!--Page Content-->
+		<div id="page-content">
+			<div class="container">
+				<h2>1:1 ê²Œì‹œíŒ</h2>
+				<span style="color: #9999ff;">ì—¬ëŸ¬ë¶„ì€ ìµœê³ ì˜ ì„œë¹„ìŠ¤ DoThingì— ìˆìŠµë‹ˆë‹¤.</span>
+				<table class="table" align="center">
+					<thead align="left">
+						<tr>
+							<td align=""><span style="font-size: 16px;"><h1>${board.boardTitle}</h1></span>
+								<div align="right">
+									<span style="color: #ff513f;">${board.boardDate} | ì¡°íšŒìˆ˜
+										${board.readNum}</span>
+								</div></td>
+
+						</tr>
+
+					</thead>
+					<tbody align="left">
+						<tr>
+							<td><div class="comment-text">${board.boardContent}</div></td>
+						</tr>
+
+
+					</tbody>
+				</table>
+
+				<!-- /.form-group -->
+
+				<%-- <!-- reviews -->
 						<section class="" id="reviews">
 						<header class="clearfix">
-						<h2 class="pull-left">´ñ±Û ¸ñ·Ï</h2>
-						<a href="#write-review" class="btn framed icon pull-right roll">´ñ±Û
-							ÀÛ¼ºÇÏ±â <i class="fa fa-pencil"></i>
+						<h2 class="pull-left">ëŒ“ê¸€ ëª©ë¡</h2>
+						<a href="#write-review" class="btn framed icon pull-right roll">ëŒ“ê¸€
+							ì‘ì„±í•˜ê¸° <i class="fa fa-pencil"></i>
 						</a>
 						</header> 
 						<section class="reviews">
@@ -86,14 +94,14 @@ function checkValid() {
 						<!-- <figure class="author"> 
 						<img
 							src="assets/img/default-avatar.png" alt="">
-						<div class="date">ÀÛ¼ºÀÏ 2017-06-15 ¿ÀÈÄ 5:34</div>
+						<div class="date">ì‘ì„±ì¼ 2017-06-15 ì˜¤í›„ 5:34</div>
 						</figure> /.author -->
 						
 						<div class="wrapper">
 						<!-- <c:choose>
-							<h5>ÀÛ¼ºÀÚ ¾ÆÀÌµğ</h5>
+							<h5>ì‘ì„±ì ì•„ì´ë””</h5>
 							<figure class="rating big color" data-rating="4"></figure>
-							<p>ÀÌ°Å ¹æÅº À¯¸®¾ß »õ³¢¾ß~~~</p>
+							<p>ì´ê±° ë°©íƒ„ ìœ ë¦¬ì•¼ ìƒˆë¼ì•¼~~~</p>
 						</c:choose> -->
 						
 						<c:choose>
@@ -102,7 +110,7 @@ function checkValid() {
 								<tr>
 									<td colspan="5">
 										<p align="center">
-											<b><span style="font-size: 9pt;">µî·ÏµÈ ´ñ±ÛÀÌ ¾ø½À´Ï´Ù.</span></b>
+											<b><span style="font-size: 9pt;">ë“±ë¡ëœ ëŒ“ê¸€ì´ ì—†ìŠµë‹ˆë‹¤.</span></b>
 										</p>
 									</td>
 								</tr>
@@ -114,10 +122,10 @@ function checkValid() {
 							<figure class="author"> 
 						    <img
 							src="assets/img/default-avatar.png" alt="">
-						    <!-- <div class="date">ÀÛ¼ºÀÏ 2017-06-15 ¿ÀÈÄ 5:34</div> -->
+						    <!-- <div class="date">ì‘ì„±ì¼ 2017-06-15 ì˜¤í›„ 5:34</div> -->
 						    </figure> <!-- /.author-->
 							
-							<h5>¿î¿µÀÚ</h5>
+							<h5>ìš´ì˜ì</h5>
 							<figure class="rating big color" data-rating="4">
 							</figure>
 							<p>${replyDto.replyContent}</p>
@@ -131,121 +139,126 @@ function checkValid() {
 						</section>
 						<!-- /#reviews -->
 						<!--end Reviews--> --%>
-						
-						<!-- NEW -->
-						<div class="" id="reviews">
-						<div class="clearfix">
-						<h2 class="pull-left">´ñ±Û ¸ñ·Ï</h2>
-						<a href="#write-review" class="btn framed icon pull-right roll">´ñ±Û
-							ÀÛ¼ºÇÏ±â <i class="fa fa-pencil"></i>
+
+				<!-- NEW -->
+				<div class="" id="reviews">
+					<div class="clearfix">
+						<h2 class="pull-left">ëŒ“ê¸€ ëª©ë¡</h2>
+						<a href="#write-review" class="btn framed icon pull-right roll">ëŒ“ê¸€
+							ì‘ì„±í•˜ê¸° <i class="fa fa-pencil"></i>
 						</a>
-						</div> 
-						<div class="reviews">
+					</div>
+					<div class="reviews">
 						<div class="review">
-						<!-- <figure class="author"> 
+							<!-- <figure class="author"> 
 						<img
 							src="assets/img/default-avatar.png" alt="">
-						<div class="date">ÀÛ¼ºÀÏ 2017-06-15 ¿ÀÈÄ 5:34</div>
+						<div class="date">ì‘ì„±ì¼ 2017-06-15 ì˜¤í›„ 5:34</div>
 						</figure> /.author -->
-						
-						<div class="wrapper">
-						
-						
-						<c:choose>
-						
-						<c:when test="${empty requestScope.reply}">
-								<!-- <tr>
+
+							<div class="wrapper">
+
+
+								<c:choose>
+
+									<c:when test="${empty requestScope.reply}">
+										<!-- <tr>
 									<td colspan="5"> -->
 										<p align="center">
-											<b><span style="font-size: 9pt;">µî·ÏµÈ ´ñ±ÛÀÌ ¾ø½À´Ï´Ù.</span></b>
+											<b><span style="font-size: 9pt;">ë“±ë¡ëœ ëŒ“ê¸€ì´ ì—†ìŠµë‹ˆë‹¤.</span></b>
 										</p>
-									<!-- </td>
+										<!-- </td>
 								</tr> -->
-						</c:when>
-							
-						<c:otherwise>
-							<c:forEach items="${requestScope.reply}" var="replyDto">
-							
-							<div class="author"> 
-						    <img
-							src="assets/img/default-avatar.png" alt="">
-						    <!-- <div class="date">ÀÛ¼ºÀÏ 2017-06-15 ¿ÀÈÄ 5:34</div> -->
-						    </div> <!-- /.author-->
-							
-							<h5>¿î¿µÀÚ</h5>
-							<div class="rating big color" data-rating="4">
+									</c:when>
+
+									<c:otherwise>
+										<c:forEach items="${requestScope.reply}" var="replyDto">
+
+											<div class="author">
+												<img src="assets/img/default-avatar.png" alt="">
+												<!-- <div class="date">ì‘ì„±ì¼ 2017-06-15 ì˜¤í›„ 5:34</div> -->
+											</div>
+											<!-- /.author-->
+
+											<h5>ìš´ì˜ì</h5>
+											<div class="rating big color" data-rating="4"></div>
+											<p>${replyDto.replyContent}</p>
+
+										</c:forEach>
+									</c:otherwise>
+								</c:choose>
+
 							</div>
-							<p>${replyDto.replyContent}</p>
-							
-							</c:forEach>
-						</c:otherwise>
-						</c:choose>
-
+							<!-- /.wrapper-->
 						</div>
-						<!-- /.wrapper--> </div> <!-- /.review --> <!-- /.review --> </div> <!-- /.reviews-->
-						</div>
-						<!-- /#reviews -->
-						<!--end Reviews-->
-						
-						<!--Review Form-->
-						<div id="write-review"> <div>
-						<h2>´ñ±Û ÀÛ¼ºÇÏ±â</h2>
-						</div>
-						
-						<form id="form-review" role="form" method="post" action="${pageContext.request.contextPath}/board/insertReply"
-							class="background-color-white" onsubmit="return checkValid()">
-							<div class="row">
-								<div class="col-md-8">
-									<div class="form-group">
-										<label for="form-review-name">¾ÆÀÌµğ</label> <input type="text"
-											class="form-control" id="form-review-name" value="¿î¿µÀÚ"
-											name="form-review-name" required=""  disabled>
-									</div>
-									<!-- /.form-group -->
-									
-									<!-- /.form-group -->
-									<input type="hidden" name="board.inquiryNum"
-									value="${board.inquiryNum}">
-								    <input type="hidden" name="${_csrf.parameterName}"
-									value="${_csrf.token}">
-									
-									<div class="form-group" style="width:100%">
-										<label for="form-review-message">´ñ±Û ³»¿ë</label>
-										<textarea class="form-control" id="form-review-message"
-											name="replyContent" rows="3" required=""></textarea>
-									</div>
-									<!-- /.form-group -->
-									<div class="form-group">
-										<button type="submit" class="btn btn-default">´ñ±Ûµî·Ï</button>
-									</div>
-									<!-- /.form-group -->
-								</div>
-							
-							</div>
-						</form>
-						<!-- /.main-search --> </div>
-						<br><br>
+						<!-- /.review -->
+						<!-- /.review -->
+					</div>
+					<!-- /.reviews-->
+				</div>
+				<!-- /#reviews -->
+				<!--end Reviews-->
 
-						<!-- <div class="form-group col-sm-6" align="left">
-							<button type="button" class="btn btn-large btn-default"
-								id="submit">´ÙÀ½±Û</button>
-						</div> -->
-						<div class="form-group col-sm-6" align="right">
-							<button type="submit" class="btn btn-large btn-default"
-								id="submit" onclick="location.href='${pageContext.request.contextPath}/board/inquiryBoardList'">¸ñ·Ï</button>
-						</div>
-
-
+				<!--Review Form-->
+				<div id="write-review">
+					<div>
+						<h2>ëŒ“ê¸€ ì‘ì„±í•˜ê¸°</h2>
 					</div>
 
+					<form id="form-review" role="form" method="post"
+						action="${pageContext.request.contextPath}/board/insertReply"
+						class="background-color-white" onsubmit="return checkValid()">
+						<div class="row">
+							<div class="col-md-8">
+								<div class="form-group">
+									<label for="form-review-name">ì•„ì´ë””</label> <input type="text"
+										class="form-control" id="form-review-name" value="ìš´ì˜ì"
+										name="form-review-name" required="" disabled>
+								</div>
+								<!-- /.form-group -->
 
+								<!-- /.form-group -->
+								<input type="hidden" name="board.inquiryNum"
+									value="${board.inquiryNum}"> <input type="hidden"
+									name="${_csrf.parameterName}" value="${_csrf.token}">
 
+								<div class="form-group" style="width: 100%">
+									<label for="form-review-message">ëŒ“ê¸€ ë‚´ìš©</label>
+									<textarea class="form-control" id="form-review-message"
+										name="replyContent" rows="3" required=""></textarea>
+								</div>
+								<!-- /.form-group -->
+								<div class="form-group">
+									<button type="submit" class="btn btn-default">ëŒ“ê¸€ë“±ë¡</button>
+								</div>
+								<!-- /.form-group -->
+							</div>
 
-
+						</div>
+					</form>
+					<!-- /.main-search -->
 				</div>
-				<!--/.col-md-6-->
+				<br>
+				<br>
+
+				<!-- <div class="form-group col-sm-6" align="left">
+							<button type="button" class="btn btn-large btn-default"
+								id="submit">ë‹¤ìŒê¸€</button>
+						</div> -->
+				<div class="form-group col-sm-6" align="right">
+					<button type="submit" class="btn btn-large btn-default" id="submit"
+						onclick="location.href='${pageContext.request.contextPath}/board/inquiryBoardList'">ëª©ë¡</button>
+				</div>
+
+
 			</div>
+
+
+
+
+
 		</div>
+
 		<!--Password-->
 
 
@@ -254,22 +267,6 @@ function checkValid() {
 	</div>
 
 
-
-
-
-	<script type="text/javascript" src="assets/js/jquery-2.1.0.min.js"></script>
-	<script type="text/javascript" src="assets/js/before.load.js"></script>
-	<script type="text/javascript" src="assets/js/jquery-ui.min.js"></script>
-	<script type="text/javascript"
-		src="assets/js/jquery-migrate-1.2.1.min.js"></script>
-	<script type="text/javascript"
-		src="assets/bootstrap/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="assets/js/smoothscroll.js"></script>
-	<script type="text/javascript" src="assets/js/bootstrap-select.min.js"></script>
-	<script type="text/javascript" src="assets/js/jquery.hotkeys.js"></script>
-	<script type="text/javascript" src="assets/js/dropzone.min.js"></script>
-	<script type="text/javascript" src="assets/js/custom.js"></script>
-	<script type="text/javascript" src="assets/js/maps.js"></script>
 
 
 	<!--[if lte IE 9]>

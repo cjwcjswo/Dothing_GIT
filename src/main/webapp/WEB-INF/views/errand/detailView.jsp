@@ -194,13 +194,7 @@
          <!-- /.search-bar -->
          <div class="breadcrumb-wrapper">
             <div class="container">
-               <div class="redefine-search">
-                  <a href="#redefine-search-form" class="inner"
-                     data-toggle="collapse" aria-expanded="false"
-                     aria-controls="redefine-search-form"> <span class="icon"></span>
-                     <span>Redefine Search</span>
-                  </a>
-               </div>
+
                <ol class="breadcrumb">
                   <li><a href="${pageContext.request.contextPath}/"><i
                         class="fa fa-home"></i></a></li>
