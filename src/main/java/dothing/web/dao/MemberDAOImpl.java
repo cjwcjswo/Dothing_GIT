@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import dothing.web.dto.GPADTO;
 import dothing.web.dto.MemberDTO;
 import dothing.web.dto.MemberHashDTO;
+import dothing.web.dto.NotificationDTO;
 
 @Repository
 public class MemberDAOImpl implements MemberDAO {
@@ -125,5 +126,25 @@ public class MemberDAOImpl implements MemberDAO {
 		MemberDTO member = sqlSession.selectOne("memberMapper.isSafety", id);
 		if(member == null) return false;
 		else return true;
+	}
+
+	@Override
+	public List<NotificationDTO> selectNotificationById(String id) {
+		return sqlSession.selectList("mapper.notificationMapper.selectById", id);
+	}
+
+	@Override
+	public int insertNotification(String id, String content) {
+		return sqlSession.insert("mapper.notificationMapper.insert", new NotificationDTO(0, id, content, null, 1));
+	}
+
+	@Override
+	public int notReadNoti(String id) {
+		return sqlSession.selectOne("mapper.notificationMapper.notReadNoti", id);
+	}
+
+	@Override
+	public int allRead(String id) {
+		return sqlSession.update("mapper.notificationMapper.allRead", id);
 	}
 }

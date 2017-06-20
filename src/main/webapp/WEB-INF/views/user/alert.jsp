@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -12,7 +13,7 @@
 
 	<!-- Page Canvas-->
 	<div id="page-canvas">
-<!--Off Canvas Navigation-->
+		<!--Off Canvas Navigation-->
 		<nav class="off-canvas-navigation">
 			<header>메뉴</header>
 			<div class="main-navigation navigation-off-canvas"></div>
@@ -48,30 +49,20 @@
 				<table class="table table-hover">
 
 					<tbody align="left">
+						<c:if test="${alertList.size() == 0}">
+							<tr>
 
-						<tr>
-
-							<td><span style="color: #ff513f;">2017-06-14</span><br>
-								<a href="#">아이디</a>님이 <a href="#">심부름번호</a>번 (<a href="#">심부름제목</a>)을
-								수행했습니다.</td>
-						</tr>
-
-						<tr>
-
-							<td><span style="color: #ff513f;">2017-06-14</span><br>
-								<a href="#">아이디</a>님이 <a href="#">심부름번호</a>번 (<a href="#">심부름제목</a>)을
-								수행했습니다.</td>
-						</tr>
-
-						<tr>
-
-							<td><span style="color: #ff513f;">2017-06-14</span><br>
-								<a href="#">아이디</a>님이 <a href="#">심부름번호</a>번 (<a href="#">심부름제목</a>)을
-								수행했습니다.</td>
-						</tr>
-
-
-
+								<td><span style="color: #ff513f;">알림이 없습니다.</span><br>
+							</tr>
+						</c:if>
+						<c:if test="${alertList.size() != 0}">
+							<c:forEach items="${alertList}" var="alert">
+							<tr>
+								<td><span style="color: #ff513f;">${alert.writeDate}</span><br>
+									${alert.content}</td>
+							</tr>
+							</c:forEach>
+						</c:if>
 
 					</tbody>
 				</table>

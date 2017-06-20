@@ -89,6 +89,13 @@
   */
 </script>
 <script>
+	if(${notRead} > 0){
+		alert("뀨우");
+		var options = {
+	            body: "안읽은 알림이 ${notRead}개 있습니다 확인해주세요."
+	        }
+		var notification = new Notification("Dothing 알림",options);
+	}
 	function clickDetail(num) {
 		location.href = "${pageContext.request.contextPath}/errand/detailView?num=" + num;
 	}
@@ -483,7 +490,8 @@
 									<div class="col-md-4 col-sm-4">
 										<div class="item">
 											<div class="image">
-												<a href="${pageContext.request.contextPath}/errand/detailView?num=${money.errandsNum}">
+												<a
+													href="${pageContext.request.contextPath}/errand/detailView?num=${money.errandsNum}">
 													<div class="overlay">
 														<div class="inner">
 															<div class="content">
@@ -491,11 +499,10 @@
 																<p>${money.content}</p>
 															</div>
 														</div>
-													</div>
-													<c:if test="${status.index == 0}">
-													<div class="icon">
-														<i class="fa fa-thumbs-up"></i>
-													</div>
+													</div> <c:if test="${status.index == 0}">
+														<div class="icon">
+															<i class="fa fa-thumbs-up"></i>
+														</div>
 													</c:if> <c:if test="${money.errandsPhoto != null}">
 														<img
 															src="${pageContext.request.contextPath}/errands/${errands.errandsNum}/${errands.errandsPhoto}" />
@@ -506,20 +513,24 @@
 												</a>
 											</div>
 											<div class="wrapper">
-												<a href="${pageContext.request.contextPath}/errand/detailView?num=${money.errandsNum}"><h3>${money.title}</h3></a>
+												<a
+													href="${pageContext.request.contextPath}/errand/detailView?num=${money.errandsNum}"><h3>${money.title}</h3></a>
 												<figure>${money.errandsPos.addr}
 												</figure>
 												<div class="price">
-												<fmt:formatNumber value="${money.errandsPrice}"/>
-												원</div>
-												<span class="label label-success">${money.errandsReply.size()}명 지원중!</span>
+													<fmt:formatNumber value="${money.errandsPrice}" />
+													원
+												</div>
+												<span class="label label-success">${money.errandsReply.size()}명
+													지원중!</span>
 												<div class="info">
 													<div class="type">
 														<c:forEach items="${money.hashes}" var="hash">
-														<span class="label label-primary">${hash}</span> 
+															<span class="label label-primary">${hash}</span>
 														</c:forEach>
 													</div>
-													<div class="rating" data-rating="${money.requestUser.gpaList[0].requestManners}"></div>
+													<div class="rating"
+														data-rating="${money.requestUser.gpaList[0].requestManners}"></div>
 												</div>
 											</div>
 										</div>
