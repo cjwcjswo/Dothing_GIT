@@ -193,4 +193,9 @@ public class MemberController {
 	public MemberDTO selectMember(String id) {
 		return memberService.selectMemberById(id);
 	}
+	
+	@RequestMapping("/charge")
+	public void charge(){
+		
+	}
 }
