@@ -13,6 +13,12 @@
 <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700'
 	rel='stylesheet' type='text/css'>
 
+<!-- google platform library -->
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+
+<!-- specify client ID -->
+<meta name="google-signin-client_id" content="852010525738-koadhapuooddd7np0govnv6lfgg5tsqf.apps.googleusercontent.com">
+
 <title>로그인</title>
 
 </head>
@@ -76,8 +82,10 @@
 								</div>
 								<!-- /.form-group -->
 								<div class="form-group clearfix">
+								<div class="g-signin2" data-onsuccess="onSignIn" align="right"></div>
 									<button type="submit" class="btn pull-right btn-default"
 										id="account-submit">로그인</button>
+										
 								</div>
 								
 								<!-- /.form-group -->

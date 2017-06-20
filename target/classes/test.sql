@@ -1,5 +1,7 @@
 select *from tab;
 
+select *from MEMBER_POINT_VIEW
+
 select *from point;
 
 select *from member;
