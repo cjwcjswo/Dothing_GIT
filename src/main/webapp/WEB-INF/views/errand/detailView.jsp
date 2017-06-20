@@ -734,7 +734,44 @@
 
    </div>
    <!-- 심부름 선택시 나오는 영수증 모달창 끝 -->
+	<!-- 폼 레이어  -->
+	<div class="popupLayer" >
+		<div align="right">
+			<span onClick="closeLayer(this)" style="cursor: pointer;" title="닫기"><i
+				class="fa fa-close"></i></span>
+		</div>
 
+		<div class="span3">
+			<div class="col-sm-3" style="padding: 0% ;width=50px; height=50px;" >
+				<img
+					src="${pageContext.request.contextPath}/assets/img/main/shakehands.png"
+					class="img-rounded" alt="Cinque Terre" width="50px" height="50px">
+			</div>
+			<div class="col-sm-9" style="padding: 0%">
+				<p>
+					<strong>테스터</strong>
+				</p>
+				<div class="row">
+					<strong class="pull-left">총 평점</strong> <i class="fa fa-star"></i><i
+						class="fa fa-star"></i><i class="fa fa-star"></i><i
+						class="fa fa-star"></i>
+				</div>
+				<div class="row">
+				<p>
+					<strong>#태그</strong>
+					<strong>#태그</strong>
+					<strong>#태그</strong>
+					<strong>#태그</strong>
+				</p>
+				
+				</div>
+				
+				<span class=" badge badge-warning">안전 심부름꾼</span> <span
+					class=" badge badge-info">인기 심부름꾼</span>
+			</div>
+		</div>
+
+	</div>
 
    <script>
 

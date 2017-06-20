@@ -197,4 +197,7 @@ public class MemberController {
 	public MemberDTO selectMember(String id) {
 		return memberService.selectMemberById(id);
 	}
+	
+	@RequestMapping("/profileLayer")
+	public void profileLayer(){}
 }

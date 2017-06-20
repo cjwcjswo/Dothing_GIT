@@ -90,7 +90,6 @@
 </script>
 <script>
 	if(${notRead} > 0){
-		alert("뀨우");
 		var options = {
 	            body: "안읽은 알림이 ${notRead}개 있습니다 확인해주세요."
 	        }
