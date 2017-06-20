@@ -43,6 +43,11 @@ public interface ErrandsService {
 	int selectNum();
 
 	int countErrands();
+	
+	/**
+	 * 돈되는 심부름
+	 */
+	List<ErrandsDTO> moneyErrands();
 
 	int insertReply(ErrandsReplyDTO dto);
 	int deleteReply(int num);

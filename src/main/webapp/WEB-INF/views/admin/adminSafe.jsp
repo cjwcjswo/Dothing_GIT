@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<title>Spotter - Universal Directory Listing HTML Template</title>
+<title>안전 심부름꾼 승인</title>
 
 <script type="text/javascript">
 
@@ -43,16 +43,18 @@
 </head>
 
 <body onunload=""
-	class="page-subpage page-profile navigation-top-header" id="page-top">
+	class="page-subpage page-my-items navigation-off-canvas" id="page-top">
 
-	<!-- Outer Wrapper-->
-	<div id="outer-wrapper">
-		<!-- Inner Wrapper -->
-		<div id="inner-wrapper">
 
 			<!-- Page Canvas-->
 			<div id="page-canvas">
 
+				<!--Off Canvas Navigation-->
+				<nav class="off-canvas-navigation">
+					<header>메뉴</header>
+					<div class="main-navigation navigation-off-canvas"></div>
+				</nav>
+				<!--end Off Canvas Navigation-->
 
 
 				<!--Page Content-->
@@ -155,10 +157,6 @@
 			</div>
 			<!-- end Page Canvas-->
 
-		</div>
-		<!-- end Inner Wrapper -->
-	</div>
-	<!-- end Outer Wrapper-->
 
 	<!--[if lte IE 9]>
 <script type="text/javascript" src="assets/js/ie-scripts.js"></script>
