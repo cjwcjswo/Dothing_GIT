@@ -179,11 +179,17 @@ public class MemberController {
 
 		return "redirect:/user/safetyRegister";
 	}
-	
+
 	@RequestMapping("/alert")
-	public void alert(){
-		
+	public ModelAndView alert(Authentication aut) {
+		ModelAndView mv = new ModelAndView();
+		MemberDTO member = (MemberDTO) aut.getPrincipal();
+		memberService.allRead(member.getUserId());
+		mv.setViewName("/user/alert");
+		mv.addObject("alertList", memberService.selectNotificationById(member.getUserId()));
+		return mv;
 	}
+
 	/**
 	 * Ajax로 멤버 정보 가져오기
 	 */
@@ -193,9 +199,13 @@ public class MemberController {
 	public MemberDTO selectMember(String id) {
 		return memberService.selectMemberById(id);
 	}
-	
+
+	@RequestMapping("/profileLayer")
+	public void profileLayer() {
+	}
+
 	@RequestMapping("/charge")
-	public void charge(){
-		
+	public void charge() {
+
 	}
 }

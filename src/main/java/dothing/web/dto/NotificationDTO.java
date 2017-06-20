@@ -6,6 +6,16 @@ public class NotificationDTO {
 	private String content;
 	private String writeDate;
 	private int isRead;
+	
+	public NotificationDTO(){}
+	public NotificationDTO(int notificationNum, String memberId, String content, String writeDate, int isRead) {
+		super();
+		this.notificationNum = notificationNum;
+		this.memberId = memberId;
+		this.content = content;
+		this.writeDate = writeDate;
+		this.isRead = isRead;
+	}
 	public int getNotificationNum() {
 		return notificationNum;
 	}

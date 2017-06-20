@@ -5,6 +5,7 @@ import java.util.List;
 import dothing.web.dto.GPADTO;
 import dothing.web.dto.MemberDTO;
 import dothing.web.dto.MemberHashDTO;
+import dothing.web.dto.NotificationDTO;
 
 public interface MemberDAO {
 	int deleteUser(String id);
@@ -77,4 +78,25 @@ public interface MemberDAO {
 	List<GPADTO> averageGPA(String id);
 	
 	boolean isSafety(String id);
+	
+	/**
+	 * 해당하는 유저에대한 알림 가져오기
+	 */
+	List<NotificationDTO> selectNotificationById(String id);
+	
+	/**
+	 * 알림 보내기
+	 */
+	int insertNotification(String id, String content);
+	
+	/**
+	 * 안읽은 알람 있숩니가?
+	 */
+	int notReadNoti(String id);
+	
+	/**
+	 * 해당하는 아이디 알람 읽기
+	 * 
+	 */
+	int allRead(String id);
 }

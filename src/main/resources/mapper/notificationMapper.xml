@@ -11,7 +11,8 @@
 	<!-- 해당하는 유저 알림 가져오기 -->
 	<select id="selectById" parameterType="string" resultMap="notiMap">
 		select
-		* from NOTIFICATION WHERE MEMBER_ID = #{value} ORDER BY IS_READ desc, WRITE_DATE desc
+		* from NOTIFICATION WHERE MEMBER_ID = #{value} ORDER BY IS_READ desc,
+		WRITE_DATE desc
 	</select>
 	<!-- 알림 삽입 -->
 	<insert id="insert" parameterType="notificationDTO">
@@ -19,5 +20,14 @@
 		values(NOTIFICATION_NUM.nextval, #{memberId}, #{content},
 		to_char(sysdate, 'YYYY-MM-DD HH:MI:SS'), 1)
 	</insert>
-
+	<!-- 해당하는 유저가 안읽은 알림이 있니? -->
+	<select id="notReadNoti" parameterType="string" resultType="int">
+		select count(*) from NOTIFICATION
+		where IS_READ = 1 and MEMBER_ID = #{value}
+	</select>
+	
+	<!-- 해당하는 아이디의 알림 다 읽어라~ -->
+	<update id="allRead" parameterType="string">
+		update NOTIFICATION set IS_READ = 0 where MEMBER_ID = #{value}
+	</update>
 </mapper>
