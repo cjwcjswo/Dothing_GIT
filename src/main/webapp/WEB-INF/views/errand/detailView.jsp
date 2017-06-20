@@ -595,7 +595,7 @@
 					       </c:choose>
                   </c:forEach>
                </div>
-               
+               <c:if test="${!((errands.arrivalTime != null) and (errands.finishTime != null))}">
                <div class="panel-footer">
                   <div class="input-group">
                      <input id="inputText" type="text"
@@ -606,6 +606,7 @@
                      </span>
                   </div>
                </div>
+               </c:if>
                
             </div>
          </div>
@@ -620,13 +621,6 @@
          <ul class="dropdown-menu" role="menu">
             <li><a href="#"><span id="chatComplete" class="fa fa-check"></span>심부름
                   완료</a></li>
-            <li><a href="#"><span class="glyphicon glyphicon-list"></span>
-                  Ver outras</a></li>
-            <li><a href="#"><span class="glyphicon glyphicon-remove"></span>
-                  Fechar Tudo</a></li>
-            <li class="divider"></li>
-            <li><a href="#"><span class="glyphicon glyphicon-eye-close"></span>
-                  Invisivel</a></li>
          </ul>
       </div>
    </c:if>

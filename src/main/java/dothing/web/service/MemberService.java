@@ -45,5 +45,26 @@ public interface MemberService {
 	 * 해쉬태그 삽입
 	 */
 	int insertHashtag(int errandsNum, String id, String evalTag);
+	/**
+	 * 권한 가져오기
+	 */
+	List<String> selectAuth(String id);
 	
+	/**
+	 * 안전심부름꾼 이미지 등록
+	 */
+	int updateSafety(MemberDTO dto);
+	/**
+	 * 안전권한 추가
+	 */
+	int insertSafety(String id);
+	/**
+	 * 낫안줜맨들
+	 */
+	List<MemberDTO> selectNotSafety(int page);
+	int countNotSafety();
+	/**
+	 * 랭킹맨들
+	 */
+	List<MemberDTO> selectRanked();
 }

@@ -1,5 +1,6 @@
 package dothing.web.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,8 +38,23 @@ public class AdminController {
 	}
 	
 	@RequestMapping("/adminSafe")
-	public void adminSafe(){}
+	public ModelAndView adminSafe(Integer page){
+		if(page == null) page = 1;
+		ModelAndView mv = new ModelAndView();
+		List<MemberDTO> memberList = new ArrayList<>();
+		PageMaker pm = new PageMaker(page, memberList.size() / 6 + 1);
+		pm.start();
+		mv.setViewName("/admin/adminSafe");
+		mv.addObject("pm", pm);
+		mv.addObject("memberList", memberList);
+		return mv;
+	}
 	
+	@RequestMapping("/adminSafe/submit")
+	public String submitSafe(String id){
+		memberService.insertSafety(id);
+		return "redirect:/admin/adminSafe";
+	}
 	@RequestMapping("/adminUserList")
 	public ModelAndView adminUserList(Integer page, String id){
 		if(page == null) page = 1;

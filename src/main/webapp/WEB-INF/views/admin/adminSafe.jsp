@@ -1,23 +1,11 @@
 <!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html lang="UTF-8">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
-<link href="assets/fonts/font-awesome.css" rel="stylesheet"
-	type="text/css">
-<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700'
-	rel='stylesheet' type='text/css'>
-<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.css"
-	type="text/css">
-<link rel="stylesheet" href="assets/css/bootstrap-select.min.css"
-	type="text/css">
-<link rel="stylesheet" href="assets/css/dropzone.css" type="text/css">
-<link rel="stylesheet" href="assets/css/style.css" type="text/css">
-<link rel="stylesheet" href="assets/css/user.style.css" type="text/css">
 
 
 <title>Spotter - Universal Directory Listing HTML Template</title>
@@ -72,11 +60,14 @@
 					<section class="container">
 						<header>
 							<ul class="nav nav-pills">
-								<li><a href="${pageContext.request.contextPath}/admin/adminMoney"><h1 class="page-title">무통장
-											입금 확인</h1></a></li>
-								<li class="active"><a href="${pageContext.request.contextPath}/admin/adminSafe"><h1 class="page-title">안전
-											심부름꾼 승인</h1></a></li>
-								<li><a href="${pageContext.request.contextPath}/admin/adminUserList"><h1
+								<li><a
+									href="${pageContext.request.contextPath}/admin/adminMoney"><h1
+											class="page-title">무통장 입금 확인</h1></a></li>
+								<li class="active"><a
+									href="${pageContext.request.contextPath}/admin/adminSafe"><h1
+											class="page-title">안전 심부름꾼 승인</h1></a></li>
+								<li><a
+									href="${pageContext.request.contextPath}/admin/adminUserList"><h1
 											class="page-title">회원관리</h1></a></li>
 							</ul>
 						</header>
@@ -90,52 +81,60 @@
 
 
 										<div class="well">
-											<div class="media">
-												<a class="pull-left" href="#"><img class="media-object"
-													src="http://placekitten.com/150/150"
-													onclick="doImgPop('http://placekitten.com/150/150')"
-													
-													title="클릭하시면 원본크기로 보실 수 있습니다."
-													style="width: 150px; height: 150px;"> </a>
+											<c:forEach items="${memberList}" var="member">
+												<div class="media">
+													<a class="pull-left" href="#"><img class="media-object"
+														src="${pageContext.request.contextPath }/users/${member.userId}/ssn/${member.ssnImg}"
+														onclick="doImgPop('${pageContext.request.contextPath }/users/${member.userId}/ssn/${member.ssnImg}')"
+														title="클릭하시면 원본크기로 보실 수 있습니다."
+														style="width: 150px; height: 150px;"> </a>
 													<!-- doImgPop('경로') 경로 부분에 원본 이미지 경로 넣어주셈 -->
-												<div class="media-body">
-													<h4 class="media-heading">사용자 아이디</h4>
-													<p class="text-right">
-														<a href=""><i class="fa fa-check">승인</i></a>
-													</p>
-													<p>안전 심부름꾼 신청 해시태그 리뷰 몇개 박아넣어</p>
-													<ul class="list-inline list-unstyled">
-														<li><span><i
-																class="glyphicon glyphicon-calendar"></i> 가입일 </span></li>
-														<li>|</li>
-														<span><i class="glyphicon glyphicon-comment"></i>
-															심부름 횟수</span>
-														<li>|</li>
-														<li><span class="glyphicon glyphicon-star"></span> <span
-															class="glyphicon glyphicon-star"></span> <span
-															class="glyphicon glyphicon-star"></span> <span
-															class="glyphicon glyphicon-star"></span> <span
-															class="glyphicon glyphicon-star-empty"></span></li>
-														<li>|</li>
-
-													</ul>
-												</div>
+													<div class="media-body">
+														<h4 class="media-heading">아이디: ${member.userId}</h4>
+														<h4 class="media-heading">이름: ${member.name}</h4>
+														<h4 class="media-heading">핸드폰: ${member.phone}</h4>
+														<h4 class="media-heading">주소: ${member.addr}</h4>
+														<div class="form-group">
+												<button type="button" class="btn btn-large btn-default"
+													id="okay" onclick="location.href='${pageContext.request.contextPath}/admin/adminSafe/submit?id=${member.userId}'">확인</button>
 											</div>
+													</div>
+												</div>
+											</c:forEach>
 										</div>
-
-
-
 
 
 
 										<!-- 페이지네이션 -->
 
 										<ul class="pager">
-											<li><a href="#">Previous</a></li>
-											<li><a href="#">1</a></li>
-											<li><a href="#">2</a></li>
-											<li><a href="#">3</a></li>
-											<li><a href="#">Next</a></li>
+											<c:if test="${pm.previous}">
+												<li><a
+													href="${pageContext.request.contextPath}/admin/adminSafe?page=${pm.lastPage - 5}&id=${sid}"><span
+														class="glyphicon glyphicon-chevron-left"></span></a></li>
+											</c:if>
+											<c:if test="${pm.startPage != pm.lastPage }">
+												<c:forEach begin="${pm.startPage}" end="${pm.lastPage}"
+													varStatus="state">
+													<c:if
+														test="${pm.currentPage == (pm.startPage + state.count-1)}">
+														<li class="active"><a
+															href='${pageContext.request.contextPath}/admin/adminSafe?page=${pm.startPage + state.count-1}&id=${sid}'>${pm.startPage + state.count-1}</a>
+														</li>
+													</c:if>
+													<c:if
+														test="${pm.currentPage != (pm.startPage + state.count-1)}">
+														<li><a
+															href='${pageContext.request.contextPath}/admin/adminSafe?page=${pm.startPage + state.count-1}&id=${sid}'>${pm.startPage + state.count-1}</a>
+														</li>
+													</c:if>
+												</c:forEach>
+											</c:if>
+											<c:if test="${pm.next}">
+												<li><a
+													href="${pageContext.request.contextPath}/admin/adminSafe?page=${pm.lastPage + 1}&id=${sid}"><span
+														class="glyphicon glyphicon-chevron-right"></span></a></li>
+											</c:if>
 										</ul>
 
 										<!-- 페이지네이션 종료 -->
@@ -160,21 +159,6 @@
 		<!-- end Inner Wrapper -->
 	</div>
 	<!-- end Outer Wrapper-->
-
-	<script type="text/javascript" src="assets/js/jquery-2.1.0.min.js"></script>
-	<script type="text/javascript" src="assets/js/before.load.js"></script>
-	<script type="text/javascript" src="assets/js/jquery-ui.min.js"></script>
-	<script type="text/javascript"
-		src="assets/js/jquery-migrate-1.2.1.min.js"></script>
-	<script type="text/javascript"
-		src="assets/bootstrap/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="assets/js/smoothscroll.js"></script>
-	<script type="text/javascript" src="assets/js/bootstrap-select.min.js"></script>
-	<script type="text/javascript" src="assets/js/jquery.hotkeys.js"></script>
-	<script type="text/javascript" src="assets/js/dropzone.min.js"></script>
-	<script type="text/javascript" src="assets/js/custom.js"></script>
-	<script type="text/javascript" src="assets/js/maps.js"></script>
-
 
 	<!--[if lte IE 9]>
 <script type="text/javascript" src="assets/js/ie-scripts.js"></script>
