@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.notificationMapper">
+	<resultMap type="notificationDTO" id="notiMap">
+		<id column="NOTIFICATION_NUM" property="notificationNum" />
+		<result column="MEMBER_ID" property="memberId" />
+		<result column="CONTENT" property="content" />
+		<result column="WRITE_DATE" property="writeDate" />
+		<result column="IS_READ" property="isRead" />
+	</resultMap>
+	<!-- 해당하는 유저 알림 가져오기 -->
+	<select id="selectById" parameterType="string" resultMap="notiMap">
+		select
+		* from NOTIFICATION WHERE MEMBER_ID = #{value} ORDER BY IS_READ desc, WRITE_DATE desc
+	</select>
+	<!-- 알림 삽입 -->
+	<insert id="insert" parameterType="notificationDTO">
+		insert into NOTIFICATION
+		values(NOTIFICATION_NUM.nextval, #{memberId}, #{content},
+		to_char(sysdate, 'YYYY-MM-DD HH:MI:SS'), 1)
+	</insert>
+
+</mapper>
