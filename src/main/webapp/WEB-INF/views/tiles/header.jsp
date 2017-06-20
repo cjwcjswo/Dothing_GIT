@@ -21,9 +21,10 @@
 	<div class="header">
 		<div class="wrapper">
 			<div class="brand">
-				<a href="${pageContext.request.contextPath}/"><img
+				<a href="${pageContext.request.contextPath}/">
+				<img
 					src="${pageContext.request.contextPath}/assets/img/logo.png"
-					alt="logo"></a>
+					alt="logo" style="width:121px; height:47px ;"></a>
 			</div>
 			<nav class="navigation-items">
 				<div class="wrapper">
