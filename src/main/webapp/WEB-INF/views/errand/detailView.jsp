@@ -184,7 +184,7 @@
    <div id="page-canvas">
       <!--Off Canvas Navigation-->
       <nav class="off-canvas-navigation">
-         <header>Navigation</header>
+         <header>메뉴</header>
          <div class="main-navigation navigation-off-canvas"></div>
       </nav>
       <!--end Off Canvas Navigation-->

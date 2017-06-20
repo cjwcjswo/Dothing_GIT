@@ -27,13 +27,19 @@
 <script>
 </script>
 </head>
-<body onunload="" class="page-subpage page-profile navigation-top-header"
+<body onunload=""
+	class="page-subpage page-item-detail navigation-off-canvas"
 	id="page-top">
-
+	<nav class="off-canvas-navigation">
+		<header>메뉴</header>
+		<div class="main-navigation navigation-off-canvas"></div>
+	</nav>
 	<div class="video-part">
-		<video autoplay="autoplay" loop="loop"> <source
-			src="${pageContext.request.contextPath}/assets/img/Lady_in_ST.mp4"
-			type="video/mp4"></video>
+		<video autoplay="autoplay" loop="loop">
+			<source
+				src="${pageContext.request.contextPath}/assets/img/Lady_in_ST.mp4"
+				type="video/mp4">
+		</video>
 
 		<div class="container">
 			<div class="video-part-content">
@@ -59,7 +65,8 @@
 								<div class="full-width animated fadeInUp">
 									<h1>무엇이든지 이웃에게, 이웃으로</h1>
 									<p>작은 도움이 필요할 때가 있으신가요?</p>
-									<a href="${pageContext.request.contextPath}/errand/errand" class="btn btn-info">로그인하기</a>
+									<a href="${pageContext.request.contextPath}/errand/errand"
+										class="btn btn-info">로그인하기</a>
 								</div>
 							</div>
 						</div>
@@ -73,7 +80,8 @@
 								<div class="full-width animated fadeInUp">
 									<h1>이웃에게, 이웃은 나에게</h1>
 									<p>커피한잔만을 배달해 줄리가 있을까요? DoThing에서는 가능합니다.</p>
-									<a href="${pageContext.request.contextPath}/errand/errand" class="btn btn-info">참여하기</a>
+									<a href="${pageContext.request.contextPath}/errand/errand"
+										class="btn btn-info">참여하기</a>
 								</div>
 							</div>
 						</div>
@@ -120,32 +128,32 @@
 		
 	</div> -->
 	<section class="features" id="features">
-	<div class="container">
-		<div class="row">
-		
-			<div class="col-md-6">
-				<h2>Connecting you to your community</h2>
-				<p>Dothing 서비스는 주위의 누군가가 나 대신 무엇이든지 해주는 서비스입니다. 당신이 원하는 배달비를 통해
-					약간의 부담이면 무엇이든지 할 수 있습니다.</p>
-			</div>
-			<div class="col-md-6">
-				<div class="row icon-features">
-					<div class="col-xs-4 icon-feature">
-						<i class="fa fa-location-arrow"></i>
-						<p>언제 어디서나</p>
-					</div>
-					<div class="col-xs-4 icon-feature">
-						<i class="fa fa-krw"></i>
-						<p>당신이 원하는 가격으로</p>
-					</div>
-					<div class="col-xs-4 icon-feature">
-						<i class="fa fa-male"></i>
-						<p>원하는 심부름을 해보세요</p>
+		<div class="container">
+			<div class="row">
+
+				<div class="col-md-6">
+					<h2>Connecting you to your community</h2>
+					<p>Dothing 서비스는 주위의 누군가가 나 대신 무엇이든지 해주는 서비스입니다. 당신이 원하는 배달비를 통해
+						약간의 부담이면 무엇이든지 할 수 있습니다.</p>
+				</div>
+				<div class="col-md-6">
+					<div class="row icon-features">
+						<div class="col-xs-4 icon-feature">
+							<i class="fa fa-location-arrow"></i>
+							<p>언제 어디서나</p>
+						</div>
+						<div class="col-xs-4 icon-feature">
+							<i class="fa fa-krw"></i>
+							<p>당신이 원하는 가격으로</p>
+						</div>
+						<div class="col-xs-4 icon-feature">
+							<i class="fa fa-male"></i>
+							<p>원하는 심부름을 해보세요</p>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 	</section>
 	<div class="article-list">
 		<div class="container">

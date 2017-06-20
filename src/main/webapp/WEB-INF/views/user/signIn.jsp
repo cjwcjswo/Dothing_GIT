@@ -196,7 +196,7 @@
 </script>
 </head>
 
-<body onunload="" class="page-subpage page-profile navigation-top-header"
+<body onunload="" class="page-subpage page-item-detail navigation-off-canvas"
 	id="page-top">
 
 	<!-- Page Canvas-->

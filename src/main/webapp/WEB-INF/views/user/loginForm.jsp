@@ -18,7 +18,7 @@
 </head>
 
 <body onunload=""
-	class="page-subpage page-profile navigation-top-header" id="page-top">
+	class="page-subpage page-item-detail navigation-off-canvas" id="page-top">
 
 
 	<!-- Page Canvas-->
