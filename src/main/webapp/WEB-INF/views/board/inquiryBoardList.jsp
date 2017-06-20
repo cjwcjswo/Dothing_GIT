@@ -79,7 +79,7 @@ function sendDelete(){
 									<td>
 									<a href="${pageContext.request.contextPath}/board/inquiryBoardReadNew/${boardDto.inquiryNum}"><h1>${boardDto.boardTitle}</h1></a>
 									
-									<input type=hidden name="inquiryNum" value="${boardDto.inquiryNum}">
+									<input type="hidden" name="inquiryNum" value="${boardDto.inquiryNum}">
 									<input type="hidden" name="${_csrf.parameterName}"
                                      value="${_csrf.token}">
 									<a href="#" onclick="location.href='${pageContext.request.contextPath}/board/inquiryDelete?inquiryNum=${boardDto.inquiryNum}'">

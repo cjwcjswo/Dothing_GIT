@@ -15,6 +15,23 @@
 		select 
 		current_point,request_point,member_id 
 		from point 
-		where (request_point != 0)
+		where request_point != 0
+	</select> 
+	
+	<!-- 포인트로 전환해주기 -->
+	<update id="changePoint" parameterType="String">
+	    update point set request_point = 0, current_point=request_point + current_point
+	     where member_id=#{value}
+	</update>
+	
+	<!-- 입금안되서 요청포인트 0으로 만들기 -->
+	<update id="pointCancel" parameterType="String">
+	    update point set request_point = 0
+	     where member_id=#{value}
+	</update>
+	
+	<!-- 페이징 -->
+	<select id="countPointList" resultType="int">
+		select count(*) from point
 	</select>
 </mapper>

@@ -82,15 +82,21 @@
 															<tr>
 																<td>${pointDto.user.userId}</td>
 																<td><i class="fa fa-krw"></i>${pointDto.requestPoint}</td>
-																<td><a href="#"><i class="fa fa-check"
-																		title="포인트로전환"></i></a> <a href="#"><i
+																<input type="hidden" name="userId"
+																	value="${pointDto.user.userId}">
+																<input type="hidden" name="${_csrf.parameterName}"
+																	value="${_csrf.token}">
+																<td><a href="#"
+																	onclick="location.href='${pageContext.request.contextPath}/admin/pointChange?userId=${pointDto.user.userId}'"><i
+																		class="fa fa-check" title="포인트로전환"></i></a> <a href="#"
+																	onclick="location.href='${pageContext.request.contextPath}/admin/pointCancel?userId=${pointDto.user.userId}'"><i
 																		class="fa fa-close" title="취소"></i></a></td>
 															</tr>
 														</tbody>
 													</c:forEach>
 												</c:otherwise>
 											</c:choose>
-											
+
 										</table>
 
 										<!-- 페이지네이션 -->
@@ -102,10 +108,37 @@
 											<li><a href="#">3</a></li>
 											<li><a href="#">Next</a></li>
 										</ul> -->
+										<ul class="pagination" style="margin-left: 35%">
+											<c:if test="${pm.previous}">
+												<li><a
+													href="${pageContext.request.contextPath}/admin/adminMoney?page=${pm.lastPage - 5}"><span
+														class="glyphicon glyphicon-chevron-left"></span></a></li>
+											</c:if>
+											<c:forEach begin="${pm.startPage}" end="${pm.lastPage}"
+												varStatus="state">
+												<c:if
+													test="${pm.currentPage == (pm.startPage + state.count-1)}">
+													<li class="active"><a
+														href='${pageContext.request.contextPath}/admin/adminMoney?page=${pm.startPage + state.count-1}'>${pm.startPage + state.count-1}</a>
+													</li>
+												</c:if>
+												<c:if
+													test="${pm.currentPage != (pm.startPage + state.count-1)}">
+													<li><a
+														href='${pageContext.request.contextPath}/admin/adminMoney?page=${pm.startPage + state.count-1}'>${pm.startPage + state.count-1}</a>
+													</li>
+												</c:if>
+											</c:forEach>
+											<c:if test="${pm.next}">
+												<li><a
+													href="${pageContext.request.contextPath}/admin/adminMoney?page=${pm.lastPage + 1}"><span
+														class="glyphicon glyphicon-chevron-right"></span></a></li>
+											</c:if>
 
+										</ul>
 										<!-- 페이지네이션 종료 -->
 
-										
+
 										<!-- /.form-group -->
 									</div>
 									<!--/.col-md-6-->
