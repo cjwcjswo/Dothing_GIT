@@ -13,7 +13,7 @@
 <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700'
 	rel='stylesheet' type='text/css'>
 
-<title>ERROR!</title>
+<title>OKAY!</title>
 
 </head>
 
@@ -36,13 +36,6 @@
 			<!-- /.search-bar -->
 			<div class="breadcrumb-wrapper">
 				<div class="container">
-					<div class="redefine-search">
-						<a href="#redefine-search-form" class="inner"
-							data-toggle="collapse" aria-expanded="false"
-							aria-controls="redefine-search-form"> <span class="icon"></span>
-							<span>Redefine Search</span>
-						</a>
-					</div>
 					<ol class="breadcrumb">
 						<li><a href="${pageContext.request.contextPath}/"><i
 								class="fa fa-home"></i></a></li>
@@ -64,9 +57,7 @@
 				</header>
 				<div class="block">
 					<div id="title-404">
-						<aside> 매칭 완료! <img
-								src="${pageContext.request.contextPath}/assets/img/okay.png"
-								alt="">
+						<aside> 매칭 완료! 
 						</aside>
 						<h2>정상적으로 매칭이 완료되었습니다!</h2><br>
 						<button type="button" class="btn btn-primary" onclick="location.href = '${pageContext.request.contextPath}/errand/detailView?num=${num}'">심부름 확인하기</button>

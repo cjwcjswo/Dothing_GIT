@@ -12,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -115,34 +116,81 @@ public class MemberController {
 				throw new Exception("상세 주소를 입력하세요");
 			} else {
 				updateMember.setAddr(preAddr + " " + detailAddr);
+				member.setAddr(preAddr + " " + detailAddr);
 			}
-		} else{
+		} else {
 			updateMember.setAddr(null);
 		}
-		
+
 		MultipartFile newProfile = updateMember.getSelfImgFile();
 		if ((newProfile.getOriginalFilename() != null && newProfile.getSize() != 0)) {
 			updateMember.setSelfImg(newProfile.getOriginalFilename());
+			member.setSelfImg(newProfile.getOriginalFilename());
 			String path = session.getServletContext().getRealPath("") + "\\users\\" + member.getUserId();
 			File folder = new File(path);
 			folder.mkdirs();
 			newProfile.transferTo(new File(path + "\\" + updateMember.getSelfImg()));
-		} else{
+		} else {
 			updateMember.setSelfImg(null);
 		}
 		if (!(newPassword == null || newPassword.equals(""))) {
 			updateMember.setPassword(newPassword);
 		}
 		updateMember.setUserId(member.getUserId());
-		memberService.updateMember(updateMember);
-		session.invalidate();
-		mv.setViewName("redirect:/");
-		
+		memberService.updateMember(updateMember, member);
+		mv.setViewName("redirect:/user/myPage");
 		return mv;
 	}
+
+	@RequestMapping("/safetyRegister")
+	public ModelAndView safetyRegister(Authentication aut) {
+		boolean isSafety = false;
+		MemberDTO currentUser = (MemberDTO) aut.getPrincipal();
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("/user/safetyRegister");
+		mv.addObject("member", memberService.selectMemberById(currentUser.getUserId()));
+		for (String role : memberService.selectAuth(currentUser.getUserId())) {
+			if (role.equals("ROLE_SAFETY")) {
+				isSafety = true;
+			}
+		}
+		mv.addObject("isSafety", isSafety);
+		return mv;
+	}
+
+	/**
+	 * 안전심부름꾼 등록
+	 * 
+	 * @throws Exception
+	 */
+	@RequestMapping("/submitSafety")
+	public String submitSafety(HttpSession session, Authentication aut, MemberDTO member) throws Exception {
+		MultipartFile ssnImgFile = member.getSsnImgFile();
+		if (ssnImgFile == null || ssnImgFile.getSize() == 0) {
+			throw new Exception("사진을 넣어주세요!");
+		}
+		member.setUserId(((MemberDTO) aut.getPrincipal()).getUserId());
+		member.setSsnImg(ssnImgFile.getOriginalFilename());
+		memberService.updateSafety(member);
+		String path = session.getServletContext().getRealPath("") + "\\users\\" + member.getUserId() + "\\ssn\\";
+		File folder = new File(path);
+		folder.mkdirs();
+		ssnImgFile.transferTo(new File(path + "\\" + member.getSsnImg()));
+
+		return "redirect:/user/safetyRegister";
+	}
 	
-	@RequestMapping("/history")
-	public String history(){
-		return "/user/history";
+	@RequestMapping("/alert")
+	public void alert(){
+		
+	}
+	/**
+	 * Ajax로 멤버 정보 가져오기
+	 */
+
+	@RequestMapping("/selectMember")
+	@ResponseBody
+	public MemberDTO selectMember(String id) {
+		return memberService.selectMemberById(id);
 	}
 }

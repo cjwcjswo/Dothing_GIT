@@ -2,6 +2,7 @@ package dothing.web.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -14,15 +15,20 @@ public class BoardDAOImpl implements BoardDAO {
 	
 	@Autowired
 	private SqlSession sqlSession;
-
+	
 	@Override
-	public List<BoardDTO> selectAll() {
-		return sqlSession.selectList("mapper.boardMapper.selectAll");
+	public List<BoardDTO> selectAll(int page) {
+		return sqlSession.selectList("mapper.boardMapper.selectAll",null,new RowBounds((page-1)*5, 5));
+	}
+	
+	@Override
+	public List<BoardDTO> selectAllMember(int page, String userId) {
+		return sqlSession.selectList("mapper.boardMapper.selectAllMember",userId,new RowBounds((page-1)*5, 5));
 	}
 
 	@Override
 	public BoardDTO selectByBoardNum(int inquiryNum) {
-		return sqlSession.selectOne("mapper.boardMapper.selectAll", inquiryNum);
+		return sqlSession.selectOne("mapper.boardMapper.selectByInquriyNum", inquiryNum);
 	}
 
 	@Override
@@ -54,6 +60,11 @@ public class BoardDAOImpl implements BoardDAO {
 	@Override
 	public List<BoardReplyDTO> selectReply(int inquiryNum) {
 		return sqlSession.selectList("mapper.boardMapper.callReply", inquiryNum);
+	}
+	
+	@Override
+	public int countNoticeList() {
+		return sqlSession.selectOne("mapper.boardMapper.countNoticeList");
 	}
 
 }

@@ -53,20 +53,17 @@
 	<!-- Page Canvas-->
 	<div id="page-canvas">
 
-
+		<nav class="off-canvas-navigation">
+			<header>메뉴</header>
+			<div class="main-navigation navigation-off-canvas"></div>
+		</nav>
 		<!--Sub Header-->
 		<section class="sub-header">
 			<div class="search-bar horizontal collapse" id="redefine-search-form"></div>
 			<!-- /.search-bar -->
 			<div class="breadcrumb-wrapper">
 				<div class="container">
-					<div class="redefine-search">
-						<a href="#redefine-search-form" class="inner"
-							data-toggle="collapse" aria-expanded="false"
-							aria-controls="redefine-search-form"> <span class="icon"></span>
-							<span>Redefine Search</span>
-						</a>
-					</div>
+
 					<ol class="breadcrumb">
 						<li><a href="${pageContext.request.contextPath}/"><i
 								class="fa fa-home"></i></a></li>
@@ -88,8 +85,14 @@
 						<li class="active"><a
 							href="${pageContext.request.contextPath}/user/myPage"><h1
 									class="page-title">개인 정보</h1></a></li>
-						<li><a href="${pageContext.request.contextPath}/errand/myRequest"><h1 class="page-title">심부름
-									요청 및 수행 내역</h1></a></li>
+						<li><a
+							href="${pageContext.request.contextPath}/errand/myRequest"><h1
+									class="page-title">심부름 요청 및 수행 내역</h1></a></li>
+						<li><a
+							href="${pageContext.request.contextPath}/user/safetyRegister"><h1
+									class="page-title">안전심부름꾼 신청</h1></a></li>
+						<li class=""><a href="safetyRegister.jsp"><h1
+									class="page-title">포인트 충전 및 내역</h1></a></li>
 					</ul>
 				</header>
 				<form name="f" role="form" method="post" action="update"
@@ -175,8 +178,9 @@
 										</h3>
 										<div class="form-group">
 											<input class="form-control" type="text" name="preAddr"
-												id="sample5_address" placeholder="address" readonly="readonly" /> <br>
-											<input class="form-control" type="text" name="detailAddr"
+												id="sample5_address" placeholder="address"
+												readonly="readonly" /> <br> <input
+												class="form-control" type="text" name="detailAddr"
 												placeholder="상세주소" />
 											<button type="button" onclick="sample5_execDaumPostcode()">
 												<span class="glyphicon glyphicon-home" style="margin: auto"></span>주소찾기
@@ -278,6 +282,10 @@
 					</div>
 				</form>
 			</section>
+
+
+
+
 		</div>
 		<!-- end Page Content-->
 	</div>

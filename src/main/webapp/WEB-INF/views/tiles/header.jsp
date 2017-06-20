@@ -27,48 +27,53 @@
 			</div>
 			<nav class="navigation-items">
 				<div class="wrapper">
-					<ul class="main-navigation navigation-top-header"></ul>
+					<!-- <ul class="main-navigation navigation-top-header"></ul> -->
+
+
 					<ul class="user-area">
-						<security:authorize access="isAuthenticated()">
-							<li><security:authentication property="principal.name" /> 님
-								환영합니다.</li>
-							<li>보유 포인트: <fmt><security:authentication
-									property="principal.point.currentPoint" /></fmt></li>
-									<li><a href="${pageContext.request.contextPath}/user/myPage">마이페이지</a></li>
-							<li><a href="javascript:logout();">로그아웃</a></li>
-							<li><a href="${pageContext.request.contextPath}/errand/errand">심부름 목록</a></li>
-						</security:authorize>
 						<security:authorize access="isAnonymous()">
 							<li><a
 								href="${pageContext.request.contextPath}/user/loginForm">로그인</a></li>
 							<li><a href="${pageContext.request.contextPath}/user/signIn"><strong>회원가입</strong></a></li>
 						</security:authorize>
+						<security:authorize access="isAuthenticated()">
+							<li><a href="${pageContext.request.contextPath}/user/alert"><i class="fa fa-bell"></i></a></li>
+							<li><a href="${pageContext.request.contextPath}/user/myPage"><security:authentication
+										property="principal.name" /> 님</a> 환영합니다.</li>
+							<li>보유 포인트: <fmt:formatNumber pattern="#,###">
+									<security:authentication
+										property="principal.point.currentPoint" />
+								</fmt:formatNumber></li>
+							<li><a href="javascript:logout();">로그아웃</a></li>
+							<li><a
+								href="${pageContext.request.contextPath}/errand/errand">심부름
+									목록</a></li>
+							<a href="${pageContext.request.contextPath}/errand/register"
+								class="submit-item">
+									<i class="fa fa-plus"></i>
+							</a>
+							<div class="toggle-navigation">
+								<div class="icon">
+									<div class="line"></div>
+									<div class="line"></div>
+									<div class="line"></div>
+								</div>
+							</div>
+						</security:authorize>
+
+
 
 					</ul>
-					<a href="${pageContext.request.contextPath}/errand/register"
-						class="submit-item">
-						<div class="content">
-							<span>심부름 등록</span>
-						</div>
-						<div class="icon">
-							<i class="fa fa-plus"></i>
-						</div>
-					</a>
-					<div class="toggle-navigation">
-						<div class="icon">
-							<div class="line"></div>
-							<div class="line"></div>
-							<div class="line"></div>
-						</div>
-					</div>
+
+
 				</div>
 			</nav>
 		</div>
 	</div>
 	<!-- end Navigation-->
 	<form id="logoutForm"
-		action="${pageContext.request.contextPath}/user/logout"
-		method="post" style="display: none">
+		action="${pageContext.request.contextPath}/user/logout" method="post"
+		style="display: none">
 		<input type="hidden" name="${_csrf.parameterName}"
 			value="${_csrf.token}" />
 	</form>

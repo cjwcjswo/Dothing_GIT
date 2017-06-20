@@ -18,8 +18,14 @@ public class BoardServiceImpl implements BoardService {
 	private BoardDAO boardDAO;
 
 	@Override
-	public List<BoardDTO> selectAll() {
-		List<BoardDTO> list = boardDAO.selectAll();
+	public List<BoardDTO> selectAll(int page) {
+		List<BoardDTO> list = boardDAO.selectAll(page);
+		return list;
+	}
+	
+	@Override
+	public List<BoardDTO> selectAllMember(int page, String userId) {
+		List<BoardDTO> list = boardDAO.selectAllMember(page, userId);
 		return list;
 	}
 
@@ -78,5 +84,9 @@ public class BoardServiceImpl implements BoardService {
 		return boardDAO.selectReply(inquiryNum);
 	}	
 	
+	@Override
+	public int countNoticeList() {
+		return boardDAO.countNoticeList();
+	}
 
 }

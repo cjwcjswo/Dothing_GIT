@@ -37,12 +37,35 @@ public class BoardController {
 	 * 1대1게시판 보기
 	 */
 	@RequestMapping("/inquiryBoardList")
-	public ModelAndView list() {
+	public ModelAndView list(Authentication auth, Integer page) throws Exception{
+		
+		if (page == null)
+			page = new Integer(1);
+		
+		PageMaker pm = new PageMaker(page, boardService.countNoticeList()/ 6 + 1);
+		pm.start();
 
-		List<BoardDTO> list = boardService.selectAll();
+		String userId = ((MemberDTO) auth.getPrincipal()).getUserId();
+		
+		if(userId == null){
+			throw new Exception("로그인하세요.");
+		}
+		
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("board/inquiryBoardList");
-		mv.addObject("list", list);
+
+		if (userId.equals("tester")) {
+			List<BoardDTO> list = boardService.selectAll(page);
+
+			mv.setViewName("board/inquiryBoardList");
+			mv.addObject("pm", pm);
+			mv.addObject("list", list);
+		}
+		else{
+			List<BoardDTO> list = boardService.selectAllMember(page, userId);
+			mv.setViewName("board/inquiryBoardList");
+			mv.addObject("pm", pm);
+			mv.addObject("list", list);
+		}
 
 		return mv;
 	}
@@ -50,7 +73,7 @@ public class BoardController {
 	/**
 	 * 1대1게시판 글 쓰기뷰
 	 */
-	@RequestMapping("/inquiryBoardWrite")
+	@RequestMapping("/inquiryBoardWriteNew")
 	public void write() {
 
 	}
@@ -129,9 +152,17 @@ public class BoardController {
 	 * 1대1게시판 댓글삽입
 	 */
 	@RequestMapping("/insertReply")
-	public String insertReply(BoardReplyDTO brDTO) throws Exception {
-		boardService.insertReply(brDTO);
+	public String insertReply(Authentication auth, BoardReplyDTO brDTO) throws Exception {
+		String userId = ((MemberDTO) auth.getPrincipal()).getUserId();
+		
+		if (userId.equals("tester")) {
+			boardService.insertReply(brDTO);
+		}
+		else{
+			throw new Exception("운영자만이 댓글을 등록할 수 있습니다.");
+		}
 		return "redirect:/board/inquiryBoardReadNew/" + brDTO.getBoard().getInquiryNum();
+
 	}
 	
 	/////////////////////////////////////////////////////////////////
@@ -146,7 +177,7 @@ public class BoardController {
 			page = new Integer(1);
 		
 		PageMaker pm = new PageMaker(page, noticeService.countNoticeList()/ 6 + 1);
-		//System.out.println("noticeService.countNoticeList()/ 6 + 1:" + noticeService.countNoticeList()/ 6 + 1);
+		
 		pm.start();
 		List<NoticeBoardDTO> list = noticeService.selectAll(page);
 		ModelAndView mv = new ModelAndView();
@@ -175,7 +206,13 @@ public class BoardController {
 	 * 공지게시판 삭제
 	 */
 	@RequestMapping(value="/noticeDelete", method=RequestMethod.GET)
-	public String noticeDelete(@RequestParam(value="noticeNum")int noticeNum) throws Exception {
+	public String noticeDelete(Authentication auth, @RequestParam(value="noticeNum")int noticeNum) throws Exception {
+		
+		String userId = ((MemberDTO) auth.getPrincipal()).getUserId();
+		
+		if(!userId.equals("tester")){
+			throw new Exception("Id가 tester인 운영자만 삭제할 수 있습니다.");
+		}
        
 		noticeService.delete(noticeNum);
 		return "redirect:/board/noticeBoardList";
@@ -193,9 +230,16 @@ public class BoardController {
 	 * 공지게시판 글쓰기 기능
 	 */
 	@RequestMapping(value = "/noticeInsert", produces = "text/html;charset=UTF-8")
-	public String noticeInsert(NoticeBoardDTO boardDTO) throws Exception {
+	public String noticeInsert(Authentication auth, NoticeBoardDTO boardDTO) throws Exception {
 
 		String re = "";
+		
+		String userId = ((MemberDTO) auth.getPrincipal()).getUserId();
+		
+		System.out.println("userId: " + userId);
+		if(!userId.equals("tester")){
+			throw new Exception("Id가 tester인 운영자만 글을 쓸 수 있습니다.");
+		}
 		
 		boardDTO.setUserId("tester");
 
@@ -207,10 +251,5 @@ public class BoardController {
 			throw new Exception("글 등록 실패");
 		}
 		return re;
-	}
-	
-	@RequestMapping("/inquiryBoardRead(new)")
-	public void inquiryBoardRead(){
-		
 	}
 }
