@@ -243,7 +243,7 @@
 											대기중입니다 :)</div>
 									</c:if>
 								</div>
-								<div class="info">	
+								<div class="info">
 									<div class="type">
 										<div id="hashList">
 											<c:if test="${errands.hashes.size()    != 0}">
@@ -408,7 +408,7 @@
 													<figure class="author">
 														<img
 															src="${pageContext.request.contextPath}/users/${reply.user.userId}/${reply.user.selfImg}"
-															alt="" >
+															alt="">
 
 													</figure>
 													<!-- /.author-->
@@ -419,15 +419,18 @@
 															<i class="fa fa-user-o"></i>
 														</c:if>
 														<h5 class="imgSelect">${reply.user.userId}</h5>
-												
-														<c:forEach items="${reply.user.hashList}" var="hash" end="5">
+
+														<c:forEach items="${reply.user.hashList}" var="hash"
+															end="5">
 															<span class="label label-primary">${hash.hashtag}</span>
 														</c:forEach>
-														<figure class="rating big pull-right" data-rating="${(reply.user.gpaList[0].responseKindness+reply.user.gpaList[0].responseAccuracy+reply.user.gpaList[0].responseSpeed)/3}"></figure>
+														<figure class="rating big pull-right"
+															data-rating="${(reply.user.gpaList[0].responseKindness+reply.user.gpaList[0].responseAccuracy+reply.user.gpaList[0].responseSpeed)/3}"></figure>
 														<div class="date">
 															<b>예상 도착</b><br>${reply.arrivalTime}</div>
 														<c:if test="${currentId == reply.user.userId}">
-															<button type="button" class="btn btn-danger"
+															<button type="button"
+																class="btn framed icon pull-right roll"
 																onclick="location.href='${pageContext.request.contextPath}/errand/deleteReply?num=${reply.replyNum}&eNum=${errands.errandsNum}'">
 																삭제</button>
 														</c:if>
