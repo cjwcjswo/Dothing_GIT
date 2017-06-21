@@ -243,7 +243,16 @@
 				<div class="items-list">
 					<div class="inner">
 						<header>
-							<h3>검색 결과</h3>
+							<div class="row">
+								<div class="col-sm-6">
+									<h3>검색 결과</h3>
+								</div>
+								<div class="col-sm-6">
+									<a href="listing-grid.html" class="btn icon "><i
+										class="fa fa-th"></i>Grid</a> <a href="listing-list.html"
+										class="btn icon"><i class="fa fa-th-list"></i>List</a>
+								</div>
+							</div>
 						</header>
 						<ul class="results list">
 							<c:forEach items="${errandsList}" var="errands" varStatus="state">
@@ -435,17 +444,7 @@
 				</div>
 			</section>
 
-			<!--Banner-->
-			<section>
-				<div class="container">
-					<div class="block">
-						<a href="#"><img
-							src="${pageContext.request.contextPath}/resources/img/errands/img.png"
-							alt=""></a>
-					</div>
-				</div>
-			</section>
-			<!--end Banner-->
+		
 			<!--Subscribe-->
 			<section id="subscribe" class="block">
 				<div class="container">
@@ -469,43 +468,7 @@
 				<!--/.container-->
 			</section>
 			<!--end Subscribe-->
-			<!--Partners-->
-			<section id="partners" class="block">
-				<div class="container">
-					<header>
-						<h2>파트너사</h2>
-					</header>
-					<div class="logos">
-						<div class="logo">
-							<a href="#"><img
-								src="${pageContext.request.contextPath}/resources/img/errands/img.png"
-								alt=""></a>
-						</div>
-						<div class="logo">
-							<a href="#"><img
-								src="${pageContext.request.contextPath}/resources/img/errands/img.png"
-								alt=""></a>
-						</div>
-						<div class="logo">
-							<a href="#"><img
-								src="${pageContext.request.contextPath}/resources/img/errands/img.png"
-								alt=""></a>
-						</div>
-						<div class="logo">
-							<a href="#"><img
-								src="${pageContext.request.contextPath}/resources/img/errands/img.png"
-								alt=""></a>
-						</div>
-						<div class="logo">
-							<a href="#"><img
-								src="${pageContext.request.contextPath}/resources/img/errands/img.png"
-								alt=""></a>
-						</div>
-					</div>
-				</div>
-				<!--/.container-->
-			</section>
-			<!--end Partners-->
+			
 		</div>
 		<!-- end Page Content-->
 	</div>

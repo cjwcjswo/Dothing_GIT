@@ -233,13 +233,12 @@ Notification.requestPermission(function(result) {
 				<div class="col-md-4 col-sm-6 item">
 					<div class="box">
 						<img class="img-circle"
-							src="${pageContext.request.contextPath}/assets/img/2.jpg">
+							src="${pageContext.request.contextPath}/assets/img/main/3.jpg">
 						<h3 class="name">박태규</h3>
 						<p class="title">총 개발감독</p>
-						<p class="description">Aenean tortor est, vulputate quis leo
-							in, vehicula rhoncus lacus. Praesent aliquam in tellus eu
-							gravida. Aliquam varius finibus est, et interdum justo suscipit
-							id. Etiam dictum feugiat tellus, a semper massa.</p>
+						<p class="description">당신이 나서지 않는다면 아무것도 되지 않을 것이다 - 마야 앤젤루</p>
+						<p class="description">
+						혼자서는 아무것도 할 수 없는 요즘, 서로가 서로를 도와줄 때 우리 세상은 아름다워집니다. 이웃과 하나가 되는 서비스, 저희가 제공하겠습니다.</p>
 						<div class="social">
 							<a href="#"><i class="fa fa-facebook-official"></i></a><a
 								href="#"><i class="fa fa-twitter"></i></a><a href="#"><i
@@ -250,13 +249,12 @@ Notification.requestPermission(function(result) {
 				<div class="col-md-4 col-sm-6 item">
 					<div class="box">
 						<img class="img-circle"
-							src="${pageContext.request.contextPath}/assets/img/3.jpg">
+							src="${pageContext.request.contextPath}/assets/img/main/2.jpg">
 						<h3 class="name">최진우</h3>
 						<p class="title">프로젝트 매니저</p>
-						<p class="description">Aenean tortor est, vulputate quis leo
-							in, vehicula rhoncus lacus. Praesent aliquam in tellus eu
-							gravida. Aliquam varius finibus est, et interdum justo suscipit
-							id. Etiam dictum feugiat tellus, a semper massa.</p>
+						<p class="description">SCV good to go sir - SCV</p>
+						
+						<p class="description">사용자의 편의를 위해 일꾼처럼 행동하고 때론 불편함과 맞서싸우는것이 저의 슬로건입니다</p>
 						<div class="social">
 							<a href="#"><i class="fa fa-facebook-official"></i></a><a
 								href="#"><i class="fa fa-twitter"></i></a><a href="#"><i
@@ -270,8 +268,8 @@ Notification.requestPermission(function(result) {
 				<div class="col-md-4 col-sm-6 item">
 					<div class="box">
 						<img class="img-circle"
-							src="${pageContext.request.contextPath}/assets/img/main/1.jpg">
-						<h3 class="name">이태호</h3>
+							src="${pageContext.request.contextPath}/assets/img/main/4.jpg">
+						<h3 class="name">강문식</h3>
 						<p class="title">웹 디자인 및 기획</p>
 						<p class="description">형태는 기능을 따른다. -루이스 설리반</p>
 						<p class="description">사용자에게 최고의 경험을 선사할 수 있는 수석 디자이너입니다. 웹부터
@@ -287,14 +285,13 @@ Notification.requestPermission(function(result) {
 				<div class="col-md-4 col-sm-6 item">
 					<div class="box">
 						<img class="img-circle"
-							src="${pageContext.request.contextPath}/assets/img/main/1.jpg">
-						<h3 class="name">이태호</h3>
+							src="${pageContext.request.contextPath}/assets/img/main/5.jpg">
+						<h3 class="name">이상호</h3>
 						<p class="title">웹 디자인 및 기획</p>
 						<p class="description">
-						형태는 기능을 따른다. -루이스 설리반</p>
+						때론 미친척하고 용기를 내 볼 필요도 있어 진짜 딱 20초만 창피해도 용기를 내는 거야 그럼 장담하는데 멋진 일이 생길 거야 - 영화 우리는 동물원을 샀다 중에서</p>
 						<p class="description">
-						  사용자에게 최고의 경험을 선사할 수 있는 수석 디자이너입니다.
-						  웹부터 사용자의 손 끝까지 모든 순간의 행복이 곧 저의 행복입니다.
+						 우리는 살면서 많은 에피소드가 발생 할 수 있다. 하지만 용기가 없어 시도를 하지 않아 발생 안 하는 경우가 더 많을 수도 있다. 한번 사는 인생에서 때론 미친척하고 용기를 내보는것도 어떨까? 장담컨데 특별한 일이 있을 것 입니다. 
 						</p>
 						<div class="social">
 							<a href="#"><i class="fa fa-facebook-official"></i></a><a
