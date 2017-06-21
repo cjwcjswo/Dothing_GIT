@@ -32,9 +32,8 @@
 					<div class="container">
 
 						<ol class="breadcrumb">
-							<li><a href="index-directory.html"><i class="fa fa-home"></i></a></li>
-							<li><a href="#">Page</a></li>
-							<li class="active">Detail</li>
+							<li><a href="${pageContext.request.contextPath}"><i class="fa fa-home"></i></a></li>
+							<li><a href="#">FAQ게시판</a></li>
 						</ol>
 						<!-- /.breadcrumb-->
 					</div>
@@ -66,19 +65,27 @@
 							</figure>
 							<div class="collapse" id="form-faq">
 								<div class="">
-									<form role="form" action="?" method="post">
-										<div class="form-group">
+									<form name ="writeForm" role="form" action="${pageContext.request.contextPath}/board/insert" onSubmit='return checkValid()' method="post">
+												<!-- <div class="form-group">
 											<label for="faq-form-email">id</label> <input type="text"
 												class="form-control" id="faq-form-email" required=""
 												disabled>
-										</div>
-										<!-- /.form-group -->
-										<div class="form-group">
-											<label for="faq-form-question">질문</label>
-											<textarea class="form-control" id="faq-form-question"
-												name="faq-form-question" rows="3" required=""></textarea>
-										</div>
-										<!-- /.form-group -->
+										</div> -->
+												<!-- /.form-group -->
+												<input type="hidden" name="${_csrf.parameterName}"
+													value="${_csrf.token}">
+												<div class="form-group">
+													<label for="faq-form-email">제목</label> <input type="text"
+														class="form-control" name="boardTitle" id="faq-form-email"
+														required="">
+												</div>
+												
+												<div class="form-group">
+													<label for="faq-form-question">질문</label>
+													<textarea class="form-control" id="faq-form-question"
+														name="boardContent" rows="3" required=""></textarea>
+												</div>
+												<!-- /.form-group -->
 										<div class="form-group">
 											<button type="submit" class="btn btn-default">제출하기</button>
 										</div>
