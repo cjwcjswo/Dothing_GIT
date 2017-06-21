@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import dothing.web.dto.MemberDTO;
+import dothing.web.dto.PointDTO;
 import dothing.web.service.AdminMoneyService;
 import dothing.web.service.MemberService;
 
@@ -214,15 +215,25 @@ public class MemberController {
 	}
 	
 	@RequestMapping("/pointCharge")
-	public String pointCharge(Authentication auth, String select, String way){
+	public ModelAndView pointCharge(Authentication auth, String select, String way){
 		
 		String userId = ((MemberDTO) auth.getPrincipal()).getUserId();
-		
+		int value = 0;
+		ModelAndView mv = new ModelAndView();
 		if(way.equals("bandBook")){
-			int value = Integer.parseInt(select);
+			value = Integer.parseInt(select);
 			adminMoneyService.pointChargeBandBook(userId, value);
+			mv.setViewName("/user/charge");
 		}
-		
-		return "redirect:/user/charge";
+		else if(way.equals("card")){
+			value = Integer.parseInt(select);
+			adminMoneyService.pointChargeCard(userId, value);
+			
+			MemberDTO currentUser = (MemberDTO) auth.getPrincipal();
+			((MemberDTO) auth.getPrincipal()).getPoint().setCurrentPoint(currentUser.getPoint().getCurrentPoint()+value);
+			
+			mv.setViewName("/user/charge");
+		}
+		return mv;
 	}
 }

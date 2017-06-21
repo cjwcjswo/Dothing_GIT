@@ -37,7 +37,13 @@
 	
 	<!-- 무통장 입금 포인트 요청 값 올려주기 -->
 	<update id="pointCharge" parameterType="map">
-	    update point set request_point = #{select}
+	    update point set request_point = #{select}+request_point
+	    where member_id=#{userId}
+	</update>
+	
+	<!-- 카드 입금 포인트 변경해주기 -->
+	<update id="pointChargeCard" parameterType="map">
+	    update point set current_point=#{select}+current_point 
 	    where member_id=#{userId}
 	</update>
 </mapper>

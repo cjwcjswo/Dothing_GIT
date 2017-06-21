@@ -30,5 +30,10 @@ public interface AdminMoneyService {
 	 * 무통장 입금 포인트 요청값 올리기
 	 */
 	int pointChargeBandBook(String userId, int select);
+	
+	/**
+	 * 카드 입금 포인트 값 변경해주기
+	 */
+	int pointChargeCard(String userId, int select);
 
 }

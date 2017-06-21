@@ -49,5 +49,14 @@ public class AdminMoneyDAOImpl implements AdminMoneyDAO {
 		map.put("select", select);
 		return sqlSession.update("mapper.pointMapper.pointCharge",map);
 	}
+	
+	@Override
+	public int pointChargeCard(String userId, int select) {
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("userId", userId);
+		map.put("select", select);
+		return sqlSession.update("mapper.pointMapper.pointChargeCard",map);
+	}
 
 }
