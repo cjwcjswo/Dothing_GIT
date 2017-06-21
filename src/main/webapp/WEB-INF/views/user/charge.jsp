@@ -17,12 +17,20 @@
 <link rel="stylesheet" href="assets/css/dropzone.css" type="text/css">
 <link rel="stylesheet" href="assets/css/style.css" type="text/css">
 <link rel="stylesheet" href="assets/css/user.style.css" type="text/css">
-<!-- <script type="text/javascript">
+<script type="text/javascript">
   
-  function selectBox() {
-	
+  function chargePoint() {
+	  var select = $("#sel1 option:selected").val();
+	  var way = $("input:radio[name=radioValue]:checked").val();
+	  
+	  if(way == null){
+		  alert("결제 방식을 선택해주세요.");
+		  return false;
+	  }
+	  location.href="${pageContext.request.contextPath}/user/pointCharge?select="+select+"&way="+way;
+	  return true;
 }
-</script> -->
+</script>
 </head>
 <body onunload=""
 	class="page-subpage page-my-items navigation-off-canvas" id="page-top">
@@ -81,15 +89,16 @@
 					<tr>
 
 						<td align="left">결제 수단 :<label class="radio-inline"><input
-								type="radio" name="optradio">무통장 입금</label> <label
-							class="radio-inline"><input type="radio" name="optradio">카드결제</label></td>
+								type="radio" name="radioValue" value="bandBook">무통장 입금</label> <label
+							class="radio-inline"><input type="radio"
+								name="radioValue" value="card">카드결제</label></td>
 					</tr>
 				</thead>
 				<tbody align="left">
 					<tr>
 						<div class="form-group col-xs-4">
 							<label for="sel1">포인트 액수</label> <select class="form-control"
-								id="sel1" onChange="selectBox()">
+								id="sel1">
 								<option value="5000">5,000p(5,000원)</option>
 								<option value="10000">10,000p(10,000원)</option>
 								<option value="20000">20,000p(20,000원)</option>
@@ -106,7 +115,11 @@
 
 			</table>
 			<div class="form-group" align="center">
-				<button type="submit" class="btn btn-large btn-default" id="submit">충전</button>
+				<input type="hidden" name="${_csrf.parameterName}"
+					value="${_csrf.token}"> <input type="hidden" id="select" />
+				<input type="hidden" id="way" />
+				<button type="submit" class="btn btn-large btn-default" id="submit"
+					onclick="chargePoint()">충전</button>
 
 
 			</div>

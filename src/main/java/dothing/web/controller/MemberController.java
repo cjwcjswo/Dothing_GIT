@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import dothing.web.dto.MemberDTO;
 import dothing.web.dto.NotificationDTO;
+import dothing.web.service.AdminMoneyService;
 import dothing.web.service.MemberService;
 import dothing.web.util.PageMaker;
 
@@ -30,6 +31,8 @@ public class MemberController {
 	private MemberService memberService;
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	@Autowired
+	private AdminMoneyService adminMoneyService;
 
 	/**
 	 * °¡ÀÔ Æû
@@ -218,5 +221,28 @@ public class MemberController {
 	@RequestMapping("/charge")
 	public void charge() {
 
+	}
+	
+	@RequestMapping("/pointCharge")
+	public ModelAndView pointCharge(Authentication auth, String select, String way){
+		
+		String userId = ((MemberDTO) auth.getPrincipal()).getUserId();
+		int value = 0;
+		ModelAndView mv = new ModelAndView();
+		if(way.equals("bandBook")){
+			value = Integer.parseInt(select);
+			adminMoneyService.pointChargeBandBook(userId, value);
+			mv.setViewName("/user/charge");
+		}
+		else if(way.equals("card")){
+			value = Integer.parseInt(select);
+			adminMoneyService.pointChargeCard(userId, value);
+			
+			MemberDTO currentUser = (MemberDTO) auth.getPrincipal();
+			((MemberDTO) auth.getPrincipal()).getPoint().setCurrentPoint(currentUser.getPoint().getCurrentPoint()+value);
+			
+			mv.setViewName("/user/charge");
+		}
+		return mv;
 	}
 }

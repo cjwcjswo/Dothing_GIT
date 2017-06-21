@@ -9,34 +9,48 @@
 			<id column="member_id" property="userId" />
 		</association>
 	</resultMap>
-	
+
 	<!-- 무통장 입금 신청 리스트(전환 안된 리스트만) -->
 	<select id="selectAll" resultMap="pointSelectMap">
-		select 
-		current_point,request_point,member_id 
-		from point 
+		select
+		current_point,request_point,member_id
+		from point
 		where request_point != 0
-	</select> 
-	
+	</select>
+
 	<!-- 포인트로 전환해주기 -->
 	<update id="changePoint" parameterType="String">
-	    update point set request_point = 0, current_point=request_point + current_point
-	     where member_id=#{value}
+		update point set request_point = 0, current_point=request_point +
+		current_point
+		where member_id=#{value}
 	</update>
-	
+
 	<!-- 입금안되서 요청포인트 0으로 만들기 -->
 	<update id="pointCancel" parameterType="String">
-	    update point set request_point = 0
-	     where member_id=#{value}
+		update point set request_point = 0
+		where member_id=#{value}
 	</update>
-	
+
 	<!-- 페이징 -->
 	<select id="countPointList" resultType="int">
-		select count(*) from point
+		select count(*) from
+		point
 	</select>
-	
+
 	<!-- 선택한 유저 리퀘스트 포인트 가져오기 -->
 	<select id="getRequestPoint" parameterType="string" resultType="int">
 		select REQUEST_POINT from POINT where MEMBER_ID = #{value}
 	</select>
+
+	<!-- 무통장 입금 포인트 요청 값 올려주기 -->
+	<update id="pointCharge" parameterType="map">
+		update point set request_point = #{select}+request_point
+		where member_id=#{userId}
+	</update>
+
+	<!-- 카드 입금 포인트 변경해주기 -->
+	<update id="pointChargeCard" parameterType="map">
+		update point set current_point=#{select}+current_point
+		where member_id=#{userId}
+	</update>
 </mapper>
