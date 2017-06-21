@@ -43,7 +43,7 @@ public class HomeController {
 		return new ModelAndView("/errand/chat", "errandsNum", errandsNum);
 	}
 	
-<<<<<<< HEAD
+
 	@RequestMapping("/etc/about-us")
 	public String aboutUs(){
 		
@@ -61,7 +61,7 @@ public class HomeController {
 	public String termsConditions(){
 		return "/etc/terms-conditions" ;
 	}
-=======
+
 	@RequestMapping("/crawl")
 	public ModelAndView crawl(String pageName){
 		Map<String, List<CrawlDataDTO>> map = crawlService.parseMainPage(pageName);
@@ -70,7 +70,6 @@ public class HomeController {
 	}
 	
 	
->>>>>>> 005995e38ad173976c3efaf2cb0182bfd8c9401e
 
 
 }

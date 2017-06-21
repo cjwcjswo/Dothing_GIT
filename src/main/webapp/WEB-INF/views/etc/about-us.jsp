@@ -52,7 +52,7 @@
 								<div class="text-banner">
 									<figure>
 										<img
-											src="${pageContext.request.contextPath}/assets/img/marker.png"
+											src="${pageContext.request.contextPath}/assets/img/branding.png"
 											alt="">
 									</figure>
 									<div class="description">
