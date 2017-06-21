@@ -243,7 +243,7 @@
 											대기중입니다 :)</div>
 									</c:if>
 								</div>
-								<div class="info">
+								<div class="info">	
 									<div class="type">
 										<div id="hashList">
 											<c:if test="${errands.hashes.size()    != 0}">
@@ -408,7 +408,7 @@
 													<figure class="author">
 														<img
 															src="${pageContext.request.contextPath}/users/${reply.user.userId}/${reply.user.selfImg}"
-															alt="">
+															alt="" >
 
 													</figure>
 													<!-- /.author-->

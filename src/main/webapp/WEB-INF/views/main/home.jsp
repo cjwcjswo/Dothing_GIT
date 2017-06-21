@@ -177,7 +177,7 @@ Notification.requestPermission(function(result) {
 			<div class="row articles">
 				<div class="col-md-4 col-sm-6 item">
 					<a href="#"><img class="img-responsive"
-						src="${pageContext.request.contextPath}/assets/img/desk.jpg"></a>
+						src="${pageContext.request.contextPath}/assets/img/main/errandre.png"></a>
 					<h3 class="name">심부름을 신청해보세요</h3>
 					<p class="description">DoThing에서는 모든 심부름과 심부름 삯을 사용자가 직접 설정 할 수
 						있습니다. 최저 배달 비용과 모든 심부름을 내 주변 사람들에게 도와달라고 부탁해보세요!</p>
@@ -185,7 +185,7 @@ Notification.requestPermission(function(result) {
 				</div>
 				<div class="col-md-4 col-sm-6 item">
 					<a href="#"><img class="img-responsive"
-						src="${pageContext.request.contextPath}/assets/img/building.jpg"></a>
+						src="${pageContext.request.contextPath}/assets/img/main/chat.png"></a>
 					<h3 class="name">실시간 채팅을 통해서</h3>
 					<p class="description">자세한 요청 사항을 매칭된 직접 심부름꾼에게 말해보세요. 빅맥세트에서
 						콜라를 쉐이크로 바꿀 수 있는 놀라운 마술! 우리집에서 우리 회사로 바꿀 수 있는 놀라운 매력!</p>
@@ -193,7 +193,7 @@ Notification.requestPermission(function(result) {
 				</div>
 				<div class="col-md-4 col-sm-6 item">
 					<a href="#"><img class="img-responsive"
-						src="${pageContext.request.contextPath}/assets/img/loft.jpg"></a>
+						src="${pageContext.request.contextPath}/assets/img/main/review.png"></a>
 					<h3 class="name">리뷰와 평점, 그리고 인증을 통해 안전과 신뢰를 보장합니다!</h3>
 					<p class="description">DoThing에서는 모두가 심부름꾼이 될 수 있고, 심부름 요청을 할 수
 						있습니다. 만약, 상대가 어떨지에 대해 궁금하세요? 상대방을 해시태그 리뷰와 평점을 통해 선택해보세요!</p>
