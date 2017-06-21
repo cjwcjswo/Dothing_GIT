@@ -1,5 +1,6 @@
 package dothing.web.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 import dothing.web.dao.AuthorityDAO;
 import dothing.web.dao.MemberDAO;
 import dothing.web.dto.AuthorityDTO;
+import dothing.web.dto.GPADTO;
 import dothing.web.dto.MemberDTO;
 import dothing.web.dto.MemberHashDTO;
+import dothing.web.dto.NotificationDTO;
 import dothing.web.util.Constants;
 
 @Service
@@ -102,5 +105,70 @@ public class MemberServiceImpl implements MemberService{
 	public int deleteUser(String id) {
 		return memberDao.deleteUser(id);
 	}
+
+	@Override
+	public List<String> selectAuth(String id) {
+		return memberDao.selectAuth(id);
+	}
+
+	@Override
+	public int updateSafety(MemberDTO dto) {
+		return memberDao.updateSafety(dto);
+	}
+
+	@Override
+	public int insertSafety(String id) {
+		return memberDao.insertSafety(id);
+	}
+
+	@Override
+	public List<MemberDTO> selectNotSafety(int page) {
+		List<MemberDTO> memberList = new ArrayList<>();
+		for(MemberDTO dto: memberDao.selectNotSafety(page)){
+			if(memberDao.isSafety(dto.getUserId())){
+				memberList.add(dto);
+			}
+		}
+		return memberList;
+	}
 	
+	@Override
+	public int countNotSafety(){
+		return memberDao.countNotSafety();
+	}
+
+	@Override
+	public List<MemberDTO> selectRanked() {
+		List<GPADTO> gpaList = memberDao.averageGPA(null);
+		List<MemberDTO> memberList = new ArrayList<MemberDTO>();
+		for(GPADTO dto : gpaList){
+			List<GPADTO> newList = new ArrayList<GPADTO>();
+			newList.add(dto);
+			MemberDTO member = memberDao.selectMemberById(dto.getUserId());
+			member.setGpaList(newList);
+			member.setHashList(memberDao.selectHashtag(dto.getUserId()));
+			memberList.add(member);
+		}
+		return memberList;
+	}
+
+	@Override
+	public List<NotificationDTO> selectNotificationById(String id) {
+		return memberDao.selectNotificationById(id);
+	}
+
+	@Override
+	public int insertNotification(String id, String content) {
+		return memberDao.insertNotification(id, content);
+	}
+
+	@Override
+	public int notReadNoti(String id) {
+		return memberDao.notReadNoti(id);
+	}
+
+	@Override
+	public int allRead(String id) {
+		return memberDao.allRead(id);
+	}
 }

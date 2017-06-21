@@ -252,9 +252,4 @@ public class BoardController {
 		}
 		return re;
 	}
-	
-	@RequestMapping("/inquiryBoardRead(new)")
-	public void inquiryBoardRead(){
-		
-	}
 }

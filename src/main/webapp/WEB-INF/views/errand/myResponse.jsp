@@ -112,7 +112,7 @@ var currentId = "<security:authentication property='principal.userId'/>";
 	<div id="page-canvas">
 		<!--Off Canvas Navigation-->
 		<nav class="off-canvas-navigation">
-			<header>Navigation</header>
+			<header>메뉴</header>
 			<div class="main-navigation navigation-off-canvas"></div>
 		</nav>
 		<!--end Off Canvas Navigation-->
@@ -123,13 +123,7 @@ var currentId = "<security:authentication property='principal.userId'/>";
 			<!-- /.search-bar -->
 			<div class="breadcrumb-wrapper">
 				<div class="container">
-					<div class="redefine-search">
-						<a href="#redefine-search-form" class="inner"
-							data-toggle="collapse" aria-expanded="false"
-							aria-controls="redefine-search-form"> <span class="icon"></span>
-							<span>Redefine Search</span>
-						</a>
-					</div>
+
 					<ol class="breadcrumb">
 						<li><a href="${pageContext.request.contextPath}/"><i
 								class="fa fa-home"></i></a></li>
@@ -148,11 +142,17 @@ var currentId = "<security:authentication property='principal.userId'/>";
 			<section class="container">
 				<header>
 					<ul class="nav nav-pills">
-						<li><a href="${pageContext.request.contextPath}/user/myPage"><h1
-									class="page-title">개인정보</h1></a></li>
+						<li><a
+							href="${pageContext.request.contextPath}/user/myPage"><h1
+									class="page-title">개인 정보</h1></a></li>
 						<li class="active"><a
 							href="${pageContext.request.contextPath}/errand/myRequest"><h1
 									class="page-title">심부름 요청 및 수행 내역</h1></a></li>
+						<li><a
+							href="${pageContext.request.contextPath}/user/safetyRegister"><h1
+									class="page-title">안전심부름꾼 신청</h1></a></li>
+						<li class=""><a href="safetyRegister.jsp"><h1
+									class="page-title">포인트 충전 및 내역</h1></a></li>
 					</ul>
 				</header>
 				<div class="row">

@@ -25,7 +25,7 @@ public interface ErrandsService {
 	int insertErrands(ErrandsDTO dto, String path) throws FileNotFoundException, IOException;
 
 	int deleteErrands(int num);
-	
+	int cancleErrands(int num, int point,String id);
 	/**
 	 * 심부름 수정
 	 * @param errandsNum : 수정할 심부름 번호
@@ -43,6 +43,11 @@ public interface ErrandsService {
 	int selectNum();
 
 	int countErrands();
+	
+	/**
+	 * 돈되는 심부름
+	 */
+	List<ErrandsDTO> moneyErrands();
 
 	int insertReply(ErrandsReplyDTO dto);
 	int deleteReply(int num);

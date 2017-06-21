@@ -53,20 +53,17 @@
 	<!-- Page Canvas-->
 	<div id="page-canvas">
 
-
+		<nav class="off-canvas-navigation">
+			<header>메뉴</header>
+			<div class="main-navigation navigation-off-canvas"></div>
+		</nav>
 		<!--Sub Header-->
 		<section class="sub-header">
 			<div class="search-bar horizontal collapse" id="redefine-search-form"></div>
 			<!-- /.search-bar -->
 			<div class="breadcrumb-wrapper">
 				<div class="container">
-					<div class="redefine-search">
-						<a href="#redefine-search-form" class="inner"
-							data-toggle="collapse" aria-expanded="false"
-							aria-controls="redefine-search-form"> <span class="icon"></span>
-							<span>Redefine Search</span>
-						</a>
-					</div>
+
 					<ol class="breadcrumb">
 						<li><a href="${pageContext.request.contextPath}/"><i
 								class="fa fa-home"></i></a></li>
@@ -93,7 +90,9 @@
 									class="page-title">심부름 요청 및 수행 내역</h1></a></li>
 						<li><a
 							href="${pageContext.request.contextPath}/user/safetyRegister"><h1
-									class="page-title">안전심부름꾼 신청</h1></a></li>			
+									class="page-title">안전심부름꾼 신청</h1></a></li>
+						<li class=""><a href="${pageContext.request.contextPath}/user/charge"><h1
+									class="page-title">포인트 충전 및 내역</h1></a></li>
 					</ul>
 				</header>
 				<form name="f" role="form" method="post" action="update"
@@ -161,8 +160,7 @@
 														class="form-control" id="point" name="currentPoint"
 														pattern="\d*" value="${member.point.currentPoint }"
 														disabled> <a href="#"><i class="fa fa-krw"></i>
-														<span >포인트
-															충전하기</span></a>
+														<span>포인트 충전하기</span></a>
 
 
 												</div>
@@ -285,7 +283,7 @@
 				</form>
 			</section>
 
-		
+
 
 
 		</div>

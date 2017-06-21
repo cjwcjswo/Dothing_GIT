@@ -9,7 +9,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,6 +18,7 @@ import dothing.web.dto.ErrandsDTO;
 import dothing.web.dto.ErrandsReplyDTO;
 import dothing.web.dto.GPADTO;
 import dothing.web.dto.MemberDTO;
+import dothing.web.dto.PointDTO;
 import dothing.web.service.ChatService;
 import dothing.web.service.ErrandsService;
 import dothing.web.service.MemberService;
@@ -38,10 +38,13 @@ public class ErrandsController {
 	ChatService chatService;
 
 	@RequestMapping("/errand")
-	public ModelAndView errandsList(Integer page) {
-
+	public ModelAndView errandsList(Authentication aut, Integer page) {
+		MemberDTO member = (MemberDTO)aut.getPrincipal();
 		ModelAndView mv = new ModelAndView();
-		mv.addObject("errandsList", errandsService.selectAll());
+		mv.addObject("errandsList", errandsService.selectAll()); // 심부름 리스트
+		mv.addObject("rankedList", memberService.selectRanked()); // 심부름꾼 랭킹
+		mv.addObject("moneyList", errandsService.moneyErrands()); // 돈되는 심부름
+		mv.addObject("notRead", memberService.notReadNoti(member.getUserId()));
 		mv.setViewName("/errand/errand");
 		return mv;
 	}
@@ -53,14 +56,19 @@ public class ErrandsController {
 		mv.addObject("currentUser", (MemberDTO) aut.getPrincipal());
 		ErrandsDTO errands = errandsService.selectErrands(num);
 		mv.addObject("errands", errands);
+		if(errands.getResponseUser() != null){
+			String responseId = errands.getResponseUser().getUserId();
+			String responseSelfImg = memberService.selectMemberById(responseId).getSelfImg();
+			mv.addObject("responseSelfImg", responseSelfImg);
+		}
 		String requestId = errands.getRequestUser().getUserId();
-		String responseId = errands.getResponseUser().getUserId();
+		
 		
 		String requestSelfImg = memberService.selectMemberById(requestId).getSelfImg();
-		String responseSelfImg = memberService.selectMemberById(responseId).getSelfImg();
+		
 		
 		mv.addObject("requestSelfImg", requestSelfImg);
-		mv.addObject("responseSelfImg", responseSelfImg);
+		
 		List<String> list = chatService.getContent(num+"");
 		if(list != null){
 			mv.addObject("list", chatService.getContent(num+""));
@@ -98,6 +106,8 @@ public class ErrandsController {
 	@RequestMapping("/insertReply")
 	public String insert(HttpSession session, ErrandsReplyDTO dto) {
 		dto.setArrivalTime(dto.getArrivalTime().replaceAll("T", " "));
+		ErrandsDTO errand = errandsService.selectErrands(dto.getErrands().getErrandsNum());
+		memberService.insertNotification(errand.getRequestUser().getUserId(), errand.getErrandsNum() + "번 글에 " + dto.getUser().getUserId() + "님이 댓글을 달았습니다!");
 		errandsService.insertReply(dto);
 		return "redirect:/errand/detailView?num=" + dto.getErrands().getErrandsNum();
 	}
@@ -176,7 +186,19 @@ public class ErrandsController {
 		mv.setViewName("/errand/myResponse");
 		return mv;
 	}
-
+	/**
+	 * 심부름 취소
+	 */
+	@RequestMapping("/cancle")
+	public ModelAndView cancleErrands(Authentication aut, int num, int point){
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("redirect:/errand/myRequest");
+		MemberDTO currentMember = (MemberDTO)aut.getPrincipal();
+		errandsService.cancleErrands(num, point, currentMember.getUserId());
+		PointDTO currentPoint = currentMember.getPoint();
+		currentPoint.setCurrentPoint(currentPoint.getCurrentPoint() + point);
+		return mv;
+	}
 	/**
 	 * 심부름 수행 프로세스(심부름꾼 선택했을 때)
 	 */
@@ -204,7 +226,9 @@ public class ErrandsController {
 			String evalTag) {
 		ModelAndView mv = new ModelAndView();
 		ErrandsDTO errands = errandsService.selectErrands(gpaDTO.getErrandsNum()); // 해당 심부름 불러오기
+
 		if (requestId != null) { // 요청자가 확인할 경우
+			errandsService.updateErrands(gpaDTO.getErrandsNum(), null, null, null, null, "finish", 0);
 			gpaDTO.setRequestManners(0);
 			gpaDTO.setUserId(errands.getResponseUser().getUserId());
 			errandsService.okRequest(gpaDTO, errands.getResponseUser().getUserId(), evalTag);
@@ -220,10 +244,12 @@ public class ErrandsController {
 		
 		ErrandsDTO upErrands = errandsService.selectErrands(gpaDTO.getErrandsNum()); // 해당 심부름 불러오기
 		// 심부름꾼과 요청자가 모두 확인했을 경우
-		if (upErrands.getArrivalTime() != null && errands.getFinishTime() != null) {
+		if (upErrands.getArrivalTime() != null && upErrands.getFinishTime() != null) {
 			// 포인트 업데이뚜
 			int totalPrice = upErrands.getErrandsPrice() + upErrands.getProductPrice();
+			System.out.println(totalPrice + " 토탈프라이스 ");
 			memberService.updatePoint(totalPrice, upErrands.getResponseUser().getUserId());
+			System.out.println("들리니?");
 			MemberDTO loginUser = (MemberDTO)aut.getPrincipal();
 			if(loginUser.getUserId().equals(upErrands.getResponseUser().getUserId())){
 				loginUser.getPoint().setCurrentPoint(loginUser.getPoint().getCurrentPoint() + totalPrice);

@@ -15,6 +15,8 @@ public class MemberDTO {
 	private int auth;
 	private String selfImg;
 	private String ssnImg;
+	private String joinDate;
+	private String introduce;
 	
 	private String userType;
 	
@@ -77,6 +79,31 @@ public class MemberDTO {
 		this.auth = auth;
 		this.selfImg = selfImg;
 		this.ssnImg = ssnImg;
+		this.userType = userType;
+		this.selfImgFile = selfImgFile;
+		this.ssnImgFile = ssnImgFile;
+		this.point = point;
+		this.gpaList = gpaList;
+	}
+	
+	
+
+	public MemberDTO(String userId, String name, String password, String email, String sex, String addr, String phone,
+			int auth, String selfImg, String ssnImg, String joinDate, String introduce, String userType,
+			MultipartFile selfImgFile, MultipartFile ssnImgFile, PointDTO point, List<GPADTO> gpaList) {
+		super();
+		this.userId = userId;
+		this.name = name;
+		this.password = password;
+		this.email = email;
+		this.sex = sex;
+		this.addr = addr;
+		this.phone = phone;
+		this.auth = auth;
+		this.selfImg = selfImg;
+		this.ssnImg = ssnImg;
+		this.joinDate = joinDate;
+		this.introduce = introduce;
 		this.userType = userType;
 		this.selfImgFile = selfImgFile;
 		this.ssnImgFile = ssnImgFile;
@@ -168,6 +195,22 @@ public class MemberDTO {
 	public void setSsnImgFile(MultipartFile ssnImgFile) {
 		this.ssnImgFile = ssnImgFile;
 	}
+	
+	public String getJoinDate() {
+		return joinDate;
+	}
+
+	public void setJoinDate(String joinDate) {
+		this.joinDate = joinDate;
+	}
+
+	public String getIntroduce() {
+		return introduce;
+	}
+
+	public void setIntroduce(String introduce) {
+		this.introduce = introduce;
+	}
 
 	public String getUserType() {
 		return userType;
@@ -181,9 +224,12 @@ public class MemberDTO {
 	public String toString() {
 		return "MemberDTO [userId=" + userId + ", name=" + name + ", password=" + password + ", email=" + email
 				+ ", sex=" + sex + ", addr=" + addr + ", phone=" + phone + ", auth=" + auth + ", selfImg=" + selfImg
-				+ ", ssnImg=" + ssnImg + ", userType=" + userType + ", selfImgFile=" + selfImgFile + ", ssnImgFile="
-				+ ssnImgFile + ", point=" + point + ", gpaList=" + gpaList + "]";
+				+ ", ssnImg=" + ssnImg + ", joinDate=" + joinDate + ", introduce=" + introduce + ", userType="
+				+ userType + ", selfImgFile=" + selfImgFile + ", ssnImgFile=" + ssnImgFile + ", point=" + point
+				+ ", gpaList=" + gpaList + "]";
 	}
+
+	
 
 	
 	

@@ -13,19 +13,25 @@
 <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700'
 	rel='stylesheet' type='text/css'>
 
+<!-- google platform library -->
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+
+<!-- specify client ID -->
+<meta name="google-signin-client_id" content="852010525738-koadhapuooddd7np0govnv6lfgg5tsqf.apps.googleusercontent.com">
+
 <title>로그인</title>
 
 </head>
 
 <body onunload=""
-	class="page-subpage page-sign-in navigation-off-canvas" id="page-top">
+	class="page-subpage page-item-detail navigation-off-canvas" id="page-top">
 
 
 	<!-- Page Canvas-->
 	<div id="page-canvas">
 		<!--Off Canvas Navigation-->
 		<nav class="off-canvas-navigation">
-			<header>Navigation</header>
+			<header>메뉴</header>
 			<div class="main-navigation navigation-off-canvas"></div>
 		</nav>
 		<!--end Off Canvas Navigation-->
@@ -36,13 +42,6 @@
 			<!-- /.search-bar -->
 			<div class="breadcrumb-wrapper">
 				<div class="container">
-					<div class="redefine-search">
-						<a href="#redefine-search-form" class="inner"
-							data-toggle="collapse" aria-expanded="false"
-							aria-controls="redefine-search-form"> <span class="icon"></span>
-							<span>Redefine Search</span>
-						</a>
-					</div>
 					<ol class="breadcrumb">
 						<li><a href="${pageContext.request.contextPath}/"><i
 								class="fa fa-home"></i></a></li>
@@ -83,9 +82,12 @@
 								</div>
 								<!-- /.form-group -->
 								<div class="form-group clearfix">
+								<div class="g-signin2" data-onsuccess="onSignIn" align="right"></div>
 									<button type="submit" class="btn pull-right btn-default"
 										id="account-submit">로그인</button>
+										
 								</div>
+								
 								<!-- /.form-group -->
 							</form>
 						</div>

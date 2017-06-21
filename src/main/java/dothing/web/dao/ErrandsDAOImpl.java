@@ -130,6 +130,11 @@ public class ErrandsDAOImpl implements ErrandsDAO{
 	public List<GPADTO> selectGPAById(String id) {
 		return sqlSession.selectList("mapper.errandsGPAMapper.selectGPAById",id);
 	}
+
+	@Override
+	public List<ErrandsDTO> moneyErrands() {
+		return sqlSession.selectList("mapper.errandsMapper.moneyErrands", null, new RowBounds(0, 3));
+	}
 	
 	
 	

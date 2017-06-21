@@ -1,7 +1,24 @@
 select *from tab;
 
+select *from MEMBER_POINT_VIEW
+
 select *from point;
+
 select *from member;
+
+select 
+		current_point,request_point,member_id 
+		from point 
+		where request_point is not NULL
+		
+update point set request_point = NULL, current_point=request_point + current_point 
+where member_id='tester'
+
+update point set request_point=1000 where member_id='qwer'
+
+select *from point;
+
+commit
 
 SELECT a.TABLE_NAME, c.COMMENTS, a.COLUMN_NAME, b.COMMENTS, a.DATA_TYPE, a.DATA_LENGTH, a.NULLABLE
 
@@ -17,7 +34,7 @@ where 1=1
 
    and a.COLUMN_NAME=b.COLUMN_NAME
 
-   and a.TABLE_NAME = 'INQUIRY_BOARD'
+   and a.TABLE_NAME = 'point'
 
 order by a.TABLE_NAME, a.COLUMN_ID
 
