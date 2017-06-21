@@ -42,7 +42,7 @@
 	margin-left: -125px;
 	bottom: 100px;
 	z-index: 9999;
-	background-color: #383838;
+	background-color: skyblue;
 	color: #F0F0F0;
 	font-family: Calibri;
 	font-size: 15px;
@@ -68,14 +68,23 @@
 		ws.onmessage = function(e){
 			var alertArr = e.data.split(':');
 			if(alertArr[0] == "댓글"){
-				$(".notify").html(alertArr[1]);
-				$('.notify').fadeIn(400).delay(3000).fadeOut(400);
+				$(".notify").html("<a href='${pageContext.request.contextPath}/errand/detailView?num="+alertArr[1].split("번")[0]+"'>"+alertArr[1]+"</a>");
+				$('.notify').fadeIn(400).delay(5000).fadeOut(400);
+			}else if(alertArr[0] == "심부름"){
+				$(".notify").html("<a href='${pageContext.request.contextPath}/errand/detailView?num="+alertArr[1].split("번")[0]+"'>"+alertArr[1]+"</a>");
+				$('.notify').fadeIn(400).delay(5000).fadeOut(400);
 			}
 		}
 	})
 </script>
+
 </head>
 <body>
+<!-- 알림 -->
+<!-- error -->
+<div class='error' style='display: none' id='notification'></div>
+	
+	
 	<!-- Outer Wrapper-->
 	<div id="outer-wrapper">
 		<!-- Inner Wrapper -->

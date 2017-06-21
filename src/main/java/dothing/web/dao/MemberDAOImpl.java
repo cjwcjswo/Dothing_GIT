@@ -150,7 +150,6 @@ public class MemberDAOImpl implements MemberDAO {
 	
 	@Override
 	public int countNotification(String id){
-		System.out.println("Z");
 		return sqlSession.selectOne("mapper.notificationMapper.count", id);
 	}
 }

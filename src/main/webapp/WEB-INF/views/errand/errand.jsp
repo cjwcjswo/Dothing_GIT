@@ -11,33 +11,7 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <title>심부름</title>
 <style type="text/css">
-/**
-알림 CSS
-**/
-.error {
-	width: 250px;
-	height: 20px;
-	height: auto;
-	position: fixed;
-	left: 50%;
-	margin-left: -125px;
-	bottom: 100px;
-	z-index: 9999;
-	background-color: #383838;
-	color: #F0F0F0;
-	font-family: Calibri;
-	font-size: 15px;
-	padding: 10px;
-	text-align: center;
-	border-radius: 2px;
-	-webkit-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
-	-moz-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
-	box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
-}
 </style>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/assets/js/jquery-2.1.0.min.js"></script>
-
 <script type="text/javascript"
 	src="//apis.daum.net/maps/maps3.js?apikey=900302937c725fa5d96ac225cbc2db10&libraries=services"></script>
 <script>
@@ -45,63 +19,9 @@
 		location.href = "${pageContext.request.contextPath}/errand/detailView?num=" + num;
 	}
 </script>
-<!-- SocketJS -->
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/sockjs.js"></script>
-<script>
-	var today = '<%=new java.text.SimpleDateFormat("MM/dd HH:mm").format(new java.util.Date())%>'
-	var sock = new SockJS('${pageContext.request.contextPath}/errand/register');
-	var msg = '새로운 심부름이 등록되었습니다.';
-	var insertRe = <%=session.getAttribute("insertResult")%>
-	
-	$(function(){
-		function sendMessage(){
-			if(insertRe > 0){
-				sock.send(msg);
-				alert('심부름 등록 성공?');
-			}
-		}
-		sendMessage();
-	});
-	
-	
-	sock.onopen = function() {
-	    $('#console').append('websocket opened' + '<br>');	
-	  	//스크롤 맨 아래로
-	 	document.getElementById('chatList').scrollTop = document.getElementById('chatList').scrollHeight;
-	};
-	
-	sock.onmessage = function(message) {
-		var receiveMessage = message.data;
-		alert("receiveMessage : "+receiveMessage);
-		//알림
-		$("#notification").val(receiveMessage);
-		$('.error').fadeIn(400).delay(3000).fadeOut(400);
-		
-		
-	 
-	};
-	/*
-	sock.onclose = function(event) {
-	    $('#console').append('websocket closed : ' + event);
-	};
 
-  */
-</script>
 <script>
-var notification = null;
-	if(${notRead} > 0){
-		var options = {
-	            body: "안읽은 알림이 ${notRead}개 있습니다 확인해주세요."
-	        }
-		var notification = new Notification("Dothing 알림",options);
-		notification.onclick = function(event){
-			event.preventDefault();
-			location.href = "${pageContext.request.contextPath}/user/alert";
-			notification.close();
-		}
-	}
-	
+
 	function clickDetail(num) {
 		location.href = "${pageContext.request.contextPath}/errand/detailView?num=" + num;
 	}
@@ -250,7 +170,16 @@ var notification = null;
 				<div class="items-list">
 					<div class="inner">
 						<header>
-							<h3>검색 결과</h3>
+							<div class="row">
+								<div class="col-sm-6">
+									<h3>검색 결과</h3>
+								</div>
+								<div class="col-sm-6">
+									<a href="listing-grid.html" class="btn icon "><i
+										class="fa fa-th"></i>Grid</a> <a href="listing-list.html"
+										class="btn icon"><i class="fa fa-th-list"></i>List</a>
+								</div>
+							</div>
 						</header>
 						<ul class="results list">
 							<c:forEach items="${errandsList}" var="errands" varStatus="state">
@@ -324,25 +253,28 @@ var notification = null;
 							<div class="col-md-3 col-sm-3">
 								<div class="item featured">
 									<div class="image">
-											<div class="overlay">
-												<div class="inner">
-													<div class="content">
-														<p>정확성: ${ranked.gpaList[0].responseAccuracy}</p>
-														<p>친절성: ${ranked.gpaList[0].responseKindness}</p>
-														<p>신속성: ${ranked.gpaList[0].responseSpeed}</p>
-														<p>매너: ${ranked.gpaList[0].requestManners}</p>
-													</div>
+										<div class="overlay">
+											<div class="inner">
+												<div class="content">
+													<p>정확성: ${ranked.gpaList[0].responseAccuracy}</p>
+													<p>친절성: ${ranked.gpaList[0].responseKindness}</p>
+													<p>신속성: ${ranked.gpaList[0].responseSpeed}</p>
+													<p>매너: ${ranked.gpaList[0].requestManners}</p>
 												</div>
-											</div> <c:if test="${status.index == 0}">
-												<div class="icon">
-													<i class="fa fa-thumbs-up"></i>
-												</div>
-											</c:if><img
+											</div>
+										</div>
+										<c:if test="${status.index == 0}">
+											<div class="icon">
+												<i class="fa fa-thumbs-up"></i>
+											</div>
+										</c:if>
+										<img
 											src="${pageContext.request.contextPath}/users/${ranked.userId}/${ranked.selfImg}"
-											alt="">
-										</a>
+											alt=""> </a>
 									</div>
-									<div class="wrapper"><h3>${ranked.userId}</h3></a>
+									<div class="wrapper">
+										<h3>${ranked.userId}</h3>
+										</a>
 										<figure>${ranked.addr}
 										</figure>
 										<div class="info">
@@ -366,7 +298,7 @@ var notification = null;
 			</section>
 			<!--end Featured-->
 
-			
+
 			<section class="block equal-height">
 				<div class="container">
 					<div class="row">
@@ -442,17 +374,7 @@ var notification = null;
 				</div>
 			</section>
 
-			<!--Banner-->
-			<section>
-				<div class="container">
-					<div class="block">
-						<a href="#"><img
-							src="${pageContext.request.contextPath}/resources/img/errands/img.png"
-							alt=""></a>
-					</div>
-				</div>
-			</section>
-			<!--end Banner-->
+
 			<!--Subscribe-->
 			<section id="subscribe" class="block">
 				<div class="container">
@@ -476,43 +398,7 @@ var notification = null;
 				<!--/.container-->
 			</section>
 			<!--end Subscribe-->
-			<!--Partners-->
-			<section id="partners" class="block">
-				<div class="container">
-					<header>
-						<h2>파트너사</h2>
-					</header>
-					<div class="logos">
-						<div class="logo">
-							<a href="#"><img
-								src="${pageContext.request.contextPath}/resources/img/errands/img.png"
-								alt=""></a>
-						</div>
-						<div class="logo">
-							<a href="#"><img
-								src="${pageContext.request.contextPath}/resources/img/errands/img.png"
-								alt=""></a>
-						</div>
-						<div class="logo">
-							<a href="#"><img
-								src="${pageContext.request.contextPath}/resources/img/errands/img.png"
-								alt=""></a>
-						</div>
-						<div class="logo">
-							<a href="#"><img
-								src="${pageContext.request.contextPath}/resources/img/errands/img.png"
-								alt=""></a>
-						</div>
-						<div class="logo">
-							<a href="#"><img
-								src="${pageContext.request.contextPath}/resources/img/errands/img.png"
-								alt=""></a>
-						</div>
-					</div>
-				</div>
-				<!--/.container-->
-			</section>
-			<!--end Partners-->
+
 		</div>
 		<!-- end Page Content-->
 	</div>
@@ -666,7 +552,7 @@ var notification = null;
          
       // 지도 좌측상단에 지도 중심좌표에 대한 주소정보를 표출하는 함수입니다
          function displayCenterInfo(status, result) {
-             if (status == daum.maps.services.Status.OK) {
+             if (status === daum.maps.services.Status.OK) {
                  var infoDiv = document.getElementById('curAddr');
                  infoDiv.innerHTML =  "<b>현재 주소:"+result[0].fullName+"</b>";
              }    
@@ -692,5 +578,22 @@ var notification = null;
         	circle.setMap(map);
          });
 	</script>
+	<script>
+	function sendMessage(){
+		ws.send("심부름:${insertNum}번 글 -> 새로운 심부름이 등록되었습니다.");
+	}
+
+	$(function(){
+		
+		
+		if(${insertResult > 0}){	
+			setTimeout("sendMessage()", 3000);
+		}
+	
+		
+		
+		
+	});
+</script>
 </body>
 </html>

@@ -29,6 +29,13 @@
 			<nav class="navigation-items">
 				<div class="wrapper">
 					<!-- <ul class="main-navigation navigation-top-header"></ul> -->
+					<security:authorize access="isAuthenticated()">
+					<ul class="user-area">
+					<!-- 크롤링테스트 -->
+					<li><a href="${pageContext.request.contextPath}/crawl?pageName=ediya">크롤링 테스트</a></li>
+					</ul>
+					</security:authorize>
+					
 
 
 					<ul class="user-area">

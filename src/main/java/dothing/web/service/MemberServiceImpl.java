@@ -173,7 +173,6 @@ public class MemberServiceImpl implements MemberService{
 	}
 	@Override
 	public int countNotification(String id){
-		System.out.println("D");
 		return memberDao.countNotification(id);
 	}
 }
