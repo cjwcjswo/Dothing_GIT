@@ -11,33 +11,7 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <title>심부름</title>
 <style type="text/css">
-/**
-알림 CSS
-**/
-.error {
-	width: 250px;
-	height: 20px;
-	height: auto;
-	position: fixed;
-	left: 50%;
-	margin-left: -125px;
-	bottom: 100px;
-	z-index: 9999;
-	background-color: #383838;
-	color: #F0F0F0;
-	font-family: Calibri;
-	font-size: 15px;
-	padding: 10px;
-	text-align: center;
-	border-radius: 2px;
-	-webkit-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
-	-moz-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
-	box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
-}
 </style>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/assets/js/jquery-2.1.0.min.js"></script>
-
 <script type="text/javascript"
 	src="//apis.daum.net/maps/maps3.js?apikey=900302937c725fa5d96ac225cbc2db10&libraries=services"></script>
 <script>
@@ -45,36 +19,9 @@
 		location.href = "${pageContext.request.contextPath}/errand/detailView?num=" + num;
 	}
 </script>
-<!-- SocketJS -->
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/sockjs.js"></script>
+
 <script>
-	var today = '<%=new java.text.SimpleDateFormat("MM/dd HH:mm").format(new java.util.Date())%>'
-	var sock = new SockJS('${pageContext.request.contextPath}/errand/register');
-	
-	$(function(){
-		
-		if(${insertResult > 0}){
-			sendMessage();
-		}
-		
-		function sendMessage(){
-			ws.send("새로운 심부름이 등록되었습니다.");
-		};
-		
-		ws.onopen = function() {};
-		
-		
-		
-	});
-</script>	
-<script>
-	if(${notRead} > 0){
-		var options = {
-	            body: "안읽은 알림이 ${notRead}개 있습니다 확인해주세요."
-	        }
-		var notification = new Notification("Dothing 알림",options);
-	}
+
 	function clickDetail(num) {
 		location.href = "${pageContext.request.contextPath}/errand/detailView?num=" + num;
 	}
@@ -306,25 +253,28 @@
 							<div class="col-md-3 col-sm-3">
 								<div class="item featured">
 									<div class="image">
-											<div class="overlay">
-												<div class="inner">
-													<div class="content">
-														<p>정확성: ${ranked.gpaList[0].responseAccuracy}</p>
-														<p>친절성: ${ranked.gpaList[0].responseKindness}</p>
-														<p>신속성: ${ranked.gpaList[0].responseSpeed}</p>
-														<p>매너: ${ranked.gpaList[0].requestManners}</p>
-													</div>
+										<div class="overlay">
+											<div class="inner">
+												<div class="content">
+													<p>정확성: ${ranked.gpaList[0].responseAccuracy}</p>
+													<p>친절성: ${ranked.gpaList[0].responseKindness}</p>
+													<p>신속성: ${ranked.gpaList[0].responseSpeed}</p>
+													<p>매너: ${ranked.gpaList[0].requestManners}</p>
 												</div>
-											</div> <c:if test="${status.index == 0}">
-												<div class="icon">
-													<i class="fa fa-thumbs-up"></i>
-												</div>
-											</c:if><img
+											</div>
+										</div>
+										<c:if test="${status.index == 0}">
+											<div class="icon">
+												<i class="fa fa-thumbs-up"></i>
+											</div>
+										</c:if>
+										<img
 											src="${pageContext.request.contextPath}/users/${ranked.userId}/${ranked.selfImg}"
-											alt="">
-										</a>
+											alt=""> </a>
 									</div>
-									<div class="wrapper"><h3>${ranked.userId}</h3></a>
+									<div class="wrapper">
+										<h3>${ranked.userId}</h3>
+										</a>
 										<figure>${ranked.addr}
 										</figure>
 										<div class="info">
@@ -348,7 +298,7 @@
 			</section>
 			<!--end Featured-->
 
-			
+
 			<section class="block equal-height">
 				<div class="container">
 					<div class="row">
@@ -424,7 +374,7 @@
 				</div>
 			</section>
 
-		
+
 			<!--Subscribe-->
 			<section id="subscribe" class="block">
 				<div class="container">
@@ -448,7 +398,7 @@
 				<!--/.container-->
 			</section>
 			<!--end Subscribe-->
-			
+
 		</div>
 		<!-- end Page Content-->
 	</div>
@@ -602,7 +552,7 @@
          
       // 지도 좌측상단에 지도 중심좌표에 대한 주소정보를 표출하는 함수입니다
          function displayCenterInfo(status, result) {
-             if (status == daum.maps.services.Status.OK) {
+             if (status === daum.maps.services.Status.OK) {
                  var infoDiv = document.getElementById('curAddr');
                  infoDiv.innerHTML =  "<b>현재 주소:"+result[0].fullName+"</b>";
              }    
@@ -628,5 +578,22 @@
         	circle.setMap(map);
          });
 	</script>
+	<script>
+	function sendMessage(){
+		ws.send("심부름:${insertNum}번 글 -> 새로운 심부름이 등록되었습니다.");
+	}
+
+	$(function(){
+		
+		
+		if(${insertResult > 0}){	
+			setTimeout("sendMessage()", 3000);
+		}
+	
+		
+		
+		
+	});
+</script>
 </body>
 </html>

@@ -1,6 +1,7 @@
 package dothing.web.controller;
 
 import java.io.File;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
@@ -17,7 +18,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import dothing.web.dto.MemberDTO;
+import dothing.web.dto.NotificationDTO;
+import dothing.web.service.AdminMoneyService;
 import dothing.web.service.MemberService;
+import dothing.web.util.PageMaker;
 
 @Controller
 @RequestMapping("/user")
@@ -27,6 +31,8 @@ public class MemberController {
 	private MemberService memberService;
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	@Autowired
+	private AdminMoneyService adminMoneyService;
 
 	/**
 	 * °¡ÀÔ Æû
@@ -181,12 +187,20 @@ public class MemberController {
 	}
 
 	@RequestMapping("/alert")
-	public ModelAndView alert(Authentication aut) {
-		ModelAndView mv = new ModelAndView();
+	public ModelAndView alert(Authentication aut, Integer page) {
+		if(page == null) page = 1;
 		MemberDTO member = (MemberDTO) aut.getPrincipal();
+
+		List<NotificationDTO> alertList = memberService.selectNotificationById(member.getUserId(), page);
+
+		PageMaker pm = new PageMaker(page, memberService.countNotification(member.getUserId())/ 11 + 1);
+
+		pm.start();
+		ModelAndView mv = new ModelAndView();
 		memberService.allRead(member.getUserId());
 		mv.setViewName("/user/alert");
-		mv.addObject("alertList", memberService.selectNotificationById(member.getUserId()));
+		mv.addObject("alertList", alertList);
+		mv.addObject("pm", pm);
 		return mv;
 	}
 
@@ -207,5 +221,28 @@ public class MemberController {
 	@RequestMapping("/charge")
 	public void charge() {
 
+	}
+	
+	@RequestMapping("/pointCharge")
+	public ModelAndView pointCharge(Authentication auth, String select, String way){
+		
+		String userId = ((MemberDTO) auth.getPrincipal()).getUserId();
+		int value = 0;
+		ModelAndView mv = new ModelAndView();
+		if(way.equals("bandBook")){
+			value = Integer.parseInt(select);
+			adminMoneyService.pointChargeBandBook(userId, value);
+			mv.setViewName("/user/charge");
+		}
+		else if(way.equals("card")){
+			value = Integer.parseInt(select);
+			adminMoneyService.pointChargeCard(userId, value);
+			
+			MemberDTO currentUser = (MemberDTO) auth.getPrincipal();
+			((MemberDTO) auth.getPrincipal()).getPoint().setCurrentPoint(currentUser.getPoint().getCurrentPoint()+value);
+			
+			mv.setViewName("/user/charge");
+		}
+		return mv;
 	}
 }

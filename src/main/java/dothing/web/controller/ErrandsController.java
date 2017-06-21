@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,15 +85,18 @@ public class ErrandsController {
 	}
 
 	@RequestMapping("/insert")
-	public String insert(HttpSession session, ErrandsDTO dto, @RequestParam("preAddress") String preAddress,
+	public ModelAndView insert(HttpSession session, ErrandsDTO dto, @RequestParam("preAddress") String preAddress,
 			String detailAddress) throws IllegalStateException, IOException {
+		ModelAndView mv = new ModelAndView();
 		dto.setEndTime(dto.getEndTime().replaceAll("T", " "));
 		dto.getErrandsPos().setAddr(preAddress + " " + detailAddress);
 		MultipartFile file = dto.getErrandsPhotoFile();
 		dto.setErrandsPhoto(file.getOriginalFilename());
 		int insertResult = errandsService.insertErrands(dto, session.getServletContext().getRealPath(""));
 		if (insertResult > 0) {
-			session.setAttribute("insertResult", insertResult);
+			
+			mv.addObject("insertNum", errandsService.selectNum());
+			mv.addObject("insertResult", insertResult);
 		}
 		if (dto.getErrandsPhoto() != null && !dto.getErrandsPhoto().trim().equals("")) {
 			String path = session.getServletContext().getRealPath("") + "\\errands\\" + errandsService.selectNum();
@@ -100,7 +104,8 @@ public class ErrandsController {
 			folder.mkdirs();
 			file.transferTo(new File(path + "\\" + dto.getErrandsPhoto()));
 		}
-		return "redirect:/errand/errand";
+		mv.setViewName("redirect:/errand/errand");
+		return mv;
 	}
 
 	@RequestMapping("/insertReply")
@@ -249,7 +254,6 @@ public class ErrandsController {
 			int totalPrice = upErrands.getErrandsPrice() + upErrands.getProductPrice();
 			System.out.println(totalPrice + " 토탈프라이스 ");
 			memberService.updatePoint(totalPrice, upErrands.getResponseUser().getUserId());
-			System.out.println("들리니?");
 			MemberDTO loginUser = (MemberDTO)aut.getPrincipal();
 			if(loginUser.getUserId().equals(upErrands.getResponseUser().getUserId())){
 				loginUser.getPoint().setCurrentPoint(loginUser.getPoint().getCurrentPoint() + totalPrice);

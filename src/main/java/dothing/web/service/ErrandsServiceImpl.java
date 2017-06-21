@@ -41,6 +41,12 @@ public class ErrandsServiceImpl implements ErrandsService {
 	@Override
 	public ErrandsDTO selectErrands(int errandsNum) {
 		ErrandsDTO dto = errandsDAO.selectErrands(errandsNum);
+		List<ErrandsReplyDTO> replyList = dto.getErrandsReply();
+		for(ErrandsReplyDTO reply :replyList){
+			MemberDTO replyUser = reply.getUser();
+			replyUser.setHashList(memberDAO.selectHashtag(replyUser.getUserId()));
+			replyUser.setGpaList(memberDAO.averageGPA(replyUser.getUserId()));
+		}
 		MemberDTO request = dto.getRequestUser();
 		MemberDTO response = dto.getResponseUser();
 		if(response != null){
@@ -239,6 +245,7 @@ public class ErrandsServiceImpl implements ErrandsService {
 	public int okRequest(GPADTO gpaDTO, String id, String evalTag) {
 		insertGPA(gpaDTO);
 		memberService.insertHashtag(gpaDTO.getErrandsNum(), id, evalTag);
+		memberService.insertNotification(id, gpaDTO.getErrandsNum() +"번의 게시물 상대방이 거래완료를 눌렀습니다");
 		return 1;
 	}
 

@@ -14,6 +14,10 @@
 		* from NOTIFICATION WHERE MEMBER_ID = #{value} ORDER BY IS_READ desc,
 		WRITE_DATE desc
 	</select>
+	<!-- 알림몇개있니 -->
+	<select id="count" parameterType="string" resultType="int">
+		select count(*) from NOTIFICATION where MEMBER_ID = #{value}
+	</select>
 	<!-- 알림 삽입 -->
 	<insert id="insert" parameterType="notificationDTO">
 		insert into NOTIFICATION

@@ -33,12 +33,6 @@
 					<ul class="user-area">
 					<!-- 크롤링테스트 -->
 					<li><a href="${pageContext.request.contextPath}/crawl?pageName=ediya">크롤링 테스트</a></li>
-						<li class="dropdown"><a class="dropdown-toggle"
-							data-toggle="dropdown" href="#">게시판<span class="caret"></span></a>
-							<ul class="dropdown-menu">
-								<li><a href="${pageContext.request.contextPath}/board/noticeBoardList">공지 게시판</a></li>
-								<li><a href="${pageContext.request.contextPath}/board/inquiryBoardList">1대1 문의 게시판</a></li>
-							</ul></li>
 					</ul>
 					</security:authorize>
 					
