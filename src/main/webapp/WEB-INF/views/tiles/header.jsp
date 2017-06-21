@@ -30,6 +30,8 @@
 					<!-- <ul class="main-navigation navigation-top-header"></ul> -->
 					<security:authorize access="isAuthenticated()">
 					<ul class="user-area">
+					<!-- 크롤링테스트 -->
+					<li><a href="${pageContext.request.contextPath}/crawl?pageName=ediya">크롤링 테스트</a></li>
 						<li class="dropdown"><a class="dropdown-toggle"
 							data-toggle="dropdown" href="#">게시판<span class="caret"></span></a>
 							<ul class="dropdown-menu">

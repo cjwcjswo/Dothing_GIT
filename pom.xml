@@ -233,6 +233,15 @@
 			<version>2.3</version>
 			<classifier>jdk13</classifier>
 		</dependency>
+		
+		<!-- 크롤링 JSOUP -->
+	   <!-- jsoup HTML parser library @ https://jsoup.org/ -->
+	   <dependency>
+		  <groupId>org.jsoup</groupId>
+		  <artifactId>jsoup</artifactId>
+		  <version>1.10.3</version>
+	   </dependency>
+		
 		<!-- Test -->
 		<dependency>
 			<groupId>junit</groupId>

@@ -47,6 +47,7 @@
 <title>Spotter - Universal Directory Listing HTML Template</title>
 
 <script>
+	
 	function checkValid() {
 		var form = document.f;
 		if (form.title.value.trim() == "") {

@@ -48,44 +48,22 @@
 <!-- SocketJS -->
  <script type="text/javascript" src="${pageContext.request.contextPath}/resources/sockjs.js"></script>
 <script>
-	var today = '<%= new java.text.SimpleDateFormat("MM/dd HH:mm").format(new java.util.Date())%>'
-	var sock = new SockJS('${pageContext.request.contextPath}/errand/register');
-	var msg = '새로운 심부름이 등록되었습니다.';
-	var insertRe = <%=session.getAttribute("insertResult")%>
 	
 	$(function(){
-		function sendMessage(){
-			if(insertRe > 0){
-				sock.send(msg);
-				alert('심부름 등록 성공?');
-			}
+		
+		if(${insertResult > 0}){
+			sendMessage();
 		}
-		sendMessage();
+		
+		function sendMessage(){
+			ws.send("새로운 심부름이 등록되었습니다.");
+		};
+		
+		ws.onopen = function() {};
+		
+		
+		
 	});
-	
-	
-	sock.onopen = function() {
-	    $('#console').append('websocket opened' + '<br>');	
-	  	//스크롤 맨 아래로
-	 	document.getElementById('chatList').scrollTop = document.getElementById('chatList').scrollHeight;
-	};
-	
-	sock.onmessage = function(message) {
-		var receiveMessage = message.data;
-		alert("receiveMessage : "+receiveMessage);
-		//알림
-		$("#notification").val(receiveMessage);
-		$('.error').fadeIn(400).delay(3000).fadeOut(400);
-		
-		
-	 
-	};
-	/*
-	sock.onclose = function(event) {
-	    $('#console').append('websocket closed : ' + event);
-	};
-
-  */
 </script>	
 	<script>
 	function clickDetail(num) {

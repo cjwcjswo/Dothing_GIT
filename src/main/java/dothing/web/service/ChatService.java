@@ -15,12 +15,19 @@ import org.springframework.stereotype.Service;
 @Service
 public class ChatService {
 
-	private String path = "C:\\Edu\\dothing_chat";//저장 경로
+	private String path = "C:\\dothing_chat";//저장 경로
 	FileWriter fw = null;
 	BufferedReader br = null;
 	
 	public void write(String [] msg){
+		//디렉토리 생성
+		File defaultDirectory = new File(path);
+		if(!defaultDirectory.exists()){
+			defaultDirectory.mkdir();
+		}
+		//파일 생성
 		File file = new File(path + "/" + msg[0] + ".txt");
+		
 		try {
 			String translatedMsg = msg[2].replaceAll("\n", "\r\n");
 			fw = new FileWriter(file, true);
@@ -37,11 +44,6 @@ public class ChatService {
 			}
 		}
 		
-		System.out.println("wrtie!!!!");
-		System.out.println("eno : " + msg[0]);
-		System.out.println("sender : "+ msg[1]);
-		System.out.println("msg : "+ msg[2]);
-		System.out.println("date : "+ msg[3]);
 	}
 	
 	public List<String> getContent(String errandsNum){

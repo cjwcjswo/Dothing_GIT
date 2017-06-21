@@ -25,6 +25,7 @@ import dothing.web.service.ChatService;
 public class WebSocketHandler extends TextWebSocketHandler{
 	
 	Map<String, List<WebSocketSession>> sessionMap = new HashMap<>();
+	List<WebSocketSession> sessionList = new ArrayList<>();
 	
 	@Autowired
 	private ChatService chatService;
@@ -35,18 +36,26 @@ public class WebSocketHandler extends TextWebSocketHandler{
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		super.afterConnectionEstablished(session);
 		System.out.println("connect!!!");
+		sessionList.add(session);
 	}
 	
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
 		super.afterConnectionClosed(session, status);
 		System.out.println("close!!!");
-		  sessionMap.get(errandsNum).remove(session);
-	      
-	      if ( sessionMap.get(errandsNum).isEmpty()){
-	    	  sessionMap.remove(errandsNum);
-	      }
-
+		
+		sessionList.remove(session);
+		
+		if(errandsNum != null){
+			sessionMap.get(errandsNum).remove(session);
+			
+			if(sessionMap.get(errandsNum) != null){
+				if ( sessionMap.get(errandsNum).isEmpty() ){
+					sessionMap.remove(errandsNum);
+				}
+			}
+		}
+		
 	}
 	
 	
@@ -55,12 +64,16 @@ public class WebSocketHandler extends TextWebSocketHandler{
 		String msg = message.getPayload();
 		if(msg.equals("새로운 심부름이 등록되었습니다.")){
 			System.out.println("msg : " + msg);
-			Iterator<String> iter = sessionMap.keySet().iterator();
+			/*Iterator<String> iter = sessionMap.keySet().iterator();
 			while(iter.hasNext()){
 				List<WebSocketSession> list =  sessionMap.get(iter.next());
 				for(WebSocketSession sess : list){
 					sess.sendMessage(new TextMessage(msg));
 				}
+			}*/
+			System.out.println("sessionList's size : " + sessionList.size());
+			for(WebSocketSession sess : sessionList){
+				sess.sendMessage(new TextMessage(msg));
 			}
 		}else{
 			String msgArr[] = msg.split("#/separator/#");

@@ -33,8 +33,55 @@
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/assets/bootstrap/js/bootstrap.min.js"></script>
 
+
+<style>
+/**
+알림 CSS
+**/
+.error {
+   width: 250px;
+   height: 40px;
+   height: auto;
+   position: fixed;
+   left: 50%;
+   margin-left: -125px;
+   bottom: 100px;
+   z-index: 9999;
+   background-color: #383838;
+   color: #F0F0F0;
+   font-family: Calibri;
+   font-size: 15px;
+   padding: 10px;
+   text-align: center;
+   border-radius: 2px;
+   -webkit-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
+   -moz-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
+   box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
+}
+</style>
+
+<script type="text/javascript" src="${pageContext.request.contextPath}/resources/sockjs.js"></script>
+<script type="text/javascript">
+	var ws = new SockJS('/controller/websocket');
+	$(function(){
+		 ws.onmessage = function(message) {
+			var receiveMessage = message.data;
+			
+			$(".error").html(receiveMessage);
+			$('.error').fadeIn(400).delay(3000).fadeOut(400);
+		}; 
+		
+	});
+
+</script>
+
 </head>
 <body>
+<!-- 알림 -->
+<!-- error -->
+<div class='error' style='display: none' id='notification'></div>
+	
+	
 	<!-- Outer Wrapper-->
 	<div id="outer-wrapper">
 		<!-- Inner Wrapper -->
