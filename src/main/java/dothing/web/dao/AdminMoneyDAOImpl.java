@@ -1,6 +1,8 @@
 package dothing.web.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
@@ -37,6 +39,15 @@ public class AdminMoneyDAOImpl implements AdminMoneyDAO {
 	public int countPointList() {
 		
 		return sqlSession.selectOne("mapper.pointMapper.countPointList");
+	}
+	
+	@Override
+	public int pointChargeBandBook(String userId, int select) {
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("userId", userId);
+		map.put("select", select);
+		return sqlSession.update("mapper.pointMapper.pointCharge",map);
 	}
 
 }

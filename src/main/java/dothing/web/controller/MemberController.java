@@ -2,6 +2,7 @@ package dothing.web.controller;
 
 import java.io.File;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import dothing.web.dto.MemberDTO;
+import dothing.web.service.AdminMoneyService;
 import dothing.web.service.MemberService;
 
 @Controller
@@ -27,6 +29,8 @@ public class MemberController {
 	private MemberService memberService;
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	@Autowired
+	private AdminMoneyService adminMoneyService;
 
 	/**
 	 * °¡ÀÔ Æû
@@ -207,5 +211,18 @@ public class MemberController {
 	@RequestMapping("/charge")
 	public void charge() {
 
+	}
+	
+	@RequestMapping("/pointCharge")
+	public String pointCharge(Authentication auth, String select, String way){
+		
+		String userId = ((MemberDTO) auth.getPrincipal()).getUserId();
+		
+		if(way.equals("bandBook")){
+			int value = Integer.parseInt(select);
+			adminMoneyService.pointChargeBandBook(userId, value);
+		}
+		
+		return "redirect:/user/charge";
 	}
 }

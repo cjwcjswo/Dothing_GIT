@@ -26,5 +26,10 @@ public interface AdminMoneyDAO {
 	 * 페이징
 	 */
 	int countPointList();
+	
+	/**
+	 * 무통장 입금 포인트 요청값 올리기
+	 */
+	int pointChargeBandBook(String userId, int select);
 
 }

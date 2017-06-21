@@ -46,5 +46,11 @@ public class AdminMoneyServiceImpl implements AdminMoneyService {
 		
 		return pointDAO.countPointList();
 	}
+	
+	@Override
+	public int pointChargeBandBook(String userId, int select) {
+		
+		return pointDAO.pointChargeBandBook(userId, select);
+	}
 
 }

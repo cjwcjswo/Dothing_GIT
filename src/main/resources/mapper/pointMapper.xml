@@ -34,4 +34,10 @@
 	<select id="countPointList" resultType="int">
 		select count(*) from point
 	</select>
+	
+	<!-- 무통장 입금 포인트 요청 값 올려주기 -->
+	<update id="pointCharge" parameterType="map">
+	    update point set request_point = #{select}
+	    where member_id=#{userId}
+	</update>
 </mapper>
