@@ -43,6 +43,25 @@ public class HomeController {
 		return new ModelAndView("/errand/chat", "errandsNum", errandsNum);
 	}
 	
+
+	@RequestMapping("/etc/about-us")
+	public String aboutUs(){
+		
+		return "/etc/about-us" ;
+		
+	}
+	
+	@RequestMapping("/etc/contact")
+	public String contact(){
+		return "/etc/contact" ;
+	}
+	
+	
+	@RequestMapping("/etc/terms-conditions")
+	public String termsConditions(){
+		return "/etc/terms-conditions" ;
+	}
+
 	@RequestMapping("/crawl")
 	public ModelAndView crawl(String pageName, String productName){
 		Map<String, List<CrawlDataDTO>> map = crawlService.parseMainPage(pageName, productName);
@@ -50,7 +69,5 @@ public class HomeController {
 		return new ModelAndView("crawl/crawlPage", "crawlData", crawlService.parseMainPage(pageName, productName).get(pageName));
 	}
 	
-	
-
 
 }

@@ -10,7 +10,6 @@
 	$(function(){
 		
 		 $("#search").click(function(){	
-			 alert(89);
 			 location.href="${pageCotnext.request.contextPath}/controller/crawl?pageName=ediya&productName="+$("#inputProductName").val();
 		});
 		 

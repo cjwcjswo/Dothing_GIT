@@ -39,6 +39,7 @@
 								<li><a href="${pageContext.request.contextPath}/board/noticeBoardList">공지 게시판</a></li>
 								<li><a href="${pageContext.request.contextPath}/board/inquiryBoardList">1대1 문의 게시판</a></li>
 							</ul></li>
+					<li><a href="${pageContext.request.contextPath}/crawl?pageName=ediya">크롤링 테스트</a></li>
 					</ul>
 					</security:authorize>
 					

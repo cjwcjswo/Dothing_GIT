@@ -153,8 +153,8 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public List<NotificationDTO> selectNotificationById(String id) {
-		return memberDao.selectNotificationById(id);
+	public List<NotificationDTO> selectNotificationById(String id, int page) {
+		return memberDao.selectNotificationById(id, page);
 	}
 
 	@Override
@@ -170,5 +170,9 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public int allRead(String id) {
 		return memberDao.allRead(id);
+	}
+	@Override
+	public int countNotification(String id){
+		return memberDao.countNotification(id);
 	}
 }

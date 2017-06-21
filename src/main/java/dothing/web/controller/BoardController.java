@@ -252,4 +252,7 @@ public class BoardController {
 		}
 		return re;
 	}
+	
+	@RequestMapping("/faq")
+	public void faq(){}
 }

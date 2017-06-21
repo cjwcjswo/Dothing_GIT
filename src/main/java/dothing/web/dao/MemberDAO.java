@@ -82,7 +82,7 @@ public interface MemberDAO {
 	/**
 	 * 해당하는 유저에대한 알림 가져오기
 	 */
-	List<NotificationDTO> selectNotificationById(String id);
+	List<NotificationDTO> selectNotificationById(String id, int page);
 	
 	/**
 	 * 알림 보내기
@@ -99,4 +99,5 @@ public interface MemberDAO {
 	 * 
 	 */
 	int allRead(String id);
+	int countNotification(String id);
 }

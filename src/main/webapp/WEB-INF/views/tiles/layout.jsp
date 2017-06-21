@@ -29,50 +29,53 @@
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/assets/css/jquery.mCustomScrollbar.css"
 	type="text/css">
-<script src="http://code.jquery.com/jquery-latest.min.js"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/assets/bootstrap/js/bootstrap.min.js"></script>
-
-
 <style>
 /**
 알림 CSS
 **/
-.error {
-   width: 250px;
-   height: 40px;
-   height: auto;
-   position: fixed;
-   left: 50%;
-   margin-left: -125px;
-   bottom: 100px;
-   z-index: 9999;
-   background-color: #383838;
-   color: #F0F0F0;
-   font-family: Calibri;
-   font-size: 15px;
-   padding: 10px;
-   text-align: center;
-   border-radius: 2px;
-   -webkit-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
-   -moz-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
-   box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
+.notify {
+	width: 250px;
+	height: 20px;
+	height: auto;
+	position: fixed;
+	left: 50%;
+	margin-left: -125px;
+	bottom: 100px;
+	z-index: 9999;
+	background-color: skyblue;
+	color: #F0F0F0;
+	font-family: Calibri;
+	font-size: 15px;
+	padding: 10px;
+	text-align: center;
+	border-radius: 2px;
+	-webkit-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
+	-moz-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
+	box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
 }
 </style>
-
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/sockjs.js"></script>
-<script type="text/javascript">
-	var ws = new SockJS('/controller/websocket');
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/assets/bootstrap/js/bootstrap.min.js"></script>
+<!-- SocketJS -->
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/sockjs.js"></script>
+<script>
+	var ws = null;
 	$(function(){
-		 ws.onmessage = function(message) {
-			var receiveMessage = message.data;
-			
-			$(".error").html(receiveMessage);
-			$('.error').fadeIn(400).delay(3000).fadeOut(400);
-		}; 
-		
-	});
+		ws = new SockJS("${pageContext.request.contextPath}/websocket");
 
+		ws.onmessage = function(e){
+			var alertArr = e.data.split(':');
+			if(alertArr[0] == "댓글"){
+				$(".notify").html("<a href='${pageContext.request.contextPath}/errand/detailView?num="+alertArr[1].split("번")[0]+"'>"+alertArr[1]+"</a>");
+				$('.notify').fadeIn(400).delay(5000).fadeOut(400);
+			}else if(alertArr[0] == "심부름"){
+				$(".notify").html("<a href='${pageContext.request.contextPath}/errand/detailView?num="+alertArr[1].split("번")[0]+"'>"+alertArr[1]+"</a>");
+				$('.notify').fadeIn(400).delay(5000).fadeOut(400);
+			}
+		}
+	})
 </script>
 
 </head>
@@ -93,6 +96,7 @@
 			<div id="content">
 				<tiles:insertAttribute name="content" />
 			</div>
+			<div class='notify' style='display: none'></div>
 			<div id="footer">
 				<tiles:insertAttribute name="footer" />
 			</div>

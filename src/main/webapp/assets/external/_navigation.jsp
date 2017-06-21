@@ -16,7 +16,8 @@
 						href="${pageContext.request.contextPath}/board/noticeBoardList">공지게시판</a></li>
 					<li><a
 						href="${pageContext.request.contextPath}/board/inquiryBoardList">1:1게시판</a></li>
-
+					<li><a
+						href="${pageContext.request.contextPath}/board/faq">FAQ게시판</a></li>
 				</ul>
 			</div></li>
 		<security:authorize access="isAuthenticated()">
