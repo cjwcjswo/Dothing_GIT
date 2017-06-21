@@ -64,7 +64,6 @@ label.star:before {
 }
 </style>
 
-<title>심부름 내역</title>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/assets/tags/bootstrap-tagsinput.js"></script>
 <title>심부름 내역</title>

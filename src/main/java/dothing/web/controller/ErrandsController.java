@@ -104,7 +104,7 @@ public class ErrandsController {
 			folder.mkdirs();
 			file.transferTo(new File(path + "\\" + dto.getErrandsPhoto()));
 		}
-		mv.setViewName("redirect:/errand/errand");
+		mv.setViewName("/errand/empty");
 		return mv;
 	}
 
@@ -219,6 +219,7 @@ public class ErrandsController {
 		errandsService.updateErrands(num, responseId, requestUser.getUserId(), "startTime", null, null, -totalPrice);
 		requestUser.getPoint().setCurrentPoint((requestUser.getPoint().getCurrentPoint()) - totalPrice);
 		mv.addObject("num", num);
+		mv.addObject("responseId", responseId);
 		mv.setViewName("/errand/okay");
 		return mv;
 	}

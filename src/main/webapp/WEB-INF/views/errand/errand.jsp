@@ -579,21 +579,7 @@
          });
 	</script>
 	<script>
-	function sendMessage(){
-		ws.send("심부름:${insertNum}번 글 -> 새로운 심부름이 등록되었습니다.");
-	}
 
-	$(function(){
-		
-		
-		if(${insertResult > 0}){	
-			setTimeout("sendMessage()", 3000);
-		}
-	
-		
-		
-		
-	});
 </script>
 </body>
 </html>
