@@ -4,6 +4,7 @@ import java.util.List;
 
 import dothing.web.dto.MemberDTO;
 import dothing.web.dto.MemberHashDTO;
+import dothing.web.dto.NotificationDTO;
 
 public interface MemberService {
 	/**
@@ -67,4 +68,25 @@ public interface MemberService {
 	 * 랭킹맨들
 	 */
 	List<MemberDTO> selectRanked();
+	
+	/**
+	 * 해당하는 유저에대한 알림 가져오기
+	 */
+	List<NotificationDTO> selectNotificationById(String id);
+	
+	/**
+	 * 알림보내기
+	 */
+	int insertNotification(String id, String content);
+	
+	/**
+	 * 안읽은 알람 있니?
+	 */
+	int notReadNoti(String id);
+	
+	/**
+	 * 해당하는 아이디 알람 읽기
+	 * 
+	 */
+	int allRead(String id);
 }

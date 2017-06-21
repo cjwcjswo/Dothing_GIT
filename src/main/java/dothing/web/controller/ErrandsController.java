@@ -38,11 +38,13 @@ public class ErrandsController {
 	ChatService chatService;
 
 	@RequestMapping("/errand")
-	public ModelAndView errandsList(Integer page) {
+	public ModelAndView errandsList(Authentication aut, Integer page) {
+		MemberDTO member = (MemberDTO)aut.getPrincipal();
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("errandsList", errandsService.selectAll()); // 심부름 리스트
 		mv.addObject("rankedList", memberService.selectRanked()); // 심부름꾼 랭킹
 		mv.addObject("moneyList", errandsService.moneyErrands()); // 돈되는 심부름
+		mv.addObject("notRead", memberService.notReadNoti(member.getUserId()));
 		mv.setViewName("/errand/errand");
 		return mv;
 	}
@@ -104,6 +106,8 @@ public class ErrandsController {
 	@RequestMapping("/insertReply")
 	public String insert(HttpSession session, ErrandsReplyDTO dto) {
 		dto.setArrivalTime(dto.getArrivalTime().replaceAll("T", " "));
+		ErrandsDTO errand = errandsService.selectErrands(dto.getErrands().getErrandsNum());
+		memberService.insertNotification(errand.getRequestUser().getUserId(), errand.getErrandsNum() + "번 글에 " + dto.getUser().getUserId() + "님이 댓글을 달았습니다!");
 		errandsService.insertReply(dto);
 		return "redirect:/errand/detailView?num=" + dto.getErrands().getErrandsNum();
 	}
