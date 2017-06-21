@@ -31,10 +31,7 @@
 <script>
 </script>
 <!-- SocketJS -->
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/sockjs.js"></script>
 <script type="text/javascript">
-   var ws = new SockJS('/controller/websocket');
    var sender = '<security:authentication property="principal.userId"/>';
    var today = '<%=new java.text.SimpleDateFormat("MM/dd HH:mm").format(new java.util.Date())%>';
    
@@ -147,6 +144,7 @@
          alert("시간을 입력하세요");
          return false;
       }
+      ws.send("댓글:${errands.requestUser.userId}:${errands.errandsNum}번 글에 댓글이 등록되었습니다");
       return true;
    }
 
@@ -417,6 +415,11 @@
 															<i class="fa fa-user-o"></i>
 														</c:if>
 														<h5 class="imgSelect">${reply.user.userId}</h5>
+												
+														<c:forEach items="${reply.user.hashList}" var="hash" end="5">
+															<span class="label label-primary">${hash.hashtag}</span>
+														</c:forEach>
+														<figure class="rating big pull-right" data-rating="${(reply.user.gpaList[0].responseKindness+reply.user.gpaList[0].responseAccuracy+reply.user.gpaList[0].responseSpeed)/3}"></figure>
 														<div class="date">
 															<b>예상 도착</b><br>${reply.arrivalTime}</div>
 														<c:if test="${currentId == reply.user.userId}">
@@ -510,7 +513,6 @@
 		<!-- end Page Content-->
 	</div>
 	<!-- end Page Canvas-->
-=
 	<!--  chat 시작 -->
 	<c:if
 		test="${errands.responseUser.userId == currentId || 

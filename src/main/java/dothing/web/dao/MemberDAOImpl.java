@@ -129,8 +129,8 @@ public class MemberDAOImpl implements MemberDAO {
 	}
 
 	@Override
-	public List<NotificationDTO> selectNotificationById(String id) {
-		return sqlSession.selectList("mapper.notificationMapper.selectById", id);
+	public List<NotificationDTO> selectNotificationById(String id, int page) {
+		return sqlSession.selectList("mapper.notificationMapper.selectById", id, new RowBounds((page-1) * 10, 10));
 	}
 
 	@Override
@@ -146,5 +146,11 @@ public class MemberDAOImpl implements MemberDAO {
 	@Override
 	public int allRead(String id) {
 		return sqlSession.update("mapper.notificationMapper.allRead", id);
+	}
+	
+	@Override
+	public int countNotification(String id){
+		System.out.println("Z");
+		return sqlSession.selectOne("mapper.notificationMapper.count", id);
 	}
 }

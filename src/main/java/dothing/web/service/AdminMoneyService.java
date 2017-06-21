@@ -26,4 +26,5 @@ public interface AdminMoneyService {
 	 */
 	int countPointList();
 
+	int getRequestPoint(String id);
 }

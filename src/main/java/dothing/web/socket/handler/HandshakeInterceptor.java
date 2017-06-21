@@ -15,13 +15,10 @@ public class HandshakeInterceptor extends HttpSessionHandshakeInterceptor{
 	@Override
 	public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler,
 			Map<String, Object> attributes) throws Exception {
-		
 		ServletServerHttpRequest ssReq = (ServletServerHttpRequest) request;
 		HttpServletRequest req = ssReq.getServletRequest();
-		
 		String errandsNum = (String)req.getSession().getAttribute("errandsNum");
 		attributes.put("errandsNum", errandsNum);
-
 			
 		return super.beforeHandshake(request, response, wsHandler, attributes);
 	}

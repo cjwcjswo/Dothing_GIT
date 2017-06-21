@@ -29,10 +29,51 @@
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/assets/css/jquery.mCustomScrollbar.css"
 	type="text/css">
+<style>
+/**
+알림 CSS
+**/
+.notify {
+	width: 250px;
+	height: 20px;
+	height: auto;
+	position: fixed;
+	left: 50%;
+	margin-left: -125px;
+	bottom: 100px;
+	z-index: 9999;
+	background-color: #383838;
+	color: #F0F0F0;
+	font-family: Calibri;
+	font-size: 15px;
+	padding: 10px;
+	text-align: center;
+	border-radius: 2px;
+	-webkit-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
+	-moz-box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
+	box-shadow: 0px 0px 24px -1px rgba(56, 56, 56, 1);
+}
+</style>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/assets/bootstrap/js/bootstrap.min.js"></script>
+<!-- SocketJS -->
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/sockjs.js"></script>
+<script>
+	var ws = null;
+	$(function(){
+		ws = new SockJS("${pageContext.request.contextPath}/websocket");
 
+		ws.onmessage = function(e){
+			var alertArr = e.data.split(':');
+			if(alertArr[0] == "댓글"){
+				$(".notify").html(alertArr[1]);
+				$('.notify').fadeIn(400).delay(3000).fadeOut(400);
+			}
+		}
+	})
+</script>
 </head>
 <body>
 	<!-- Outer Wrapper-->
@@ -46,6 +87,7 @@
 			<div id="content">
 				<tiles:insertAttribute name="content" />
 			</div>
+			<div class='notify' style='display: none'></div>
 			<div id="footer">
 				<tiles:insertAttribute name="footer" />
 			</div>

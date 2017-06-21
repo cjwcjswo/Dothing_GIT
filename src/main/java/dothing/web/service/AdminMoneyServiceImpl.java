@@ -46,5 +46,10 @@ public class AdminMoneyServiceImpl implements AdminMoneyService {
 		
 		return pointDAO.countPointList();
 	}
+	
+	@Override
+	public int getRequestPoint(String id){
+		return pointDAO.getRequestPoint(id);
+	}
 
 }

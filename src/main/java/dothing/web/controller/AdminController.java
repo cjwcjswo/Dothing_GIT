@@ -22,52 +22,53 @@ import dothing.web.util.PageMaker;
 public class AdminController {
 	@Autowired
 	MemberService memberService;
-	
+
 	@Autowired
 	AdminMoneyService adminMoneyService;
-	
+
 	@RequestMapping("/adminMoney")
-	public ModelAndView adminMoney(Integer page){
-		
+	public ModelAndView adminMoney(Integer page) {
+
 		if (page == null)
 			page = new Integer(1);
-		PageMaker pm = new PageMaker(page, adminMoneyService.countPointList()/ 6 + 1);
+		PageMaker pm = new PageMaker(page, adminMoneyService.countPointList() / 6 + 1);
 		pm.start();
-				
+
 		List<PointDTO> list = adminMoneyService.selectAll(page);
-		for(PointDTO dto : list){
+		for (PointDTO dto : list) {
 			System.out.println("dto: " + dto);
 		}
 		ModelAndView mv = new ModelAndView();
-		
+
 		mv.setViewName("admin/adminMoney");
 		mv.addObject("pm", pm);
 		mv.addObject("list", list);
-		
+
 		return mv;
 	}
-	
-	@RequestMapping(value="/pointChange", method=RequestMethod.GET)
-	public String pointChange(@RequestParam(value="userId")String userId) throws Exception{
-		
+
+	@RequestMapping(value = "/pointChange", method = RequestMethod.GET)
+	public String pointChange(@RequestParam(value = "userId") String userId) throws Exception {
+		memberService.insertNotification(userId,
+				"요청하신 포인트 " + adminMoneyService.getRequestPoint(userId) + "가 충전이 완료되었습니다.");
 		adminMoneyService.changePoint(userId);
 
 		return "redirect:/admin/adminMoney";
 	}
-	
-	@RequestMapping(value="/pointCancel", method=RequestMethod.GET)
-	public String pointCancel(@RequestParam(value="userId")String userId) throws Exception{
-		
+
+	@RequestMapping(value = "/pointCancel", method = RequestMethod.GET)
+	public String pointCancel(@RequestParam(value = "userId") String userId) throws Exception {
+		memberService.insertNotification(userId,
+				"요청하신 포인트 " + adminMoneyService.getRequestPoint(userId) + "가 입금되지 않아 충전되지 않았습니다. 다시 신청해주세요.");
 		adminMoneyService.pointCancel(userId);
 
 		return "redirect:/admin/adminMoney";
 	}
-	
-	
-	
+
 	@RequestMapping("/adminSafe")
-	public ModelAndView adminSafe(Integer page){
-		if(page == null) page = 1;
+	public ModelAndView adminSafe(Integer page) {
+		if (page == null)
+			page = 1;
 		ModelAndView mv = new ModelAndView();
 		List<MemberDTO> memberList = new ArrayList<>();
 		PageMaker pm = new PageMaker(page, memberList.size() / 6 + 1);
@@ -77,15 +78,17 @@ public class AdminController {
 		mv.addObject("memberList", memberList);
 		return mv;
 	}
-	
+
 	@RequestMapping("/adminSafe/submit")
-	public String submitSafe(String id){
+	public String submitSafe(String id) {
 		memberService.insertSafety(id);
 		return "redirect:/admin/adminSafe";
 	}
+
 	@RequestMapping("/adminUserList")
-	public ModelAndView adminUserList(Integer page, String id){
-		if(page == null) page = 1;
+	public ModelAndView adminUserList(Integer page, String id) {
+		if (page == null)
+			page = 1;
 		List<MemberDTO> memberList = memberService.selectAll(page, id);
 		PageMaker pm = new PageMaker(page, memberService.countAll(id) / 11 + 1);
 		pm.start();
@@ -93,14 +96,14 @@ public class AdminController {
 		mv.setViewName("/admin/adminUserList");
 		mv.addObject("pm", pm);
 		mv.addObject("memberList", memberList);
-		if(id != null){
+		if (id != null) {
 			mv.addObject("sid", id);
 		}
 		return mv;
 	}
-	
+
 	@RequestMapping("/delete")
-	public String deleteUser(String userId){
+	public String deleteUser(String userId) {
 		memberService.deleteUser(userId);
 		return "redirect:/admin/adminUserList";
 	}

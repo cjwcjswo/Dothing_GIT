@@ -26,5 +26,9 @@ public interface AdminMoneyDAO {
 	 * 페이징
 	 */
 	int countPointList();
+	/**
+	 * 리퀘스트포인트 가져오기
+	 */
+	int getRequestPoint(String id);
 
 }

@@ -249,7 +249,6 @@ public class ErrandsController {
 			int totalPrice = upErrands.getErrandsPrice() + upErrands.getProductPrice();
 			System.out.println(totalPrice + " 토탈프라이스 ");
 			memberService.updatePoint(totalPrice, upErrands.getResponseUser().getUserId());
-			System.out.println("들리니?");
 			MemberDTO loginUser = (MemberDTO)aut.getPrincipal();
 			if(loginUser.getUserId().equals(upErrands.getResponseUser().getUserId())){
 				loginUser.getPoint().setCurrentPoint(loginUser.getPoint().getCurrentPoint() + totalPrice);

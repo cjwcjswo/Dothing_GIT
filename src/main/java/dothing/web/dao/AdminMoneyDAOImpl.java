@@ -38,5 +38,10 @@ public class AdminMoneyDAOImpl implements AdminMoneyDAO {
 		
 		return sqlSession.selectOne("mapper.pointMapper.countPointList");
 	}
+	
+	@Override
+	public int getRequestPoint(String id){
+		return sqlSession.selectOne("mapper.pointMapper.getRequestPoint", id);
+	}
 
 }

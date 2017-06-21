@@ -34,4 +34,9 @@
 	<select id="countPointList" resultType="int">
 		select count(*) from point
 	</select>
+	
+	<!-- 선택한 유저 리퀘스트 포인트 가져오기 -->
+	<select id="getRequestPoint" parameterType="string" resultType="int">
+		select REQUEST_POINT from POINT where MEMBER_ID = #{value}
+	</select>
 </mapper>

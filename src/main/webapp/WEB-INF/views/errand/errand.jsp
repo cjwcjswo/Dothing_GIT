@@ -89,12 +89,19 @@
   */
 </script>
 <script>
+var notification = null;
 	if(${notRead} > 0){
 		var options = {
 	            body: "안읽은 알림이 ${notRead}개 있습니다 확인해주세요."
 	        }
 		var notification = new Notification("Dothing 알림",options);
+		notification.onclick = function(event){
+			event.preventDefault();
+			location.href = "${pageContext.request.contextPath}/user/alert";
+			notification.close();
+		}
 	}
+	
 	function clickDetail(num) {
 		location.href = "${pageContext.request.contextPath}/errand/detailView?num=" + num;
 	}
@@ -659,7 +666,7 @@
          
       // 지도 좌측상단에 지도 중심좌표에 대한 주소정보를 표출하는 함수입니다
          function displayCenterInfo(status, result) {
-             if (status === daum.maps.services.Status.OK) {
+             if (status == daum.maps.services.Status.OK) {
                  var infoDiv = document.getElementById('curAddr');
                  infoDiv.innerHTML =  "<b>현재 주소:"+result[0].fullName+"</b>";
              }    

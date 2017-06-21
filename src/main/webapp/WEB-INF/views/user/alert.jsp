@@ -78,11 +78,33 @@
 			<!-- 페이지네이션 -->
 
 			<ul class="pager">
-				<li><a href="#">Previous</a></li>
-				<li><a href="#">1</a></li>
-				<li><a href="#">2</a></li>
-				<li><a href="#">3</a></li>
-				<li><a href="#">Next</a></li>
+							<c:if test="${pm.previous}">
+								<li><a
+									href="${pageContext.request.contextPath}/user/alert?page=${pm.lastPage - 5}"><span
+										class="glyphicon glyphicon-chevron-left"></span></a></li>
+							</c:if>
+							<c:if test="${pm.startPage != pm.lastPage }">
+								<c:forEach begin="${pm.startPage}" end="${pm.lastPage}"
+									varStatus="state">
+									<c:if
+										test="${pm.currentPage == (pm.startPage + state.count-1)}">
+										<li class="active"><a
+											href='${pageContext.request.contextPath}/user/alert?page=${pm.startPage + state.count-1}'>${pm.startPage + state.count-1}</a>
+										</li>
+									</c:if>
+									<c:if
+										test="${pm.currentPage != (pm.startPage + state.count-1)}">
+										<li><a
+											href='${pageContext.request.contextPath}/user/alert?page=${pm.startPage + state.count-1}'>${pm.startPage + state.count-1}</a>
+										</li>
+									</c:if>
+								</c:forEach>
+							</c:if>
+							<c:if test="${pm.next}">
+								<li><a
+									href="${pageContext.request.contextPath}/user/alert?page=${pm.lastPage + 1}"><span
+										class="glyphicon glyphicon-chevron-right"></span></a></li>
+							</c:if>
 			</ul>
 
 			<!-- 페이지네이션 종료 -->
