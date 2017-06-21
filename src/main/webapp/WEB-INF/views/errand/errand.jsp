@@ -51,43 +51,23 @@
 <script>
 	var today = '<%=new java.text.SimpleDateFormat("MM/dd HH:mm").format(new java.util.Date())%>'
 	var sock = new SockJS('${pageContext.request.contextPath}/errand/register');
-	var msg = '새로운 심부름이 등록되었습니다.';
-	var insertRe = <%=session.getAttribute("insertResult")%>
 	
 	$(function(){
-		function sendMessage(){
-			if(insertRe > 0){
-				sock.send(msg);
-				alert('심부름 등록 성공?');
-			}
+		
+		if(${insertResult > 0}){
+			sendMessage();
 		}
-		sendMessage();
+		
+		function sendMessage(){
+			ws.send("새로운 심부름이 등록되었습니다.");
+		};
+		
+		ws.onopen = function() {};
+		
+		
+		
 	});
-	
-	
-	sock.onopen = function() {
-	    $('#console').append('websocket opened' + '<br>');	
-	  	//스크롤 맨 아래로
-	 	document.getElementById('chatList').scrollTop = document.getElementById('chatList').scrollHeight;
-	};
-	
-	sock.onmessage = function(message) {
-		var receiveMessage = message.data;
-		alert("receiveMessage : "+receiveMessage);
-		//알림
-		$("#notification").val(receiveMessage);
-		$('.error').fadeIn(400).delay(3000).fadeOut(400);
-		
-		
-	 
-	};
-	/*
-	sock.onclose = function(event) {
-	    $('#console').append('websocket closed : ' + event);
-	};
-
-  */
-</script>
+</script>	
 <script>
 	if(${notRead} > 0){
 		var options = {
@@ -622,7 +602,7 @@
          
       // 지도 좌측상단에 지도 중심좌표에 대한 주소정보를 표출하는 함수입니다
          function displayCenterInfo(status, result) {
-             if (status === daum.maps.services.Status.OK) {
+             if (status == daum.maps.services.Status.OK) {
                  var infoDiv = document.getElementById('curAddr');
                  infoDiv.innerHTML =  "<b>현재 주소:"+result[0].fullName+"</b>";
              }    

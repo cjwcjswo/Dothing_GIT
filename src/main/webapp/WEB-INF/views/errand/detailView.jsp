@@ -34,7 +34,7 @@
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/sockjs.js"></script>
 <script type="text/javascript">
-   var ws = new SockJS('/controller/websocket');
+  /*  var ws = new SockJS('/controller/websocket'); */
    var sender = '<security:authentication property="principal.userId"/>';
    var today = '<%=new java.text.SimpleDateFormat("MM/dd HH:mm").format(new java.util.Date())%>';
    
@@ -64,6 +64,7 @@
 	    }
 		function chatLoad(){
 			location.href='${pageContext.request.contextPath}/errand/detailView?num=${errands.errandsNum}';
+			document.getElementById('chatList').scrollTop = document.getElementById('chatList').scrollHeight;
 			//location.href='${pageContext.request.contextPath}/errand/chatLoads?errandsNum=${errands.errandsNum}';
 		};
 		
@@ -79,47 +80,49 @@
 	  		 ws.send(${errands.errandsNum}+'#/separator/#');
 	 		document.getElementById('chatList').scrollTop = document.getElementById('chatList').scrollHeight;
 		}; 
-		ws.onmessage = function(message) {
-			var arr = message.data.split('#/separator/#');
-			//59#/separator/#tester#/separator/#ggaa#/separator/#06/17 09:27
+		 ws.onmessage = function(message) {
+			 if(message.data=="새로운 심부름이 등록되었습니다."){
+				
+			 }else{
+				var arr = message.data.split('#/separator/#');
+				//59#/separator/#tester#/separator/#ggaa#/separator/#06/17 09:27
+				var str = '';
+				  if(arr[1] == sender){
+					str = '<div class="row msg_container base_sent"><div class="col-xs-10 col-md-10">'+
+		            '<div class="messages msg_sent"><p>' + arr[2] + '</p>'+
+		               '<time datetime="2009-11-13T20:00">' + arr[1] +'•'+ arr[3] + '</time>'+
+		            '</div></div><div class="col-md-2 col-xs-2 avatar">'+
+		            '<img src="${pageContext.request.contextPath}/users/${currentId}/${currentUser.selfImg}"'+
+		               ' class="img-responsive"></div></div>';
+				}else{
+					str='<div class="row msg_container base_receive">'+
+	                    '<div class="col-md-2 col-xs-2 avatar">'+
+	             	'<c:if test="${currentId eq errands.requestUser.userId}">'+
+	                      '<img'+
+	                      ' src="${pageContext.request.contextPath}/users/${errands.responseUser.userId}/${responseSelfImg}"'+
+	                      ' class=" img-responsive ">'+
+	                '</c:if>'+
+	                '<c:if test="${currentId eq errands.responseUser.userId}">'+
+	                    '<img'+
+	                      ' src="${pageContext.request.contextPath}/users/${errands.requestUser.userId}/${requestSelfImg}"'+
+	                     ' class=" img-responsive "> '+
+	                '</c:if>'+
+	             '</div>'+
+	             '<div class="col-xs-10 col-md-10">'+
+	                '<div class="messages msg_receive">'+
+	                   '<p>'+arr[2]+'</p>'+
+	                   '<time datetime="2009-11-13T20:00">'+arr[1]+' • '+arr[3]+'</time>'+
+	                '</div>'+
+	             '</div>'+
+	          '</div>';
+				}  
 			
-			var str = '';
-			  if(arr[1] == sender){
-				str = '<div class="row msg_container base_sent"><div class="col-xs-10 col-md-10">'+
-	            '<div class="messages msg_sent"><p>' + arr[2] + '</p>'+
-	               '<time datetime="2009-11-13T20:00">' + arr[1] +'•'+ arr[3] + '</time>'+
-	            '</div></div><div class="col-md-2 col-xs-2 avatar">'+
-	            '<img src="${pageContext.request.contextPath}/users/${currentId}/${currentUser.selfImg}"'+
-	               ' class="img-responsive"></div></div>';
-			}else{
-				str='<div class="row msg_container base_receive">'+
-                    '<div class="col-md-2 col-xs-2 avatar">'+
-             	'<c:if test="${currentId eq errands.requestUser.userId}">'+
-                      '<img'+
-                      ' src="${pageContext.request.contextPath}/users/${errands.responseUser.userId}/${responseSelfImg}"'+
-                      ' class=" img-responsive ">'+
-                '</c:if>'+
-                '<c:if test="${currentId eq errands.responseUser.userId}">'+
-                    '<img'+
-                      ' src="${pageContext.request.contextPath}/users/${errands.requestUser.userId}/${requestSelfImg}"'+
-                     ' class=" img-responsive "> '+
-                '</c:if>'+
-             '</div>'+
-             '<div class="col-xs-10 col-md-10">'+
-                '<div class="messages msg_receive">'+
-                   '<p>'+arr[2]+'</p>'+
-                   '<time datetime="2009-11-13T20:00">'+arr[1]+' • '+arr[3]+'</time>'+
-                '</div>'+
-             '</div>'+
-          '</div>';
-			}  
-		
-		 	$('#chatList').append(str); 
-		 	
-		 	//스크롤 맨 아래로
-		 	document.getElementById('chatList').scrollTop = document.getElementById('chatList').scrollHeight;
+			 	$('#chatList').append(str); 
+			 	//스크롤 맨 아래로
+			 	document.getElementById('chatList').scrollTop = document.getElementById('chatList').scrollHeight;
+			 }
 		};
-			 
+			  
    	
       function leadingZeros(n, digits) {
          var zero = '';
