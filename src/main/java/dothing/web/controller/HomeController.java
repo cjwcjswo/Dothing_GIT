@@ -63,12 +63,16 @@ public class HomeController {
 	}
 
 	@RequestMapping("/crawl")
-	public ModelAndView crawl(String pageName){
-		Map<String, List<CrawlDataDTO>> map = crawlService.parseMainPage(pageName);
-		System.out.println("list's size : " + map.get(pageName).size());
-		return new ModelAndView("crawl/crawlPage", "crawlData", crawlService.parseMainPage(pageName).get(pageName));
+	public ModelAndView crawl(String pageName, String productName){
+		Map<String, List<CrawlDataDTO>> map = crawlService.parseMainPage(pageName, productName);
+		System.out.println("list's size : "+crawlService.parseMainPage(pageName, productName).get(pageName).size());
+		return new ModelAndView("crawl/crawlPage", "crawlData", crawlService.parseMainPage(pageName, productName).get(pageName));
 	}
 	
+<<<<<<< HEAD
 	
+
+=======
+>>>>>>> a273eb22fe48e45fd5c1f7fd08e379716e02fd89
 
 }

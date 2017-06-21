@@ -15,7 +15,7 @@
 					<div class="row">
 						<div class="col-md-4 col-sm-4">
 							<!--New Items-->
-							<section>
+							<%-- <section>
 								<h2>New Items</h2>
 								<a href="item-detail.html" class="item-horizontal small">
 									<h3>Cash Cow Restaurante</h3>
@@ -59,7 +59,7 @@
 									</div>
 								</a>
 								<!--/.item-horizontal small-->
-							</section>
+							</section> --%>
 							<!--end New Items-->
 						</div>
 						<div class="col-md-4 col-sm-4">

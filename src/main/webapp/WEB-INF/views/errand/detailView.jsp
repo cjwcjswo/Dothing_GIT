@@ -532,7 +532,8 @@ var ws = new SockJS("${pageContext.request.contextPath}/websocket");
 														<div class="date">
 															<b>예상 도착</b><br>${reply.arrivalTime}</div>
 														<c:if test="${currentId == reply.user.userId}">
-															<button type="button" class="btn btn-danger"
+															<button type="button"
+																class="btn framed icon pull-right roll"
 																onclick="location.href='${pageContext.request.contextPath}/errand/deleteReply?num=${reply.replyNum}&eNum=${errands.errandsNum}'">
 																삭제</button>
 														</c:if>
