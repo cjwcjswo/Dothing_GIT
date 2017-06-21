@@ -326,6 +326,10 @@
 									<button type="submit" class="btn pull-right btn-default"
 										id="account-submit">계정 생성하기</button>
 								</div>
+								 <hr>
+                                <div class="center">
+                                    <figure class="note"><a href="${pageContext.request.contextPath}/etc/terms-conditions" class="link">약관</a>에 동의하고 가입합니다.</figure>
+                                </div>
 								<!-- /.form-group -->
 							</form>
 							<hr>

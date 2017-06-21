@@ -51,43 +51,23 @@
 <script>
 	var today = '<%=new java.text.SimpleDateFormat("MM/dd HH:mm").format(new java.util.Date())%>'
 	var sock = new SockJS('${pageContext.request.contextPath}/errand/register');
-	var msg = '새로운 심부름이 등록되었습니다.';
-	var insertRe = <%=session.getAttribute("insertResult")%>
 	
 	$(function(){
-		function sendMessage(){
-			if(insertRe > 0){
-				sock.send(msg);
-				alert('심부름 등록 성공?');
-			}
+		
+		if(${insertResult > 0}){
+			sendMessage();
 		}
-		sendMessage();
+		
+		function sendMessage(){
+			ws.send("새로운 심부름이 등록되었습니다.");
+		};
+		
+		ws.onopen = function() {};
+		
+		
+		
 	});
-	
-	
-	sock.onopen = function() {
-	    $('#console').append('websocket opened' + '<br>');	
-	  	//스크롤 맨 아래로
-	 	document.getElementById('chatList').scrollTop = document.getElementById('chatList').scrollHeight;
-	};
-	
-	sock.onmessage = function(message) {
-		var receiveMessage = message.data;
-		alert("receiveMessage : "+receiveMessage);
-		//알림
-		$("#notification").val(receiveMessage);
-		$('.error').fadeIn(400).delay(3000).fadeOut(400);
-		
-		
-	 
-	};
-	/*
-	sock.onclose = function(event) {
-	    $('#console').append('websocket closed : ' + event);
-	};
-
-  */
-</script>
+</script>	
 <script>
 	if(${notRead} > 0){
 		var options = {
@@ -243,7 +223,16 @@
 				<div class="items-list">
 					<div class="inner">
 						<header>
-							<h3>검색 결과</h3>
+							<div class="row">
+								<div class="col-sm-6">
+									<h3>검색 결과</h3>
+								</div>
+								<div class="col-sm-6">
+									<a href="listing-grid.html" class="btn icon "><i
+										class="fa fa-th"></i>Grid</a> <a href="listing-list.html"
+										class="btn icon"><i class="fa fa-th-list"></i>List</a>
+								</div>
+							</div>
 						</header>
 						<ul class="results list">
 							<c:forEach items="${errandsList}" var="errands" varStatus="state">
@@ -435,17 +424,7 @@
 				</div>
 			</section>
 
-			<!--Banner-->
-			<section>
-				<div class="container">
-					<div class="block">
-						<a href="#"><img
-							src="${pageContext.request.contextPath}/resources/img/errands/img.png"
-							alt=""></a>
-					</div>
-				</div>
-			</section>
-			<!--end Banner-->
+		
 			<!--Subscribe-->
 			<section id="subscribe" class="block">
 				<div class="container">
@@ -469,43 +448,7 @@
 				<!--/.container-->
 			</section>
 			<!--end Subscribe-->
-			<!--Partners-->
-			<section id="partners" class="block">
-				<div class="container">
-					<header>
-						<h2>파트너사</h2>
-					</header>
-					<div class="logos">
-						<div class="logo">
-							<a href="#"><img
-								src="${pageContext.request.contextPath}/resources/img/errands/img.png"
-								alt=""></a>
-						</div>
-						<div class="logo">
-							<a href="#"><img
-								src="${pageContext.request.contextPath}/resources/img/errands/img.png"
-								alt=""></a>
-						</div>
-						<div class="logo">
-							<a href="#"><img
-								src="${pageContext.request.contextPath}/resources/img/errands/img.png"
-								alt=""></a>
-						</div>
-						<div class="logo">
-							<a href="#"><img
-								src="${pageContext.request.contextPath}/resources/img/errands/img.png"
-								alt=""></a>
-						</div>
-						<div class="logo">
-							<a href="#"><img
-								src="${pageContext.request.contextPath}/resources/img/errands/img.png"
-								alt=""></a>
-						</div>
-					</div>
-				</div>
-				<!--/.container-->
-			</section>
-			<!--end Partners-->
+			
 		</div>
 		<!-- end Page Content-->
 	</div>
@@ -659,7 +602,7 @@
          
       // 지도 좌측상단에 지도 중심좌표에 대한 주소정보를 표출하는 함수입니다
          function displayCenterInfo(status, result) {
-             if (status === daum.maps.services.Status.OK) {
+             if (status == daum.maps.services.Status.OK) {
                  var infoDiv = document.getElementById('curAddr');
                  infoDiv.innerHTML =  "<b>현재 주소:"+result[0].fullName+"</b>";
              }    
