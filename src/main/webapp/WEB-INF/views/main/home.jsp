@@ -107,7 +107,7 @@ Notification.requestPermission(function(result) {
 									<h1>1분,1초가 당신의 가치를 보여주는 곳</h1>
 									<p>당신의 자투리 시간이 당신의 가치를 보여 줄 수 있습니다. 집에 가는 길, 회사 가는 길 . 순간의
 										가치로 이웃과 행복을 나눠보세요.</p>
-									<a href="#" class="btn btn-info">About DoThing</a>
+									<a href="${pageContext.request.contextPath}/etc/about-us" class="btn btn-info">About DoThing</a>
 								</div>
 							</div>
 						</div>

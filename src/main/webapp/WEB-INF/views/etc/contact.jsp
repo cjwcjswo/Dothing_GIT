@@ -1,8 +1,9 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-
-<html lang="en-US">
+<html>
 <head>
-<meta charset="UTF-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
@@ -88,7 +89,7 @@
 											</header>
 											<p>DoThing은 사람이 필요한 모든 일들을 연결해주는 서비스 입니다. 당신이 필요한 일들은 언제
 												어디서나 부탁해보세요! 몇번의 클릭과 터치만으로 당신의 이웃과 함께</p>
-											<a href="about-us.html" class="read-more icon">Read More</a>
+											<a href="${pageContext.request.contextPath}/etc/about-us" class="read-more icon">Read More</a>
 										</div>
 										<!--/.col-md-4-->
 									</div>

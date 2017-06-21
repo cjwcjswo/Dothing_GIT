@@ -33,6 +33,23 @@ public class HomeController {
 		return new ModelAndView("/errand/chat", "errandsNum", errandsNum);
 	}
 	
+	@RequestMapping("/etc/about-us")
+	public String aboutUs(){
+		
+		return "/etc/about-us" ;
+		
+	}
+	
+	@RequestMapping("/etc/contact")
+	public String contact(){
+		return "/etc/contact" ;
+	}
+	
+	
+	@RequestMapping("/etc/terms-conditions")
+	public String termsConditions(){
+		return "/etc/terms-conditions" ;
+	}
 
 
 }

@@ -1,8 +1,9 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-
-<html lang="en-US">
+<html>
 <head>
-<meta charset="UTF-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
@@ -50,7 +51,9 @@
 							<div class="col-md-8 col-md-offset-2">
 								<div class="text-banner">
 									<figure>
-										<img src="assets/img/marker.png" alt="">
+										<img
+											src="${pageContext.request.contextPath}/assets/img/marker.png"
+											alt="">
 									</figure>
 									<div class="description">
 										<h2>CONNECTING YOU TO YOUR COMMUNITY</h2>
@@ -62,7 +65,9 @@
 						</div>
 						<!--/.container-->
 						<div class="background">
-							<img src="assets/img/about-us-bg.jpg" alt="">
+							<img
+								src="${pageContext.request.contextPath}/assets/img/about-us-bg.jpg"
+								alt="">
 						</div>
 						<!--/.bakcground-->
 					</section>
@@ -119,8 +124,10 @@
 							<div class="row">
 								<div class="col-md-3 col-sm-3">
 									<div class="member">
-										<img src="assets/img/member-1.jpg" alt="">
-										<h4>Jane Daubert</h4>
+										<img
+											src="${pageContext.request.contextPath}/assets/img/main/1.jpg"
+											alt="">
+										<h4>이태호</h4>
 										<figure>Company CEO
 										</figure>
 										<hr>
@@ -135,8 +142,10 @@
 								<!--/.col-md-3-->
 								<div class="col-md-3 col-sm-3">
 									<div class="member">
-										<img src="assets/img/member-2.jpg" alt="">
-										<h4>Kristy Jose</h4>
+										<img
+											src="${pageContext.request.contextPath}/assets/img/main/2.jpg"
+											alt="">
+										<h4>최진우</h4>
 										<figure>Marketing Specialist
 										</figure>
 										<hr>
@@ -151,8 +160,10 @@
 								<!--/.col-md-3-->
 								<div class="col-md-3 col-sm-3">
 									<div class="member">
-										<img src="assets/img/member-3.jpg" alt="">
-										<h4>John Doe</h4>
+										<img
+											src="${pageContext.request.contextPath}/assets/img/main/3.jpg"
+											alt="">
+										<h4>박태규</h4>
 										<figure>PR Manager
 										</figure>
 										<hr>
@@ -167,8 +178,29 @@
 								<!--/.col-md-3-->
 								<div class="col-md-3 col-sm-3">
 									<div class="member">
-										<img src="assets/img/member-4.jpg" alt="">
-										<h4>Misty Bates</h4>
+										<img
+											src="${pageContext.request.contextPath}/assets/img/main/4.jpg"
+											alt="">
+										<h4>강문식</h4>
+										<figure>Support
+										</figure>
+										<hr>
+										<div class="social">
+											<a href="#"><i class="fa fa-twitter"></i></a> <a href="#"><i
+												class="fa fa-facebook"></i></a> <a href="#"><i
+												class="fa fa-pinterest"></i></a>
+										</div>
+									</div>
+									<!--/.member-->
+								</div>
+								<!--/.col-md-3-->
+								<!--/.col-md-3-->
+								<div class="col-md-3 col-sm-3">
+									<div class="member">
+										<img
+											src="${pageContext.request.contextPath}/assets/img/main/5.jpg"
+											alt="">
+										<h4>이상호</h4>
 										<figure>Support
 										</figure>
 										<hr>
@@ -192,22 +224,25 @@
 							<div class="owl-carousel testimonials">
 								<blockquote>
 									<figure>
-										<img src="assets/img/client.jpg" alt="">
+										<img
+											src="${pageContext.request.contextPath}/assets/img/ele.png"
+											alt="">
 									</figure>
 									<div class="description">
-										<p>Fusce risus metus, placerat in consectetur eu,
-											porttitor a est. Sed sed dolor lorem. Cras adipiscing</p>
-										<footer>Natalie Jenkins</footer>
+										<p>매일 당신과 동행하는 이웃의 길 위에 한 송이 꽃을 뿌려 놓을 줄 안다면 지상의 길은 기쁨으로 가득
+											찰 것이다.</p>
+										<footer>R.잉글레제</footer>
 									</div>
 								</blockquote>
 								<blockquote>
 									<figure>
-										<img src="assets/img/client.jpg" alt="">
+										<img
+											src="${pageContext.request.contextPath}/assets/img/mahomat.png"
+											alt="">
 									</figure>
 									<div class="description">
-										<p>Fusce risus metus, placerat in consectetur eu,
-											porttitor a est. Sed sed dolor lorem. Cras adipiscing</p>
-										<footer>Natalie Jenkins</footer>
+										<p>좋은 사람이건 나쁜 사람이건 상관하지 않고 이웃을 사랑하는 사람이야말로 가장 완전한 사람이다.</p>
+										<footer>마호메트</footer>
 									</div>
 								</blockquote>
 							</div>
@@ -216,12 +251,12 @@
 						<!--/.container-->
 					</section>
 					<!--/.testimonials-->
-					
+
 				</div>
 				<!-- end Page Content-->
 			</div>
 			<!-- end Page Canvas-->
-			
+
 		</div>
 		<!-- end Inner Wrapper -->
 	</div>

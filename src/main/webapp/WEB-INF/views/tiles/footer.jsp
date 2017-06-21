@@ -117,7 +117,7 @@
 										class="fa fa-pinterest"></i></a>
 								</div>
 
-								<a href="contact.html" class="btn framed icon">Contact Us<i
+								<a href="${pageContext.request.contextPath}/etc/contact" class="btn framed icon">Contact Us<i
 									class="fa fa-angle-right"></i></a>
 							</section>
 						</div>
