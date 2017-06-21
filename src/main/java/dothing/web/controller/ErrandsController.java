@@ -2,7 +2,9 @@ package dothing.web.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -79,9 +81,11 @@ public class ErrandsController {
 	}
 
 	@RequestMapping("/register")
-	public String register() {
-
-		return "/errand/register";
+	public ModelAndView register(String img, String name) {
+		Map<String, String> map = new HashMap<>();
+		map.put("name", name);
+		map.put("img", img);
+		return new ModelAndView("/errand/register", "map", map);
 	}
 
 	@RequestMapping("/insert")

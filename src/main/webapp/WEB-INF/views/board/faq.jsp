@@ -32,9 +32,8 @@
 					<div class="container">
 
 						<ol class="breadcrumb">
-							<li><a href="index-directory.html"><i class="fa fa-home"></i></a></li>
-							<li><a href="#">Page</a></li>
-							<li class="active">Detail</li>
+							<li><a href="${pageContext.request.contextPath}"><i class="fa fa-home"></i></a></li>
+							<li><a href="#">FAQ게시판</a></li>
 						</ol>
 						<!-- /.breadcrumb-->
 					</div>
@@ -66,19 +65,27 @@
 							</figure>
 							<div class="collapse" id="form-faq">
 								<div class="">
-									<form role="form" action="?" method="post">
-										<div class="form-group">
+									<form name ="writeForm" role="form" action="${pageContext.request.contextPath}/board/insert" onSubmit='return checkValid()' method="post">
+												<!-- <div class="form-group">
 											<label for="faq-form-email">id</label> <input type="text"
 												class="form-control" id="faq-form-email" required=""
 												disabled>
-										</div>
-										<!-- /.form-group -->
-										<div class="form-group">
-											<label for="faq-form-question">질문</label>
-											<textarea class="form-control" id="faq-form-question"
-												name="faq-form-question" rows="3" required=""></textarea>
-										</div>
-										<!-- /.form-group -->
+										</div> -->
+												<!-- /.form-group -->
+												<input type="hidden" name="${_csrf.parameterName}"
+													value="${_csrf.token}">
+												<div class="form-group">
+													<label for="faq-form-email">제목</label> <input type="text"
+														class="form-control" name="boardTitle" id="faq-form-email"
+														required="">
+												</div>
+												
+												<div class="form-group">
+													<label for="faq-form-question">질문</label>
+													<textarea class="form-control" id="faq-form-question"
+														name="boardContent" rows="3" required=""></textarea>
+												</div>
+												<!-- /.form-group -->
 										<div class="form-group">
 											<button type="submit" class="btn btn-default">제출하기</button>
 										</div>
@@ -95,12 +102,10 @@
 							<div class="wrapper">
 								<h4>어떻게 심부름꾼을 믿어요?</h4>
 								<div class="answer">
-									<figure>믿을 수 있는 인증 정보를 통하여</figure>
-									<p>Vivamus ut turpis risus. Vestibulum gravida dictum sem a
-										rutrum. Fusce tincidunt rhoncus nulla vel rutrum. Nunc vel
-										luctus dui. Phasellus egestas interdum lacinia. Class aptent
-										taciti sociosqu ad litora torquent per conubia nostra, per
-										inceptos himenaeos. Nam ut commodo nulla, eu vulputate tellus.
+									<figure>항상 신뢰를 주는 DOTHING입니다.</figure>
+									<p>저희 DOTHING이 인증하는 안전 심부름꾼은 회사 규정에 의거한
+									심부름꾼입니다. 또한 저희의 운영방침에 의해서 심부름꾼의 사기같은 경우에는
+									100프로 포인트 환불이 가능합니다. 또한 법적 책임을 물을 것 입니다.
 									</p>
 								</div>
 							</div>
@@ -109,15 +114,12 @@
 							<article class="faq-single"> <i
 								class="fa fa-question-circle"></i>
 							<div class="wrapper">
-								<h4>Morbi vehicula mauris vel bibendum molestie. Ut varius
-									purus in odio elementum</h4>
+								<h4>포인트를 환불 받을 수 있나요?</h4>
 								<div class="answer">
-									<figure>Answer</figure>
-									<p>Sed placerat porta pretium. Sed in mauris at quam
-										egestas vehicula. Cum sociis natoque penatibus et magnis dis
-										parturient montes, nascetur ridiculus mus. Aliquam ac eleifend
-										sapien. Quisque tempus dictum urna, in finibus erat luctus
-										sed.</p>
+									<figure>예 환불 받을 수 있습니다.</figure>
+									<p>고객님의 단순 변심으로 인한 포인트 환불은 구매 후 7일 이내 요청해주시면 환불
+									할 수 있습니다.
+									</p>
 								</div>
 							</div>
 							</article>
@@ -125,8 +127,7 @@
 							<article class="faq-single"> <i
 								class="fa fa-question-circle"></i>
 							<div class="wrapper">
-								<h4>Donec condimentum neque est, quis finibus velit laoreet
-									vel.</h4>
+								<h4>포인트 환전 시스템이 궁금합니다.</h4>
 								<div class="answer">
 									<figure>Answer</figure>
 									<p>Cum sociis natoque penatibus et magnis dis parturient
