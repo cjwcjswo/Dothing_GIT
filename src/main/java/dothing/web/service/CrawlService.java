@@ -17,33 +17,47 @@ import dothing.web.dto.CrawlDataDTO;
 @Service
 public class CrawlService {
 
-	public Map<String, List<CrawlDataDTO>> parseMainPage(String pageName){
+	public Map<String, List<CrawlDataDTO>> parseMainPage(String pageName, String productName){
 		System.out.println("parseMainPage!!");
 		
 		//Ediya coffee
 		//이름, 이미지경로, 링크
+		System.out.println("pdtName : " + productName);
 		Map<String, List<CrawlDataDTO>> map = new HashMap<>();
-		
 		try {
-			
 			///Ediya
-			Document doc = Jsoup.connect("http://www.ediya.com/board/listing/brd/product_coffee").get();
-			Elements elements = doc.select("ul.pdlist.clearfix li");
+			String [] ediyaAddrArr = {
+					"http://www.ediya.com/board/listing/brd/product_coffee",
+					"http://www.ediya.com/board/listing/brd/product_coffee/page/2"/*,
+					"http://www.ediya.com/board/listing/brd/product_coffee/page/3"*/
+			};
 			List<CrawlDataDTO> list = new ArrayList<>();
-			for(Element e : elements){
-				//이미지 경로
-				String img = "http://www.ediya.com" + e.select("a[href] dl dt img[src]").attr("src");
-				//링크
-				String link = "http://www.ediya.com" + e.select(" a[href]").attr("href");
-				//이름
-				String name = e.select(" a[href] dl dd").text();
-				
-				CrawlDataDTO crawlDataDTO = new CrawlDataDTO();
-				crawlDataDTO.setName(name);
-				crawlDataDTO.setImg(img);
-				crawlDataDTO.setLink(link);
-				
-				list.add(crawlDataDTO);
+			for(String ediyaAddr : ediyaAddrArr){
+				Document doc = Jsoup.connect(ediyaAddr).get();
+				Elements elements = doc.select("ul.pdlist.clearfix li");
+				for(Element e : elements){
+					//이름
+					String name = e.select(" a[href] dl dd").text();
+					//이미지 경로
+					String img = "http://www.ediya.com" + e.select("a[href] dl dt img[src]").attr("src");
+					//링크
+					String link = "http://www.ediya.com" + e.select(" a[href]").attr("href");
+					if(productName == null){
+						CrawlDataDTO crawlDataDTO = new CrawlDataDTO();
+						crawlDataDTO.setName(name);
+						crawlDataDTO.setImg(img);
+						crawlDataDTO.setLink(link);
+						
+						list.add(crawlDataDTO);
+					}else if(name.contains(productName.toUpperCase())){
+						CrawlDataDTO crawlDataDTO = new CrawlDataDTO();
+						crawlDataDTO.setName(name);
+						crawlDataDTO.setImg(img);
+						crawlDataDTO.setLink(link);
+						
+						list.add(crawlDataDTO);
+					}
+				}
 			}
 			map.put(pageName, list);
 			///Ediya

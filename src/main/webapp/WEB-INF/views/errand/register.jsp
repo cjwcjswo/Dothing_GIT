@@ -154,7 +154,7 @@
 							<section>
 								<div class="form-group large">
 									<label for="title">심부름 제목</label> <input type="text"
-										class="form-control" id="title" name="title">
+										class="form-control" id="title" name="title" value="${map.name}">
 								</div>
 							</section>
 
@@ -272,6 +272,7 @@
 											<h3>사진</h3>
 											<div id="holder"
 												style="width: 300px; height: 300px; border: 3px dotted gray; box-sizing: content-box;">
+												<img src="${map.img}">  
 											</div>
 											<input name="errandsPhotoFile" type="file" id="upload">
 										</section>
