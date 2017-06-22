@@ -79,18 +79,30 @@ public class WebSocketHandler extends TextWebSocketHandler {
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		String msg = message.getPayload();
+		System.out.println("msg: " + msg);
+		
+
 		String replyArr[] = msg.split(":");
 		if (replyArr[0].equals("심부름")) {
 			Iterator<String> iter = idMap.keySet().iterator();
 			while (iter.hasNext()) {
 				WebSocketSession wb = idMap.get(iter.next());
+				System.out.println(wb.getId() + " " + session.getId());
 				if (!wb.getId().equals(session.getId())) {
 					wb.sendMessage(new TextMessage("심부름:" + replyArr[1]));
 				}
 				
 			}
-		} else if (replyArr.length == 3 && replyArr[0].equals("댓글")) {
+		}else if(replyArr[0].equals("선택")){
+			System.out.println("선택입니다");
+			idMap.get(msg.split(":")[2]).sendMessage(new TextMessage("선택:" + msg.split(":")[1]));
+		}
+		else if (replyArr.length == 3 && replyArr[0].equals("댓글")) {
+			System.out.println("댓글입니다");
+			System.out.println(idMap.get(msg.split(":")[1]));
+		
 			idMap.get(msg.split(":")[1]).sendMessage(new TextMessage("댓글:" + msg.split(":")[2]));
+			System.out.println("보내기완료");
 		} else {
 			String msgArr[] = msg.split("#/separator/#");
 			// msgArr[0] = errandsNum;

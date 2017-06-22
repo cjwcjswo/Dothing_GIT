@@ -1,10 +1,15 @@
 package dothing.web.dto;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
-public class MemberDTO {
+public class MemberDTO implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String userId;
 	private String name;
 	private String password;

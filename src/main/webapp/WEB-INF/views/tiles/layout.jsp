@@ -61,30 +61,35 @@
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/sockjs.js"></script>
 <script>
-	var ws = null;
-	$(function(){
-		ws = new SockJS("${pageContext.request.contextPath}/websocket");
+var ws = new SockJS("${pageContext.request.contextPath}/websocket");
+	function sendAlert(message){
+		$(".notify").html(message);
+		$('.notify').fadeIn(400).delay(5000).fadeOut(400);
+	}
+	
 
 		ws.onmessage = function(e){
 			var alertArr = e.data.split(':');
 			if(alertArr[0] == "댓글"){
-				$(".notify").html("<a href='${pageContext.request.contextPath}/errand/detailView?num="+alertArr[1].split("번")[0]+"'>"+alertArr[1]+"</a>");
-				$('.notify').fadeIn(400).delay(5000).fadeOut(400);
+				sendAlert("<a href='${pageContext.request.contextPath}/errand/detailView?num="+alertArr[1].split("번")[0]+"'>"+alertArr[1]+"</a>");
+				
 			}else if(alertArr[0] == "심부름"){
-				$(".notify").html("<a href='${pageContext.request.contextPath}/errand/detailView?num="+alertArr[1].split("번")[0]+"'>"+alertArr[1]+"</a>");
-				$('.notify').fadeIn(400).delay(5000).fadeOut(400);
+				sendAlert("<a href='${pageContext.request.contextPath}/errand/detailView?num="+alertArr[1].split("번")[0]+"'>"+alertArr[1]+"</a>");
+			
+			}else if(alertArr[0] == "선택"){
+				sendAlert("<a href='${pageContext.request.contextPath}/errand/detailView?num="+alertArr[1].split("번")[0]+"'>"+alertArr[1]+"</a>");
 			}
 		}
-	})
+
 </script>
 
 </head>
 <body>
-<!-- 알림 -->
-<!-- error -->
-<div class='error' style='display: none' id='notification'></div>
-	
-	
+	<!-- 알림 -->
+	<!-- error -->
+	<div class='error' style='display: none' id='notification'></div>
+
+
 	<!-- Outer Wrapper-->
 	<div id="outer-wrapper">
 		<!-- Inner Wrapper -->

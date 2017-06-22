@@ -14,7 +14,22 @@
 	rel='stylesheet' type='text/css'>
 
 <title>OKAY!</title>
+	<script>
+	function sendMessage(){
+		ws.send("선택:${num}번 글 -> ${responseId}님과 심부름이 매칭되었습니다.:${responseId}");
+	}
 
+	$(function(){
+		
+		if(${num > 0}){	
+			setTimeout("sendMessage()", 1000);
+		}
+	
+		
+		
+		
+	});
+</script>
 </head>
 
 <body onunload="" class="page-subpage page-404 navigation-off-canvas"

@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import dothing.web.dto.MemberDTO;
 import dothing.web.dto.NotificationDTO;
 import dothing.web.service.AdminMoneyService;
+import dothing.web.service.ErrandsService;
 import dothing.web.service.MemberService;
 import dothing.web.util.PageMaker;
 
@@ -29,6 +30,8 @@ public class MemberController {
 
 	@Autowired
 	private MemberService memberService;
+	@Autowired
+	private ErrandsService errandsService;
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	@Autowired
@@ -101,6 +104,8 @@ public class MemberController {
 	public ModelAndView myPage(Authentication aut) {
 		ModelAndView mv = new ModelAndView();
 		MemberDTO member = (MemberDTO) aut.getPrincipal();
+		member.setGpaList(errandsService.selectGPAById((member.getUserId())));
+		member.setHashList(memberService.selectHashtag(member.getUserId()));
 		mv.addObject("member", member);
 		mv.setViewName("/user/myPage");
 		return mv;
