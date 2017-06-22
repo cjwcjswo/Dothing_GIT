@@ -100,7 +100,8 @@ public class MemberController {
 	@RequestMapping("/myPage")
 	public ModelAndView myPage(Authentication aut) {
 		ModelAndView mv = new ModelAndView();
-		MemberDTO member = (MemberDTO) aut.getPrincipal();
+		String id = ((MemberDTO) aut.getPrincipal()).getUserId();
+		MemberDTO member = memberService.selectMemberById(id);
 		mv.addObject("member", member);
 		mv.setViewName("/user/myPage");
 		return mv;

@@ -171,8 +171,16 @@
 
 											<!--/.col-md-3-->
 										</div>
+										<h3>
+											<i class="	fa fa-child"></i>자기소개
+										</h3>
+											<div class="form-group">
+												<textarea class="form-control" name="introduce" 
+												id="introduce">${member.introduce}</textarea>
+											</div>
 									</section>
 									<section>
+										
 										<h3>
 											<i class="fa fa-map-marker"></i>Address
 										</h3>

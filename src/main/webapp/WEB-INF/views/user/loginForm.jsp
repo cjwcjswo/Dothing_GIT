@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="security" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -65,6 +66,7 @@
 								<h1 class="page-title">Log In</h1>
 							</header>
 							<hr>
+							<security:authorize access="isAnonymous()">
 							<form role="form" method="post"
 								action="${pageContext.request.contextPath}/user/login">
 								<input type="hidden" name="${_csrf.parameterName}"
@@ -82,14 +84,20 @@
 								</div>
 								<!-- /.form-group -->
 								<div class="form-group clearfix">
-								<div class="g-signin2" data-onsuccess="onSignIn" align="right"></div>
-									<button type="submit" class="btn pull-right btn-default"
+									<div class="btn-group" align="right">
+										<button type="button" class="g-signin2" data-onsuccess="onSignIn"></button>
+										<button type="submit" class="btn pull-right btn-default"
 										id="account-submit">로그인</button>
-										
+									</div>
 								</div>
 								
 								<!-- /.form-group -->
 							</form>
+							</security:authorize>
+							<security:authorize access="isAuthenticated()">
+								<security:authentication
+										property="principal.userId" /> 님</a> 환영합니다.
+							</security:authorize>
 						</div>
 					</div>
 				</div>

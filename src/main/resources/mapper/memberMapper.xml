@@ -97,7 +97,10 @@
 				PASSWORD = #{password},
 			</if>
 			<if test="selfImg != null">
-				SELF_IMG = #{selfImg}
+				SELF_IMG = #{selfImg},
+			</if>
+			<if test="introduce != null">
+				introduce = #{introduce}
 			</if>
 		</set>
 		where MEMBER_ID = #{userId}
