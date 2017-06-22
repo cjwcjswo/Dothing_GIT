@@ -319,7 +319,7 @@
 														</div>
 													</c:if> <c:if test="${money.errandsPhoto != null}">
 														<img
-															src="${pageContext.request.contextPath}/errands/${errands.errandsNum}/${errands.errandsPhoto}" />
+															src="${pageContext.request.contextPath}/errands/${money.errandsNum}/${money.errandsPhoto}" />
 													</c:if> <c:if test="${money.errandsPhoto == null}">
 														<img
 															src="${pageContext.request.contextPath}/resources/img/errands/img.png" />
