@@ -33,7 +33,7 @@
 
 						<ol class="breadcrumb">
 							<li><a href="${pageContext.request.contextPath}"><i class="fa fa-home"></i></a></li>
-							<li><a href="#">FAQ게시판</a></li>
+							<li>FAQ게시판</li>
 						</ol>
 						<!-- /.breadcrumb-->
 					</div>
@@ -100,12 +100,12 @@
 							<article class="faq-single"> <i
 								class="fa fa-question-circle"></i>
 							<div class="wrapper">
-								<h4>어떻게 심부름꾼을 믿어요?</h4>
+								<h4>DOTHING은 어떤 서비스인가요?</h4>
 								<div class="answer">
-									<figure>항상 신뢰를 주는 DOTHING입니다.</figure>
-									<p>저희 DOTHING이 인증하는 안전 심부름꾼은 회사 규정에 의거한
-									심부름꾼입니다. 또한 저희의 운영방침에 의해서 심부름꾼의 사기같은 경우에는
-									100프로 포인트 환불이 가능합니다. 또한 법적 책임을 물을 것 입니다.
+									<figure>사람과 사람을 연결해주는 중계플랫폼입니다.</figure>
+									<p>도움이 필요한 사람, 도움을 주고 싶은 사람을 연결해주는 중계플랫폼입니다.
+									다른 사람의 도움이 필요한데 주변에 요청할 사람이 없던 경험이 있습니다.
+									저희 DOTHING은 사람과 사람을 연결해 도움을 주고 받을 수 있게 해줍니다.
 									</p>
 								</div>
 							</div>
@@ -127,16 +127,13 @@
 							<article class="faq-single"> <i
 								class="fa fa-question-circle"></i>
 							<div class="wrapper">
-								<h4>포인트 환전 시스템이 궁금합니다.</h4>
+								<h4>어떻게 심부름꾼을 믿어요?</h4>
 								<div class="answer">
-									<figure>Answer</figure>
-									<p>Cum sociis natoque penatibus et magnis dis parturient
-										montes, nascetur ridiculus mus. Integer molestie viverra neque
-										sit amet posuere. Nullam eget ultricies mi. Proin pulvinar
-										quam porttitor consequat pulvinar. Etiam non neque et quam
-										euismod cursus. Praesent eu sem interdum, pharetra metus sed,
-										sollicitudin sem. Curabitur tincidunt dolor quis dolor
-										iaculis, ut maximus ante fermentum</p>
+									<figure>항상 신뢰를 주는 DOTHING입니다.</figure>
+									<p>저희 DOTHING이 인증하는 안전 심부름꾼은 회사 규정에 의거한
+									심부름꾼입니다. 또한 저희의 운영방침에 의해서 심부름꾼의 사기같은 경우에는
+									100프로 포인트 환불이 가능합니다. 또한 법적 책임을 물을 것 입니다.
+									</p>
 								</div>
 							</div>
 							</article>
@@ -144,14 +141,12 @@
 							<article class="faq-single"> <i
 								class="fa fa-question-circle"></i>
 							<div class="wrapper">
-								<h4>Suspendisse et enim semper, porta nunc ut, ullamcorper
-									magna. Duis ut metus eu neque sollicitudin cursus non quis leo.
-									Cras quis dignissim magna</h4>
+								<h4>이용 요금이 궁금합니다.</h4>
 								<div class="answer">
-									<figure>Answer</figure>
-									<p>Vivamus ut turpis risus. Vestibulum gravida dictum sem a
-										rutrum. Fusce tincidunt rhoncus nulla vel rutrum. Nunc vel
-										luctus dui. Phasellus egestas interdum lacinia.</p>
+									<figure>심부름 값은 심부름 요청자가 정하는 방식입니다.</figure>
+									<p>심부름 요청자가 심부름 수행비를 등록해놓으면 심부름꾼들이 댓글과 채팅을 통하여
+									   심부름 값을 조정할 수 있습니다.
+									</p>
 								</div>
 							</div>
 							</article>
@@ -159,20 +154,10 @@
 							<article class="faq-single"> <i
 								class="fa fa-question-circle"></i>
 							<div class="wrapper">
-								<h4>Praesent scelerisque consectetur velit luctus
-									fermentum. Sed lacinia ut nunc id consectetur. Praesent
-									dignissim, enim in fringilla laoreet, est erat maximus nibh, id
-									auctor sapien nisl a nisi.</h4>
+								<h4>심부름꾼은 누구나 가능한가요?</h4>
 								<div class="answer">
-									<figure>Answer</figure>
-									<p>Donec at arcu purus. Suspendisse laoreet quam ut purus
-										aliquam, tempor pharetra tellus maximus. Etiam semper velit
-										tincidunt, accumsan neque non, blandit metus. Aenean blandit
-										felis at luctus condimentum. Nam gravida luctus mi, sed
-										aliquet ligula consectetur a. Nulla eget semper felis, eget
-										iaculis ante. Aliquam tempus molestie quam vel pellentesque.
-										Aliquam nibh turpis, lobortis tempor euismod in, faucibus ut
-										eros. Cras accumsan gravida tellus.</p>
+									<figure>예 누구나 도움을 줄 수 있는 방식입니다.</figure>
+									<p>저희의 서비스는 사람과 사람 누구나 도움을 받거나 줄 수 있는 중계플랫폼입니다.</p>
 								</div>
 							</div>
 							</article>

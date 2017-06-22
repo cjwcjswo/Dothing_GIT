@@ -136,17 +136,7 @@ public class BoardController {
 		boardService.delete(inquiryNum);
 		return "redirect:/board/inquiryBoardList";
 	}
-
-	/*
-	 * @RequestMapping("/update") public ModelAndView update(HttpServletRequest
-	 * request, BoardDTO boardDTO)throws Exception{
-	 * boardService.update(boardDTO);
-	 * 
-	 * BoardDTO dbBoard =
-	 * boardService.selectByBoardNum(boardDTO.getInquiryNum(), false);
-	 * 
-	 * return new ModelAndView("board/read", "boardDTO", dbBoard); }
-	 */
+	
 
 	/**
 	 * 1´ë1°Ô½ÃÆÇ ´ñ±Û»ðÀÔ
