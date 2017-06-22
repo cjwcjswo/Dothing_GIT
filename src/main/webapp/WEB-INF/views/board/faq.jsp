@@ -136,6 +136,7 @@
 										</div>
 									</div>
 								</article>
+								<!-- /.faq-single-->
 								
 							</div>
 
