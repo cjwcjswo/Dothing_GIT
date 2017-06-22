@@ -53,7 +53,7 @@ public class BoardController {
 		
 		ModelAndView mv = new ModelAndView();
 
-		if (userId.equals("tester")) {
+		if (userId.equals("admin")) {
 			List<BoardDTO> list = boardService.selectAll(page);
 
 			mv.setViewName("board/inquiryBoardList");
@@ -200,7 +200,7 @@ public class BoardController {
 		
 		String userId = ((MemberDTO) auth.getPrincipal()).getUserId();
 		
-		if(!userId.equals("tester")){
+		if(!userId.equals("admin")){
 			throw new Exception("Id가 tester인 운영자만 삭제할 수 있습니다.");
 		}
        
@@ -226,12 +226,12 @@ public class BoardController {
 		
 		String userId = ((MemberDTO) auth.getPrincipal()).getUserId();
 		
-		System.out.println("userId: " + userId);
-		if(!userId.equals("tester")){
+		
+		if(!userId.equals("admin")){
 			throw new Exception("Id가 tester인 운영자만 글을 쓸 수 있습니다.");
 		}
 		
-		boardDTO.setUserId("tester");
+		boardDTO.setUserId("admin");
 
 		int result = noticeService.insert(boardDTO);
 		
