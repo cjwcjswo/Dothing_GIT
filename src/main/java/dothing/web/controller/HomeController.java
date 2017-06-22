@@ -69,10 +69,6 @@ public class HomeController {
 		return new ModelAndView("crawl/crawlPage", "crawlData", crawlService.parseMainPage(pageName, productName).get(pageName));
 	}
 	
-<<<<<<< HEAD
-	
 
-=======
->>>>>>> a273eb22fe48e45fd5c1f7fd08e379716e02fd89
 
 }
