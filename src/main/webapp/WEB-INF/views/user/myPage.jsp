@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.springframework.org/security/tags"
 	prefix="security"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 
 <html>
@@ -91,7 +92,8 @@
 						<li><a
 							href="${pageContext.request.contextPath}/user/safetyRegister"><h1
 									class="page-title">안전심부름꾼 신청</h1></a></li>
-						<li class=""><a href="${pageContext.request.contextPath}/user/charge"><h1
+						<li class=""><a
+							href="${pageContext.request.contextPath}/user/charge"><h1
 									class="page-title">포인트 충전 및 내역</h1></a></li>
 					</ul>
 				</header>
@@ -203,7 +205,38 @@
 										</header>
 										<article class="clearfix overall-rating">
 											<strong class="pull-left">총 평점</strong>
-											<figure class="rating big color pull-right" data-rating="4"></figure>
+											<c:set value="0" var="restotal" />
+											<c:set value="0" var="reqtotal" />
+											<c:set value="0" var="resCount"/>
+											<c:set value="0" var="reqCount"/>
+											<c:forEach items="${member.gpaList}" var="gpa">
+												<c:if test="${gpa.responseKindness == 0}">
+													<c:set value="${reqtotal + gpa.requestManners}"
+														var="reqtotal" />
+													<c:set value="${reqCount + 1}" var="reqCount" />
+												</c:if>
+												<c:if test="${gpa.requestManners == 0}">
+													<c:set
+														value="${restotal + (gpa.responseKindness + gpa.responseSpeed + gpa.responseAccuracy)/3}"
+														var="restotal" />
+														<c:set value="${resCount + 1}" var="resCount" />
+												</c:if>
+											</c:forEach>
+											<c:choose>
+											<c:when test="${reqCount == 0 }">
+											<figure class="rating big color pull-right"
+												data-rating="${restotal/resCount}"></figure>
+											</c:when>
+											<c:when test="${resCount == 0 }">
+											<figure class="rating big color pull-right"
+												data-rating="${ (reqtotal/reqCount) }"></figure>
+											</c:when>
+											<c:otherwise>
+											<figure class="rating big color pull-right"
+												data-rating="${((restotal/resCount) + (reqtotal/reqCount)) / 2 }"></figure>
+											</c:otherwise>
+											</c:choose>
+											
 
 
 											<!-- /.rating -->
@@ -217,21 +250,47 @@
 												<!-- /.author-->
 												<div class="wrapper">
 													<h5>해쉬태그 및 상세 평점</h5>
-													<figure class="rating big color" data-rating="4"></figure>
-													<p>#친절함 #빠름 #응응</p>
+													<c:forEach items="${member.hashList}" var="hash">
+														<span class="label label-info">${hash.hashtag}</span>
+													</c:forEach>
+													<c:set value="0" var="speed" />
+													<c:set value="0" var="acc" />
+													<c:set value="0" var="kind" />
+													<c:set value="0" var="manner" />
+													<c:forEach items="${member.gpaList}" var="gpa">
+														<c:if test="${gpa.responseKindness == 0}">
+															<c:set value="${manner + gpa.requestManners}"
+																var="reqtotal" />
+														</c:if>
+														<c:if test="${gpa.requestManners == 0}">
+															<c:set value="${speed + gpa.responseSpeed}" var="speed"/>
+															<c:set value="${kind + gpa.responseKindness}" var="kind"/>
+															<c:set value="${acc + gpa.responseAccuracy}" var="acc"/>
+														</c:if>
+													</c:forEach>
 													<div class="individual-rating">
 														<span>신속도</span>
-														<figure class="rating" data-rating="4"></figure>
+
+														<figure class="rating"
+															data-rating="${speed/resCount}"></figure>
 													</div>
 													<!-- /.user-rating -->
 													<div class="individual-rating">
 														<span>정확도</span>
-														<figure class="rating" data-rating="4"></figure>
+														<figure class="rating"
+															data-rating="${acc/resCount}"></figure>
 													</div>
 
 													<div class="individual-rating">
 														<span>친절도</span>
-														<figure class="rating" data-rating="4"></figure>
+														<figure class="rating"
+															data-rating="${kind/resCount}"></figure>
+													</div>
+
+													<div class="individual-rating">
+														<span>요청매너</span>
+														<figure class="rating"
+															data-rating="${manner/reqCount}"></figure>
 													</div>
 													<!-- /.user-rating -->
 												</div>

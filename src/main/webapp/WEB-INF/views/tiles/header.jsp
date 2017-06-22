@@ -29,7 +29,7 @@
 			<nav class="navigation-items">
 				<div class="wrapper">
 					<!-- <ul class="main-navigation navigation-top-header"></ul> -->
-					<security:authorize access="isAuthenticated()">
+<%-- 					<security:authorize access="isAuthenticated()">
 					<ul class="user-area">
 					<!-- 크롤링테스트 -->
 					<li><a href="${pageContext.request.contextPath}/crawl?pageName=ediya">추천 리스트</a></li>
@@ -41,7 +41,7 @@
 							</ul></li>
 					<li><a href="${pageContext.request.contextPath}/crawl?pageName=ediya">크롤링 테스트</a></li>
 					</ul>
-					</security:authorize>
+					</security:authorize> --%>
 					
 
 

@@ -174,10 +174,8 @@
 								<div class="col-sm-6">
 									<h3>검색 결과</h3>
 								</div>
-								<div class="col-sm-6">
-									<a href="listing-grid.html" class="btn icon "><i
-										class="fa fa-th"></i>Grid</a> <a href="listing-list.html"
-										class="btn icon"><i class="fa fa-th-list"></i>List</a>
+								<div class="col-sm-6"> <a href="${pageContext.request.contextPath}/errand/listing?sort=1"
+										class="btn icon"><i class="fa fa-th-list"></i>리스트</a>
 								</div>
 							</div>
 						</header>
@@ -189,6 +187,10 @@
 									value="${errands.errandsPos.longitude}">
 								<input type="hidden" id="addr${state.index}"
 									value="${errands.errandsPos.addr}">
+								<input type="hidden" id="pr${state.index}"
+									value="${errands.errandsPrice}">
+								<input type="hidden" id="en${state.index}"
+									value="${errands.errandsNum}">
 								<li onclick="clickDetail(${errands.errandsNum})">
 									<div class="item">
 										<a class="image">
@@ -245,7 +247,7 @@
 				class="block background-color-grey-dark equal-height">
 				<div class="container">
 					<header>
-						<h2>최고의 심부름꾼</h2>
+						<h2>이달의 심부름꾼</h2>
 					</header>
 					<div class="row">
 						<c:forEach items="${rankedList}" var="ranked" end="3"
@@ -253,16 +255,6 @@
 							<div class="col-md-3 col-sm-3">
 								<div class="item featured">
 									<div class="image">
-										<div class="overlay">
-											<div class="inner">
-												<div class="content">
-													<p>정확성: ${ranked.gpaList[0].responseAccuracy}</p>
-													<p>친절성: ${ranked.gpaList[0].responseKindness}</p>
-													<p>신속성: ${ranked.gpaList[0].responseSpeed}</p>
-													<p>매너: ${ranked.gpaList[0].requestManners}</p>
-												</div>
-											</div>
-										</div>
 										<c:if test="${status.index == 0}">
 											<div class="icon">
 												<i class="fa fa-thumbs-up"></i>
@@ -270,21 +262,20 @@
 										</c:if>
 										<img
 											src="${pageContext.request.contextPath}/users/${ranked.userId}/${ranked.selfImg}"
-											alt=""> </a>
+											alt="">
 									</div>
 									<div class="wrapper">
 										<h3>${ranked.userId}</h3>
 										</a>
 										<figure>${ranked.addr}
 										</figure>
+										${ranked.introduce}
 										<div class="info">
 											<div class="type">
 												<c:forEach items="${ranked.hashList}" var="hash" end="5">
 													<span class="label label-info">${hash.hashtag}</span>
 												</c:forEach>
 											</div>
-											<div class="rating"
-												data-rating="${(ranked.gpaList[0].responseAccuracy + ranked.gpaList[0].responseKindness + ranked.gpaList[0].responseSpeed + ranked.gpaList[0].requestManners) / 4}"></div>
 										</div>
 									</div>
 								</div>
@@ -374,31 +365,6 @@
 				</div>
 			</section>
 
-
-			<!--Subscribe-->
-			<section id="subscribe" class="block">
-				<div class="container">
-					<header>
-						<h2>구독하기</h2>
-					</header>
-					<form class="subscribe form-inline border-less-inputs" action="?"
-						method="post" role="form">
-						<div class="input-group">
-							<input type="email" class="form-control" id="subscribe_email"
-								placeholder="메일을 작성해서 DoThing의 새로운 소식을 받아보세요!"> <span
-								class="input-group-btn">
-								<button type="submit" class="btn btn-default btn-large">
-									구독완료<i class="fa fa-angle-right"></i>
-								</button>
-							</span>
-						</div>
-					</form>
-					<!--/.subscribe-->
-				</div>
-				<!--/.container-->
-			</section>
-			<!--end Subscribe-->
-
 		</div>
 		<!-- end Page Content-->
 	</div>
@@ -426,12 +392,7 @@
 	 }); 
 	 var sLat = document.getElementById("sLat");
 	 var sLng = document.getElementById("sLng");
-    // Scrollbar on "Results" section
-    if( $('.items-list').length > 0 ){
-        $(".items-list").mCustomScrollbar({
-            mouseWheel:{ scrollAmount: 350}
-        });
-    }
+
 		
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 			mapOption = {
@@ -439,6 +400,7 @@
 				level : 6 // 지도의 확대 레벨
 			};
 	
+		
 		// 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
 		var map = new daum.maps.Map(mapContainer, mapOption);
 		function currentLocation(){
@@ -474,20 +436,11 @@
 			);
 		}
 		}
+		
 		function mapRe() {
 			map.relayout();
 		}
-		$('.map .toggle-navigation').click(function() {
-			$('.map-canvas').toggleClass('results-collapsed');
-			setTimeout("mapRe()", 1000)
-	
-		});
-		// Set if language is RTL and load Owl Carousel
-	
-		$(window).load(function() {
-			var rtl = false; // Use RTL
-			initializeOwl(rtl);
-		});
+
 	
 		map.relayout();
 		setTimeout("mapRe()", 3000);
@@ -496,11 +449,15 @@
 		 var lat = new Array();
          var lng = new Array();
          var addr = new Array();
+         var pr = new Array();
+         var en = new Array();
          var size = ${errandsList.size()};
          for(var i=0; i<size; i++){
         	 lat.push(document.getElementById("lat"+i).value);
         	 lng.push(document.getElementById("lng"+i).value);
         	 addr.push(document.getElementById("addr"+i).value);
+        	 pr.push(document.getElementById("pr"+i).value);
+        	 en.push(document.getElementById("en"+i).value)
          }
          
          var posArr = new Array();
@@ -513,17 +470,18 @@
              };
         	 posArr.push(positions);
          }
-         
          // 마커 이미지의 이미지 주소입니다
          var imageSrc = "http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
-      
+         function numberWithCommas(x) {
+     	    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+   		 }
          for (var i = 0; i < posArr.length; i++) {
-      
+        	 var imageSrc = "${pageContext.request.contextPath}/assets/img/dothingmarker.png"
             // 마커 이미지의 이미지 크기 입니다
-            var imageSize = new daum.maps.Size(24, 35);
-      
+            var imageSize = new daum.maps.Size(50, 50);
+        	var imageOption = {offset: new daum.maps.Point(23, 62)};
             // 마커 이미지를 생성합니다    
-            var markerImage = new daum.maps.MarkerImage(imageSrc, imageSize);
+            var markerImage = new daum.maps.MarkerImage(imageSrc, imageSize, imageOption);
       
             // 마커를 생성합니다
             var marker = new daum.maps.Marker({
@@ -533,12 +491,28 @@
                image : markerImage // 마커 이미지 
             });
             
+            var cContent = "<a href='${pageContext.request.contextPath}/errand/detailView?num="+en[i]+"'><span class='label label-primary'><i class='fa fa-krw'>"+ numberWithCommas(pr[i]) + "원</i></span></a>",
+      	 	 cPosition = new daum.maps.LatLng(lat[i], lng[i]);
+       	 
+       		 var customOverlay = new daum.maps.CustomOverlay({
+       			 map:map,
+       			 position: cPosition,
+       			 content: cContent,
+       			 yAnchor: 1
+       		 })
+            
          }
+         
+         
+
+      
+         
          function moveCenter(){
          var moveLatLon = new daum.maps.LatLng(lat[0], lng[0]);
 		    // 지도 중심을 이동 시킵니다
 		    map.panTo(moveLatLon);
 		 }
+         
          setTimeout("moveCenter()", 1000)
          
          
@@ -548,7 +522,7 @@
          function searchAddrFromCoords(coords, callback) {
         	    // 좌표로 행정동 주소 정보를 요청합니다
         	    geocoder.coord2addr(coords, callback);         
-        	}
+        }
          
       // 지도 좌측상단에 지도 중심좌표에 대한 주소정보를 표출하는 함수입니다
          function displayCenterInfo(status, result) {
@@ -558,6 +532,9 @@
              }    
          }
          searchAddrFromCoords(map.getCenter(), displayCenterInfo);
+         
+         
+         // 맵이 움직일때마다 원의 위치 변경
          daum.maps.event.addListener(map, 'idle', function() {
         	 var mLat = map.getCenter().getLat();
         	 var mLng = map.getCenter().getLng();
@@ -569,6 +546,8 @@
         	    sLat.value = mLat;
         	    sLng.value = mLng;
         	});
+         
+         // 거리버튼을 눌렀을때 원 그리기
          $("input[type='radio']").click(function(){
         	 var mLat = map.getCenter().getLat();
         	 var mLng = map.getCenter().getLng();
@@ -578,8 +557,27 @@
         	circle.setMap(map);
          });
 	</script>
-	<script>
 
-</script>
+
+	<script>
+		// Scrollbar on "Results" section
+		if ($('.items-list').length > 0) {
+			$(".items-list").mCustomScrollbar({
+				mouseWheel : {
+					scrollAmount : 350
+				}
+			});
+		}
+		$('.map .toggle-navigation').click(function() {
+			$('.map-canvas').toggleClass('results-collapsed');
+			setTimeout("mapRe()", 1000)
+		});
+		// Set if language is RTL and load Owl Carousel
+	
+		$(window).load(function() {
+			var rtl = false; // Use RTL
+			initializeOwl(rtl);
+		});
+	</script>
 </body>
 </html>

@@ -72,7 +72,7 @@ public class AdminController {
 		if (page == null)
 			page = 1;
 		ModelAndView mv = new ModelAndView();
-		List<MemberDTO> memberList = new ArrayList<>();
+		List<MemberDTO> memberList = memberService.selectNotSafety(page);
 		PageMaker pm = new PageMaker(page, memberList.size() / 6 + 1);
 		pm.start();
 		mv.setViewName("/admin/adminSafe");
