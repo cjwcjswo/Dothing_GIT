@@ -64,5 +64,9 @@ public interface ErrandsService {
 	 * 요청자 확인
 	 */
 	int okRequest(GPADTO gpaDTO, String id, String evalTag);
-
+	
+	List<GPADTO> selectGPAById(String id);
+	
+	List<ErrandsDTO> selectList(Integer sort, String addr, int page);
+	int countList(String addr);
 }

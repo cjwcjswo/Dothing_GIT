@@ -44,8 +44,12 @@ public class ErrandsServiceImpl implements ErrandsService {
 		List<ErrandsReplyDTO> replyList = dto.getErrandsReply();
 		for(ErrandsReplyDTO reply :replyList){
 			MemberDTO replyUser = reply.getUser();
+			if(memberDAO.isSafety(replyUser.getUserId())){
+				System.out.println("OK");
+				replyUser.setAuth(2);
+			}
 			replyUser.setHashList(memberDAO.selectHashtag(replyUser.getUserId()));
-			replyUser.setGpaList(memberDAO.averageGPA(replyUser.getUserId()));
+			replyUser.setGpaList(errandsDAO.selectGPAById(replyUser.getUserId()));
 		}
 		MemberDTO request = dto.getRequestUser();
 		MemberDTO response = dto.getResponseUser();
@@ -267,6 +271,30 @@ public class ErrandsServiceImpl implements ErrandsService {
 			request.setGpaList(memberDAO.averageGPA(request.getUserId()));
 		}
 		return list;
+	}
+
+
+	@Override
+	public List<GPADTO> selectGPAById(String id) {
+		return errandsDAO.selectGPAById(id);
+	}
+
+
+	@Override
+	public List<ErrandsDTO> selectList(Integer sort, String addr, int page) {
+		List<ErrandsDTO> list = errandsDAO.selectList(sort , addr, page);
+		for(ErrandsDTO dto : list){
+			MemberDTO requestUser = dto.getRequestUser();
+			requestUser.setGpaList(errandsDAO.selectGPAById(requestUser.getUserId()));
+		}
+		calHashes(list);
+		return list;
+	}
+
+
+	@Override
+	public int countList(String addr) {
+		return errandsDAO.countList(addr);
 	}
 
 }

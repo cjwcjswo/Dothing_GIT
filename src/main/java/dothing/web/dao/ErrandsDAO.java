@@ -35,4 +35,10 @@ public interface ErrandsDAO {
 	List<GPADTO> selectGPA(int num);
 	List<GPADTO> selectGPAById(String id);
 	int insertGPA(GPADTO dto);
+	
+	/**
+	 * 리스트에서 검색
+	 */
+	List<ErrandsDTO> selectList(Integer sort, String addr, int page);
+	int countList(String addr);
 }

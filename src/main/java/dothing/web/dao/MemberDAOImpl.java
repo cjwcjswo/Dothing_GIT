@@ -56,8 +56,6 @@ public class MemberDAOImpl implements MemberDAO {
 		Map<String, Object> map = new HashMap<>();
 		map.put("point", point);
 		map.put("userId", id);
-		System.out.println(map.get("point"));
-		System.out.println(map.get("userId"));
 		return sqlSession.update("memberMapper.updatePoint", map);
 	}
 
@@ -123,9 +121,13 @@ public class MemberDAOImpl implements MemberDAO {
 
 	@Override
 	public boolean isSafety(String id) {
-		MemberDTO member = sqlSession.selectOne("memberMapper.isSafety", id);
-		if(member == null) return false;
-		else return true;
+		String result = sqlSession.selectOne("memberMapper.isSafety", id);
+		if(result == null) {
+			return false;
+		}
+		else {
+			return true;
+		}
 	}
 
 	@Override

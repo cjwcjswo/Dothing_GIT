@@ -94,8 +94,7 @@ function sendDelete(){
 											<a href="#"
 											onclick="location.href='${pageContext.request.contextPath}/board/inquiryDelete?inquiryNum=${boardDto.inquiryNum}'">
 												<i class="fa fa-trash-o" data-toggle="tooltip" title="삭제하기"></i>
-										</a> <a><i class="fa fa-pencil" data-toggle="tooltip"
-												title="수정하기"></i></a> <span style="color: #ff513f;">${boardDto.boardDate}</span>
+										</a>  <span style="color: #ff513f;">${boardDto.boardDate}</span>
 
 										</td>
 									</tr>
@@ -108,14 +107,6 @@ function sendDelete(){
 
 			<!-- 페이지네이션 -->
 
-			<!-- <ul class="pager">
-						<li><a href="#">Previous</a></li>
-						<li><a href="#">1</a></li>
-						<li><a href="#">2</a></li>
-						<li><a href="#">3</a></li>
-						<li><a href="#">Next</a></li>
-					</ul>
- -->
 			<ul class="pagination" style="margin-left: 35%">
 				<c:if test="${pm.previous}">
 					<li><a

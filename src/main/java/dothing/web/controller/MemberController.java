@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import dothing.web.dto.ErrandsDTO;
 import dothing.web.dto.MemberDTO;
 import dothing.web.dto.NotificationDTO;
 import dothing.web.service.AdminMoneyService;
+import dothing.web.service.ErrandsService;
 import dothing.web.service.MemberService;
 import dothing.web.util.PageMaker;
 
@@ -29,6 +31,8 @@ public class MemberController {
 
 	@Autowired
 	private MemberService memberService;
+	@Autowired
+	private ErrandsService errandsService;
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	@Autowired
@@ -102,6 +106,9 @@ public class MemberController {
 		ModelAndView mv = new ModelAndView();
 		String id = ((MemberDTO) aut.getPrincipal()).getUserId();
 		MemberDTO member = memberService.selectMemberById(id);
+		MemberDTO member = (MemberDTO) aut.getPrincipal();
+		member.setGpaList(errandsService.selectGPAById((member.getUserId())));
+		member.setHashList(memberService.selectHashtag(member.getUserId()));
 		mv.addObject("member", member);
 		mv.setViewName("/user/myPage");
 		return mv;
@@ -218,12 +225,29 @@ public class MemberController {
 	@RequestMapping("/profileLayer")
 	public void profileLayer() {
 	}
-
+    
+	/**
+	 * 마이페이지 포인트
+	 */
 	@RequestMapping("/charge")
-	public void charge() {
-
+	public ModelAndView charge(Authentication auth) {
+		ModelAndView mv = new ModelAndView();
+		String userId = ((MemberDTO) auth.getPrincipal()).getUserId();
+		List<ErrandsDTO> list = adminMoneyService.pointList(userId);//포인트 사용내역
+		List<ErrandsDTO> successList = adminMoneyService.searchPointSuccess(userId);
+		mv.setViewName("/user/charge");
+		mv.addObject("list", list);
+		mv.addObject("successList", successList);
+		for(ErrandsDTO dto : successList){
+			System.out.println(dto.getFinishTime());
+		}
+		return mv;
 	}
 	
+	
+	/**
+	 * 마이페이지포인트 충전
+	 */
 	@RequestMapping("/pointCharge")
 	public ModelAndView pointCharge(Authentication auth, String select, String way){
 		
@@ -246,4 +270,6 @@ public class MemberController {
 		}
 		return mv;
 	}
+	
+	
 }
