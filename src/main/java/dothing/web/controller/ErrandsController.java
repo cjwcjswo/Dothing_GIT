@@ -278,7 +278,7 @@ public class ErrandsController {
 	 */
 	@RequestMapping("/listing")
 	public ModelAndView listing(Integer sort, String addr, Integer page) {
-
+		System.out.println("¿À³Ä?");
 		ModelAndView mv = new ModelAndView();
 		if (page == null)
 			page = 1;

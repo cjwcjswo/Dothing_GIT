@@ -23,11 +23,11 @@
 	<resources mapping="/assets/**" location="/assets/" />
 
 	<!-- websocket -->
-	<websocket:handlers>
-	    <websocket:mapping handler="webSocketHandler" path="/websocket"/>
-	    <websocket:sockjs />
-	</websocket:handlers>
 
+	<websocket:handlers>
+		<websocket:mapping handler="webSocketHandler" path="/websocket" />
+		<websocket:sockjs />
+	</websocket:handlers>
 	<beans:bean class="dothing.web.socket.handler.WebSocketHandler"
 		id="webSocketHandler" />
 

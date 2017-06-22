@@ -31,8 +31,9 @@ public class WebSocketHandler extends TextWebSocketHandler {
 
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+	
 		super.afterConnectionEstablished(session);
-
+		
 		System.out.println("CONNECTED: " + session.getId());
 		if (isAuthenticated(session)) { // 로그인 되어있을 시 idMap에 ID / WEBSOCKET 형식으로
 										// 추가
