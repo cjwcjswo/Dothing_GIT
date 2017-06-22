@@ -8,8 +8,13 @@ select *from member;
 
 select *from ERRANDS;
 
-select product_price,errands_price,start_time from errands
-	    where start_time is not null and request_id = 'tester'
+select product_price,errands_price,start_time,finish_time from errands
+	    where start_time is not null and finish_time is not null 
+	    and request_id = 'tester' order by finish_time desc
+	    
+select product_price, errands_price, finish_time from errands 
+where finish_time is not null and start_time is not null and 
+response_id='tester' order by finish_time desc
 
 select 
 		current_point,request_point,member_id 

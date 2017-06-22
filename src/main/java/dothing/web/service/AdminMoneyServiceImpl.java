@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import dothing.web.dao.AdminMoneyDAO;
+import dothing.web.dto.ErrandsDTO;
 import dothing.web.dto.PointDTO;
 
 @Service
@@ -60,6 +61,18 @@ public class AdminMoneyServiceImpl implements AdminMoneyService {
 	public int pointChargeCard(String userId, int select) {
 
 		return pointDAO.pointChargeCard(userId, select);
+	}
+	
+	@Override
+	public List<ErrandsDTO> pointList(String userId) {
+		
+		return pointDAO.pointList(userId);
+	}
+	
+	@Override
+	public List<ErrandsDTO> searchPointSuccess(String userId) {
+		
+		return pointDAO.searchPointSuccess(userId);
 	}
 
 }

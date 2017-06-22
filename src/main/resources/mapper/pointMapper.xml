@@ -9,6 +9,21 @@
 			<id column="member_id" property="userId" />
 		</association>
 	</resultMap>
+	
+	<!-- Errands DTO -->
+	<resultMap type="errandsDTO" id="errandsMap">
+		<id column="ERRANDS_NUM" property="errandsNum" />
+		<result column="TITLE" property="title" />
+		<result column="CONTENT" property="content" />
+		<result column="END_TIME" property="endTime" />
+		<result column="ARRIVAL_TIME" property="arrivalTime" />
+		<result column="FINISH_TIME" property="finishTime" />
+		<result column="PRODUCT_PRICE" property="productPrice" />
+		<result column="ERRANDS_PRICE" property="errandsPrice" />
+		<result column="ERRANDS_PHOTO" property="errandsPhoto" />
+		<result column="START_TIME" property="startTime" />
+		
+	</resultMap>
 
 	<!-- 무통장 입금 신청 리스트(전환 안된 리스트만) -->
 	<select id="selectAll" resultMap="pointSelectMap">
@@ -55,8 +70,23 @@
 	</update>
 	
 	<!-- 포인트 사용내역 조회하기 -->
-	<select id="searchPoint" parameterType="string">
+	<select id="searchPoint" parameterType="String" resultMap="errandsMap">
 	    select product_price,errands_price,start_time from errands
-	    where start_time is not null and request_id = #{value}
+	    where start_time is not null and finish_time is not null 
+	    and request_id = #{value} order by start_time desc
+	</select>
+	
+	<!-- 포인트 환금 조회하기 -->
+	<select id="searchPointRecieve" parameterType="String" resultMap="errandsMap">
+	    select product_price,errands_price,start_time from errands
+	    where start_time is not null and finish_time is null 
+	    and request_id = #{value} order by start_time desc
+	</select>
+	
+	<!-- 심부름 수행으로 포인트 받은거 조회 -->
+	<select id="searchPointSuccess" parameterType="String" resultMap="errandsMap">
+	    select product_price, errands_price, finish_time from errands 
+	    where finish_time is not null and start_time is not null and 
+	    response_id=#{value} order by finish_time desc
 	</select>
 </mapper>
