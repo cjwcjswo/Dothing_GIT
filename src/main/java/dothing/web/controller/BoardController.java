@@ -212,7 +212,11 @@ public class BoardController {
 	 * 공지게시판 쓰기 뷰
 	 */
 	@RequestMapping("/noticeBoardWrite")
-	public void noticeWrite(){
+	public void noticeWrite(Authentication auth) throws Exception{
+		String userId = ((MemberDTO) auth.getPrincipal()).getUserId();
+		if(!userId.equals("admin")){
+			throw new Exception("운영자만 글을 쓸 수 있습니다.");
+		}
 		
 	}
 	
@@ -228,7 +232,7 @@ public class BoardController {
 		
 		
 		if(!userId.equals("admin")){
-			throw new Exception("Id가 tester인 운영자만 글을 쓸 수 있습니다.");
+			throw new Exception("운영자만 글을 쓸 수 있습니다.");
 		}
 		
 		boardDTO.setUserId("admin");
