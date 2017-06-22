@@ -6,6 +6,11 @@ select *from point;
 
 select *from member;
 
+select *from ERRANDS;
+
+select product_price,errands_price,start_time from errands
+	    where start_time is not null and request_id = 'tester'
+
 select 
 		current_point,request_point,member_id 
 		from point 

@@ -53,4 +53,10 @@
 		update point set current_point=#{select}+current_point
 		where member_id=#{userId}
 	</update>
+	
+	<!-- 포인트 사용내역 조회하기 -->
+	<select id="searchPoint" parameterType="string">
+	    select product_price,errands_price,start_time from errands
+	    where start_time is not null and request_id = #{value}
+	</select>
 </mapper>
