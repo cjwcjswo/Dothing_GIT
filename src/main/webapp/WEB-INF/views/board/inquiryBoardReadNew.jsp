@@ -63,7 +63,7 @@ function checkValid() {
 						<tr>
 							<td align=""><span style="font-size: 16px;"><h1>${board.boardTitle}</h1></span>
 								<div align="right">
-									<span style="color: #ff513f;">${board.boardDate} | 조회수
+									<span style="color: #ff513f;">작성자 ${board.userId} | ${board.boardDate} | 조회수
 										${board.readNum}</span>
 								</div></td>
 
@@ -81,65 +81,6 @@ function checkValid() {
 
 				<!-- /.form-group -->
 
-				<%-- <!-- reviews -->
-						<section class="" id="reviews">
-						<header class="clearfix">
-						<h2 class="pull-left">댓글 목록</h2>
-						<a href="#write-review" class="btn framed icon pull-right roll">댓글
-							작성하기 <i class="fa fa-pencil"></i>
-						</a>
-						</header> 
-						<section class="reviews">
-						<article class="review">
-						<!-- <figure class="author"> 
-						<img
-							src="assets/img/default-avatar.png" alt="">
-						<div class="date">작성일 2017-06-15 오후 5:34</div>
-						</figure> /.author -->
-						
-						<div class="wrapper">
-						<!-- <c:choose>
-							<h5>작성자 아이디</h5>
-							<figure class="rating big color" data-rating="4"></figure>
-							<p>이거 방탄 유리야 새끼야~~~</p>
-						</c:choose> -->
-						
-						<c:choose>
-						
-						<c:when test="${empty requestScope.reply}">
-								<tr>
-									<td colspan="5">
-										<p align="center">
-											<b><span style="font-size: 9pt;">등록된 댓글이 없습니다.</span></b>
-										</p>
-									</td>
-								</tr>
-						</c:when>
-							
-						<c:otherwise>
-							<c:forEach items="${requestScope.reply}" var="replyDto">
-							
-							<figure class="author"> 
-						    <img
-							src="assets/img/default-avatar.png" alt="">
-						    <!-- <div class="date">작성일 2017-06-15 오후 5:34</div> -->
-						    </figure> <!-- /.author-->
-							
-							<h5>운영자</h5>
-							<figure class="rating big color" data-rating="4">
-							</figure>
-							<p>${replyDto.replyContent}</p>
-							
-							</c:forEach>
-						</c:otherwise>
-						</c:choose>
-
-						</div>
-						<!-- /.wrapper--> </article> <!-- /.review --> <!-- /.review --> </section> <!-- /.reviews-->
-						</section>
-						<!-- /#reviews -->
-						<!--end Reviews--> --%>
-
 				<!-- NEW -->
 				<div class="" id="reviews">
 					<div class="clearfix">
@@ -150,25 +91,17 @@ function checkValid() {
 					</div>
 					<div class="reviews">
 						<div class="review">
-							<!-- <figure class="author"> 
-						<img
-							src="assets/img/default-avatar.png" alt="">
-						<div class="date">작성일 2017-06-15 오후 5:34</div>
-						</figure> /.author -->
 
 							<div class="wrapper">
-
 
 								<c:choose>
 
 									<c:when test="${empty requestScope.reply}">
-										<!-- <tr>
-									<td colspan="5"> -->
+										
 										<p align="center">
 											<b><span style="font-size: 9pt;">등록된 댓글이 없습니다.</span></b>
 										</p>
-										<!-- </td>
-								</tr> -->
+									
 									</c:when>
 
 									<c:otherwise>
@@ -176,7 +109,7 @@ function checkValid() {
 
 											<div class="author">
 												<img src="assets/img/default-avatar.png" alt="">
-												<!-- <div class="date">작성일 2017-06-15 오후 5:34</div> -->
+												
 											</div>
 											<!-- /.author-->
 

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
 	pageEncoding="EUC-KR"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -125,20 +126,112 @@
 			</div>
 
 			<h1>
-				<i class="fa fa-check"></i>최근 결제 내역
+				<i class="fa fa-check"></i>포인트 사용 내역
 			</h1>
 
 			<table class="table table-hover">
 				<thead>
 					<tr>
-						<th>구입일</th>
-						<th>결제 포인트</th>
-						<th>사용 포인트</th>
-						<th>잔여 포인트</th>
-						<th>환전 포인트</th>
+						<!-- <th>구입일</th>
+						<th>결제 포인트</th> -->
+						<th>물품 포인트</th>
+						<th>심부름 포인트</th>
+						<th>사용 시간</th>
+						<!-- <th>환전 포인트</th> -->
 					</tr>
 				</thead>
-				<tbody>
+				<c:choose>
+						<c:when test="${empty requestScope.list}">
+							<tr>
+								<td colspan="5">
+									<div align="center">
+										<b><span style="font-size: 9pt;">포인트 내역이 없습니다.</span></b>
+									</div>
+								</td>
+							</tr>
+						</c:when>
+						<c:otherwise>
+						<c:forEach items="${requestScope.list}" var="errandDto">
+						<tbody>
+						<tr>
+						<td>
+						<c:choose>
+						<c:when test="${0 eq errandDto.productPrice}">
+						0
+						</c:when>
+						<c:otherwise>
+						-${errandDto.productPrice}
+						</c:otherwise>
+						</c:choose>
+						</td>
+						<td>
+						<c:choose>
+						<c:when test="${0 eq errandDto.errandsPrice}">
+						0
+						</c:when>
+						<c:otherwise>
+						-${errandDto.errandsPrice}
+						</c:otherwise>
+						</c:choose>
+						</td>
+						</td>
+						<td>${errandDto.startTime}</td>
+						
+						</tr>
+						</tbody>
+						</c:forEach>
+						</c:otherwise>
+						</c:choose>
+						
+			</table>
+			
+			<h1>
+				<i class="fa fa-check"></i>심부름 수행으로 받은 내역
+			</h1>
+
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						
+						<th>물품 포인트</th>
+						<th>심부름 포인트</th>
+						<th>수행 완료 시간</th>
+					</tr>
+				</thead>
+				<c:choose>
+						<c:when test="${empty requestScope.list}">
+							<tr>
+								<td colspan="5">
+									<div align="center">
+										<b><span style="font-size: 9pt;">심부름 수행 내역이 없습니다.</span></b>
+									</div>
+								</td>
+							</tr>
+						</c:when>
+						<c:otherwise>
+						<c:forEach items="${requestScope.successList}" var="errandDtoSuccess">
+						<tbody>
+						<tr>
+						<td>${errandDtoSuccess.productPrice}</td>
+						<td>
+						<c:choose>
+						<c:when test="${0 eq errandDtoSuccess.errandsPrice}">
+						0
+						</c:when>
+						<c:otherwise>
+						+${errandDtoSuccess.errandsPrice}
+						</c:otherwise>
+						</c:choose>
+						</td>
+						</td>
+						<td>${errandDtoSuccess.finishTime}</td>
+						</tr>
+						</tbody>
+						</c:forEach>
+						</c:otherwise>
+						</c:choose>
+						
+				<!-- <tbody>
 					<tr>
 						<td>2017-06-19</td>
 						<td>5,000</td>
@@ -148,19 +241,19 @@
 
 					</tr>
 
-				</tbody>
+				</tbody> -->
 			</table>
 
 
 			<!-- 페이지네이션 -->
 
-			<ul class="pager">
+			<!-- <ul class="pager">
 				<li><a href="#">Previous</a></li>
 				<li><a href="#">1</a></li>
 				<li><a href="#">2</a></li>
 				<li><a href="#">3</a></li>
 				<li><a href="#">Next</a></li>
-			</ul>
+			</ul> -->
 
 			<!-- 페이지네이션 종료 --> <!-- /.form-group --> </section>
 
