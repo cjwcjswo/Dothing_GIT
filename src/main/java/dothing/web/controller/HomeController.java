@@ -68,11 +68,5 @@ public class HomeController {
 		System.out.println("list's size : "+crawlService.parseMainPage(pageName, productName).get(pageName).size());
 		return new ModelAndView("crawl/crawlPage", "crawlData", crawlService.parseMainPage(pageName, productName).get(pageName));
 	}
-	
-<<<<<<< HEAD
-	
-
-=======
->>>>>>> a273eb22fe48e45fd5c1f7fd08e379716e02fd89
 
 }

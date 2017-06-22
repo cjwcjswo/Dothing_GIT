@@ -161,4 +161,34 @@
 		where RESPONSE_ID is null
 		ORDER BY ERRANDS_PRICE desc
 	</select>
+	
+	<!--리스트로 보기-->
+	<select id="selectList" resultMap="errandsMap" parameterType="map">
+		select * from ERRANDS_VIEW
+		<where>
+			<if test="addr != null">
+				addr like #{addr}
+			</if>
+			and response_id is null
+		</where>
+		<if test="sort == 3">
+			ORDER BY ERRANDS_PRICE ASC
+		</if>
+		<if test="sort == 2">
+			ORDER BY ERRANDS_PRICE DESC
+		</if>
+		<if test="sort == 1">
+			ORDER BY ERRANDS_NUM DESC
+		</if>
+	</select>
+	<!--리스트로 카운팅-->
+	<select id="countList" resultType="int" parameterType="string">
+		select count(*) from ERRANDS_VIEW
+		<where>
+			<if test="value != null">
+				addr like #{value}
+			</if>
+			and response_id is null
+		</where>
+	</select>
 </mapper>

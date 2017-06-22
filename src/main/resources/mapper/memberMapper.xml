@@ -151,13 +151,13 @@
 		and m.SSN_IMG is not null
 	</select>
 
-	<select id="isSafety" resultType="memberDTO" parameterType="string">
+	<select id="isSafety" resultType="string" parameterType="string">
 		select m.MEMBER_ID from MEMBER
 		m left join
 		AUTH aut
 		on m.MEMBER_ID =
 		aut.USERNAME
 		where aut.ROLE in
-		('ROLE_SAFETY') and MEMBER_ID = #{value};
+		('ROLE_SAFETY') and MEMBER_ID = #{value}
 	</select>
 </mapper>

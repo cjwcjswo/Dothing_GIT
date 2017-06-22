@@ -36,13 +36,12 @@ public class ErrandsController {
 	@Autowired
 	MemberService memberService;
 
-	
 	@Autowired
 	ChatService chatService;
 
 	@RequestMapping("/errand")
 	public ModelAndView errandsList(Authentication aut, Integer page) {
-		MemberDTO member = (MemberDTO)aut.getPrincipal();
+		MemberDTO member = (MemberDTO) aut.getPrincipal();
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("errandsList", errandsService.selectAll()); // 심부름 리스트
 		mv.addObject("rankedList", memberService.selectRanked()); // 심부름꾼 랭킹
@@ -59,22 +58,20 @@ public class ErrandsController {
 		mv.addObject("currentUser", (MemberDTO) aut.getPrincipal());
 		ErrandsDTO errands = errandsService.selectErrands(num);
 		mv.addObject("errands", errands);
-		if(errands.getResponseUser() != null){
+		if (errands.getResponseUser() != null) {
 			String responseId = errands.getResponseUser().getUserId();
 			String responseSelfImg = memberService.selectMemberById(responseId).getSelfImg();
 			mv.addObject("responseSelfImg", responseSelfImg);
 		}
 		String requestId = errands.getRequestUser().getUserId();
-		
-		
+
 		String requestSelfImg = memberService.selectMemberById(requestId).getSelfImg();
-		
-		
+
 		mv.addObject("requestSelfImg", requestSelfImg);
-		
-		List<String> list = chatService.getContent(num+"");
-		if(list != null){
-			mv.addObject("list", chatService.getContent(num+""));
+
+		List<String> list = chatService.getContent(num + "");
+		if (list != null) {
+			mv.addObject("list", chatService.getContent(num + ""));
 		}
 		mv.setViewName("/errand/detailView");
 		return mv;
@@ -98,7 +95,7 @@ public class ErrandsController {
 		dto.setErrandsPhoto(file.getOriginalFilename());
 		int insertResult = errandsService.insertErrands(dto, session.getServletContext().getRealPath(""));
 		if (insertResult > 0) {
-			
+
 			mv.addObject("insertNum", errandsService.selectNum());
 			mv.addObject("insertResult", insertResult);
 		}
@@ -116,7 +113,8 @@ public class ErrandsController {
 	public String insert(HttpSession session, ErrandsReplyDTO dto) {
 		dto.setArrivalTime(dto.getArrivalTime().replaceAll("T", " "));
 		ErrandsDTO errand = errandsService.selectErrands(dto.getErrands().getErrandsNum());
-		memberService.insertNotification(errand.getRequestUser().getUserId(), errand.getErrandsNum() + "번 글에 " + dto.getUser().getUserId() + "님이 댓글을 달았습니다!");
+		memberService.insertNotification(errand.getRequestUser().getUserId(),
+				errand.getErrandsNum() + "번 글에 " + dto.getUser().getUserId() + "님이 댓글을 달았습니다!");
 		errandsService.insertReply(dto);
 		return "redirect:/errand/detailView?num=" + dto.getErrands().getErrandsNum();
 	}
@@ -195,19 +193,21 @@ public class ErrandsController {
 		mv.setViewName("/errand/myResponse");
 		return mv;
 	}
+
 	/**
 	 * 심부름 취소
 	 */
 	@RequestMapping("/cancle")
-	public ModelAndView cancleErrands(Authentication aut, int num, int point){
+	public ModelAndView cancleErrands(Authentication aut, int num, int point) {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("redirect:/errand/myRequest");
-		MemberDTO currentMember = (MemberDTO)aut.getPrincipal();
+		MemberDTO currentMember = (MemberDTO) aut.getPrincipal();
 		errandsService.cancleErrands(num, point, currentMember.getUserId());
 		PointDTO currentPoint = currentMember.getPoint();
 		currentPoint.setCurrentPoint(currentPoint.getCurrentPoint() + point);
 		return mv;
 	}
+
 	/**
 	 * 심부름 수행 프로세스(심부름꾼 선택했을 때)
 	 */
@@ -235,14 +235,16 @@ public class ErrandsController {
 	public ModelAndView confirmErrand(Authentication aut, String requestId, String responseId, GPADTO gpaDTO,
 			String evalTag) {
 		ModelAndView mv = new ModelAndView();
-		ErrandsDTO errands = errandsService.selectErrands(gpaDTO.getErrandsNum()); // 해당 심부름 불러오기
+		ErrandsDTO errands = errandsService.selectErrands(gpaDTO.getErrandsNum()); // 해당
+																					// 심부름
+																					// 불러오기
 
 		if (requestId != null) { // 요청자가 확인할 경우
 			errandsService.updateErrands(gpaDTO.getErrandsNum(), null, null, null, null, "finish", 0);
 			gpaDTO.setRequestManners(0);
 			gpaDTO.setUserId(errands.getResponseUser().getUserId());
 			errandsService.okRequest(gpaDTO, errands.getResponseUser().getUserId(), evalTag);
-			
+
 		} else if (responseId != null) { // 심부름꾼이 확인할 경우
 			errandsService.updateErrands(gpaDTO.getErrandsNum(), null, null, null, "arrival", null, 0);
 			gpaDTO.setResponseAccuracy(0);
@@ -251,21 +253,47 @@ public class ErrandsController {
 			gpaDTO.setUserId(errands.getRequestUser().getUserId());
 			errandsService.okRequest(gpaDTO, errands.getRequestUser().getUserId(), evalTag);
 		}
-		
-		ErrandsDTO upErrands = errandsService.selectErrands(gpaDTO.getErrandsNum()); // 해당 심부름 불러오기
+
+		ErrandsDTO upErrands = errandsService.selectErrands(gpaDTO.getErrandsNum()); // 해당
+																						// 심부름
+																						// 불러오기
 		// 심부름꾼과 요청자가 모두 확인했을 경우
 		if (upErrands.getArrivalTime() != null && upErrands.getFinishTime() != null) {
 			// 포인트 업데이뚜
 			int totalPrice = upErrands.getErrandsPrice() + upErrands.getProductPrice();
 			System.out.println(totalPrice + " 토탈프라이스 ");
 			memberService.updatePoint(totalPrice, upErrands.getResponseUser().getUserId());
-			MemberDTO loginUser = (MemberDTO)aut.getPrincipal();
-			if(loginUser.getUserId().equals(upErrands.getResponseUser().getUserId())){
+			MemberDTO loginUser = (MemberDTO) aut.getPrincipal();
+			if (loginUser.getUserId().equals(upErrands.getResponseUser().getUserId())) {
 				loginUser.getPoint().setCurrentPoint(loginUser.getPoint().getCurrentPoint() + totalPrice);
 			}
 
 		}
 		mv.setViewName("redirect:/errand/detailView?num=" + gpaDTO.getErrandsNum());
+		return mv;
+	}
+
+	/**
+	 * 리스트로보기
+	 */
+	@RequestMapping("/listing")
+	public ModelAndView listing(Integer sort, String addr, Integer page) {
+
+		ModelAndView mv = new ModelAndView();
+		if (page == null)
+			page = 1;
+		PageMaker pm = new PageMaker(page, (errandsService.countList(addr) / 11) + 1);
+		if(sort == null){
+			sort = 1;
+		}
+		if (addr != null) {
+			if(addr.trim().equals("")) addr = null;
+		}
+		pm.start();
+		mv.addObject("errandsList", errandsService.selectList(sort, addr, page));
+		mv.addObject("pm", pm);
+		mv.addObject("sort", sort);
+		mv.addObject("addr", addr);
 		return mv;
 	}
 }

@@ -393,12 +393,17 @@ var ws = new SockJS("${pageContext.request.contextPath}/websocket");
 												<figure class="rating big pull-right" data-rating="0"></figure>
 											</c:when>
 											<c:otherwise>
-												<c:set var="count" value="0" />
+												<c:set var="reqtotal" value="0" />
+												<c:set var="reqCount" value="0" />
 												<c:forEach items="${errands.requestUser.gpaList}" var="gpa">
-													<c:set var="count" value="${count + gpa.requestManners}" />
+													<c:if test="${gpa.responseKindness == 0}">
+														<c:set var="reqtotal"
+															value="${reqtotal + gpa.requestManners}" />
+														<c:set var="reqCount" value="${reqCount + 1 }" />
+													</c:if>
 												</c:forEach>
 												<figure class="rating big pull-right"
-													data-rating="${count / errands.requestUser.gpaList.size()}"></figure>
+													data-rating="${reqtotal/reqCount}"></figure>
 											</c:otherwise>
 										</c:choose>
 									</section>
@@ -522,13 +527,27 @@ var ws = new SockJS("${pageContext.request.contextPath}/websocket");
 															<i class="fa fa-user-o"></i>
 														</c:if>
 														<h5 class="imgSelect">${reply.user.userId}</h5>
-
+														<c:if test="${reply.user.auth == 2}">
+															<span class="label label-danger"><i
+																class="fa fa-thumbs-o-up">안전심부름꾼</i></span>
+														</c:if>
 														<c:forEach items="${reply.user.hashList}" var="hash"
 															end="5">
 															<span class="label label-primary">${hash.hashtag}</span>
 														</c:forEach>
+														<c:set value="0" var="restotal" />
+
+														<c:set value="0" var="resCount" />
+														<c:forEach items="${reply.user.gpaList}" var="gpa">
+															<c:if test="${gpa.requestManners == 0}">
+																<c:set
+																	value="${restotal + (gpa.responseKindness + gpa.responseSpeed + gpa.responseAccuracy)/3}"
+																	var="restotal" />
+																<c:set value="${resCount + 1}" var="resCount" />
+															</c:if>
+														</c:forEach>
 														<figure class="rating big pull-right"
-															data-rating="${(reply.user.gpaList[0].responseKindness+reply.user.gpaList[0].responseAccuracy+reply.user.gpaList[0].responseSpeed)/3}"></figure>
+															data-rating="${restotal/resCount}"></figure>
 														<div class="date">
 															<b>예상 도착</b><br>${reply.arrivalTime}</div>
 														<c:if test="${currentId == reply.user.userId}">
@@ -719,9 +738,9 @@ var ws = new SockJS("${pageContext.request.contextPath}/websocket");
 							</center>
 						</div>
 					</div>
-					<input type="hidden" id="reqerrandsNum" name="errandsNum" value="${errands.errandsNum}">
-					<input type="hidden" name="${_csrf.parameterName}"
-						value="${_csrf.token}" />
+					<input type="hidden" id="reqerrandsNum" name="errandsNum"
+						value="${errands.errandsNum}"> <input type="hidden"
+						name="${_csrf.parameterName}" value="${_csrf.token}" />
 				</form>
 			</div>
 		</div>
@@ -785,9 +804,9 @@ var ws = new SockJS("${pageContext.request.contextPath}/websocket");
 							</center>
 						</div>
 					</div>
-					<input type="hidden" id="reserrandsNum" name="errandsNum" value="${errands.errandsNum}">
-					<input type="hidden" name="${_csrf.parameterName}"
-						value="${_csrf.token}" />
+					<input type="hidden" id="reserrandsNum" name="errandsNum"
+						value="${errands.errandsNum}"> <input type="hidden"
+						name="${_csrf.parameterName}" value="${_csrf.token}" />
 				</form>
 			</div>
 		</div>
@@ -908,12 +927,12 @@ var ws = new SockJS("${pageContext.request.contextPath}/websocket");
 				<span class="glyphicon glyphicon-cog"></span> <span class="sr-only">Toggle
 					Dropdown</span>
 			</button>
-				<c:if
-							test="${!((errands.arrivalTime != null) and (errands.finishTime != null))}">
-			<ul class="dropdown-menu" role="menu">
-				<li><a id="complete"><span id="chatComplete"
-						class="fa fa-check"></span>심부름 완료</a></li>
-			</ul>
+			<c:if
+				test="${!((errands.arrivalTime != null) and (errands.finishTime != null))}">
+				<ul class="dropdown-menu" role="menu">
+					<li><a id="complete"><span id="chatComplete"
+							class="fa fa-check"></span>심부름 완료</a></li>
+				</ul>
 			</c:if>
 		</div>
 	</c:if>
