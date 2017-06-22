@@ -236,9 +236,6 @@ public class MemberController {
 		mv.setViewName("/user/charge");
 		mv.addObject("list", list);
 		mv.addObject("successList", successList);
-		for(ErrandsDTO dto : successList){
-			System.out.println(dto.getFinishTime());
-		}
 		return mv;
 	}
 	
