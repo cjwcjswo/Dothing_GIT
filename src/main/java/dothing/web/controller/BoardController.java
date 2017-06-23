@@ -201,7 +201,7 @@ public class BoardController {
 		String userId = ((MemberDTO) auth.getPrincipal()).getUserId();
 		
 		if(!userId.equals("admin")){
-			throw new Exception("Id가 tester인 운영자만 삭제할 수 있습니다.");
+			throw new Exception("운영자만 삭제할 수 있습니다.");
 		}
        
 		noticeService.delete(noticeNum);

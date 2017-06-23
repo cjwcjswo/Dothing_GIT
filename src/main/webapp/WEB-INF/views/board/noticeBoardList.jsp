@@ -82,8 +82,7 @@ body p {
 														type="hidden" name="${_csrf.parameterName}"
 														value="${_csrf.token}"> <a href="#"
 														onclick="location.href='${pageContext.request.contextPath}/board/noticeDelete?noticeNum=${boardDto.noticeNum}'">
-															<i class="fa fa-trash-o" data-toggle="tooltip"
-															title="삭제하기"></i>
+															<i class="fa fa-trash-o" title="삭제하기"></i>
 													</a>  <span style="color: #ff513f;">${boardDto.noticeDate}</span>
 													</td>
 												</tr>
