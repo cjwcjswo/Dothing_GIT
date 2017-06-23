@@ -1,9 +1,5 @@
 Manifest-Version: 1.0
-<<<<<<< HEAD
 Built-By: Administrator
-=======
-Built-By: KSOTA
->>>>>>> 81816a1c2f965cde913d44f7b524e98e238fab4e
 Build-Jdk: 1.8.0_121
 Created-By: Maven Integration for Eclipse
 
