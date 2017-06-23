@@ -111,7 +111,9 @@ public class MemberController {
 	@RequestMapping("/myPage")
 	public ModelAndView myPage(Authentication aut) {
 		ModelAndView mv = new ModelAndView();
-		MemberDTO member = (MemberDTO) aut.getPrincipal();
+		String id = ((MemberDTO) aut.getPrincipal()).getUserId();
+		MemberDTO member = memberService.selectMemberById(id);
+		/*MemberDTO member = (MemberDTO) aut.getPrincipal();*/
 		member.setGpaList(errandsService.selectGPAById((member.getUserId())));
 		member.setHashList(memberService.selectHashtag(member.getUserId()));
 		mv.addObject("member", member);
