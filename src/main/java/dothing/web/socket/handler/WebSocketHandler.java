@@ -112,7 +112,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 			System.out.println("보내기완료");
 		} else if (replyArr[0].equals("알림")) {
 			idMap.get(msg.split(":")[1]).sendMessage(new TextMessage("알림:" + msg.split(":")[2] + ":" + msg.split(":")[3]
-					+ ":" + msg.split(":")[4] + ":" + msg.split(":")[1]));
+					+ ":" + msg.split(":")[4] + ":" + msg.split(":")[5]));
 		} else {
 			String msgArr[] = msg.split("#/separator/#");
 			// msgArr[0] = errandsNum;

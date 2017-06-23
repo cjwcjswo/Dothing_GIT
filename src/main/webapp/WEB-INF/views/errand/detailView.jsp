@@ -168,7 +168,7 @@ function initChatting(){
 	      var msg = $('#inputText').val();
 			//separator -> #/separator/#
 		  ws.send(${errands.errandsNum}+"#/separator/#"+sender+"#/separator/#"+msg+"#/separator/#"+today);
-			ws.send("알림:"+receiver+":${errands.errandsNum}:"+msg+":"+receiverPhoto);
+			ws.send("알림:"+receiver+":${errands.errandsNum}:"+msg+":"+receiverPhoto+":"+sender);
 		  $('#inputText').val('');
 	      $('#inputText').focus();
 		}

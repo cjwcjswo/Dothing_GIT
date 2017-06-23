@@ -91,12 +91,24 @@ public class ErrandsController {
 			String detailAddress) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		dto.setEndTime(dto.getEndTime().replaceAll("T", " "));
+		if(dto.getTitle() == null){
+			throw new Exception("제목을 입력하세요");
+		}
+		if(dto.getContent() == null){
+			throw new Exception("내용을 입력하세요");
+		}
+		if(preAddress == null || detailAddress == null){
+			throw new Exception("주소를 입력하세요");
+		}
 		dto.getErrandsPos().setAddr(preAddress + " " + detailAddress);
 		MultipartFile file = dto.getErrandsPhotoFile();
 		dto.setErrandsPhoto(file.getOriginalFilename());
 		
-		Date upTime = new SimpleDateFormat("yyyy-MM-dd HH:MM").parse(dto.getEndTime());
+		Date upTime = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(dto.getEndTime());
 		Date currentTime = new Date();
+		
+		System.out.println(upTime.getTime() + " " + currentTime.getTime());
+		System.out.println(dto.getEndTime());
 		if(upTime.getTime() < currentTime.getTime()){
 			throw new Exception("마감 시간이 현재 시간보다 빠릅니다");
 		}
@@ -108,6 +120,7 @@ public class ErrandsController {
 			if (!(ext.equals("jpg") || ext.equals("jpeg") || ext.equals("png") || ext.equals("gif"))) {
 				throw new Exception("확장자가 jpg, jpeg, png, gif인 파일만 업로드 할 수 있습니다");
 			}
+			errandsService.insertErrands(dto, session.getServletContext().getRealPath(""));
 			String path = session.getServletContext().getRealPath("") + "\\errands\\" + errandsService.selectNum();
 			File folder = new File(path);
 			folder.mkdirs();
@@ -116,7 +129,7 @@ public class ErrandsController {
 		} else {
 			dto.setErrandsPhoto("EMPTY");
 		}
-		errandsService.insertErrands(dto, session.getServletContext().getRealPath(""));
+		
 
 		mv.addObject("insertNum", errandsService.selectNum());
 		mv.addObject("insertTitle", dto.getTitle());
@@ -129,13 +142,16 @@ public class ErrandsController {
 	public String insert(HttpSession session, ErrandsReplyDTO dto) throws Exception {
 		dto.setArrivalTime(dto.getArrivalTime().replaceAll("T", " "));
 		ErrandsDTO errand = errandsService.selectErrands(dto.getErrands().getErrandsNum());
-		Date endTime = new SimpleDateFormat("yyyy-MM-dd HH:MM").parse(errand.getEndTime());
-		Date upTime = new SimpleDateFormat("yyyy-MM-dd HH:MM").parse(dto.getArrivalTime());
+		Date currentTime = new Date();
+		Date endTime = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(errand.getEndTime());
+		Date upTime = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(dto.getArrivalTime());
 		System.out.println(upTime.getTime() + " " + endTime.getTime());
 		if(upTime.getTime() > endTime.getTime()){
 			throw new Exception("도착시간이 마감시간보다 느립니다");
 		}
-		
+		if(upTime.getTime() < currentTime.getTime()){
+			throw new Exception("현재 시간보다 작게 입력하셨습니다.");
+		}
 		memberService.insertNotification(errand.getRequestUser().getUserId(),
 				errand.getErrandsNum() + "번 글에 " + dto.getUser().getUserId() + "님이 댓글을 달았습니다!");
 		errandsService.insertReply(dto);
