@@ -62,10 +62,6 @@ public class ChatService {
 			for(int i=0; i<sentenceArr.length-1; i++){
 				list.add(sentenceArr[i]);
 			}
-			System.out.println("list's size : " + list.size());
-			for(String xx : list){
-				System.out.println(xx);
-			}
 			
 			
 		} catch (Exception e) {

@@ -2,6 +2,7 @@ package dothing.web.dao;
 
 import java.util.List;
 
+import dothing.web.dto.ErrandsDTO;
 import dothing.web.dto.PointDTO;
 
 public interface AdminMoneyDAO {
@@ -42,6 +43,16 @@ public interface AdminMoneyDAO {
 	 * 카드 입금 포인트 값 변경해주기
 	 */
 	int pointChargeCard(String userId, int select);
+	
+	/**
+	 * 포인트 사용내역
+	 */
+	List<ErrandsDTO> pointList(String userId);
+	
+	/**
+	 * 심부름 수행으로 포인트 받은 내역
+	 */
+	List<ErrandsDTO> searchPointSuccess(String userId);
 
 
 }

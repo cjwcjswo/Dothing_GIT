@@ -2,6 +2,7 @@ package dothing.web.service;
 
 import java.util.List;
 
+import dothing.web.dto.ErrandsDTO;
 import dothing.web.dto.PointDTO;
 
 public interface AdminMoneyService {
@@ -37,4 +38,14 @@ public interface AdminMoneyService {
 	int pointChargeCard(String userId, int select);
 
 	int getRequestPoint(String id);
+	
+	/**
+	 * 포인트 사용내역
+	 */
+	List<ErrandsDTO> pointList(String userId);
+	
+	/**
+	 * 심부름 수행으로 포인트 받은 내역
+	 */
+	List<ErrandsDTO> searchPointSuccess(String userId);
 }

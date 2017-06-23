@@ -6,7 +6,7 @@
 <title></title>
 <script>
 function sendMessage(){
-	ws.send("심부름:${insertNum}번 글 -> 새로운 심부름이 등록되었습니다.");
+	ws.send("심부름:${insertNum}:${insertTitle}:${insertImage}");
 	location.href = "${pageContext.request.contextPath}/errand/errand";
 }
 

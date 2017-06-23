@@ -3,14 +3,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-<title>FAQ 게시판</title>
+<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
+
+<title>1:1게시판</title>
 </head>
 <body onunload="" class="page-subpage page-faq navigation-off-canvas"
 	id="page-top">
+
+
 	<!-- Page Canvas-->
 	<div id="page-canvas">
+
+
 
 		<!--Off Canvas Navigation-->
 		<nav class="off-canvas-navigation">
@@ -28,9 +33,7 @@
 					<ol class="breadcrumb">
 						<li><a href="${pageContext.request.contextPath}/"><i
 								class="fa fa-home"></i></a></li>
-						<li><a
-							href="${pageContext.request.contextPath}/errand/errand">심부름
-								목록</a></li>
+						<li class="active">FAQ게시판</li>
 					</ol>
 					<!-- /.breadcrumb-->
 				</div>
@@ -39,7 +42,6 @@
 			<!-- /.breadcrumb-wrapper-->
 		</section>
 		<!--end Sub Header-->
-
 
 
 		<!--Page Content-->
@@ -70,10 +72,10 @@
 										action="${pageContext.request.contextPath}/board/insert"
 										onSubmit='return checkValid()' method="post">
 										<!-- <div class="form-group">
-                                 <label for="faq-form-email">id</label> <input type="text"
-                                    class="form-control" id="faq-form-email" required=""
-                                    disabled>
-                              </div> -->
+											<label for="faq-form-email">id</label> <input type="text"
+												class="form-control" id="faq-form-email" required=""
+												disabled>
+										</div> -->
 										<!-- /.form-group -->
 										<input type="hidden" name="${_csrf.parameterName}"
 											value="${_csrf.token}">

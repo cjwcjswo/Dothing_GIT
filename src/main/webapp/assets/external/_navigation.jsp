@@ -30,7 +30,7 @@
 				<div class="collapse" id="sub-level-1">
 					<ul>
 						<li><a
-							class="${pageContext.request.contextPath}/errand/errand">심부름
+							href="${pageContext.request.contextPath}/errand/errand">심부름
 								목록</a></li>
 						<li><a
 							href="${pageContext.request.contextPath}/errand/register">심부름

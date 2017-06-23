@@ -41,6 +41,10 @@
 		</collection>
 	</resultMap>
 
+	<delete id="deleteTimeErrands">
+		delete from ERRANDS where TO_DATE(END_TIME,
+		'YYYY-MM-DD HH24:MI:SS') &lt; sysdate and RESPONSE_ID is null
+	</delete>
 	<insert id="insertErrands" parameterType="errandsDTO">
 		insert into
 		ERRANDS(ERRANDS_NUM, TITLE, CONTENT, END_TIME,
@@ -157,12 +161,14 @@
 
 	<!-- 돈되는 심부름 -->
 	<select id="moneyErrands" resultMap="errandsMap">
-		select * from ERRANDS_REPLY_GPA_VIEW
+		select * from
+		ERRANDS_REPLY_GPA_VIEW
 		where RESPONSE_ID is null
-		ORDER BY ERRANDS_PRICE desc
+		ORDER BY ERRANDS_PRICE
+		desc
 	</select>
-	
-	<!--리스트로 보기-->
+
+	<!--리스트로 보기 -->
 	<select id="selectList" resultMap="errandsMap" parameterType="map">
 		select * from ERRANDS_VIEW
 		<where>
@@ -181,7 +187,7 @@
 			ORDER BY ERRANDS_NUM DESC
 		</if>
 	</select>
-	<!--리스트로 카운팅-->
+	<!--리스트로 카운팅 -->
 	<select id="countList" resultType="int" parameterType="string">
 		select count(*) from ERRANDS_VIEW
 		<where>

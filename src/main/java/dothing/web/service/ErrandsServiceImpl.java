@@ -34,6 +34,7 @@ public class ErrandsServiceImpl implements ErrandsService {
 	public List<ErrandsDTO> selectAll() {
 		List<ErrandsDTO> list = errandsDAO.selectAll();
 		calHashes(list);
+		errandsDAO.deleteTimeErrands();
 		return errandsDAO.selectAll();
 	}
 

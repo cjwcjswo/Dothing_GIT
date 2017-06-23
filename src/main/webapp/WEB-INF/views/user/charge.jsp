@@ -1,35 +1,26 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-	pageEncoding="EUC-KR"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>Insert title here</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>ì¶©ì „í•˜ê¸°</title>
 
-<link href="assets/fonts/font-awesome.css" rel="stylesheet"
-	type="text/css">
-<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700'
-	rel='stylesheet' type='text/css'>
-<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.css"
-	type="text/css">
-<link rel="stylesheet" href="assets/css/bootstrap-select.min.css"
-	type="text/css">
-<link rel="stylesheet" href="assets/css/dropzone.css" type="text/css">
-<link rel="stylesheet" href="assets/css/style.css" type="text/css">
-<link rel="stylesheet" href="assets/css/user.style.css" type="text/css">
+
 <script type="text/javascript">
-  
-  function chargePoint() {
-	  var select = $("#sel1 option:selected").val();
-	  var way = $("input:radio[name=radioValue]:checked").val();
-	  
-	  if(way == null){
-		  alert("°áÁ¦ ¹æ½ÄÀ» ¼±ÅÃÇØÁÖ¼¼¿ä.");
-		  return false;
-	  }
-	  location.href="${pageContext.request.contextPath}/user/pointCharge?select="+select+"&way="+way;
-	  return true;
-}
+
+	function chargePoint() {
+		var select = $("#sel1 option:selected").val();
+		var way = $("input:radio[name=radioValue]:checked").val();
+
+		if (way == null) {
+			alert("ê²°ì œ ë°©ì‹ì„ ì„ íƒí•´ì£¼ì„¸ìš”.");
+			return false;
+		}
+		location.href = "${pageContext.request.contextPath}/user/pointCharge?select=" + select + "&way=" + way;
+		return true;
+	}
 </script>
 </head>
 <body onunload=""
@@ -39,29 +30,30 @@
 	<div id="page-canvas">
 
 		<!--Off Canvas Navigation-->
-		<nav class="off-canvas-navigation"> 
-		   <header>¸Ş´º</header>
-		   <div class="main-navigation navigation-off-canvas"></div>
+		<nav class="off-canvas-navigation">
+			<header>ë©”ë‰´</header>
+			<div class="main-navigation navigation-off-canvas"></div>
 		</nav>
 		<!--end Off Canvas Navigation-->
 
 		<!--Sub Header-->
 		<section class="sub-header">
-		<div class="search-bar horizontal collapse" id="redefine-search-form"></div>
-		<!-- /.search-bar -->
-		<div class="breadcrumb-wrapper">
-			<div class="container">
+			<div class="search-bar horizontal collapse" id="redefine-search-form"></div>
+			<!-- /.search-bar -->
+			<div class="breadcrumb-wrapper">
+				<div class="container">
 
-				<ol class="breadcrumb">
-					<li><a href="${pageContext.request.contextPath}/"><i
-							class="fa fa-home"></i></a></li>
-					<li class="active">Æ÷ÀÎÆ® ÃæÀü ¹× ³»¿ª</li>
-				</ol>
-				<!-- /.breadcrumb-->
+					<ol class="breadcrumb">
+						<li><a href="${pageContext.request.contextPath}/"><i
+								class="fa fa-home"></i></a></li>
+						<li class="active">í¬ì¸íŠ¸ ì¶©ì „ ë° ë‚´ì—­</li>
+					</ol>
+					<!-- /.breadcrumb-->
+				</div>
+				<!-- /.container-->
 			</div>
-			<!-- /.container-->
-		</div>
-		<!-- /.breadcrumb-wrapper--> </section>
+			<!-- /.breadcrumb-wrapper-->
+		</section>
 		<!--end Sub Header-->
 
 
@@ -69,76 +61,160 @@
 
 		<!--Page Content-->
 		<div id="page-content">
-			<section class="container"> <header>
-			<ul class="nav nav-pills">
-				<li><a href="${pageContext.request.contextPath}/user/myPage"><h1
-							class="page-title">°³ÀÎÁ¤º¸</h1></a></li>
-				<li><a
-					href="${pageContext.request.contextPath}/errand/myRequest"><h1
-							class="page-title">½ÉºÎ¸§ ¿äÃ» ¹× ¼öÇà ³»¿ª</h1></a></li>
-				<li><a
-					href="${pageContext.request.contextPath}/user/safetyRegister"><h1
-							class="page-title">¾ÈÀü ½ÉºÎ¸§²Û ½ÅÃ»</h1></a></li>
-				<li class="active"><a
-					href="${pageContext.request.contextPath}/user/charge"><h1
-							class="page-title">Æ÷ÀÎÆ® ÃæÀü ¹× ³»¿ª</h1></a></li>
-			</ul>
-			</header>
-			<table class="table table-hover">
-				<thead align="left">
-					<tr>
+			<section class="container">
+				<header>
+					<ul class="nav nav-pills">
+						<li><a href="${pageContext.request.contextPath}/user/myPage"><h1
+									class="page-title">ê°œì¸ì •ë³´</h1></a></li>
+						<li><a
+							href="${pageContext.request.contextPath}/errand/myRequest"><h1
+									class="page-title">ì‹¬ë¶€ë¦„ ìš”ì²­ ë° ìˆ˜í–‰ ë‚´ì—­</h1></a></li>
+						<li><a
+							href="${pageContext.request.contextPath}/user/safetyRegister"><h1
+									class="page-title">ì•ˆì „ ì‹¬ë¶€ë¦„ê¾¼ ì‹ ì²­</h1></a></li>
+						<li class="active"><a
+							href="${pageContext.request.contextPath}/user/charge"><h1
+									class="page-title">í¬ì¸íŠ¸ ì¶©ì „ ë° ë‚´ì—­</h1></a></li>
+					</ul>
+				</header>
+				<table class="table table-hover">
+					<thead align="left">
+						<tr>
 
-						<td align="left">°áÁ¦ ¼ö´Ü :<label class="radio-inline"><input
-								type="radio" name="radioValue" value="bandBook">¹«ÅëÀå ÀÔ±İ</label> <label
-							class="radio-inline"><input type="radio"
-								name="radioValue" value="card">Ä«µå°áÁ¦</label></td>
-					</tr>
-				</thead>
-				<tbody align="left">
-					<tr>
-						<div class="form-group col-xs-4">
-							<label for="sel1">Æ÷ÀÎÆ® ¾×¼ö</label> <select class="form-control"
-								id="sel1">
-								<option value="5000">5,000p(5,000¿ø)</option>
-								<option value="10000">10,000p(10,000¿ø)</option>
-								<option value="20000">20,000p(20,000¿ø)</option>
-								<option value="50000">50,000p(50,000¿ø)</option>
-								<option value="100000">100,000p(100,000¿ø)</option>
+							<td align="left">ê²°ì œ ìˆ˜ë‹¨ :<label class="radio-inline"><input
+									type="radio" name="radioValue" value="bandBook">ë¬´í†µì¥ ì…ê¸ˆ</label>
+								<label class="radio-inline"><input type="radio"
+									name="radioValue" value="card">ì¹´ë“œê²°ì œ</label></td>
+						</tr>
+					</thead>
+					<tbody align="left">
+						<tr>
+							<div class="form-group col-xs-4">
+								<label for="sel1">í¬ì¸íŠ¸ ì•¡ìˆ˜</label> <select class="form-control"
+									id="sel1">
+									<option value="5000">5,000p(5,000ì›)</option>
+									<option value="10000">10,000p(10,000ì›)</option>
+									<option value="20000">20,000p(20,000ì›)</option>
+									<option value="50000">50,000p(50,000ì›)</option>
+									<option value="100000">100,000p(100,000ì›)</option>
 
-							</select>
-						</div>
+								</select>
+							</div>
 
-					</tr>
-
-
-				</tbody>
-
-			</table>
-			<div class="form-group" align="center">
-				<input type="hidden" name="${_csrf.parameterName}"
-					value="${_csrf.token}"> <input type="hidden" id="select" />
-				<input type="hidden" id="way" />
-				<button type="submit" class="btn btn-large btn-default" id="submit"
-					onclick="chargePoint()">ÃæÀü</button>
+						</tr>
 
 
-			</div>
+					</tbody>
 
-			<h1>
-				<i class="fa fa-check"></i>ÃÖ±Ù °áÁ¦ ³»¿ª
-			</h1>
+				</table>
+				<div class="form-group" align="center">
+					<input type="hidden" name="${_csrf.parameterName}"
+						value="${_csrf.token}"> <input type="hidden" id="select" />
+					<input type="hidden" id="way" />
+					<button type="submit" class="btn btn-large btn-default" id="submit"
+						onclick="chargePoint()">ì¶©ì „</button>
 
-			<table class="table table-hover">
-				<thead>
-					<tr>
-						<th>±¸ÀÔÀÏ</th>
-						<th>°áÁ¦ Æ÷ÀÎÆ®</th>
-						<th>»ç¿ë Æ÷ÀÎÆ®</th>
-						<th>ÀÜ¿© Æ÷ÀÎÆ®</th>
-						<th>È¯Àü Æ÷ÀÎÆ®</th>
-					</tr>
-				</thead>
-				<tbody>
+
+				</div>
+
+				<h1>
+					<i class="fa fa-check"></i>í¬ì¸íŠ¸ ì‚¬ìš© ë‚´ì—­
+				</h1>
+
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th>ë¬¼í’ˆ í¬ì¸íŠ¸</th>
+							<th>ì‹¬ë¶€ë¦„ í¬ì¸íŠ¸</th>
+							<th>ì‚¬ìš© ì‹œê°„</th>
+						</tr>
+					</thead>
+					<c:choose>
+						<c:when test="${empty requestScope.list}">
+							<tr>
+								<td colspan="3">
+									<div align="center">
+										<b><span style="font-size: 9pt;">í¬ì¸íŠ¸ ì‚¬ìš© ë‚´ì—­ì´ ì—†ìŠµë‹ˆë‹¤.</span></b>
+									</div>
+								</td>
+							</tr>
+						</c:when>
+						<c:otherwise>
+							<c:forEach items="${requestScope.list}" var="errandDto">
+								<tbody>
+									<tr>
+										<td><c:choose>
+												<c:when test="${0 eq errandDto.productPrice}">
+						0
+						</c:when>
+												<c:otherwise>
+						-${errandDto.productPrice}
+						</c:otherwise>
+											</c:choose></td>
+										<td><c:choose>
+												<c:when test="${0 eq errandDto.errandsPrice}">
+						0
+						</c:when>
+												<c:otherwise>
+						-${errandDto.errandsPrice}
+						</c:otherwise>
+											</c:choose></td>
+										</td>
+										<td>${errandDto.startTime}</td>
+
+									</tr>
+								</tbody>
+							</c:forEach>
+						</c:otherwise>
+					</c:choose>
+
+				</table>
+
+				<h1>
+					<i class="fa fa-check"></i>ì‹¬ë¶€ë¦„ ìˆ˜í–‰ìœ¼ë¡œ ë°›ì€ ë‚´ì—­
+				</h1>
+
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th>ë¬¼í’ˆ í¬ì¸íŠ¸</th>
+							<th>ì‹¬ë¶€ë¦„ í¬ì¸íŠ¸</th>
+							<th>ìˆ˜í–‰ ì™„ë£Œ ì‹œê°„</th>
+						</tr>
+					</thead>
+					<c:choose>
+						<c:when test="${empty requestScope.list}">
+							<tr>
+								<td colspan="5">
+									<div align="center">
+										<b><span style="font-size: 9pt;">ì‹¬ë¶€ë¦„ ìˆ˜í–‰ ë‚´ì—­ì´ ì—†ìŠµë‹ˆë‹¤.</span></b>
+									</div>
+								</td>
+							</tr>
+						</c:when>
+						<c:otherwise>
+							<c:forEach items="${requestScope.successList}"
+								var="errandDtoSuccess">
+								<tbody>
+									<tr>
+										<td>${errandDtoSuccess.productPrice}</td>
+										<td><c:choose>
+												<c:when test="${0 eq errandDtoSuccess.errandsPrice}">
+						0
+						</c:when>
+												<c:otherwise>
+						+${errandDtoSuccess.errandsPrice}
+						</c:otherwise>
+											</c:choose></td>
+										</td>
+										<td>${errandDtoSuccess.finishTime}</td>
+									</tr>
+								</tbody>
+							</c:forEach>
+						</c:otherwise>
+					</c:choose>
+
+					<!-- <tbody>
 					<tr>
 						<td>2017-06-19</td>
 						<td>5,000</td>
@@ -148,21 +224,23 @@
 
 					</tr>
 
-				</tbody>
-			</table>
+				</tbody> -->
+				</table>
 
 
-			<!-- ÆäÀÌÁö³×ÀÌ¼Ç -->
+				<!-- í˜ì´ì§€ë„¤ì´ì…˜ -->
 
-			<ul class="pager">
+				<!-- <ul class="pager">
 				<li><a href="#">Previous</a></li>
 				<li><a href="#">1</a></li>
 				<li><a href="#">2</a></li>
 				<li><a href="#">3</a></li>
 				<li><a href="#">Next</a></li>
-			</ul>
+			</ul> -->
 
-			<!-- ÆäÀÌÁö³×ÀÌ¼Ç Á¾·á --> <!-- /.form-group --> </section>
+				<!-- í˜ì´ì§€ë„¤ì´ì…˜ ì¢…ë£Œ -->
+				<!-- /.form-group -->
+			</section>
 
 
 		</div>
@@ -171,25 +249,6 @@
 
 	<!-- </div>
 
-	</div> -->
-	</section>
-
-
-
-
-	<script type="text/javascript" src="assets/js/jquery-2.1.0.min.js"></script>
-	<script type="text/javascript" src="assets/js/before.load.js"></script>
-	<script type="text/javascript" src="assets/js/jquery-ui.min.js"></script>
-	<script type="text/javascript"
-		src="assets/js/jquery-migrate-1.2.1.min.js"></script>
-	<script type="text/javascript"
-		src="assets/bootstrap/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="assets/js/smoothscroll.js"></script>
-	<script type="text/javascript" src="assets/js/bootstrap-select.min.js"></script>
-	<script type="text/javascript" src="assets/js/jquery.hotkeys.js"></script>
-	<script type="text/javascript" src="assets/js/dropzone.min.js"></script>
-	<script type="text/javascript" src="assets/js/custom.js"></script>
-	<script type="text/javascript" src="assets/js/maps.js"></script>
 
 
 	<!--[if lte IE 9]>
