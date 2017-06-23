@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="security"
+	uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -99,7 +101,7 @@ function checkValid() {
 									<c:when test="${empty requestScope.reply}">
 										
 										<p align="center">
-											<b><span style="font-size: 9pt;">등록된 댓글이 없습니다.</span></b>
+											<b><span style="font-size: 9pt;">등록된 답변이 없습니다.</span></b>
 										</p>
 									
 									</c:when>
@@ -133,6 +135,7 @@ function checkValid() {
 				<!--end Reviews-->
 
 				<!--Review Form-->
+				<security:authorize access="hasRole('ROLE_ADMIN')">
 				<div id="write-review">
 					<div>
 						<h2>댓글 작성하기</h2>
@@ -171,6 +174,7 @@ function checkValid() {
 					</form>
 					<!-- /.main-search -->
 				</div>
+				</security:authorize>
 				<br>
 				<br>
 
