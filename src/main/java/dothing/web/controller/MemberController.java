@@ -106,7 +106,7 @@ public class MemberController {
 		ModelAndView mv = new ModelAndView();
 		String id = ((MemberDTO) aut.getPrincipal()).getUserId();
 		MemberDTO member = memberService.selectMemberById(id);
-		MemberDTO member = (MemberDTO) aut.getPrincipal();
+		/*MemberDTO member = (MemberDTO) aut.getPrincipal();*/
 		member.setGpaList(errandsService.selectGPAById((member.getUserId())));
 		member.setHashList(memberService.selectHashtag(member.getUserId()));
 		mv.addObject("member", member);
@@ -238,9 +238,6 @@ public class MemberController {
 		mv.setViewName("/user/charge");
 		mv.addObject("list", list);
 		mv.addObject("successList", successList);
-		for(ErrandsDTO dto : successList){
-			System.out.println(dto.getFinishTime());
-		}
 		return mv;
 	}
 	

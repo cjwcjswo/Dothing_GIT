@@ -93,7 +93,7 @@ function sendDelete(){
 											name="${_csrf.parameterName}" value="${_csrf.token}">
 											<a href="#"
 											onclick="location.href='${pageContext.request.contextPath}/board/inquiryDelete?inquiryNum=${boardDto.inquiryNum}'">
-												<i class="fa fa-trash-o" data-toggle="tooltip" title="삭제하기"></i>
+												<i class="fa fa-trash-o" title="삭제하기"></i>
 										</a>  <span style="color: #ff513f;">${boardDto.boardDate}</span>
 
 										</td>
