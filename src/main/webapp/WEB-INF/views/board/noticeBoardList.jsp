@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="security"
+	uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html PUBLIC>
 <html>
 <head>
@@ -80,10 +82,12 @@ body p {
 														<input type=hidden name="noticeNum"
 														value="${boardDto.noticeNum}"> <input
 														type="hidden" name="${_csrf.parameterName}"
-														value="${_csrf.token}"> <a href="#"
+														value="${_csrf.token}">
+														<security:authorize access="hasRole('ROLE_ADMIN')">
+														<a href="#"
 														onclick="location.href='${pageContext.request.contextPath}/board/noticeDelete?noticeNum=${boardDto.noticeNum}'">
-															<i class="fa fa-trash-o" data-toggle="tooltip"
-															title="삭제하기"></i>
+															<i class="fa fa-trash-o" title="삭제하기"></i>
+															</security:authorize>
 													</a>  <span style="color: #ff513f;">${boardDto.noticeDate}</span>
 													</td>
 												</tr>
@@ -124,12 +128,14 @@ body p {
 
 					</ul>
 					<!-- 페이지네이션 종료 -->
-
+					
+                    <security:authorize access="hasRole('ROLE_ADMIN')">
 					<div class="form-group" align="center">
 						<button type="submit" class="btn btn-large btn-default"
 							id="submit"
 							onclick="location.href='${pageContext.request.contextPath}/board/noticeBoardWrite'">글작성하기</button>
 					</div>
+					</security:authorize>
 					<!-- /.form-group -->
 				</div>
 				<!--/.col-md-6-->
