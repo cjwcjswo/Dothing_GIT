@@ -125,7 +125,7 @@ public class MemberServiceImpl implements MemberService{
 	public List<MemberDTO> selectNotSafety(int page) {
 		List<MemberDTO> memberList = new ArrayList<>();
 		for(MemberDTO dto: memberDao.selectNotSafety(page)){
-			if(memberDao.isSafety(dto.getUserId())){
+			if(!memberDao.isSafety(dto.getUserId())){
 				memberList.add(dto);
 			}
 		}
@@ -174,5 +174,13 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public int countNotification(String id){
 		return memberDao.countNotification(id);
+	}
+	@Override
+	public List<GPADTO> averageGPA(String id) {
+		return memberDao.averageGPA(id);
+	}
+	@Override
+	public List<MemberHashDTO> selectHashtag(String id){
+		return memberDao.selectHashtag(id);
 	}
 }

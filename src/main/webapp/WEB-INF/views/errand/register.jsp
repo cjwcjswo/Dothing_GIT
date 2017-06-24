@@ -44,10 +44,24 @@
 	type="text/css">
 
 
-<title>Spotter - Universal Directory Listing HTML Template</title>
+<title>심부름 등록</title>
 
 <script>
-	
+	var ct="";
+	function leadingZeros(n, digits) {
+        var zero = '';
+        n = n.toString();
+
+        if (n.length < digits) {
+           for (var i = 0; i < digits - n.length; i++)
+              zero += '0';
+        }
+        return zero + n;
+     }
+	function currentTime(){
+		var d = new Date();
+		ct = d.getFullYear() + "-" + leadingZeros((d.getMonth() + 1),2) + "-" + leadingZeros(d.getDate(),2) + "T" + leadingZeros(d.getHours(),2) + ":" + leadingZeros(d.getMinutes(),2);
+	}
 	function checkValid() {
 		var form = document.f;
 		if (form.title.value.trim() == "") {
@@ -75,6 +89,12 @@
 			form.endTime.focus();
 			return false;
 		}
+		currentTime();
+		if(form.endTime.value < ct){
+			alert("시간이 현재 시간보다 작습니다");
+			form.endTime.focus();
+			return false;
+		}
 		if (form.productPrice.value < 0 || form.errandsPrice.value < 0) {
 			alert("가격이 올바르지 않습니다");
 			return false;
@@ -88,6 +108,18 @@
 			alert("상세 주소를 입력하세요");
 			form.detailAddress.focus();
 			return false;
+		}
+		if(form.errandsPhotoFile.value != "" ){
+			if(form.errandsPhotoFile.value > 15){
+				alert("파일 이름은 15자 이내로 해주세요");
+				return false;
+			}
+			var ext = (form.errandsPhotoFile.value).split(".")[1];
+			alert(ext);
+			if(!(ext=="jpg" || ext =="jpeg" || ext =="gif"|| ext =="png")){
+				alert("확장자가 jpg, jpeg, gif, png인 파일만 업로드 할 수 있습니다").
+				return false;
+			}
 		}
 		return true;
 	}
@@ -275,6 +307,7 @@
 												<img src="${map.img}">  
 											</div>
 											<input name="errandsPhotoFile" type="file" id="upload">
+											(※확장자가 jpg, jpeg, png, gif인 파일만 업로드 할 수 있습니다.)
 										</section>
 									</td>
 									<!--end Gallery-->
@@ -286,7 +319,7 @@
 													<table class="table">
 														<tbody>
 															<tr class="day">
-																<td class="day-name" style="width: 20%;">마감 날짜</td>
+																<td class="day-name" style="width: 20%;">마감일</td>
 																<td><input type="datetime-local" name="endTime"></td>
 
 															</tr>
@@ -325,6 +358,7 @@
 		<!-- end Page Content-->
 	</div>
 	<!-- end Page Canvas-->
+	
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/assets/js/jquery-2.1.0.min.js"></script>
 	<script type="text/javascript"

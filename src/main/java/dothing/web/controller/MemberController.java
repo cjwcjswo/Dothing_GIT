@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import dothing.web.dto.ErrandsDTO;
 import dothing.web.dto.MemberDTO;
 import dothing.web.dto.NotificationDTO;
 import dothing.web.service.AdminMoneyService;
+import dothing.web.service.ErrandsService;
 import dothing.web.service.MemberService;
 import dothing.web.util.PageMaker;
 
@@ -29,6 +31,8 @@ public class MemberController {
 
 	@Autowired
 	private MemberService memberService;
+	@Autowired
+	private ErrandsService errandsService;
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	@Autowired
@@ -54,6 +58,7 @@ public class MemberController {
 		if (selfImgFile.getSize() == 0 || selfImgFile.getOriginalFilename() == null) {
 			throw new Exception("프로필 사진을 첨부해주세요");
 		}
+		
 		if (preAddr == null || detailAddr == null || preAddr.equals("") || detailAddr.equals("")) {
 			throw new Exception("주소란을 확인해주세요.");
 		}
@@ -62,6 +67,12 @@ public class MemberController {
 			throw new Exception("기입하지 않은 정보가 있습니다");
 		}
 		member.setSelfImg(selfImgFile.getOriginalFilename());
+
+		String ext = (member.getSelfImg().split("\\."))[1];
+		ext = ext.toLowerCase();
+		if (!(ext.equals("jpg") || ext.equals("jpeg") || ext.equals("png") || ext.equals("gif"))) {
+			throw new Exception("확장자가 jpg, jpeg, png, gif인 파일만 업로드 할 수 있습니다");
+		}
 		member.setAddr(preAddr + " " + detailAddr);
 		memberService.joinMember(member);
 		if (member.getSelfImg() != null && !member.getSelfImg().trim().equals("")) {
@@ -100,7 +111,11 @@ public class MemberController {
 	@RequestMapping("/myPage")
 	public ModelAndView myPage(Authentication aut) {
 		ModelAndView mv = new ModelAndView();
-		MemberDTO member = (MemberDTO) aut.getPrincipal();
+		String id = ((MemberDTO) aut.getPrincipal()).getUserId();
+		MemberDTO member = memberService.selectMemberById(id);
+		/*MemberDTO member = (MemberDTO) aut.getPrincipal();*/
+		member.setGpaList(errandsService.selectGPAById((member.getUserId())));
+		member.setHashList(memberService.selectHashtag(member.getUserId()));
 		mv.addObject("member", member);
 		mv.setViewName("/user/myPage");
 		return mv;
@@ -217,12 +232,26 @@ public class MemberController {
 	@RequestMapping("/profileLayer")
 	public void profileLayer() {
 	}
-
+    
+	/**
+	 * 마이페이지 포인트
+	 */
 	@RequestMapping("/charge")
-	public void charge() {
-
+	public ModelAndView charge(Authentication auth) {
+		ModelAndView mv = new ModelAndView();
+		String userId = ((MemberDTO) auth.getPrincipal()).getUserId();
+		List<ErrandsDTO> list = adminMoneyService.pointList(userId);//포인트 사용내역
+		List<ErrandsDTO> successList = adminMoneyService.searchPointSuccess(userId);
+		mv.setViewName("/user/charge");
+		mv.addObject("list", list);
+		mv.addObject("successList", successList);
+		return mv;
 	}
 	
+	
+	/**
+	 * 마이페이지포인트 충전
+	 */
 	@RequestMapping("/pointCharge")
 	public ModelAndView pointCharge(Authentication auth, String select, String way){
 		
@@ -245,4 +274,6 @@ public class MemberController {
 		}
 		return mv;
 	}
+	
+	
 }

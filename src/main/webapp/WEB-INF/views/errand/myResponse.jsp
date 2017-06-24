@@ -64,7 +64,6 @@ label.star:before {
 }
 </style>
 
-<title>심부름 내역</title>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/assets/tags/bootstrap-tagsinput.js"></script>
 <title>심부름 내역</title>
@@ -235,7 +234,7 @@ var currentId = "<security:authentication property='principal.userId'/>";
 											<c:if test="${errands.responseUser == null}">
 												<li><i class="fa fa-close"></i>채택 요청중</li>
 											</c:if>
-											<c:if test="${errands.responseUser != null}">
+											<c:if test="${(errands.responseUser != null) && (myId == errands.responseUser.userId)}">
 												<c:if test="${(errands.arrivalTime == null)}">
 													<li><i class="fa fa-taxi"></i>심부름 중</li>
 													<span class="label label-warning">요청자:

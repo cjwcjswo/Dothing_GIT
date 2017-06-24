@@ -135,7 +135,25 @@ public class ErrandsDAOImpl implements ErrandsDAO{
 	public List<ErrandsDTO> moneyErrands() {
 		return sqlSession.selectList("mapper.errandsMapper.moneyErrands", null, new RowBounds(0, 3));
 	}
-	
+
+	@Override
+	public List<ErrandsDTO> selectList(Integer sort, String addr, int page) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("sort", sort);
+		if(addr != null) map.put("addr", "%"+addr+"%");
+		return sqlSession.selectList("mapper.errandsMapper.selectList", map, new RowBounds((page-1) * 10, 10));
+	}
+	@Override
+	public int countList(String addr){
+		String keyword = null;
+		if(addr != null) keyword = "%"+addr+"%";
+		return sqlSession.selectOne("mapper.errandsMapper.countList", keyword);
+	}
+
+	@Override
+	public int deleteTimeErrands() {
+		return sqlSession.delete("mapper.errandsMapper.deleteTimeErrands");
+	}
 	
 	
 	

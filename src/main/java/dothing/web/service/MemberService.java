@@ -2,6 +2,7 @@ package dothing.web.service;
 
 import java.util.List;
 
+import dothing.web.dto.GPADTO;
 import dothing.web.dto.MemberDTO;
 import dothing.web.dto.MemberHashDTO;
 import dothing.web.dto.NotificationDTO;
@@ -90,4 +91,7 @@ public interface MemberService {
 	 */
 	int allRead(String id);
 	int countNotification(String id);
+	
+	 List<GPADTO> averageGPA(String id);
+	 List<MemberHashDTO> selectHashtag(String id);
 }

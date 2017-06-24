@@ -97,7 +97,10 @@
 				PASSWORD = #{password},
 			</if>
 			<if test="selfImg != null">
-				SELF_IMG = #{selfImg}
+				SELF_IMG = #{selfImg},
+			</if>
+			<if test="introduce != null">
+				introduce = #{introduce}
 			</if>
 		</set>
 		where MEMBER_ID = #{userId}
@@ -151,13 +154,13 @@
 		and m.SSN_IMG is not null
 	</select>
 
-	<select id="isSafety" resultType="memberDTO" parameterType="string">
+	<select id="isSafety" resultType="string" parameterType="string">
 		select m.MEMBER_ID from MEMBER
 		m left join
 		AUTH aut
 		on m.MEMBER_ID =
 		aut.USERNAME
 		where aut.ROLE in
-		('ROLE_SAFETY') and MEMBER_ID = #{value};
+		('ROLE_SAFETY') and MEMBER_ID = #{value}
 	</select>
 </mapper>

@@ -9,6 +9,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import dothing.web.dto.ErrandsDTO;
 import dothing.web.dto.PointDTO;
 
 @Repository
@@ -62,6 +63,18 @@ public class AdminMoneyDAOImpl implements AdminMoneyDAO {
 		map.put("select", select);
 		return sqlSession.update("mapper.pointMapper.pointChargeCard", map);
 
+	}
+	
+	@Override
+	public List<ErrandsDTO> pointList(String userId) {
+		
+		return sqlSession.selectList("mapper.pointMapper.searchPoint", userId);
+	}
+	
+	@Override
+	public List<ErrandsDTO> searchPointSuccess(String userId) {
+		
+		return sqlSession.selectList("mapper.pointMapper.searchPointSuccess", userId);
 	}
 
 }

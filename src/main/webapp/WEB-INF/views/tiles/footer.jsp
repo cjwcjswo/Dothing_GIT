@@ -4,140 +4,225 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>DoThing</title>
+<script async
+	src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<style type="text/css">
+.cuadro_intro_hover {
+	padding: 0px;
+	position: relative;
+	overflow: hidden;
+	height: 200px;
+}
+
+.cuadro_intro_hover:hover .caption {
+	opacity: 1;
+	transform: translateY(-150px);
+	-webkit-transform: translateY(-150px);
+	-moz-transform: translateY(-150px);
+	-ms-transform: translateY(-150px);
+	-o-transform: translateY(-150px);
+}
+
+.cuadro_intro_hover img {
+	z-index: 4;
+}
+
+.cuadro_intro_hover .caption {
+	position: absolute;
+	top: 150px;
+	-webkit-transition: all 0.3s ease-in-out;
+	-moz-transition: all 0.3s ease-in-out;
+	-o-transition: all 0.3s ease-in-out;
+	-ms-transition: all 0.3s ease-in-out;
+	transition: all 0.3s ease-in-out;
+	width: 100%;
+}
+
+.cuadro_intro_hover .blur {
+	background-color: rgba(0, 0, 0, 0.7);
+	height: 300px;
+	z-index: 5;
+	position: absolute;
+	width: 100%;
+}
+
+.cuadro_intro_hover .caption-text {
+	z-index: 10;
+	color: #fff;
+	position: absolute;
+	height: 300px;
+	text-align: center;
+	top: -20px;
+	width: 100%;
+}
+</style>
 </head>
 <body>
+	<br>
+	<br>
 	<!--Page Footer-->
 	<footer id="page-footer">
-		<div class="inner">
-			<div class="footer-top">
-				<div class="container">
-					<div class="row">
-						<div class="col-md-4 col-sm-4">
-							<!--New Items-->
-							<%-- <section>
-								<h2>New Items</h2>
-								<a href="item-detail.html" class="item-horizontal small">
-									<h3>Cash Cow Restaurante</h3>
-									<figure>63 Birch Street
-									</figure>
-									<div class="wrapper">
-										<div class="image">
-											<img
-												src="${pageContext.request.contextPath}/assets/img/items/1.jpg"
-												alt="">
-										</div>
-										<div class="info">
-											<div class="type">
-												<i><img
-													src="${pageContext.request.contextPath}/assets/icons/restaurants-bars/restaurants/restaurant.png"
-													alt=""></i> <span>Restaurant</span>
-											</div>
-											<div class="rating" data-rating="4"></div>
-										</div>
-									</div>
-								</a>
-								<!--/.item-horizontal small-->
-								<a href="item-detail.html" class="item-horizontal small">
-									<h3>Blue Chilli</h3>
-									<figure>2476 Whispering Pines Circle
-									</figure>
-									<div class="wrapper">
-										<div class="image">
-											<img
-												src="${pageContext.request.contextPath}/assets/img/items/2.jpg"
-												alt="">
-										</div>
-										<div class="info">
-											<div class="type">
-												<i><img
-													src="${pageContext.request.contextPath}/assets/icons/restaurants-bars/restaurants/restaurant.png"
-													alt=""></i> <span>Restaurant</span>
-											</div>
-											<div class="rating" data-rating="3"></div>
-										</div>
-									</div>
-								</a>
-								<!--/.item-horizontal small-->
-							</section> --%>
-							<!--end New Items-->
-						</div>
-						<div class="col-md-4 col-sm-4">
-							<!--Recent Reviews-->
-							<section>
-								<h2>최근 작성된 리뷰</h2>
-								<a href="item-detail.html#reviews" class="review small">
-									<h3>심부름요청자 아이디</h3>
-									<figure>요청자 위치
-									</figure>
-									<div class="info">
-										<div class="rating" data-rating="4"></div>
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="col-lg-3 col-md-6">
+					<div class="container">
 
-									</div>
-									<p>#꿀심부름 #착함 #돈많이줌</p>
-								</a>
-								<!--/.review-->
-								<a href="item-detail.html#reviews" class="review small">
-									<h3>심부름꾼 아이디</h3>
-									<figure>심부름꾼 위치
-									</figure>
-									<div class="info">
-										<div class="rating" data-rating="5"></div>
 
+						<div class="col-lg-3">
+							<div class="cuadro_intro_hover "
+								style="background-color: #cccccc;">
+								<p style="text-align: center; margin-top: 20px;">
+									<img src="http://placehold.it/500x330" class="img-responsive"
+										alt="">
+								</p>
+								<div class="caption">
+									<div class="blur"></div>
+									<div class="caption-text">
+										<h3
+											style="border-top: 2px solid white; border-bottom: 2px solid white; padding: 10px;">여기에
+											광고</h3>
+										<p>Loren ipsum dolor si amet ipsum dolor si amet ipsum
+											dolor...</p>
+										<a class=" btn btn-default" href="#"><span
+											class="glyphicon glyphicon-plus"> INFO</span></a>
 									</div>
-									<p>#최고 #친절 #못생김</p>
-								</a>
-								<!--/.review-->
-							</section>
-							<!--end Recent Reviews-->
-						</div>
-						<div class="col-md-4 col-sm-4">
-							<section>
-								<h2>About Us</h2>
-								<address>
-									<div>경기도</div>
-									<div>분당시 판교로 유스페이스 A동</div>
-									<div>8층 코스타</div>
-									<figure>
-										<div class="info">
-											<i class="fa fa-mobile"></i> <span>010-5555-5555</span>
-										</div>
-										<div class="info">
-											<i class="fa fa-phone"></i> <span>02-555-5555</span>
-										</div>
-										<div class="info">
-											<i class="fa fa-globe"></i> <a href="#">www.kosta.com</a>
-										</div>
-									</figure>
-								</address>
-								<div class="social">
-									<a href="#" class="social-button"><i class="fa fa-twitter"></i></a>
-									<a href="#" class="social-button"><i class="fa fa-facebook"></i></a>
-									<a href="#" class="social-button"><i
-										class="fa fa-pinterest"></i></a>
 								</div>
+							</div>
 
-								<a href="${pageContext.request.contextPath}/etc/contact" class="btn framed icon">Contact Us<i
-									class="fa fa-angle-right"></i></a>
-							</section>
 						</div>
-						<!--/.col-md-4-->
+						<div class="col-lg-3">
+							<div class="cuadro_intro_hover "
+								style="background-color: #cccccc;">
+								<p style="text-align: center; margin-top: 20px;">
+									<img src="http://placehold.it/500x330" class="img-responsive"
+										alt="">
+								</p>
+								<div class="caption">
+									<div class="blur"></div>
+									<div class="caption-text">
+										<h3
+											style="border-top: 2px solid white; border-bottom: 2px solid white; padding: 10px;">여기에
+											광고</h3>
+										<p>Loren ipsum dolor si amet ipsum dolor si amet ipsum
+											dolor...</p>
+										<a class=" btn btn-default" href="#"><span
+											class="glyphicon glyphicon-plus"> INFO</span></a>
+									</div>
+								</div>
+							</div>
+
+						</div>
+
+
+						<div class="col-lg-3 col-md-6">
+							<h3>바로가기</h3>
+							<ul>
+								<li><a
+									href="${pageContext.request.contextPath}/user/loginForm"><i
+										class="fa fa-user"></i> 로그인</a></li>
+								<li><a
+									href="${pageContext.request.contextPath}/user/signIn"><i
+										class="fa fa-user-plus"></i> 회원가입</a></li>
+								<li><a
+									href="${pageContext.request.contextPath}/errand/listing"><i
+										class="fa fa-shopping-basket"></i> 심부름목록</a></li>
+								<li><a
+									href="${pageContext.request.contextPath}/errand/register"><i
+										class="fa fa-plus-circle"></i> 심부름신청</a></li>
+								<li><a href="${pageContext.request.contextPath}/board/faq"><i
+										class="fa fa-question"></i> FAQ게시판</a></li>
+								<li><a
+									href="${pageContext.request.contextPath}/board/noticeBoardList"><i
+										class="fa fa-info"></i> 공지사항</a></li>
+
+							</ul>
+						</div>
+
+						<div class="col-lg-3 col-md-6">
+							<h3>Contact:</h3>
+							<p>질문이 있으시거나 피드백을 원하시나요?</p>
+							<p>
+								<a href="${pageContext.request.contextPath}/etc/contact"
+									title="Contact me!"><i class="fa fa-envelope"></i> Contact</a>
+							</p>
+							<h3>Follow:</h3>
+
+
+							<a href="" id="gh" target="_blank" title="Twitter"><span
+								class="fa-stack fa-lg"> <i
+									class="fa fa-square-o fa-stack-2x"></i> <i
+									class="fa fa-twitter fa-stack-1x"></i>
+							</span> Twitter</a>
+
+
+
+
+
+
+
+						</div>
+						<br />
+						<div id="fb-root"></div>
+						<script>(function(d, s, id) {
+								var js,
+									fjs = d.getElementsByTagName(s)[0];
+								if (d.getElementById(id)) return;
+								js = d.createElement(s);
+								js.id = id;
+								js.src = "//connect.facebook.net/ko_KR/sdk.js#xfbml=1&appId=1583286941899718&version=v2.2";
+								fjs.parentNode.insertBefore(js, fjs);
+							}(document, 'script', 'facebook-jssdk'));
+						</script>
+
+						<div class="fb-like" data-href="" data-layout="standard"
+							data-action="like" data-show-faces="true" data-share="true"></div>
+
+						<a href="https://twitter.com/share" class="twitter-share-button"
+							data-url="">Tweet</a>
+						<script>!function(d, s, id) {
+								var js,
+									fjs = d.getElementsByTagName(s)[0],
+									p = /^http:/.test(d.location) ? 'http' : 'https';
+								if (!d.getElementById(id)) {
+									js = d.createElement(s);
+									js.id = id;
+									js.src = p + '://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js, fjs);
+								}
+							}(document, 'script', 'twitter-wjs');
+						</script>
+
+						<div class="g-plusone" data-annotation="inline" data-width="300"
+							data-href=""></div>
+
+
+						<script type="text/javascript">
+							(function() {
+								var po = document.createElement('script');
+								po.type = 'text/javascript';
+								po.async = true;
+								po.src = 'https://apis.google.com/js/platform.js';
+								var s = document.getElementsByTagName('script')[0];
+								s.parentNode.insertBefore(po, s);
+							})();
+						</script>
+						<hr>
+
+						<div class="footer-bottom">
+							<div class="footer-bottom">
+								<div class="container">
+									<span class="left">(C) ThemeStarz, All rights reserved</span> <span
+										class="right"> <a href="#page-top" class="to-top roll"><i
+											class="fa fa-angle-up"></i></a>
+									</span>
+								</div>
+							</div>
+						</div>
 					</div>
-					<!--/.row-->
-				</div>
-				<!--/.container-->
-			</div>
-			<!--/.footer-top-->
-			<div class="footer-bottom">
-				<div class="container">
-					<span class="left">(C) DoThing, All rights reserved</span> <span
-						class="right"> <a href="#page-top" class="to-top roll"><i
-							class="fa fa-angle-up"></i></a>
-					</span>
 				</div>
 			</div>
-			<!--/.footer-bottom-->
 		</div>
+
 	</footer>
 	<!--end Page Footer-->
 	<script>

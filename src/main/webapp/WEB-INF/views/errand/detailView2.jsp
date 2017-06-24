@@ -23,136 +23,21 @@
 	rel='stylesheet' type='text/css'>
 <link href="${pageContext.request.contextPath}/assets/css/receipt.css"
 	rel="stylesheet" type="text/css">
-<link rel="sheet"
-	href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
-<style>
-div.stars {
-	width: 270px;
-	display: inline-block;
-}
-
-input.star {
-	display: none;
-}
-
-label.star {
-	float: right;
-	padding: 10px;
-	font-size: 36px;
-	color: #444;
-	transition: all .2s;
-}
-
-input.star:checked ~ label.star:before {
-	content: '\f005';
-	color: #FD4;
-	transition: all .25s;
-}
-
-input.star-5:checked ~ label.star:before {
-	color: #FE7;
-	text-shadow: 0 0 20px #952;
-}
-
-input.star-1:checked ~ label.star:before {
-	color: #F62;
-}
-
-label.star:hover {
-	transform: rotate(-15deg) scale(1.3);
-}
-
-label.star:before {
-	content: '\f006';
-	font-family: FontAwesome;
-}
-</style>
-
-<title>상세보기</title>
+<title>Spotter - Universal Directory Listing HTML Template</title>
 <script type="text/javascript"
 	src="//apis.daum.net/maps/maps3.js?apikey=900302937c725fa5d96ac225cbc2db10&libraries=services"></script>
 
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/assets/tags/bootstrap-tagsinput.js"></script>
+
 <script>
-	$(function() {
-		var currentId = "<security:authentication property='principal.userId'/>";
-		$(document).on("click", "#complete", function() {
-			$(".bootstrap-tagsinput span").remove();
-			if("${currentId}" == "${errands.responseUser.userId}"){
-			$('#ac1').attr("checked", true);
-			var errandsNum = ${errands.errandsNum};
-			$.ajax({
-				url : "${pageContext.request.contextPath}/user/selectMember",
-				type : "post",
-				data : "id=${errands.requestUser.userId}&_csrf=${_csrf.token}",
-				dataType : "json",
-				success : function(result) {
-					$("#resmodalId").html(result.userId);
-					$("#responseId").val(currentId);
-					$("#resmodalImg").attr("src", "${pageContext.request.contextPath}/users/" + result.userId + "/" + result.selfImg);
-				},
-				error : function(error) {
-					console.log(error);
-				}
-			})
-
-
-
-
-
-			$("#resModal").modal('toggle');
-			//현재사용자가 요청자일경우
-			}else if("${currentId}" == "${errands.requestUser.userId}"){
-				$('#ac1').attr("checked", true);
-				$('#sp1').attr("checked", true);
-				$('#kn1').attr("checked", true);
-				$.ajax({
-					url : "${pageContext.request.contextPath}/user/selectMember",
-					type : "post",
-					data : "id=${errands.responseUser.userId}&_csrf=${_csrf.token}",
-					dataType : "json",
-					success : function(result) {
-						$("#reqmodalId").html(result.userId);
-						$("#reqmodalImg").attr("src", "${pageContext.request.contextPath}/users/" + result.userId + "/" + result.selfImg);
-					},
-					error : function(error) {
-						console.log(error);
-					}
-				})
-
-
-
-
-
-				$("#reqModal").modal('toggle');
-			}
-		});
-
-
-
-	});
 </script>
 <!-- SocketJS -->
 <script type="text/javascript">
+var ws = new SockJS("${pageContext.request.contextPath}/websocket");
    var sender = '<security:authentication property="principal.userId"/>';
    var today = '<%=new java.text.SimpleDateFormat("MM/dd HH:mm").format(new java.util.Date())%>';
-   var receiver ="";
-   var receiverPhoto = "";
-   if("${currentId}" == "${errands.requestUser.userId}"){
-	   receiverPhoto = "${requestSelfImg}";
-	   receiver = "${errands.responseUser.userId}";
-   }else {
-	   receiver = "${errands.requestUser.userId}";
-	   receiverPhoto = "${responseSelfImg}";
-   }
-function initChatting(){
-		 ws.send(${errands.errandsNum}+'#/separator/#');
-		document.getElementById('chatList').scrollTop = document.getElementById('chatList').scrollHeight;
-	}
+   
    $(function() {
-	setTimeout("initChatting()", 500);
-	
+	 
 	   $('#inputText').keyup(function(e) {
 	          if (e.keyCode == 13)
 	             sendMessage();
@@ -168,19 +53,18 @@ function initChatting(){
 	      var msg = $('#inputText').val();
 			//separator -> #/separator/#
 		  ws.send(${errands.errandsNum}+"#/separator/#"+sender+"#/separator/#"+msg+"#/separator/#"+today);
-			ws.send("알림:"+receiver+":${errands.errandsNum}:"+msg+":"+receiverPhoto+":"+sender);
 		  $('#inputText').val('');
 	      $('#inputText').focus();
 		}
 
-	 /*    if(${list == null}){
+	    if(${list == null}){
 			chatLoad();
 	    }
 		function chatLoad(){
 			location.href='${pageContext.request.contextPath}/errand/detailView?num=${errands.errandsNum}';
 			document.getElementById('chatList').scrollTop = document.getElementById('chatList').scrollHeight;
 			//location.href='${pageContext.request.contextPath}/errand/chatLoads?errandsNum=${errands.errandsNum}';
-		}; */
+		};
 		
 	    /* $(document).on("click", "#send", function(){
 			var msg = $('#inputText').val();
@@ -189,11 +73,65 @@ function initChatting(){
 			$('#inputText').val('');
 		}); */
 	   	
-
-
-
+	   	 ws.onopen = function() {
+	  		//스크롤 맨 아래로
+	  		 ws.send(${errands.errandsNum}+'#/separator/#');
+	 		document.getElementById('chatList').scrollTop = document.getElementById('chatList').scrollHeight;
+		}; 
+		 ws.onmessage = function(message) {
+			 if(message.data=="새로운 심부름이 등록되었습니다."){
+				
+			 }else{
+				var arr = message.data.split('#/separator/#');
+				//59#/separator/#tester#/separator/#ggaa#/separator/#06/17 09:27
+				var str = '';
+				  if(arr[1] == sender){
+					str = '<div class="row msg_container base_sent"><div class="col-xs-10 col-md-10">'+
+		            '<div class="messages msg_sent"><p>' + arr[2] + '</p>'+
+		               '<time datetime="2009-11-13T20:00">' + arr[1] +'•'+ arr[3] + '</time>'+
+		            '</div></div><div class="col-md-2 col-xs-2 avatar">'+
+		            '<img src="${pageContext.request.contextPath}/users/${currentId}/${currentUser.selfImg}"'+
+		               ' class="img-responsive"></div></div>';
+				}else{
+					str='<div class="row msg_container base_receive">'+
+	                    '<div class="col-md-2 col-xs-2 avatar">'+
+	             	'<c:if test="${currentId eq errands.requestUser.userId}">'+
+	                      '<img'+
+	                      ' src="${pageContext.request.contextPath}/users/${errands.responseUser.userId}/${responseSelfImg}"'+
+	                      ' class=" img-responsive ">'+
+	                '</c:if>'+
+	                '<c:if test="${currentId eq errands.responseUser.userId}">'+
+	                    '<img'+
+	                      ' src="${pageContext.request.contextPath}/users/${errands.requestUser.userId}/${requestSelfImg}"'+
+	                     ' class=" img-responsive "> '+
+	                '</c:if>'+
+	             '</div>'+
+	             '<div class="col-xs-10 col-md-10">'+
+	                '<div class="messages msg_receive">'+
+	                   '<p>'+arr[2]+'</p>'+
+	                   '<time datetime="2009-11-13T20:00">'+arr[1]+' • '+arr[3]+'</time>'+
+	                '</div>'+
+	             '</div>'+
+	          '</div>';
+				}  
+			
+			 	$('#chatList').append(str); 
+			 	//스크롤 맨 아래로
+			 	document.getElementById('chatList').scrollTop = document.getElementById('chatList').scrollHeight;
+			 }
+		};
 			  
    	
+      function leadingZeros(n, digits) {
+         var zero = '';
+         n = n.toString();
+
+         if (n.length < digits) {
+            for (var i = 0; i < digits - n.length; i++)
+               zero += '0';
+         }
+         return zero + n;
+      }
 
       $("#close").click(function() {
          $("#myModal").modal('toggle');
@@ -352,17 +290,12 @@ function initChatting(){
 												<figure class="rating big pull-right" data-rating="0"></figure>
 											</c:when>
 											<c:otherwise>
-												<c:set var="reqtotal" value="0" />
-												<c:set var="reqCount" value="0" />
+												<c:set var="count" value="0" />
 												<c:forEach items="${errands.requestUser.gpaList}" var="gpa">
-													<c:if test="${gpa.responseKindness == 0}">
-														<c:set var="reqtotal"
-															value="${reqtotal + gpa.requestManners}" />
-														<c:set var="reqCount" value="${reqCount + 1 }" />
-													</c:if>
+													<c:set var="count" value="${count + gpa.requestManners}" />
 												</c:forEach>
 												<figure class="rating big pull-right"
-													data-rating="${reqtotal/reqCount}"></figure>
+													data-rating="${count / errands.requestUser.gpaList.size()}"></figure>
 											</c:otherwise>
 										</c:choose>
 									</section>
@@ -475,7 +408,7 @@ function initChatting(){
 													<figure class="author">
 														<img
 															src="${pageContext.request.contextPath}/users/${reply.user.userId}/${reply.user.selfImg}"
-															alt="" style="margin-top: 15%; margin-left: 15%">
+															alt="" style="margin-top:15%; margin-left:15%">
 
 													</figure>
 													<!-- /.author-->
@@ -486,32 +419,15 @@ function initChatting(){
 															<i class="fa fa-user-o"></i>
 														</c:if>
 														<h5 class="imgSelect">${reply.user.userId}</h5>
-														<c:if test="${reply.user.auth == 2}">
-															<span class="label label-danger"><i
-																class="fa fa-thumbs-o-up">안전심부름꾼</i></span>
-														</c:if>
-														<c:forEach items="${reply.user.hashList}" var="hash"
-															end="5">
+												
+														<c:forEach items="${reply.user.hashList}" var="hash" end="5">
 															<span class="label label-primary">${hash.hashtag}</span>
 														</c:forEach>
-														<c:set value="0" var="restotal" />
-
-														<c:set value="0" var="resCount" />
-														<c:forEach items="${reply.user.gpaList}" var="gpa">
-															<c:if test="${gpa.requestManners == 0}">
-																<c:set
-																	value="${restotal + (gpa.responseKindness + gpa.responseSpeed + gpa.responseAccuracy)/3}"
-																	var="restotal" />
-																<c:set value="${resCount + 1}" var="resCount" />
-															</c:if>
-														</c:forEach>
-														<figure class="rating big pull-right"
-															data-rating="${restotal/resCount}"></figure>
+														<figure class="rating big pull-right" data-rating="${(reply.user.gpaList[0].responseKindness+reply.user.gpaList[0].responseAccuracy+reply.user.gpaList[0].responseSpeed)/3}"></figure>
 														<div class="date">
 															<b>예상 도착</b><br>${reply.arrivalTime}</div>
 														<c:if test="${currentId == reply.user.userId}">
-															<button type="button"
-																class="btn framed icon pull-right roll"
+															<button type="button" class="btn btn-danger"
 																onclick="location.href='${pageContext.request.contextPath}/errand/deleteReply?num=${reply.replyNum}&eNum=${errands.errandsNum}'">
 																삭제</button>
 														</c:if>
@@ -557,7 +473,7 @@ function initChatting(){
 																		placeholder=""></textarea>
 																</div>
 																<div class="form-group">
-																	<label for="form-review-email">도착예정시간(※마감시간을 확인하세요)</label> <input
+																	<label for="form-review-email">도착예정시간</label> <input
 																		type="datetime-local" class="form-control"
 																		name="arrivalTime" />
 																</div>
@@ -598,178 +514,6 @@ function initChatting(){
 			</section>
 			<!-- /.container-->
 		</div>
-
-		<!-- 요청자 평가 모달 -->
-		<!-- Modal -->
-		<div class="modal fade" id="reqModal" tabindex="-1" role="dialog"
-			aria-labelledby="myModalLabel" aria-hidden="true"
-			data-backdrop="static">
-			<div class="modal-dialog" style="width: 50%">
-				<form name="reqf" id="reqf"
-					action="${pageContext.request.contextPath}/errand/confirmErrand"
-					method="post">
-					<input type="hidden" name="requestId"
-						value="${errandsList[0].requestUser.userId}" />
-					<div class="modal-content">
-						<div class="modal-header">
-							<button type="button" class="fa fa-close" data-dismiss="modal"></button>
-							<h4 class="modal-title" id="reqmyModalLabel">평가해주세요!</h4>
-						</div>
-						<div class="modal-body">
-							<center>
-								<img src="" name="aboutme" width="140" height="140" border="0"
-									class="img-circle" id="reqmodalImg">
-								<h3 id="reqmodalId">심부름꾼 아이디</h3>
-								<div class="stars" style="width: 60%">
-									<table style="width: 100%;">
-										<tr>
-											<th>정확성</th>
-											<th><input class="star star-5" id="ac5" type="radio"
-												name="responseAccuracy" value="5" /> <label
-												class="star star-5" for="ac5"></label> <input
-												class="star star-4" id="ac4" type="radio"
-												name="responseAccuracy" value="4" /> <label
-												class="star star-4" for="ac4"></label> <input
-												class="star star-3" id="ac3" type="radio"
-												name="responseAccuracy" value="3" /> <label
-												class="star star-3" for="ac3"></label> <input
-												class="star star-2" id="ac2" type="radio"
-												name="responseAccuracy" value="2" /> <label
-												class="star star-2" for="ac2"></label> <input
-												class="star star-1" id="ac1" type="radio"
-												name="responseAccuracy" value="1" checked="checked" /> <label
-												class="star star-1" for="ac1"></label></th>
-										</tr>
-										<tr>
-											<th>신속함</th>
-											<th><input class="star star-5" id="sp5" type="radio"
-												name="responseSpeed" value="5" /> <label
-												class="star star-5" for="sp5"></label> <input
-												class="star star-4" id="sp4" type="radio"
-												name="responseSpeed" value="4" /> <label
-												class="star star-4" for="sp4"></label> <input
-												class="star star-3" id="sp3" type="radio"
-												name="responseSpeed" value="3" /> <label
-												class="star star-3" for="sp3"></label> <input
-												class="star star-2" id="sp2" type="radio"
-												name="responseSpeed" value="2" /> <label
-												class="star star-2" for="sp2"></label> <input
-												class="star star-1" id="sp1" type="radio"
-												name="responseSpeed" value="1" checked="checked" /> <label
-												class="star star-1" for="sp1"></label></th>
-										</tr>
-										<tr>
-											<th>친절도</th>
-											<th><input class="star star-5" id="kn5" type="radio"
-												name="responseKindness" value="5" /> <label
-												class="star star-5" for="kn5"></label> <input
-												class="star star-4" id="kn4" type="radio"
-												name="responseKindness" value="4" /> <label
-												class="star star-4" for="kn4"></label> <input
-												class="star star-3" id="kn3" type="radio"
-												name="responseKindness" value="3" /> <label
-												class="star star-3" for="kn3"></label> <input
-												class="star star-2" id="kn2" type="radio"
-												name="responseKindness" value="2" /> <label
-												class="star star-2" for="kn2"></label> <input
-												class="star star-1" id="kn1" type="radio"
-												name="responseKindness" value="1" checked="checked" /> <label
-												class="star star-1" for="kn1"></label></th>
-										</tr>
-									</table>
-
-								</div>
-							</center>
-							<hr>
-							<center>
-								<p class="text-left">
-									<input type="text" id="reqevalTag" data-role="tagsinput"
-										placeholder="태그로 사용자를 평가해주세요!" name="evalTag" />
-								</p>
-								<br>
-							</center>
-						</div>
-						<div class="modal-footer">
-							<center>
-								<button type="button" class="btn btn-default"
-									onclick="document.getElementById('reqf').submit()">심부름
-									완료</button>
-							</center>
-						</div>
-					</div>
-					<input type="hidden" id="reqerrandsNum" name="errandsNum"
-						value="${errands.errandsNum}"> <input type="hidden"
-						name="${_csrf.parameterName}" value="${_csrf.token}" />
-				</form>
-			</div>
-		</div>
-		<!-- 요청자 평가 끝 -->
-		<!-- 배달꾼 평가 -->
-		<div class="modal fade" id="resModal" tabindex="-1" role="dialog"
-			aria-labelledby="myModalLabel" aria-hidden="true"
-			data-backdrop="static">
-			<div class="modal-dialog" style="width: 50%">
-				<form name="resf"
-					action="${pageContext.request.contextPath}/errand/confirmErrand"
-					method="post">
-					<input type="hidden" name="responseId" id="responseId" />
-					<div class="modal-content">
-						<div class="modal-header">
-							<button type="button" class="fa fa-close" data-dismiss="modal"></button>
-							<h4 class="modal-title" id="myModalLabel">평가해주세요!</h4>
-						</div>
-						<div class="modal-body">
-							<center>
-								<img src="" name="aboutme" width="140" height="140" border="0"
-									class="img-circle" id="resmodalImg">
-								<h3 id="resmodalId">심부름꾼 아이디</h3>
-								<div class="stars" style="width: 60%">
-									<table style="width: 100%;">
-										<tr>
-											<th>매너</th>
-											<th><input class="star star-5" id="ma5" type="radio"
-												name="requestManners" value="5" /> <label
-												class="star star-5" for="ma5"></label> <input
-												class="star star-4" id="ma4" type="radio"
-												name="requestManners" value="4" /> <label
-												class="star star-4" for="ma4"></label> <input
-												class="star star-3" id="ma3" type="radio"
-												name="requestManners" value="3" /> <label
-												class="star star-3" for="ma3"></label> <input
-												class="star star-2" id="ma2" type="radio"
-												name="requestManners" value="2" /> <label
-												class="star star-2" for="ma2"></label> <input
-												class="star star-1" id="ma1" type="radio"
-												name="requestManners" checked="checked" value="1" /> <label
-												class="star star-1" for="ma1"></label></th>
-										</tr>
-									</table>
-
-								</div>
-							</center>
-							<hr>
-							<center>
-								<p class="text-left">
-									<input type="text" id="resevalTag" data-role="tagsinput"
-										placeholder="태그로 사용자를 평가해주세요!" name="evalTag" />
-								</p>
-								<br>
-							</center>
-						</div>
-						<div class="modal-footer">
-							<center>
-								<button type="button" class="btn btn-default"
-									onclick="document.resf.submit()">심부름 완료</button>
-							</center>
-						</div>
-					</div>
-					<input type="hidden" id="reserrandsNum" name="errandsNum"
-						value="${errands.errandsNum}"> <input type="hidden"
-						name="${_csrf.parameterName}" value="${_csrf.token}" />
-				</form>
-			</div>
-		</div>
-		<!-- 배달꾼 끝 -->
 		<!-- end Page Content-->
 	</div>
 	<!-- end Page Canvas-->
@@ -886,13 +630,10 @@ function initChatting(){
 				<span class="glyphicon glyphicon-cog"></span> <span class="sr-only">Toggle
 					Dropdown</span>
 			</button>
-			<c:if
-				test="${!((errands.arrivalTime != null) and (errands.finishTime != null))}">
-				<ul class="dropdown-menu" role="menu">
-					<li><a id="complete"><span id="chatComplete"
-							class="fa fa-check"></span>심부름 완료</a></li>
-				</ul>
-			</c:if>
+			<ul class="dropdown-menu" role="menu">
+				<li><a id="compelete"><span id="chatComplete" class="fa fa-check"></span>심부름
+						완료</a></li>
+			</ul>
 		</div>
 	</c:if>
 

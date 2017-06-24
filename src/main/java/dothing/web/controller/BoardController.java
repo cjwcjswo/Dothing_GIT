@@ -53,7 +53,7 @@ public class BoardController {
 		
 		ModelAndView mv = new ModelAndView();
 
-		if (userId.equals("tester")) {
+		if (userId.equals("admin")) {
 			List<BoardDTO> list = boardService.selectAll(page);
 
 			mv.setViewName("board/inquiryBoardList");
@@ -136,17 +136,7 @@ public class BoardController {
 		boardService.delete(inquiryNum);
 		return "redirect:/board/inquiryBoardList";
 	}
-
-	/*
-	 * @RequestMapping("/update") public ModelAndView update(HttpServletRequest
-	 * request, BoardDTO boardDTO)throws Exception{
-	 * boardService.update(boardDTO);
-	 * 
-	 * BoardDTO dbBoard =
-	 * boardService.selectByBoardNum(boardDTO.getInquiryNum(), false);
-	 * 
-	 * return new ModelAndView("board/read", "boardDTO", dbBoard); }
-	 */
+	
 
 	/**
 	 * 1대1게시판 댓글삽입
@@ -155,12 +145,14 @@ public class BoardController {
 	public String insertReply(Authentication auth, BoardReplyDTO brDTO) throws Exception {
 		String userId = ((MemberDTO) auth.getPrincipal()).getUserId();
 		
-		if (userId.equals("tester")) {
+		/*if (userId.equals("tester")) {
 			boardService.insertReply(brDTO);
 		}
 		else{
 			throw new Exception("운영자만이 댓글을 등록할 수 있습니다.");
-		}
+		}*/
+		//brDTO.getBoard().setUserId(userId);
+		boardService.insertReply(brDTO);
 		return "redirect:/board/inquiryBoardReadNew/" + brDTO.getBoard().getInquiryNum();
 
 	}
@@ -210,9 +202,9 @@ public class BoardController {
 		
 		String userId = ((MemberDTO) auth.getPrincipal()).getUserId();
 		
-		if(!userId.equals("tester")){
-			throw new Exception("Id가 tester인 운영자만 삭제할 수 있습니다.");
-		}
+		/*if(!userId.equals("admin")){
+			throw new Exception("운영자만 삭제할 수 있습니다.");
+		}*/
        
 		noticeService.delete(noticeNum);
 		return "redirect:/board/noticeBoardList";
@@ -223,6 +215,10 @@ public class BoardController {
 	 */
 	@RequestMapping("/noticeBoardWrite")
 	public void noticeWrite(){
+		/*String userId = ((MemberDTO) auth.getPrincipal()).getUserId();
+		if(!userId.equals("admin")){
+			throw new Exception("운영자만 글을 쓸 수 있습니다.");
+		}*/
 		
 	}
 	
@@ -236,12 +232,12 @@ public class BoardController {
 		
 		String userId = ((MemberDTO) auth.getPrincipal()).getUserId();
 		
-		System.out.println("userId: " + userId);
-		if(!userId.equals("tester")){
-			throw new Exception("Id가 tester인 운영자만 글을 쓸 수 있습니다.");
-		}
 		
-		boardDTO.setUserId("tester");
+		/*if(!userId.equals("admin")){
+			throw new Exception("운영자만 글을 쓸 수 있습니다.");
+		}
+		*/
+		boardDTO.setUserId(userId);
 
 		int result = noticeService.insert(boardDTO);
 		
