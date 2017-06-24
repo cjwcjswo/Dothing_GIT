@@ -66,7 +66,6 @@ public class ErrandsController {
 		}
 		String requestId = errands.getRequestUser().getUserId();
 		
-		
 		String requestSelfImg = memberService.selectMemberById(requestId).getSelfImg();
 		
 		
