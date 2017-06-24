@@ -3,10 +3,12 @@ package dothing.web.service;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -52,7 +54,7 @@ public class ChatService {
 		
 		List<String> list = new ArrayList<>();
 		try {
-			br = new BufferedReader(new FileReader(new File(path + "/" + errandsNum + ".txt"), ));
+			br = new BufferedReader(new InputStreamReader(new FileInputStream(new File(path + "/" + errandsNum + ".txt")), "UTF-8"));
 
 			int r;
 			String result = "";
