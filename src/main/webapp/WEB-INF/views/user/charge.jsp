@@ -183,7 +183,7 @@
 						</tr>
 					</thead>
 					<c:choose>
-						<c:when test="${empty requestScope.list}">
+						<c:when test="${empty requestScope.successlist}">
 							<tr>
 								<td colspan="5">
 									<div align="center">
