@@ -188,45 +188,7 @@
 					$("#balloonImg").attr("src", "${pageContext.request.contextPath}/users/" + alertArr[4] + "/" + alertArr[3]);
 					$('#chatAlert').fadeIn(400).delay(5000).fadeOut(400);
 				}
-			} else {
-
-				var arr = e.data.split('#/separator/#');
-				//59#/separator/#tester#/separator/#ggaa#/separator/#06/17 09:27
-				var str = '';
-				if (arr[1] == sender) {
-					str = '<div class="row msg_container base_sent"><div class="col-xs-10 col-md-10">' +
-						'<div class="messages msg_sent"><p>' + arr[2] + '</p>' +
-						'<time datetime="2009-11-13T20:00">' + arr[1] + '•' + arr[3] + '</time>' +
-						'</div></div><div class="col-md-2 col-xs-2 avatar">' +
-						'<img src="${pageContext.request.contextPath}/users/${currentId}/${currentUser.selfImg}"' +
-						' class="img-responsive"></div></div>';
-				} else {
-					str = '<div class="row msg_container base_receive">' +
-						'<div class="col-md-2 col-xs-2 avatar">' +
-						'<c:if test="${currentId eq errands.requestUser.userId}">' +
-						'<img' +
-						' src="${pageContext.request.contextPath}/users/${errands.responseUser.userId}/${responseSelfImg}"' +
-						' class=" img-responsive ">' +
-						'</c:if>' +
-						'<c:if test="${currentId eq errands.responseUser.userId}">' +
-						'<img' +
-						' src="${pageContext.request.contextPath}/users/${errands.requestUser.userId}/${requestSelfImg}"' +
-						' class=" img-responsive "> ' +
-						'</c:if>' +
-						'</div>' +
-						'<div class="col-xs-10 col-md-10">' +
-						'<div class="messages msg_receive">' +
-						'<p>' + arr[2] + '</p>' +
-						'<time datetime="2009-11-13T20:00">' + arr[1] + ' • ' + arr[3] + '</time>' +
-						'</div>' +
-						'</div>' +
-						'</div>';
-				}
-
-				$('#chatList').append(str);
-				//스크롤 맨 아래로
-				document.getElementById('chatList').scrollTop = document.getElementById('chatList').scrollHeight;
-			}
+			} 
 		}
 	}
 </script>

@@ -7,10 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
-<<<<<<< HEAD
 import java.io.FileWriter;
-=======
->>>>>>> 2a2a543de3a2ebe99c297cac2736015794f7ad91
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
@@ -58,11 +55,8 @@ public class ChatService {
 		List<String> list = new ArrayList<>();
 		try {
 			br = new BufferedReader(new InputStreamReader(new FileInputStream(new File(path + "/" + errandsNum + ".txt")), "UTF-8"));
-<<<<<<< HEAD
 
-=======
 			
->>>>>>> 2a2a543de3a2ebe99c297cac2736015794f7ad91
 			int r;
 			String result = "";
 			while ((r = br.read()) != -1) {
