@@ -58,6 +58,7 @@ public class MemberController {
 		if (selfImgFile.getSize() == 0 || selfImgFile.getOriginalFilename() == null) {
 			throw new Exception("프로필 사진을 첨부해주세요");
 		}
+		
 		if (preAddr == null || detailAddr == null || preAddr.equals("") || detailAddr.equals("")) {
 			throw new Exception("주소란을 확인해주세요.");
 		}
@@ -72,6 +73,12 @@ public class MemberController {
 			throw new Exception("성별을 선택하세요");
 		}
 		member.setSelfImg(selfImgFile.getOriginalFilename());
+
+		String ext = (member.getSelfImg().split("\\."))[1];
+		ext = ext.toLowerCase();
+		if (!(ext.equals("jpg") || ext.equals("jpeg") || ext.equals("png") || ext.equals("gif"))) {
+			throw new Exception("확장자가 jpg, jpeg, png, gif인 파일만 업로드 할 수 있습니다");
+		}
 		member.setAddr(preAddr + " " + detailAddr);
 		memberService.joinMember(member);
 		if (member.getSelfImg() != null && !member.getSelfImg().trim().equals("")) {

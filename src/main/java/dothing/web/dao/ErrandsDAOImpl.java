@@ -149,6 +149,11 @@ public class ErrandsDAOImpl implements ErrandsDAO{
 		if(addr != null) keyword = "%"+addr+"%";
 		return sqlSession.selectOne("mapper.errandsMapper.countList", keyword);
 	}
+
+	@Override
+	public int deleteTimeErrands() {
+		return sqlSession.delete("mapper.errandsMapper.deleteTimeErrands");
+	}
 	
 	
 	

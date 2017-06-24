@@ -4,15 +4,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>DoThing</title>
 <script async
 	src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<script>
-  (adsbygoogle = window.adsbygoogle || []).push({
-    google_ad_client: "ca-pub-7941348824558708",
-    enable_page_level_ads: true
-  });
-</script>
 <style type="text/css">
 .cuadro_intro_hover {
 	padding: 0px;

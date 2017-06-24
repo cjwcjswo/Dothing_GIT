@@ -161,8 +161,7 @@
 													<label for="phone">포인트</label> <input type="text"
 														class="form-control" id="point" name="currentPoint"
 														pattern="\d*" value="${member.point.currentPoint }"
-														disabled> <a href="#"><i class="fa fa-krw"></i>
-														<span>포인트 충전하기</span></a>
+														disabled> 
 
 
 												</div>

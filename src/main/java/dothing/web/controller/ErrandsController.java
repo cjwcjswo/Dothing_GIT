@@ -1,12 +1,13 @@
 package dothing.web.controller;
 
 import java.io.File;
-import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,6 +65,7 @@ public class ErrandsController {
 			mv.addObject("responseSelfImg", responseSelfImg);
 		}
 		String requestId = errands.getRequestUser().getUserId();
+		
 
 		String requestSelfImg = memberService.selectMemberById(requestId).getSelfImg();
 
@@ -87,32 +89,70 @@ public class ErrandsController {
 
 	@RequestMapping("/insert")
 	public ModelAndView insert(HttpSession session, ErrandsDTO dto, @RequestParam("preAddress") String preAddress,
-			String detailAddress) throws IllegalStateException, IOException {
+			String detailAddress) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		dto.setEndTime(dto.getEndTime().replaceAll("T", " "));
+		if(dto.getTitle() == null){
+			throw new Exception("제목을 입력하세요");
+		}
+		if(dto.getContent() == null){
+			throw new Exception("내용을 입력하세요");
+		}
+		if(preAddress == null || detailAddress == null){
+			throw new Exception("주소를 입력하세요");
+		}
 		dto.getErrandsPos().setAddr(preAddress + " " + detailAddress);
 		MultipartFile file = dto.getErrandsPhotoFile();
 		dto.setErrandsPhoto(file.getOriginalFilename());
-		int insertResult = errandsService.insertErrands(dto, session.getServletContext().getRealPath(""));
-		if (insertResult > 0) {
-
-			mv.addObject("insertNum", errandsService.selectNum());
-			mv.addObject("insertResult", insertResult);
+		
+		Date upTime = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(dto.getEndTime());
+		Date currentTime = new Date();
+		
+		System.out.println(upTime.getTime() + " " + currentTime.getTime());
+		System.out.println(dto.getEndTime());
+		if(upTime.getTime() < currentTime.getTime()){
+			throw new Exception("마감 시간이 현재 시간보다 빠릅니다");
 		}
+		//파일이 확장자가 맞지 않을 경우 예외처리
 		if (dto.getErrandsPhoto() != null && !dto.getErrandsPhoto().trim().equals("")) {
+			System.out.println(dto.getErrandsPhoto());
+			String ext = (dto.getErrandsPhoto().split("\\."))[1];
+			ext = ext.toLowerCase();
+			if (!(ext.equals("jpg") || ext.equals("jpeg") || ext.equals("png") || ext.equals("gif"))) {
+				throw new Exception("확장자가 jpg, jpeg, png, gif인 파일만 업로드 할 수 있습니다");
+			}
+			errandsService.insertErrands(dto, session.getServletContext().getRealPath(""));
 			String path = session.getServletContext().getRealPath("") + "\\errands\\" + errandsService.selectNum();
 			File folder = new File(path);
 			folder.mkdirs();
 			file.transferTo(new File(path + "\\" + dto.getErrandsPhoto()));
+
+		} else {
+			dto.setErrandsPhoto("EMPTY");
 		}
+		
+
+		mv.addObject("insertNum", errandsService.selectNum());
+		mv.addObject("insertTitle", dto.getTitle());
+		mv.addObject("insertImage", dto.getErrandsPhoto());
 		mv.setViewName("/errand/empty");
 		return mv;
 	}
 
 	@RequestMapping("/insertReply")
-	public String insert(HttpSession session, ErrandsReplyDTO dto) {
+	public String insert(HttpSession session, ErrandsReplyDTO dto) throws Exception {
 		dto.setArrivalTime(dto.getArrivalTime().replaceAll("T", " "));
 		ErrandsDTO errand = errandsService.selectErrands(dto.getErrands().getErrandsNum());
+		Date currentTime = new Date();
+		Date endTime = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(errand.getEndTime());
+		Date upTime = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(dto.getArrivalTime());
+		System.out.println(upTime.getTime() + " " + endTime.getTime());
+		if(upTime.getTime() > endTime.getTime()){
+			throw new Exception("도착시간이 마감시간보다 느립니다");
+		}
+		if(upTime.getTime() < currentTime.getTime()){
+			throw new Exception("현재 시간보다 작게 입력하셨습니다.");
+		}
 		memberService.insertNotification(errand.getRequestUser().getUserId(),
 				errand.getErrandsNum() + "번 글에 " + dto.getUser().getUserId() + "님이 댓글을 달았습니다!");
 		errandsService.insertReply(dto);
@@ -190,7 +230,9 @@ public class ErrandsController {
 		pm.start();
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("errandsList", errandsService.myErrandsResponse((dto).getUserId(), page));
+		mv.addObject("myId", ((MemberDTO) aut.getPrincipal()).getUserId());
 		mv.setViewName("/errand/myResponse");
+
 		return mv;
 	}
 
@@ -278,16 +320,17 @@ public class ErrandsController {
 	 */
 	@RequestMapping("/listing")
 	public ModelAndView listing(Integer sort, String addr, Integer page) {
-
+		System.out.println("오냐?");
 		ModelAndView mv = new ModelAndView();
 		if (page == null)
 			page = 1;
 		PageMaker pm = new PageMaker(page, (errandsService.countList(addr) / 11) + 1);
-		if(sort == null){
+		if (sort == null) {
 			sort = 1;
 		}
 		if (addr != null) {
-			if(addr.trim().equals("")) addr = null;
+			if (addr.trim().equals(""))
+				addr = null;
 		}
 		pm.start();
 		mv.addObject("errandsList", errandsService.selectList(sort, addr, page));

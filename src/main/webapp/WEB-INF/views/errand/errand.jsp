@@ -14,14 +14,20 @@
 </style>
 <script type="text/javascript"
 	src="//apis.daum.net/maps/maps3.js?apikey=900302937c725fa5d96ac225cbc2db10&libraries=services"></script>
+
 <script>
-	function clickDetail(num) {
-		location.href = "${pageContext.request.contextPath}/errand/detailView?num=" + num;
+	if(${notRead} > 0){
+		var options ={
+			body: "읽지 않은 알림이 ${notRead}개 있습니다.",
+			icon: "${pageContext.request.contextPath}/assets/img/logo.png"
+		}
+		var noti = new Notification("DoThing 알림", options);
+		noti.onclick = function(event){
+			event.preventDefault();
+			location.href = "${pageContext.request.contextPath}/user/alert";
+			noti.close();
+		}
 	}
-</script>
-
-<script>
-
 	function clickDetail(num) {
 		location.href = "${pageContext.request.contextPath}/errand/detailView?num=" + num;
 	}
@@ -46,7 +52,7 @@
 					success : function(result) {
 						var count = 0;
 						var re = "";
-						if (Object.keys(result.hashList).length == 0) {
+						if (Object.keys(result.hashList).length <= 1) {
 							$("#hashDrop li").remove();
 							$(".dropdown-menu").hide();
 						} else {
@@ -62,7 +68,7 @@
 						}
 					},
 					error : function(err) {
-						alert(err);
+						console.log(err);
 					}
 				});
 				$(".dropdown-menu").show();
@@ -79,8 +85,6 @@
 	class="map-fullscreen page-homepage navigation-off-canvas"
 	id="page-top">
 
-	<!-- error -->
-	<div class='error' style='display: none' id='notification'></div>
 
 
 	<!-- Page Canvas-->
@@ -319,7 +323,7 @@
 														</div>
 													</c:if> <c:if test="${money.errandsPhoto != null}">
 														<img
-															src="${pageContext.request.contextPath}/errands/${errands.errandsNum}/${errands.errandsPhoto}" />
+															src="${pageContext.request.contextPath}/errands/${money.errandsNum}/${money.errandsPhoto}" />
 													</c:if> <c:if test="${money.errandsPhoto == null}">
 														<img
 															src="${pageContext.request.contextPath}/resources/img/errands/img.png" />
@@ -446,6 +450,7 @@
 		setTimeout("mapRe()", 3000);
 		
 		
+		if(${errandsList.size() != 0}) {
 		 var lat = new Array();
          var lng = new Array();
          var addr = new Array();
@@ -514,6 +519,11 @@
 		 }
          
          setTimeout("moveCenter()", 1000)
+         
+         
+         
+         
+		}
          
          
          // 지도가 움직일때마다 중심 좌표 표시

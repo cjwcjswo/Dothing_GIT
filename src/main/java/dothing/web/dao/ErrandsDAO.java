@@ -41,4 +41,9 @@ public interface ErrandsDAO {
 	 */
 	List<ErrandsDTO> selectList(Integer sort, String addr, int page);
 	int countList(String addr);
+	
+	/**
+	 * 시간지나고 응답안한 심부름 삭제
+	 */
+	int deleteTimeErrands();
 }
