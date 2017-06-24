@@ -66,6 +66,12 @@ public class MemberController {
 				|| member.getEmail() == null || member.getPhone() == null) {
 			throw new Exception("기입하지 않은 정보가 있습니다");
 		}
+		if (member.getPhone().length() != 11){
+			throw new Exception("휴대전화 번호는 11자리로 입력하세요");
+		}
+		if (member.getSex() == null){
+			throw new Exception("성별을 선택하세요");
+		}
 		member.setSelfImg(selfImgFile.getOriginalFilename());
 
 		String ext = (member.getSelfImg().split("\\."))[1];
