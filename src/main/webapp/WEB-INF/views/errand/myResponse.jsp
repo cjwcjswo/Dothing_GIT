@@ -150,7 +150,7 @@ var currentId = "<security:authentication property='principal.userId'/>";
 						<li><a
 							href="${pageContext.request.contextPath}/user/safetyRegister"><h1
 									class="page-title">안전심부름꾼 신청</h1></a></li>
-						<li class=""><a href="safetyRegister.jsp"><h1
+						<li class=""><a href="${pageContext.request.contextPath}/user/charge"><h1
 									class="page-title">포인트 충전 및 내역</h1></a></li>
 					</ul>
 				</header>
