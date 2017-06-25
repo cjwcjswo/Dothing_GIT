@@ -200,7 +200,7 @@
 										<td>${errandDtoSuccess.productPrice}</td>
 										<td><c:choose>
 												<c:when test="${0 eq errandDtoSuccess.errandsPrice}">
-						0
+						
 						</c:when>
 												<c:otherwise>
 						+${errandDtoSuccess.errandsPrice}
