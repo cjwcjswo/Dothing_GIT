@@ -101,6 +101,7 @@ public class ErrandsController {
 		if(preAddress == null || detailAddress == null){
 			throw new Exception("주소를 입력하세요");
 		}
+		
 		dto.getErrandsPos().setAddr(preAddress + " " + detailAddress);
 		MultipartFile file = dto.getErrandsPhotoFile();
 		dto.setErrandsPhoto(file.getOriginalFilename());
@@ -108,8 +109,7 @@ public class ErrandsController {
 		Date upTime = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(dto.getEndTime());
 		Date currentTime = new Date();
 		
-		System.out.println(upTime.getTime() + " " + currentTime.getTime());
-		System.out.println(dto.getEndTime());
+	
 		if(upTime.getTime() < currentTime.getTime()){
 			throw new Exception("마감 시간이 현재 시간보다 빠릅니다");
 		}
@@ -129,6 +129,7 @@ public class ErrandsController {
 
 		} else {
 			dto.setErrandsPhoto("EMPTY");
+			errandsService.insertErrands(dto, session.getServletContext().getRealPath(""));
 		}
 		
 

@@ -80,7 +80,7 @@ var currentId = "<security:authentication property='principal.userId'/>";
 			data : "id=" + $(this).attr("meId") + "&_csrf=${_csrf.token}",
 			dataType : "json",
 			success : function(result) {
-				$("#modalId").html(result.userId);
+				$("#modalId").html(result.name);
 				$("#responseId").val(currentId);
 				$("#errandsNum").val(errandsNum);
 				$("#modalImg").attr("src", "${pageContext.request.contextPath}/users/" + result.userId + "/" + result.selfImg);
@@ -238,7 +238,7 @@ var currentId = "<security:authentication property='principal.userId'/>";
 												<c:if test="${(errands.arrivalTime == null)}">
 													<li><i class="fa fa-taxi"></i>심부름 중</li>
 													<span class="label label-warning">요청자:
-														${errands.requestUser.userId}</span>
+														${errands.requestUser.name}</span>
 													<button class="btn btn-danger" id="${errands.errandsNum}"
 														me="eval" meId="${errands.requestUser.userId}">OK</button>
 												</c:if>
@@ -247,13 +247,13 @@ var currentId = "<security:authentication property='principal.userId'/>";
 												test="${(errands.arrivalTime != null) && (errands.finishTime == null)}">
 												<li><i class="fa fa-check"></i>요청자 확인 대기중</li>
 												<span class="label label-warning">요청자:
-													${errands.requestUser.userId}</span>
+													${errands.requestUser.name}</span>
 											</c:if>
 											<c:if
 												test="${(errands.finishTime != null) && (errands.arrivalTime != null)}">
 												<li><i class="fa fa-check"></i>심부름 완료</li>
 												<span class="label label-warning">요청자:
-													${errands.requestUser.userId}</span>
+													${errands.requestUser.name}</span>
 											</c:if>
 
 										</ul>

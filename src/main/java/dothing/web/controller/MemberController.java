@@ -1,8 +1,12 @@
 package dothing.web.controller;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -281,5 +285,61 @@ public class MemberController {
 		return mv;
 	}
 	
+	/**
+	 * 로그인 API 추가정보 입력
+	 */
+	@RequestMapping("/addInformation")
+	public ModelAndView loginAPI(String id, String photo, String email, String gender, String name){
+		System.out.println(id);
+		System.out.println(gender);
+		System.out.println(name);
+		System.out.println(photo);
+		ModelAndView mv = new ModelAndView();
+		MemberDTO member = memberService.selectMemberById(id);
+		if(member == null) { // 기존에 연동된 회원이 가입되어있지 않다?
+			mv.addObject("id", id);
+			mv.addObject("photo", photo);
+			mv.addObject("email", email);
+			if(gender.equals("male")){
+				gender = "man";
+			}else{
+				gender = "woman";
+			}
+			mv.addObject("gender", gender);
+			mv.addObject("name", name);
+			mv.setViewName("/user/loginAPI");
+		}else{ // 가입되어있다?
+			System.out.println("가입되어있네요");
+			mv.addObject("id", id);
+			mv.addObject("password", id);
+			mv.setViewName("/user/empty");
+		}
+		return mv;
+	}
 	
+	/**
+	 * API사용했을때 회원가입
+	 * @throws Exception 
+	 */
+	@RequestMapping("/apiControl")
+	public String apiControl(HttpSession session, MemberDTO member, String photo, String preAddr, String detailAddr) throws Exception{
+		member.setAddr(preAddr + " " + detailAddr);
+		member.setPassword(member.getUserId());
+		URL url = new URL(photo);
+		BufferedImage img = ImageIO.read(url);
+		member.setSelfImg("profile.jpg");
+		String path = session.getServletContext().getRealPath("") + "\\users\\" + member.getUserId();
+		File folder = new File(path);
+		folder.mkdirs();
+		File file = new File(path + "\\" + member.getSelfImg());
+		ImageIO.write(img, "jpg", file);
+		memberService.joinMember(member);
+		return "/user/okay";
+	}
+	
+	@RequestMapping("/okay")
+	public void okay(){}
+	
+	@RequestMapping("/empty")
+	public void empty(){}
 }

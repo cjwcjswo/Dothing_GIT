@@ -269,7 +269,7 @@
 											alt="">
 									</div>
 									<div class="wrapper">
-										<h3>${ranked.userId}</h3>
+										<h3>${ranked.name}</h3>
 										</a>
 										<figure>${ranked.addr}
 										</figure>

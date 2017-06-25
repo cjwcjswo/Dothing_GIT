@@ -2,8 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.springframework.org/security/tags"
 	prefix="security"%>
-<%@ page import="java.util.*" %>
-<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.*"%>
+<%@ page import="java.text.SimpleDateFormat"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,7 +31,6 @@
 	overflow: hidden;
 	white-space: nowrap;
 }
-
 </style>
 <link
 	href="${pageContext.request.contextPath}/assets/fonts/font-awesome.css"
@@ -47,20 +46,23 @@
 <title>심부름 등록</title>
 
 <script>
-	var ct="";
+	var ct = "";
 	function leadingZeros(n, digits) {
-        var zero = '';
-        n = n.toString();
+		var zero = '';
+		n = n.toString();
 
-        if (n.length < digits) {
-           for (var i = 0; i < digits - n.length; i++)
-              zero += '0';
-        }
-        return zero + n;
-     }
-	function currentTime(){
+		if (n.length < digits) {
+			for (var i = 0; i < digits - n.length; i++)
+				zero += '0';
+		}
+		return zero + n;
+	}
+	function currentTime() {
 		var d = new Date();
-		ct = d.getFullYear() + "-" + leadingZeros((d.getMonth() + 1),2) + "-" + leadingZeros(d.getDate(),2) + "T" + leadingZeros(d.getHours(),2) + ":" + leadingZeros(d.getMinutes(),2);
+		ct = d.getFullYear() + "-" + leadingZeros((d.getMonth() + 1), 2) + "-"
+				+ leadingZeros(d.getDate(), 2) + "T"
+				+ leadingZeros(d.getHours(), 2) + ":"
+				+ leadingZeros(d.getMinutes(), 2);
 	}
 	function checkValid() {
 		var form = document.f;
@@ -90,11 +92,12 @@
 			return false;
 		}
 		currentTime();
-		if(form.endTime.value < ct){
+		if (form.endTime.value < ct) {
 			alert("시간이 현재 시간보다 작습니다");
 			form.endTime.focus();
 			return false;
 		}
+
 		if (form.productPrice.value < 0 || form.errandsPrice.value < 0) {
 			alert("가격이 올바르지 않습니다");
 			return false;
@@ -109,18 +112,20 @@
 			form.detailAddress.focus();
 			return false;
 		}
-		if(form.errandsPhotoFile.value != "" ){
-			if(form.errandsPhotoFile.value > 15){
+		if (form.errandsPhotoFile.value != "") {
+			if (form.errandsPhotoFile.value > 15) {
 				alert("파일 이름은 15자 이내로 해주세요");
 				return false;
 			}
 			var ext = (form.errandsPhotoFile.value).split(".")[1];
 			alert(ext);
-			if(!(ext=="jpg" || ext =="jpeg" || ext =="gif"|| ext =="png")){
-				alert("확장자가 jpg, jpeg, gif, png인 파일만 업로드 할 수 있습니다").
+			if (!(ext == "jpg" || ext == "jpeg" || ext == "gif" || ext == "png")) {
+				alert("확장자가 jpg, jpeg, gif, png인 파일만 업로드 할 수 있습니다");
 				return false;
 			}
 		}
+		alert(form.productPrice.value + " " + form.errandstPrice.value);
+		alert(form.content.value.trim());
 		return true;
 	}
 </script>
@@ -173,20 +178,20 @@
 						<header>
 							<h1 class="page-title">새로운 심부름 등록하기</h1>
 						</header>
-						<form id="f" name="f" role="form" method="post" action="insert"
+						<form id="f" name="f" method="post" action="insert"
 							onsubmit="return checkValid();" enctype="multipart/form-data">
-							<section>
-								<div class="form-group large">
-									<label for="title">요청자 아이디</label> <input type="text"
-										class="form-control" name="requestUser.userId"
-										value="<security:authentication property="principal.userId"/>"
-										readonly="readonly">
-								</div>
-							</section>
+
+
+							<input type="hidden" class="form-control"
+								name="requestUser.userId"
+								value="<security:authentication property="principal.userId"/>"
+								readonly="readonly">
+
 							<section>
 								<div class="form-group large">
 									<label for="title">심부름 제목</label> <input type="text"
-										class="form-control" id="title" name="title" value="${map.name}">
+										class="form-control" id="title" name="title"
+										value="${map.name}">
 								</div>
 							</section>
 
@@ -304,7 +309,7 @@
 											<h3>사진</h3>
 											<div id="holder"
 												style="width: 300px; height: 300px; border: 3px dotted gray; box-sizing: content-box;">
-												<img src="${map.img}">  
+												<img src="${map.img}">
 											</div>
 											<input name="errandsPhotoFile" type="file" id="upload">
 											(※확장자가 jpg, jpeg, png, gif인 파일만 업로드 할 수 있습니다.)
@@ -358,7 +363,7 @@
 		<!-- end Page Content-->
 	</div>
 	<!-- end Page Canvas-->
-	
+
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/assets/js/jquery-2.1.0.min.js"></script>
 	<script type="text/javascript"
@@ -366,16 +371,13 @@
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/assets/js/icheck.min.js"></script>
 	<script>
-	
-		var upload = document.getElementById('upload'),
-			holder = document.getElementById('holder');
-	
-	
+		var upload = document.getElementById('upload'), holder = document
+				.getElementById('holder');
+
 		upload.onchange = function(e) {
 			e.preventDefault();
-	
-			var file = upload.files[0],
-				reader = new FileReader();
+
+			var file = upload.files[0], reader = new FileReader();
 			reader.onload = function(event) {
 				var img = new Image();
 				img.src = event.target.result;
@@ -385,7 +387,7 @@
 				holder.appendChild(img);
 			};
 			reader.readAsDataURL(file);
-	
+
 			return false;
 		};
 	</script>

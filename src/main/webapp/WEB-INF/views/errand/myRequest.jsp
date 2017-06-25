@@ -90,7 +90,7 @@ label.star:before {
 				data : "id=" + $(this).attr("meId") + "&_csrf=${_csrf.token}",
 				dataType : "json",
 				success : function(result) {
-					$("#modalId").html(result.userId);
+					$("#modalId").html(result.name);
 					$("#errandsNum").val(errandsNum);
 					$("#modalImg").attr("src", "${pageContext.request.contextPath}/users/" + result.userId + "/" + result.selfImg);
 				},
@@ -249,7 +249,7 @@ label.star:before {
 													<li><i class="fa fa-taxi"></i>요청 완료</li>
 													<br>
 													<span class="label label-warning">심부름꾼:
-														${errands.responseUser.userId}</span><br>
+														${errands.responseUser.name}</span><br>
 													<button class="btn btn-danger" id="${errands.errandsNum}"
 														me="eval" meId="${errands.responseUser.userId}">OK</button>
 													<a data-toggle="modal" href="#myModal2"
@@ -261,13 +261,13 @@ label.star:before {
 												test="${(errands.finishTime != null) && (errands.arrivalTime == null)}">
 												<li><i class="fa fa-check"></i>심부름꾼 확인 대기중</li>
 												<span class="label label-warning">심부름꾼:
-													${errands.responseUser.userId}</span>
+													${errands.responseUser.name}</span>
 											</c:if>
 											<c:if
 												test="${(errands.finishTime != null) && (errands.arrivalTime != null)}">
 												<li><i class="fa fa-check"></i>심부름 완료</li>
 												<span class="label label-warning">심부름꾼:
-													${errands.responseUser.userId}</span>
+													${errands.responseUser.name}</span>
 											</c:if>
 
 										</ul>
@@ -338,7 +338,7 @@ label.star:before {
 							<center>
 								<img src="" name="aboutme" width="140" height="140" border="0"
 									class="img-circle" id="modalImg">
-								<h3 id="modalId">심부름꾼 아이디</h3>
+								<h3 id="modalId">심부름꾼 이름</h3>
 								<div class="stars" style="width: 60%">
 									<table style="width: 100%;">
 										<tr>
