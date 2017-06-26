@@ -39,7 +39,7 @@
 			$("#minPrice").focus();
 		});
 		$("#keyword").keyup(function() {
-			if ($(this).val()[0] == "#") {
+			if (($(this).val()[0] == "#") && ($(this).val().length > 1)) {
 				$("#hashDrop li").remove();
 				$.ajax({
 					url : "hash",
@@ -52,7 +52,7 @@
 					success : function(result) {
 						var count = 0;
 						var re = "";
-						if (Object.keys(result.hashList).length <= 1) {
+						if (Object.keys(result.hashList).length < 1) {
 							$("#hashDrop li").remove();
 							$(".dropdown-menu").hide();
 						} else {
@@ -207,11 +207,11 @@
 													</c:if>
 
 												</div>
-												<c:if test="${errands.errandsPhoto != null}">
+												<c:if test="${errands.errandsPhoto != 'EMPTY'}">
 													<img
 														src="${pageContext.request.contextPath}/errands/${errands.errandsNum}/${errands.errandsPhoto}" />
 												</c:if>
-												<c:if test="${errands.errandsPhoto == null}">
+												<c:if test="${errands.errandsPhoto == 'EMPTY'}">
 													<img
 														src="${pageContext.request.contextPath}/resources/img/errands/img.png" />
 												</c:if>
@@ -496,7 +496,7 @@
                image : markerImage // 마커 이미지 
             });
             
-            var cContent = "<a href='${pageContext.request.contextPath}/errand/detailView?num="+en[i]+"'><span class='label label-primary'><i class='fa fa-krw'>"+ numberWithCommas(pr[i]) + "원</i></span></a>",
+            var cContent = "<a href='${pageContext.request.contextPath}/errand/detailView?num="+en[i]+"'><span class='label label-danger'><i class='fa fa-krw'>"+ numberWithCommas(pr[i]) + "원</i></span></a>",
       	 	 cPosition = new daum.maps.LatLng(lat[i], lng[i]);
        	 
        		 var customOverlay = new daum.maps.CustomOverlay({

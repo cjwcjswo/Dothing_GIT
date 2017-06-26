@@ -547,7 +547,7 @@ function initChatting(){
 										<article class="item-gallery">
 
 
-											<c:if test="${errands.errandsPhoto != null}">
+											<c:if test="${errands.errandsPhoto != 'EMPTY'}">
 												<img
 													src="${pageContext.request.contextPath}/errands/${errands.errandsNum}/${errands.errandsPhoto}" />
 											</c:if>

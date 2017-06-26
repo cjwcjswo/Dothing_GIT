@@ -124,8 +124,6 @@
 				return false;
 			}
 		}
-		alert(form.productPrice.value + " " + form.errandstPrice.value);
-		alert(form.content.value.trim());
 		return true;
 	}
 </script>

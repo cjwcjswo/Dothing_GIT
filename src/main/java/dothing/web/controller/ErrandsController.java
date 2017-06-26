@@ -1,7 +1,6 @@
 package dothing.web.controller;
 
 import java.io.File;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -182,13 +181,15 @@ public class ErrandsController {
 	}
 
 	@RequestMapping("/search")
-	public ModelAndView search(@RequestParam("minPrice") Integer minPrice, @RequestParam("maxPrice") Integer maxPrice,
+	public ModelAndView search(Authentication aut, @RequestParam("minPrice") Integer minPrice, @RequestParam("maxPrice") Integer maxPrice,
 			@RequestParam("hash") String hash, Integer distance, String sLat, String sLng) {
 		System.out.println(
 				"최소: " + minPrice + " 최대: " + maxPrice + " 해쉬: " + hash + " " + distance + " " + sLat + " " + sLng);
 		if (distance == 0)
 			distance = null;
 		ModelAndView mv = new ModelAndView();
+		String userId = ((MemberDTO)aut.getPrincipal()).getUserId();
+		mv.addObject("notRead", memberService.notReadNoti(userId));
 		mv.addObject("errandsList", errandsService.searchErrands(hash, minPrice, maxPrice, distance, sLat, sLng));
 		mv.setViewName("/errand/errand");
 		return mv;
@@ -321,7 +322,6 @@ public class ErrandsController {
 	 */
 	@RequestMapping("/listing")
 	public ModelAndView listing(Integer sort, String addr, Integer page) {
-		System.out.println("오냐?");
 		ModelAndView mv = new ModelAndView();
 		if (page == null)
 			page = 1;

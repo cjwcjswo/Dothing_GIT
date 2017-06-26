@@ -182,8 +182,9 @@
 							<th>수행 완료 시간</th>
 						</tr>
 					</thead>
+					
 					<c:choose>
-						<c:when test="${empty requestScope.successlist}">
+						<c:when test="${empty requestScope.successList}">
 							<tr>
 								<td colspan="5">
 									<div align="center">

@@ -49,7 +49,7 @@
 	<!-- 페이징 -->
 	<select id="countPointList" resultType="int">
 		select count(*) from
-		point
+		point where REQUEST_POINT &gt; 0
 	</select>
 
 	<!-- 선택한 유저 리퀘스트 포인트 가져오기 -->

@@ -91,7 +91,7 @@ public class MemberController {
 			folder.mkdirs();
 			selfImgFile.transferTo(new File(path + "\\" + member.getSelfImg()));
 		}
-		return "/main/home";
+		return "/user/okay";
 	}
 
 	/**
