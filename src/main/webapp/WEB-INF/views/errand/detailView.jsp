@@ -88,7 +88,7 @@ label.star:before {
 				data : "id=${errands.requestUser.userId}&_csrf=${_csrf.token}",
 				dataType : "json",
 				success : function(result) {
-					$("#resmodalId").html(result.userId);
+					$("#resmodalId").html(result.name);
 					$("#responseId").val(currentId);
 					$("#resmodalImg").attr("src", "${pageContext.request.contextPath}/users/" + result.userId + "/" + result.selfImg);
 				},
@@ -113,7 +113,7 @@ label.star:before {
 					data : "id=${errands.responseUser.userId}&_csrf=${_csrf.token}",
 					dataType : "json",
 					success : function(result) {
-						$("#reqmodalId").html(result.userId);
+						$("#reqmodalId").html(result.name);
 						$("#reqmodalImg").attr("src", "${pageContext.request.contextPath}/users/" + result.userId + "/" + result.selfImg);
 					},
 					error : function(error) {
@@ -130,18 +130,17 @@ label.star:before {
 		});
 
 
-
 	});
 </script>
 
 
-	
+
 <!-- SocketJS -->
-<script type="text/javascript" src="${pageContext.request.contextPath}/resources/sockjs.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/sockjs.js"></script>
 <script type="text/javascript">
-ws = new SockJS("${pageContext.request.contextPath}/websocket");
    var sender = '<security:authentication property="principal.userId"/>';
-   var today = '<%=new java.text.SimpleDateFormat("MM/dd HH:mm").format(new java.util.Date())%>';
+   var today = '<%=new java.text.SimpleDateFormat("MM/dd HH시mm분").format(new java.util.Date())%>';
    var receiver ="";
    var receiverPhoto = "";
    if("${currentId}" == "${errands.requestUser.userId}"){
@@ -166,16 +165,88 @@ function initChatting(){
 	         sendMessage();
 	      });
 	   
+	   function settingWS(){
+	   ws.onclose = function() {
+			if ("${currentId}" != "") {
+				ws = new SockJS("${pageContext.request.contextPath}/websocket");
+				settingWS();
+			}
+		}
+	   
 	   ws.onmessage = function(e){
+		   var alertArr = e.data.split(':');
+			if (alertArr[0] == "댓글") {
+				sendAlert("<a href='${pageContext.request.contextPath}/errand/detailView?num="
+						+ alertArr[1].split("번")[0]
+						+ "'>"
+						+ alertArr[1]
+						+ "</a>");
+
+			} else if (alertArr[0] == "심부름") {
+				//이미지가 없는경우
+				var imgAttr = "";
+				if (alertArr[3] == "EMPTY") {
+					imgAttr = "${pageContext.request.contextPath}/resources/img/errands/img.png";
+				} else {
+					imgAttr = "${pageContext.request.contextPath}/errands/"
+							+ alertArr[1] + "/" + alertArr[3];
+				}
+				$(document)
+						.on(
+								"click",
+								".writeAlert",
+								function() {
+									location.href = "${pageContext.request.contextPath}/errand/detailView?num="
+											+ alertArr[1];
+								});
+				$("#writeImg").attr("src", imgAttr);
+				$("#writeDes").html(
+						"<h4>" + alertArr[1] + "번 심부름이 등록됬습니다.</h4> <br>"
+								+ alertArr[2]);
+				$('.writeAlert').fadeIn(400).delay(5000).fadeOut(400);
+
+			} else if (alertArr[0] == "선택") {
+				sendAlert("<a href='${pageContext.request.contextPath}/errand/detailView?num="
+						+ alertArr[1].split("번")[0]
+						+ "'>"
+						+ alertArr[1]
+						+ "</a>");
+			} else if (alertArr[0] == "알림") {
+				if ("${currentId}" == "") {
+					$(document)
+							.on(
+									"click",
+									"#chatAlert",
+									function() {
+										location.href = "${pageContext.request.contextPath}/errand/detailView?num="
+												+ alertArr[1];
+									});
+					$("#balloon").html("<span>" + alertArr[2] + "</span>")
+					$("#balloonImg").attr(
+							"src",
+							"${pageContext.request.contextPath}/users/"
+									+ alertArr[4] + "/" + alertArr[3]);
+					$('#chatAlert').fadeIn(400).delay(5000).fadeOut(400);
+				}
+			}
+			
 				var arr = e.data.split('#/separator/#');
 				var notice = e.data.substring(0,2);
 				if(notice != '알림'){
 					//59#/separator/#tester#/separator/#ggaa#/separator/#06/17 09:27
 					var str = '';
+				
 					if (arr[1] == sender) {
 						str = '<div class="row msg_container base_sent"><div class="col-xs-10 col-md-10">' +
 							'<div class="messages msg_sent"><p>' + arr[2] + '</p>' +
-							'<time datetime="2009-11-13T20:00">' + arr[1] + '•' + arr[3] + '</time>' +
+							'<time datetime="2009-11-13T20:00">' + 
+							'<c:if test="${currentId eq requestId}">' +
+								'${requestUserName}' +
+							'</c:if>'+
+							'<c:if test="${currentId eq responseId}">' +
+								'${responseUserName}' +
+							'</c:if>'+
+							'•' + arr[3] + '</time>' +
 							'</div></div><div class="col-md-2 col-xs-2 avatar">' +
 							'<img src="${pageContext.request.contextPath}/users/${currentId}/${currentUser.selfImg}"' +
 							' class="img-responsive"></div></div>';
@@ -196,7 +267,14 @@ function initChatting(){
 							'<div class="col-xs-10 col-md-10">' +
 							'<div class="messages msg_receive">' +
 							'<p>' + arr[2] + '</p>' +
-							'<time datetime="2009-11-13T20:00">' + arr[1] + ' • ' + arr[3] + '</time>' +
+							'<time datetime="2009-11-13T20:00">' +
+							'<c:if test="${currentId eq requestId}">' +
+								'${responseUserName}' +
+							'</c:if>'+
+							'<c:if test="${currentId eq responseId}">' +
+								'${requestUserName}' +
+							'</c:if>'+
+							' • ' + arr[3] + '</time>' +
 							'</div>' +
 							'</div>' +
 							'</div>';
@@ -207,13 +285,15 @@ function initChatting(){
 					document.getElementById('chatList').scrollTop = document.getElementById('chatList').scrollHeight;
 				}
 	   }
-
+	   }
+	   settingWS();
 	   
 	   
 	   function sendMessage() {
 	      //WebSocket으로 메시지를 전달한다.
 	      var msg = $('#inputText').val();
 			//separator -> #/separator/#
+			
 		  ws.send(${errands.errandsNum}+"#/separator/#"+sender+"#/separator/#"+msg+"#/separator/#"+today);
 			ws.send("알림:"+receiver+":${errands.errandsNum}:"+msg+":"+receiverPhoto+":"+sender);
 		  $('#inputText').val('');
@@ -244,11 +324,29 @@ function initChatting(){
 
       $("#close").click(function() {
          $("#myModal").modal('toggle');
-      })	
+      });	
 
    });
+   var ct="";
+	function leadingZeros(n, digits) {
+       var zero = '';
+       n = n.toString();
+
+       if (n.length < digits) {
+          for (var i = 0; i < digits - n.length; i++)
+             zero += '0';
+       }
+       return zero + n;
+    }
+	function currentTime(){
+		var d = new Date();
+		ct = d.getFullYear() + "-" + leadingZeros((d.getMonth() + 1),2) + "-" + leadingZeros(d.getDate(),2) + "T" + leadingZeros(d.getHours(),2) + ":" + leadingZeros(d.getMinutes(),2);
+	}
    function checkValid() {
       var form = document.f;
+      var gt= "${errands.endTime}";
+      gt = gt.replace(" ", "T");
+
       if (form.replyContent.value.trim() == "") {
          alert("댓글 내용을 입력하세요");
          return false;
@@ -257,6 +355,17 @@ function initChatting(){
          alert("시간을 입력하세요");
          return false;
       }
+      if(form.arrivalTime.value > gt){
+			alert("시간이 마감 시간보다 느립니다");
+			form.arrivalTime.focus();
+			return false;
+		}
+      currentTime();
+		if(form.arrivalTime.value < ct){
+			alert("도착예정시간이 현재 시간보다 작습니다");
+			form.arrivalTime.focus();
+			return false;
+		}
       ws.send("댓글:${errands.requestUser.userId}:${errands.errandsNum}번 글에 댓글이 등록되었습니다");
       return true;
    }
@@ -376,7 +485,7 @@ function initChatting(){
 
 											<figure>
 												<div class="info">
-													<i class="fa fa-child"></i> <span>${errands.requestUser.userId}</span>
+													<i class="fa fa-child"></i> <span>${errands.requestUser.name}</span>
 												</div>
 												<div class="info">
 													<i class="fa fa-calendar"></i> <span>${errands.endTime}
@@ -468,7 +577,7 @@ function initChatting(){
 												<c:if test="${errands.responseUser.userId != null}">
 													<h3>
 														<span class="label label-warning">심부름꾼:
-															${errands.responseUser.userId}</span>
+															${errands.responseUser.name}</span>
 													</h3>
 												</c:if>
 											</header>
@@ -532,7 +641,7 @@ function initChatting(){
 															test="${reply.user.userId == errands.responseUser.userId}">
 															<i class="fa fa-user-o"></i>
 														</c:if>
-														<h5 class="imgSelect">${reply.user.userId}</h5>
+														<h5 class="imgSelect">${reply.user.name}</h5>
 														<c:if test="${reply.user.auth == 2}">
 															<span class="label label-danger"><i
 																class="fa fa-thumbs-o-up">안전심부름꾼</i></span>
@@ -604,9 +713,9 @@ function initChatting(){
 																		placeholder=""></textarea>
 																</div>
 																<div class="form-group">
-																	<label for="form-review-email">도착예정시간(※마감시간을 확인하세요)</label> <input
-																		type="datetime-local" class="form-control"
-																		name="arrivalTime" />
+																	<label for="form-review-email">도착예정시간(※마감시간을
+																		확인하세요)</label> <input type="datetime-local"
+																		class="form-control" name="arrivalTime" />
 																</div>
 																<input type="hidden" name="errands.errandsNum"
 																	value="${errands.errandsNum}"> <input
@@ -666,7 +775,7 @@ function initChatting(){
 							<center>
 								<img src="" name="aboutme" width="140" height="140" border="0"
 									class="img-circle" id="reqmodalImg">
-								<h3 id="reqmodalId">심부름꾼 아이디</h3>
+								<h3 id="reqmodalId">심부름꾼 이름</h3>
 								<div class="stars" style="width: 60%">
 									<table style="width: 100%;">
 										<tr>
@@ -769,7 +878,7 @@ function initChatting(){
 							<center>
 								<img src="" name="aboutme" width="140" height="140" border="0"
 									class="img-circle" id="resmodalImg">
-								<h3 id="resmodalId">심부름꾼 아이디</h3>
+								<h3 id="resmodalId">심부름꾼 이름</h3>
 								<div class="stars" style="width: 60%">
 									<table style="width: 100%;">
 										<tr>
@@ -834,10 +943,10 @@ function initChatting(){
 							<h3 class="panel-title">
 								<span class="glyphicon glyphicon-comment"></span> Chat -
 								<c:if test="${currentId == errands.responseUser.userId}">
-                        	${errands.requestUser.userId}
+                        	${errands.requestUser.name}
                         </c:if>
 								<c:if test="${currentId == errands.requestUser.userId}">
-                        	${errands.responseUser.userId}
+                        	${errands.responseUser.name}
                         </c:if>
 							</h3>
 						</div>
@@ -872,7 +981,13 @@ function initChatting(){
 											<div class="col-xs-10 col-md-10">
 												<div class="messages msg_sent">
 													<p>${msg}</p>
-													<time datetime="2009-11-13T20:00">${username} •
+													<time datetime="2009-11-13T20:00">
+													<c:if test="${currentId eq requestId}">
+														${requestUserName}
+													</c:if>
+													<c:if test="${currentId eq responseId}">
+														${responseUserName}
+													</c:if>•
 														${time}</time>
 												</div>
 											</div>
@@ -900,7 +1015,13 @@ function initChatting(){
 											<div class="col-xs-10 col-md-10">
 												<div class="messages msg_receive">
 													<p>${msg}</p>
-													<time datetime="2009-11-13T20:00">${username} •
+													<time datetime="2009-11-13T20:00">
+													<c:if test="${currentId eq requestId}">
+														${responseUserName}
+													</c:if>
+													<c:if test="${currentId eq responseId}">
+														${requestUserName}
+													</c:if>•
 														${time}</time>
 												</div>
 											</div>
@@ -935,10 +1056,20 @@ function initChatting(){
 			</button>
 			<c:if
 				test="${!((errands.arrivalTime != null) and (errands.finishTime != null))}">
-				<ul class="dropdown-menu" role="menu">
-					<li><a id="complete"><span id="chatComplete"
-							class="fa fa-check"></span>심부름 완료</a></li>
-				</ul>
+				<c:if
+					test="${(errands.requestUser.userId == currentId) and (errands.finishTime == null)}">
+					<ul class="dropdown-menu" role="menu">
+						<li><a id="complete"><span id="chatComplete"
+								class="fa fa-check"></span>심부름 완료</a></li>
+					</ul>
+				</c:if>
+				<c:if
+					test="${(errands.responseUser.userId == currentId) and (errands.arrivalTime == null)}">
+					<ul class="dropdown-menu" role="menu">
+						<li><a id="complete"><span id="chatComplete"
+								class="fa fa-check"></span>심부름 완료</a></li>
+					</ul>
+				</c:if>
 			</c:if>
 		</div>
 	</c:if>

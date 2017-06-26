@@ -13,7 +13,7 @@
 <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700'
 	rel='stylesheet' type='text/css'>
 
-<title>ERROR!</title>
+<title>OKAY!</title>
 
 </head>
 
@@ -57,15 +57,11 @@
 				</header>
 				<div class="block">
 					<div id="title-404">
-						<aside> ERROR! <img
-								src="${pageContext.request.contextPath}/assets/img/scissors.png"
-								alt="">
+						<aside> 가입완료!
 						</aside>
-						<h2>${exception.message}
-							${errorMessage}</h2>
-						<p>
-							<!-- ${errorMessage} -->
-							<br>
+						<h2>가입이 완료되었습니다 로그인해주세요!</h2><br>
+						<button type="button" class="btn btn-default"
+						onclick="location.href='${pageContext.request.contextPath}/user/loginForm">로그인하기</button>
 							<a href="${pageContext.request.contextPath}/">메인으로 돌아가기</a>
 					</div>
 				</div>

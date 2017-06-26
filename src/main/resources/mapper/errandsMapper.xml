@@ -14,9 +14,11 @@
 		<result column="START_TIME" property="startTime" />
 		<association property="requestUser" javaType="memberDTO">
 			<id column="REQUEST_ID" property="userId" />
+			<result column="REQUEST_NAME" property="name"/>
 		</association>
 		<association property="responseUser" javaType="memberDTO">
 			<id column="RESPONSE_ID" property="userId" />
+			<result column="RESPONSE_NAME" property="name"/>
 		</association>
 		<association property="errandsPos" javaType="ErrandsPosDTO">
 			<result column="ADDR" property="addr" />
@@ -35,7 +37,8 @@
 			<result column="PREDICT_TIME" property="arrivalTime" />
 			<result column="REPLY_DATE" property="replyDate" />
 			<association property="user" javaType="memberDTO">
-				<id column="MEMBER_ID" property="userId" />
+				<id column="MEMBER_ID" property="userId"/>
+				<result column="REPLY_NAME" property="name"/> 
 				<result column="SELF_IMG" property="selfImg" />
 			</association>
 		</collection>
@@ -106,7 +109,7 @@
 	</select>
 
 	<select id="myErrandsRequest" parameterType="string" resultMap="errandsMap">
-		select * from ERRANDS
+		select * from ERRANDS_RESPONSE_VIEW
 		<where>
 			<if test="value != null">
 				REQUEST_ID = #{value}
@@ -116,7 +119,7 @@
 	</select>
 
 	<select id="countRequest" resultType="int" parameterType="string">
-		select count(*) from ERRANDS
+		select count(*) from ERRANDS_RESPONSE_VIEW
 		<where>
 			<if test="value != null">
 				REQUEST_ID = #{value}
@@ -124,7 +127,7 @@
 		</where>
 	</select>
 	<select id="myErrandsResponse" parameterType="string" resultMap="errandsMap">
-		select * from ERRANDS_REPLY_VIEW
+		select * from ERRANDS_REPLY_GPA_VIEW
 		<where>
 			<if test="value != null">
 				MEMBER_ID = #{value}
@@ -133,7 +136,7 @@
 		order by ARRIVAL_TIME desc, FINISH_TIME desc, ERRANDS_NUM desc
 	</select>
 	<select id="countResponse" resultType="int" parameterType="string">
-		select count(*) from ERRANDS_REPLY_VIEW
+		select count(*) from ERRANDS_REPLY_GPA_VIEW
 		<where>
 			<if test="value != null">
 				MEMBER_ID = #{value}

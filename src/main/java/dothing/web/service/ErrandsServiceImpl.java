@@ -30,6 +30,7 @@ public class ErrandsServiceImpl implements ErrandsService {
 	MemberDAO memberDAO;
 	@Autowired
 	MemberService memberService;
+
 	@Override
 	public List<ErrandsDTO> selectAll() {
 		List<ErrandsDTO> list = errandsDAO.selectAll();
@@ -38,14 +39,13 @@ public class ErrandsServiceImpl implements ErrandsService {
 		return errandsDAO.selectAll();
 	}
 
-	
 	@Override
 	public ErrandsDTO selectErrands(int errandsNum) {
 		ErrandsDTO dto = errandsDAO.selectErrands(errandsNum);
 		List<ErrandsReplyDTO> replyList = dto.getErrandsReply();
-		for(ErrandsReplyDTO reply :replyList){
+		for (ErrandsReplyDTO reply : replyList) {
 			MemberDTO replyUser = reply.getUser();
-			if(memberDAO.isSafety(replyUser.getUserId())){
+			if (memberDAO.isSafety(replyUser.getUserId())) {
 				System.out.println("OK");
 				replyUser.setAuth(2);
 			}
@@ -54,7 +54,7 @@ public class ErrandsServiceImpl implements ErrandsService {
 		}
 		MemberDTO request = dto.getRequestUser();
 		MemberDTO response = dto.getResponseUser();
-		if(response != null){
+		if (response != null) {
 			response = memberDAO.selectMemberById(response.getUserId());
 		}
 		request.setGpaList(errandsDAO.selectGPAById(request.getUserId()));
@@ -173,7 +173,7 @@ public class ErrandsServiceImpl implements ErrandsService {
 	public List<ErrandsDTO> myErrandsRequest(String userId, int page) {
 		List<ErrandsDTO> list = errandsDAO.myRequestErrands(userId, page);
 		calHashes(list);
-		for(ErrandsDTO dto : list){
+		for (ErrandsDTO dto : list) {
 			dto.setErrandsReply(errandsDAO.selectByErrands(dto.getErrandsNum()));
 			dto.setGpa(errandsDAO.selectGPA(dto.getErrandsNum()));
 		}
@@ -187,7 +187,7 @@ public class ErrandsServiceImpl implements ErrandsService {
 	public List<ErrandsDTO> myErrandsResponse(String userId, int page) {
 		List<ErrandsDTO> list = errandsDAO.myResponseErrands(userId, page);
 		calHashes(list);
-		for(ErrandsDTO dto : list){
+		for (ErrandsDTO dto : list) {
 			dto.setErrandsReply(errandsDAO.selectByErrands(dto.getErrandsNum()));
 			dto.setGpa(errandsDAO.selectGPA(dto.getErrandsNum()));
 		}
@@ -249,11 +249,12 @@ public class ErrandsServiceImpl implements ErrandsService {
 	@Override
 	public int okRequest(GPADTO gpaDTO, String id, String evalTag) {
 		insertGPA(gpaDTO);
-		memberService.insertHashtag(gpaDTO.getErrandsNum(), id, evalTag);
-		memberService.insertNotification(id, gpaDTO.getErrandsNum() +"번의 게시물 상대방이 거래완료를 눌렀습니다");
+		if (evalTag != null && evalTag.length() > 0) {
+			memberService.insertHashtag(gpaDTO.getErrandsNum(), id, evalTag);
+		}
+		memberService.insertNotification(id, gpaDTO.getErrandsNum() + "번의 게시물 상대방이 거래완료를 눌렀습니다");
 		return 1;
 	}
-
 
 	@Override
 	public int cancleErrands(int num, int point, String id) {
@@ -262,36 +263,32 @@ public class ErrandsServiceImpl implements ErrandsService {
 		return 1;
 	}
 
-
 	@Override
 	public List<ErrandsDTO> moneyErrands() {
 		List<ErrandsDTO> list = errandsDAO.moneyErrands();
 		calHashes(list);
-		for(ErrandsDTO dto : list){
+		for (ErrandsDTO dto : list) {
 			MemberDTO request = dto.getRequestUser();
 			request.setGpaList(memberDAO.averageGPA(request.getUserId()));
 		}
 		return list;
 	}
 
-
 	@Override
 	public List<GPADTO> selectGPAById(String id) {
 		return errandsDAO.selectGPAById(id);
 	}
 
-
 	@Override
 	public List<ErrandsDTO> selectList(Integer sort, String addr, int page) {
-		List<ErrandsDTO> list = errandsDAO.selectList(sort , addr, page);
-		for(ErrandsDTO dto : list){
+		List<ErrandsDTO> list = errandsDAO.selectList(sort, addr, page);
+		for (ErrandsDTO dto : list) {
 			MemberDTO requestUser = dto.getRequestUser();
 			requestUser.setGpaList(errandsDAO.selectGPAById(requestUser.getUserId()));
 		}
 		calHashes(list);
 		return list;
 	}
-
 
 	@Override
 	public int countList(String addr) {

@@ -21,15 +21,14 @@
 	<div class="header">
 		<div class="wrapper">
 			<div class="brand">
-				<a href="${pageContext.request.contextPath}/">
-				<img
+				<a href="${pageContext.request.contextPath}/"> <img
 					src="${pageContext.request.contextPath}/assets/img/logo.png"
-					alt="logo" style="width:121px; height:47px ;"></a>
+					alt="logo" style="width: 121px; height: 47px;"></a>
 			</div>
 			<nav class="navigation-items">
 				<div class="wrapper">
 					<!-- <ul class="main-navigation navigation-top-header"></ul> -->
-<%-- 					<security:authorize access="isAuthenticated()">
+					<%-- 					<security:authorize access="isAuthenticated()">
 					<ul class="user-area">
 					<!-- 크롤링테스트 -->
 					<li><a href="${pageContext.request.contextPath}/crawl?pageName=ediya">추천 리스트</a></li>
@@ -42,7 +41,7 @@
 					<li><a href="${pageContext.request.contextPath}/crawl?pageName=ediya">크롤링 테스트</a></li>
 					</ul>
 					</security:authorize> --%>
-					
+
 
 
 					<ul class="user-area">
@@ -52,7 +51,8 @@
 							<li><a href="${pageContext.request.contextPath}/user/signIn"><strong>회원가입</strong></a></li>
 						</security:authorize>
 						<security:authorize access="isAuthenticated()">
-							<li><a href="${pageContext.request.contextPath}/user/alert"><i class="fa fa-bell"></i></a></li>
+							<li><a href="${pageContext.request.contextPath}/user/alert"><i
+									class="fa fa-bell"></i></a></li>
 							<li><a href="${pageContext.request.contextPath}/user/myPage"><security:authentication
 										property="principal.name" /> 님</a> 환영합니다.</li>
 							<li>보유 포인트: <fmt:formatNumber pattern="#,###">
@@ -64,8 +64,7 @@
 								href="${pageContext.request.contextPath}/errand/errand">심부름
 									목록</a></li>
 							<a href="${pageContext.request.contextPath}/errand/register"
-								class="submit-item">
-									<i class="fa fa-plus"></i>
+								class="submit-item"> <i class="fa fa-plus"></i>
 							</a>
 							<div class="toggle-navigation">
 								<div class="icon">

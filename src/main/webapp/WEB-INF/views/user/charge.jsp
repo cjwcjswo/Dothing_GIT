@@ -183,7 +183,7 @@
 						</tr>
 					</thead>
 					<c:choose>
-						<c:when test="${empty requestScope.list}">
+						<c:when test="${empty requestScope.successlist}">
 							<tr>
 								<td colspan="5">
 									<div align="center">
@@ -200,7 +200,7 @@
 										<td>${errandDtoSuccess.productPrice}</td>
 										<td><c:choose>
 												<c:when test="${0 eq errandDtoSuccess.errandsPrice}">
-						0
+						
 						</c:when>
 												<c:otherwise>
 						+${errandDtoSuccess.errandsPrice}
