@@ -942,7 +942,6 @@ function initChatting(){
 			</c:if>
 		</div>
 	</c:if>
-
 	<!--  chat 끝 -->
 
 
