@@ -224,7 +224,7 @@
 											<a href="#" id="' + json.data[a].id + '">
 												<h3>${errands.title}</h3>
 											</a>
-											<figure>${errands.errandsPos.addr}</figure>
+											<figure style="width:100px">${errands.errandsPos.addr}</figure>
 											<div class="price">
 												<fmt:formatNumber value="${errands.errandsPrice}" />
 												원
@@ -273,7 +273,7 @@
 									<div class="wrapper">
 										<h3>${ranked.name}</h3>
 										</a>
-										<figure style="width:100%">${ranked.addr}
+										<figure>${ranked.addr}
 										</figure>
 										${ranked.introduce}
 										<div class="info">
@@ -323,10 +323,10 @@
 														<div class="icon">
 															<i class="fa fa-thumbs-up"></i>
 														</div>
-													</c:if> <c:if test="${money.errandsPhoto != null}">
+													</c:if> <c:if test="${money.errandsPhoto != 'EMPTY'}">
 														<img
 															src="${pageContext.request.contextPath}/errands/${money.errandsNum}/${money.errandsPhoto}" />
-													</c:if> <c:if test="${money.errandsPhoto == null}">
+													</c:if> <c:if test="${money.errandsPhoto == 'EMPTY'}">
 														<img
 															src="${pageContext.request.contextPath}/resources/img/errands/img.png" />
 													</c:if>

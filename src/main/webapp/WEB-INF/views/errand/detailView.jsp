@@ -228,7 +228,7 @@ function initChatting(){
 									+ alertArr[4] + "/" + alertArr[3]);
 					$('#chatAlert').fadeIn(400).delay(5000).fadeOut(400);
 				}
-			}
+			} else {
 			
 				var arr = e.data.split('#/separator/#');
 				var notice = e.data.substring(0,2);
@@ -283,7 +283,7 @@ function initChatting(){
 					$('#chatList').append(str);
 					//스크롤 맨 아래로
 					document.getElementById('chatList').scrollTop = document.getElementById('chatList').scrollHeight;
-				}
+				}}
 	   }
 	   }
 	   settingWS();
@@ -983,13 +983,14 @@ function initChatting(){
 												<div class="messages msg_sent">
 													<p>${msg}</p>
 													<time datetime="2009-11-13T20:00">
-													<c:if test="${currentId eq requestId}">
+														<c:if test="${currentId eq requestId}">
 														${requestUserName}
 													</c:if>
-													<c:if test="${currentId eq responseId}">
+														<c:if test="${currentId eq responseId}">
 														${responseUserName}
-													</c:if>•
-														${time}</time>
+													</c:if>
+														• ${time}
+													</time>
 												</div>
 											</div>
 											<div class="col-md-2 col-xs-2 avatar">
@@ -1017,13 +1018,14 @@ function initChatting(){
 												<div class="messages msg_receive">
 													<p>${msg}</p>
 													<time datetime="2009-11-13T20:00">
-													<c:if test="${currentId eq requestId}">
+														<c:if test="${currentId eq requestId}">
 														${responseUserName}
 													</c:if>
-													<c:if test="${currentId eq responseId}">
+														<c:if test="${currentId eq responseId}">
 														${requestUserName}
-													</c:if>•
-														${time}</time>
+													</c:if>
+														• ${time}
+													</time>
 												</div>
 											</div>
 										</div>

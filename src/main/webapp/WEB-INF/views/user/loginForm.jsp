@@ -31,7 +31,7 @@
 					if (response.status === 'connected') {
 						FB
 								.api(
-										'/me?fields=email,id,name,gender,picture.width(100).height(100)',
+										'/me?fields=email,id,name,gender,picture.width(250).height(250)',
 										function(response) {
 											console
 													.log(response.name
@@ -146,11 +146,10 @@
 									</div>
 									<!-- /.form-group -->
 									<div class="form-group clearfix">
-										<div class="btn-group" align="right">
+										<div class="btn-group">
 											<button type="submit" class="btn pull-right btn-default"
 												id="account-submit">로그인</button>
-											<br>
-											<div class="fb-login-button" data-max-rows="1"
+											<div class="fb-login-button" data-max-rows="1" 
 												data-size="large" data-button-type="continue_with"
 												data-show-faces="false" data-auto-logout-link="false"
 												data-use-continue-as="false" onlogin="checkLoginState()"

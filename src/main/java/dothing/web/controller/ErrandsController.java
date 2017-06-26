@@ -161,7 +161,7 @@ public class ErrandsController {
 			throw new Exception("현재 시간보다 작게 입력하셨습니다.");
 		}
 		memberService.insertNotification(errand.getRequestUser().getUserId(),
-				errand.getErrandsNum() + "번 글에 " + dto.getUser().getUserId() + "님이 댓글을 달았습니다!");
+				errand.getErrandsNum() + "번 글에 " + memberService.selectMemberById(dto.getUser().getUserId()).getName() + "님이 댓글을 달았습니다!");
 		errandsService.insertReply(dto);
 		return "redirect:/errand/detailView?num=" + dto.getErrands().getErrandsNum();
 	}
@@ -274,7 +274,7 @@ public class ErrandsController {
 		errandsService.updateErrands(num, responseId, requestUser.getUserId(), "startTime", null, null, -totalPrice);
 		requestUser.getPoint().setCurrentPoint((requestUser.getPoint().getCurrentPoint()) - totalPrice);
 		mv.addObject("num", num);
-		mv.addObject("responseId", responseId);
+		mv.addObject("responseId", memberService.selectMemberById(responseId).getName());
 		mv.setViewName("/errand/okay");
 		return mv;
 	}
