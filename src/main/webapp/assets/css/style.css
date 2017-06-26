@@ -1937,7 +1937,7 @@ ul.bullets li a:hover {
   overflow: hidden; 
 text-overflow: ellipsis;
 white-space: nowrap; 
-width: 100px;
+width: 100%;
 height: 20px ; 
 }
 .item .wrapper .info:after {

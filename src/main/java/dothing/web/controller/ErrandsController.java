@@ -60,15 +60,22 @@ public class ErrandsController {
 		mv.addObject("errands", errands);
 		if (errands.getResponseUser() != null) {
 			String responseId = errands.getResponseUser().getUserId();
+			String responseUserName = errands.getResponseUser().getName();
 			String responseSelfImg = memberService.selectMemberById(responseId).getSelfImg();
 			mv.addObject("responseSelfImg", responseSelfImg);
+			mv.addObject("responseId", responseId);
+			mv.addObject("responseUserName", responseUserName);
 		}
 		String requestId = errands.getRequestUser().getUserId();
 		
 
 		String requestSelfImg = memberService.selectMemberById(requestId).getSelfImg();
+		String requestUserName = memberService.selectMemberById(requestId).getName();
+		System.out.println("requestUserName : " + requestUserName);
 
+		mv.addObject("requestId", requestId);
 		mv.addObject("requestSelfImg", requestSelfImg);
+		mv.addObject("requestUserName", requestUserName);
 
 		List<String> list = chatService.getContent(num + "");
 		if (list != null) {

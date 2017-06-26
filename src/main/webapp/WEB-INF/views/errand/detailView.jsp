@@ -130,7 +130,6 @@ label.star:before {
 		});
 
 
-
 	});
 </script>
 
@@ -236,10 +235,18 @@ function initChatting(){
 				if(notice != '알림'){
 					//59#/separator/#tester#/separator/#ggaa#/separator/#06/17 09:27
 					var str = '';
+				
 					if (arr[1] == sender) {
 						str = '<div class="row msg_container base_sent"><div class="col-xs-10 col-md-10">' +
 							'<div class="messages msg_sent"><p>' + arr[2] + '</p>' +
-							'<time datetime="2009-11-13T20:00">' + arr[1] + '•' + arr[3] + '</time>' +
+							'<time datetime="2009-11-13T20:00">' + 
+							'<c:if test="${currentId eq requestId}">' +
+								'${requestUserName}' +
+							'</c:if>'+
+							'<c:if test="${currentId eq responseId}">' +
+								'${responseUserName}' +
+							'</c:if>'+
+							'•' + arr[3] + '</time>' +
 							'</div></div><div class="col-md-2 col-xs-2 avatar">' +
 							'<img src="${pageContext.request.contextPath}/users/${currentId}/${currentUser.selfImg}"' +
 							' class="img-responsive"></div></div>';
@@ -260,7 +267,14 @@ function initChatting(){
 							'<div class="col-xs-10 col-md-10">' +
 							'<div class="messages msg_receive">' +
 							'<p>' + arr[2] + '</p>' +
-							'<time datetime="2009-11-13T20:00">' + arr[1] + ' • ' + arr[3] + '</time>' +
+							'<time datetime="2009-11-13T20:00">' +
+							'<c:if test="${currentId eq requestId}">' +
+								'${responseUserName}' +
+							'</c:if>'+
+							'<c:if test="${currentId eq responseId}">' +
+								'${requestUserName}' +
+							'</c:if>'+
+							' • ' + arr[3] + '</time>' +
 							'</div>' +
 							'</div>' +
 							'</div>';
@@ -279,6 +293,7 @@ function initChatting(){
 	      //WebSocket으로 메시지를 전달한다.
 	      var msg = $('#inputText').val();
 			//separator -> #/separator/#
+			
 		  ws.send(${errands.errandsNum}+"#/separator/#"+sender+"#/separator/#"+msg+"#/separator/#"+today);
 			ws.send("알림:"+receiver+":${errands.errandsNum}:"+msg+":"+receiverPhoto+":"+sender);
 		  $('#inputText').val('');
@@ -363,11 +378,12 @@ function initChatting(){
          location.href = "${pageContext.request.contextPath}/errand/deleteErrands?num=${errands.errandsNum}&id=<security:authentication property='principal.userId'/>";
       }
    }
-   function clickUser(id, predict, content, photo) {
+   function clickUser(id, predict, content, photo, name) {
       var src = "${pageContext.request.contextPath}/users/" + id + "/" + photo;
       var imgSrc = "<img class='img-responsive' src='" + src + "' style='width: 71px; border-radius: 43px;'>";
       $('#myModal').modal('toggle');
-      $("#errandsId").html(id);
+      $("#errandsTitle").html("${errands.title}");
+      $("#errandsId").html(name);
       $("#errandsPredict").html(predict);
       $("#errandsContent").html(content);
       $("#errandsUserImg").html(imgSrc);
@@ -660,7 +676,7 @@ function initChatting(){
 															test="${(currentId == errands.requestUser.userId) && (errands.responseUser.userId == null)}">
 															<button type="button"
 																class="btn framed icon pull-right roll"
-																onclick="clickUser('${reply.user.userId}','${reply.arrivalTime}', '${reply.replyContent}', '${reply.user.selfImg}')">
+																onclick="clickUser('${reply.user.userId}','${reply.arrivalTime}', '${reply.replyContent}', '${reply.user.selfImg}', '${reply.user.name}')">
 																선택<i class="fa fa-check"></i>
 															</button>
 														</c:if>
@@ -966,7 +982,13 @@ function initChatting(){
 											<div class="col-xs-10 col-md-10">
 												<div class="messages msg_sent">
 													<p>${msg}</p>
-													<time datetime="2009-11-13T20:00">•
+													<time datetime="2009-11-13T20:00">
+													<c:if test="${currentId eq requestId}">
+														${requestUserName}
+													</c:if>
+													<c:if test="${currentId eq responseId}">
+														${responseUserName}
+													</c:if>•
 														${time}</time>
 												</div>
 											</div>
@@ -994,7 +1016,13 @@ function initChatting(){
 											<div class="col-xs-10 col-md-10">
 												<div class="messages msg_receive">
 													<p>${msg}</p>
-													<time datetime="2009-11-13T20:00">•
+													<time datetime="2009-11-13T20:00">
+													<c:if test="${currentId eq requestId}">
+														${responseUserName}
+													</c:if>
+													<c:if test="${currentId eq responseId}">
+														${requestUserName}
+													</c:if>•
 														${time}</time>
 												</div>
 											</div>
@@ -1046,7 +1074,6 @@ function initChatting(){
 			</c:if>
 		</div>
 	</c:if>
-
 	<!--  chat 끝 -->
 
 
@@ -1083,7 +1110,7 @@ function initChatting(){
 						<div class="col-xs-8 col-sm-8 col-md-8 text-left">
 							<div class="receipt-right">
 								<h5>
-									회원 아이디 <br> <small id="errandsId">  |   Lucky
+									회원 이름 <br> <small id="errandsId">  |   Lucky
 										Number : 156</small>
 								</h5>
 

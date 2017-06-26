@@ -72,7 +72,7 @@
 	<!-- 포인트 사용내역 조회하기 -->
 	<select id="searchPoint" parameterType="String" resultMap="errandsMap">
 	    select product_price,errands_price,start_time from errands
-	    where start_time is not null and finish_time is not null 
+	    where start_time is not null 
 	    and request_id = #{value} order by start_time desc
 	</select>
 	

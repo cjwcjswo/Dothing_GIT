@@ -178,7 +178,9 @@
 								<div class="col-sm-6">
 									<h3>검색 결과</h3>
 								</div>
-								<div class="col-sm-6"> <a href="${pageContext.request.contextPath}/errand/listing?sort=1"
+								<div class="col-sm-6">
+									<a
+										href="${pageContext.request.contextPath}/errand/listing?sort=1"
 										class="btn icon"><i class="fa fa-th-list"></i>리스트</a>
 								</div>
 							</div>
@@ -266,12 +268,12 @@
 										</c:if>
 										<img
 											src="${pageContext.request.contextPath}/users/${ranked.userId}/${ranked.selfImg}"
-											alt="">
+											alt="" width="100%">
 									</div>
 									<div class="wrapper">
 										<h3>${ranked.name}</h3>
 										</a>
-										<figure>${ranked.addr}
+										<figure style="width:100%">${ranked.addr}
 										</figure>
 										${ranked.introduce}
 										<div class="info">
