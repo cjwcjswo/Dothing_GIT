@@ -483,7 +483,7 @@ function initChatting(){
 											<h3>Contact</h3>
 										</header>
 										<address>
-
+										<img src="${pageContext.request.contextPath}/users/${errands.requestUser.userId}/${requestSelfImg}" width="100%">
 											<figure>
 												<div class="info">
 													<i class="fa fa-child"></i> <span>${errands.requestUser.name}</span>
@@ -583,7 +583,7 @@ function initChatting(){
 												</c:if>
 											</header>
 											<p>
-											<div id="comment">${errands.content}</div>
+											<div id="comment"><pre>${errands.content}</pre></div>
 											</p>
 										</article>
 										<article class="block">
