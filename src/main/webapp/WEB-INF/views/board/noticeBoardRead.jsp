@@ -59,7 +59,7 @@
 					</thead>
 					<tbody align="left">
 						<tr>
-							<td><div class="comment-text">${board.noticeContent}</div></td>
+							<td><div class="comment-text"><pre>${board.noticeContent}</pre></div></td>
 						</tr>
 					</tbody>
 				</table>

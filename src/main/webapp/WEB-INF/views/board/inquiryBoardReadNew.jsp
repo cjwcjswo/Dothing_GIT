@@ -74,7 +74,7 @@ function checkValid() {
 					</thead>
 					<tbody align="left">
 						<tr>
-							<td><div class="comment-text">${board.boardContent}</div></td>
+							<td><div class="comment-text"><pre>${board.boardContent}</pre></div></td>
 						</tr>
 
 
