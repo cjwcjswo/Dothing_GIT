@@ -273,8 +273,10 @@ public class ErrandsController {
 		}
 		errandsService.updateErrands(num, responseId, requestUser.getUserId(), "startTime", null, null, -totalPrice);
 		requestUser.getPoint().setCurrentPoint((requestUser.getPoint().getCurrentPoint()) - totalPrice);
+		memberService.insertNotification(responseId, num + "번 글의 " + requestUser.getName() + "님과 매칭되었습니다.");
 		mv.addObject("num", num);
-		mv.addObject("responseId", memberService.selectMemberById(responseId).getName());
+		mv.addObject("responseName", memberService.selectMemberById(responseId).getName());
+		mv.addObject("responseId", responseId);
 		mv.setViewName("/errand/okay");
 		return mv;
 	}

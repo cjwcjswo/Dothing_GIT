@@ -16,7 +16,7 @@
 <title>OKAY!</title>
 	<script>
 	function sendMessage(){
-		ws.send("선택:${num}번 글 -> ${responseId}님과 심부름이 매칭되었습니다.:${responseId}");
+		ws.send("선택:${num}번 글 -> ${responseName}님과 심부름이 매칭되었습니다.:${responseId}");
 	}
 
 	$(function(){
