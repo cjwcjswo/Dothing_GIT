@@ -110,7 +110,7 @@ function checkValid() {
 										<c:forEach items="${requestScope.reply}" var="replyDto">
 
 											<div class="author">
-												<img src="${pageContext.request.contextPath}/assets/img/default-avatar.png" alt="">
+												<img src="${pageContext.request.contextPath}/assets/img/logo.png" alt="">
 												
 											</div>
 											<!-- /.author-->
