@@ -13,18 +13,18 @@ public class MemberDTO implements Serializable{
 	private String userId;
 	private String name;
 	private String password;
-	private String email;
 	private String sex;
-	private String addr;
-	private String phone;
+	private String preAddr;
+	private String detailAddr;
 	private int auth;
 	private String selfImg;
 	private String ssnImg;
 	private String joinDate;
 	private String introduce;
-	
+	private String latitude;
+	private String longitude;
 	private String userType;
-	
+	private Integer state;
 	MultipartFile selfImgFile;
 	MultipartFile ssnImgFile;
 	
@@ -48,73 +48,7 @@ public class MemberDTO implements Serializable{
 		super();
 	}
 	
-	public MemberDTO(String userId, String name, String password, String email, String sex, String addr, String phone,
-			int auth, String selfImg, String ssnImg, MultipartFile selfImgFile, MultipartFile ssnImgFile,
-			PointDTO point, List<GPADTO> gpaList) {
-		super();
-		this.userId = userId;
-		this.name = name;
-		this.password = password;
-		this.email = email;
-		this.sex = sex;
-		this.addr = addr;
-		this.phone = phone;
-		this.auth = auth;
-		this.selfImg = selfImg;
-		this.ssnImg = ssnImg;
-		this.selfImgFile = selfImgFile;
-		this.ssnImgFile = ssnImgFile;
-		this.point = point;
-		this.gpaList = gpaList;
-	}
-	
-	
 
-	public MemberDTO(String userId, String name, String password, String email, String sex, String addr, String phone,
-			int auth, String selfImg, String ssnImg, String userType, MultipartFile selfImgFile,
-			MultipartFile ssnImgFile, PointDTO point, List<GPADTO> gpaList) {
-		super();
-		this.userId = userId;
-		this.name = name;
-		this.password = password;
-		this.email = email;
-		this.sex = sex;
-		this.addr = addr;
-		this.phone = phone;
-		this.auth = auth;
-		this.selfImg = selfImg;
-		this.ssnImg = ssnImg;
-		this.userType = userType;
-		this.selfImgFile = selfImgFile;
-		this.ssnImgFile = ssnImgFile;
-		this.point = point;
-		this.gpaList = gpaList;
-	}
-	
-	
-
-	public MemberDTO(String userId, String name, String password, String email, String sex, String addr, String phone,
-			int auth, String selfImg, String ssnImg, String joinDate, String introduce, String userType,
-			MultipartFile selfImgFile, MultipartFile ssnImgFile, PointDTO point, List<GPADTO> gpaList) {
-		super();
-		this.userId = userId;
-		this.name = name;
-		this.password = password;
-		this.email = email;
-		this.sex = sex;
-		this.addr = addr;
-		this.phone = phone;
-		this.auth = auth;
-		this.selfImg = selfImg;
-		this.ssnImg = ssnImg;
-		this.joinDate = joinDate;
-		this.introduce = introduce;
-		this.userType = userType;
-		this.selfImgFile = selfImgFile;
-		this.ssnImgFile = ssnImgFile;
-		this.point = point;
-		this.gpaList = gpaList;
-	}
 
 	public List<GPADTO> getGpaList() {
 		return gpaList;
@@ -146,30 +80,14 @@ public class MemberDTO implements Serializable{
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
+
 	public String getSex() {
 		return sex;
 	}
 	public void setSex(String sex) {
 		this.sex = sex;
 	}
-	public String getAddr() {
-		return addr;
-	}
-	public void setAddr(String addr) {
-		this.addr = addr;
-	}
-	public String getPhone() {
-		return phone;
-	}
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
+
 	public int getAuth() {
 		return auth;
 	}
@@ -225,16 +143,91 @@ public class MemberDTO implements Serializable{
 		this.userType = userType;
 	}
 
-	@Override
-	public String toString() {
-		return "MemberDTO [userId=" + userId + ", name=" + name + ", password=" + password + ", email=" + email
-				+ ", sex=" + sex + ", addr=" + addr + ", phone=" + phone + ", auth=" + auth + ", selfImg=" + selfImg
-				+ ", ssnImg=" + ssnImg + ", joinDate=" + joinDate + ", introduce=" + introduce + ", userType="
-				+ userType + ", selfImgFile=" + selfImgFile + ", ssnImgFile=" + ssnImgFile + ", point=" + point
-				+ ", gpaList=" + gpaList + "]";
+	public String getPreAddr() {
+		return preAddr;
 	}
 
-	
+	public void setPreAddr(String preAddr) {
+		this.preAddr = preAddr;
+	}
+
+	public String getDetailAddr() {
+		return detailAddr;
+	}
+
+	public void setDetailAddr(String detailAddr) {
+		this.detailAddr = detailAddr;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public String getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+
+	public String getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
+
+	public Integer getState() {
+		return state;
+	}
+
+	public void setState(Integer state) {
+		this.state = state;
+	}
+
+	public MemberDTO(String userId, String name, String password, String sex, String preAddr, String detailAddr,
+			int auth, String selfImg, String ssnImg, String joinDate, String introduce, String latitude,
+			String longitude, String userType, Integer state, MultipartFile selfImgFile, MultipartFile ssnImgFile,
+			PointDTO point, List<GPADTO> gpaList, List<MemberHashDTO> hashList) {
+		super();
+		this.userId = userId;
+		this.name = name;
+		this.password = password;
+		this.sex = sex;
+		this.preAddr = preAddr;
+		this.detailAddr = detailAddr;
+		this.auth = auth;
+		this.selfImg = selfImg;
+		this.ssnImg = ssnImg;
+		this.joinDate = joinDate;
+		this.introduce = introduce;
+		this.latitude = latitude;
+		this.longitude = longitude;
+		this.userType = userType;
+		this.state = state;
+		this.selfImgFile = selfImgFile;
+		this.ssnImgFile = ssnImgFile;
+		this.point = point;
+		this.gpaList = gpaList;
+		this.hashList = hashList;
+	}
+
+	@Override
+	public String toString() {
+		return "MemberDTO [userId=" + userId + ", name=" + name + ", password=" + password + ", sex=" + sex
+				+ ", preAddr=" + preAddr + ", detailAddr=" + detailAddr + ", auth=" + auth + ", selfImg=" + selfImg
+				+ ", ssnImg=" + ssnImg + ", joinDate=" + joinDate + ", introduce=" + introduce + ", latitude="
+				+ latitude + ", longitude=" + longitude + ", userType=" + userType + ", state=" + state
+				+ ", selfImgFile=" + selfImgFile + ", ssnImgFile=" + ssnImgFile + ", point=" + point + ", gpaList="
+				+ gpaList + ", hashList=" + hashList + "]";
+	}
+
+
+
+
+
 
 	
 	

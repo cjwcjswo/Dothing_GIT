@@ -3,31 +3,35 @@
 <mapper namespace="memberMapper">
 
 	<sql id="memberColumn">
-		MEMBER_ID, NAME, PASSWORD, EMAIL, SELF_IMG, SSN_IMG, ADDR, PHONE, SEX,
-		JOIN_DATE, INTRODUCE
+		MEMBER_ID, NAME, PASSWORD, SELF_IMG, SSN_IMG, PRE_ADDR,  DETAIL_ADDR, SEX,
+		JOIN_DATE, INTRODUCE, MEMBER_LATITUDE, MEMBER_LONGITUDE, STATE 
 	</sql>
 
 	<resultMap type="memberDTO" id="memberSelectMap">
 		<id column="MEMBER_ID" property="userId" />
 		<result column="NAME" property="name" />
 		<result column="PASSWORD" property="password" />
-		<result column="EMAIL" property="email" />
 		<result column="SELF_IMG" property="selfImg" />
 		<result column="SSN_IMG" property="ssnImg" />
-		<result column="ADDR" property="addr" />
-		<result column="PHONE" property="phone" />
+		<result column="PRE_ADDR" property="preAddr"/>
+		<result column="DETAIL_ADDR" property="detailAddr"/>
 		<result column="SEX" property="sex" />
-		<result column="JOIN_DATE" property="joinDate" />
+		<result column="JOIN_DATE" property="joinDate"/>
 		<result column="INTRODUCE" property="introduce" />
+		<result column="MEMBER_LATITUDE" property="latitude"/>
+		<result column="MEMBER_LONGITUDE" property="longitude"/>
+		<result column="STATE" property="state"/>
 		<association property="point" javaType="pointDTO">
 			<result column="CURRENT_POINT" property="currentPoint" />
 			<result column="REQUEST_POINT" property="requestPoint" />
 		</association>
 	</resultMap>
+	
 	<!-- 초기 포인트 생성 -->
 	<insert id="createPoint" parameterType="string">
 		insert into POINT values(0, 0, #{value})
 	</insert>
+	
 	<!-- id에 해당하는 정보 검색 -->
 	<select id="selectMemberById" parameterType="string" resultMap="memberSelectMap">
 		select
@@ -42,8 +46,8 @@
 		insert into member(
 		<include refid="memberColumn" />
 		)
-		values(#{userId},#{name},#{password},#{email},#{selfImg}, null, #{addr},#{phone},#{sex},to_char(sysdate, 'YYYY-MM-DD
-		HH:MI:SS'),#{introduce})
+		values(#{userId},#{name},#{password}, #{selfImg}, null, #{preAddr}, #{detailAddr}, #{sex},to_char(sysdate, 'YYYY-MM-DD
+		HH:MI:SS'),#{introduce}, #{latitude}, #{longitude}, #{state})
 	</insert>
 
 
@@ -57,6 +61,7 @@
 			</if>
 		</where>
 	</select>
+	
 	<!-- 모든 유저 카운트 -->
 	<select id="countAll" resultType="int" parameterType="string">
 		select count(*) from MEMBER
@@ -66,6 +71,7 @@
 			</if>
 		</where>
 	</select>
+	
 	<!-- 유저 강퇴 -->
 	<delete id="deleteMember" parameterType="string">
 		delete from MEMBER where
@@ -90,8 +96,11 @@
 	<update id="updateMember" parameterType="memberDTO">
 		update MEMBER
 		<set>
-			<if test="addr != null">
-				ADDR = #{addr},
+			<if test="preAddr != null">
+				PRE_ADDR = #{preAddr},
+			</if>
+			<if test="detailAddr != null">
+				DETAIL_ADDR = #{detailAddr},
 			</if>
 			<if test="password != null">
 				PASSWORD = #{password},
@@ -100,7 +109,13 @@
 				SELF_IMG = #{selfImg},
 			</if>
 			<if test="introduce != null">
-				introduce = #{introduce}
+				introduce = #{introduce},
+			</if>
+			<if test="latitude != null">
+				MEMBER_LATITUDE = #{latitude},
+			</if>
+			<if test="longitude != null">
+				MEMBER_LONGITUDE = #{longitude}
 			</if>
 		</set>
 		where MEMBER_ID = #{userId}
@@ -163,4 +178,9 @@
 		where aut.ROLE in
 		('ROLE_SAFETY') and MEMBER_ID = #{value}
 	</select>
+	
+	<!-- 이메일인증완료 -->
+	<update id="finishEmail" parameterType="string">
+		update MEMBER set state = 0 where MEMBER_ID = #{value}
+	</update>
 </mapper>

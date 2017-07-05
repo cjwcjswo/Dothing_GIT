@@ -66,13 +66,10 @@ public class MemberController {
 		if (preAddr == null || detailAddr == null || preAddr.equals("") || detailAddr.equals("")) {
 			throw new Exception("주소란을 확인해주세요.");
 		}
-		if (member.getName() == null || member.getUserId() == null || member.getPassword() == null
-				|| member.getEmail() == null || member.getPhone() == null) {
+		if (member.getName() == null || member.getUserId() == null || member.getPassword() == null) {
 			throw new Exception("기입하지 않은 정보가 있습니다");
 		}
-		if (member.getPhone().length() != 11){
-			throw new Exception("휴대전화 번호는 11자리로 입력하세요");
-		}
+
 		if (member.getSex() == null){
 			throw new Exception("성별을 선택하세요");
 		}
@@ -83,7 +80,7 @@ public class MemberController {
 		if (!(ext.equals("jpg") || ext.equals("jpeg") || ext.equals("png") || ext.equals("gif"))) {
 			throw new Exception("확장자가 jpg, jpeg, png, gif인 파일만 업로드 할 수 있습니다");
 		}
-		member.setAddr(preAddr + " " + detailAddr);
+		
 		memberService.joinMember(member);
 		if (member.getSelfImg() != null && !member.getSelfImg().trim().equals("")) {
 			String path = session.getServletContext().getRealPath("") + "\\users\\" + member.getUserId();
@@ -91,7 +88,7 @@ public class MemberController {
 			folder.mkdirs();
 			selfImgFile.transferTo(new File(path + "\\" + member.getSelfImg()));
 		}
-		return "/main/home";
+		return "/user/okay";
 	}
 
 	/**
@@ -133,7 +130,7 @@ public class MemberController {
 
 	@RequestMapping("/update")
 	public ModelAndView update(HttpSession session, Authentication aut, MemberDTO updateMember, String currentPassword,
-			String newPassword, String renewPassword, String preAddr, String detailAddr) throws Exception {
+			String newPassword, String renewPassword) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		MemberDTO member = (MemberDTO) aut.getPrincipal();
 		if (!passwordEncoder.matches(currentPassword, member.getPassword())) {
@@ -142,18 +139,16 @@ public class MemberController {
 		if (!renewPassword.equals(newPassword)) {
 			throw new Exception("새로운 비밀번호를 다시 입력해주세요");
 		}
-		if (preAddr != null && !preAddr.equals("")) {
-			if (detailAddr == null || detailAddr.equals("")) {
+		if (updateMember.getPreAddr() != null && !updateMember.getPreAddr().equals("")) {
+			if (updateMember.getDetailAddr() == null || updateMember.getDetailAddr().equals("")) {
 				throw new Exception("상세 주소를 입력하세요");
-			} else {
-				updateMember.setAddr(preAddr + " " + detailAddr);
-				member.setAddr(preAddr + " " + detailAddr);
 			}
 		} else {
-			updateMember.setAddr(null);
+			updateMember.setPreAddr(null);
 		}
 
 		MultipartFile newProfile = updateMember.getSelfImgFile();
+		//프로필 사진을 바꾸는경우
 		if ((newProfile.getOriginalFilename() != null && newProfile.getSize() != 0)) {
 			updateMember.setSelfImg(newProfile.getOriginalFilename());
 			member.setSelfImg(newProfile.getOriginalFilename());
@@ -164,6 +159,7 @@ public class MemberController {
 		} else {
 			updateMember.setSelfImg(null);
 		}
+		//비밀번호를 바꾸는경우
 		if (!(newPassword == null || newPassword.equals(""))) {
 			updateMember.setPassword(newPassword);
 		}
@@ -322,8 +318,8 @@ public class MemberController {
 	 * @throws Exception 
 	 */
 	@RequestMapping("/apiControl")
-	public String apiControl(HttpSession session, MemberDTO member, String photo, String preAddr, String detailAddr) throws Exception{
-		member.setAddr(preAddr + " " + detailAddr);
+	public String apiControl(HttpSession session, MemberDTO member, String photo) throws Exception{
+
 		member.setPassword(member.getUserId());
 		URL url = new URL(photo);
 		BufferedImage img = ImageIO.read(url);
@@ -342,4 +338,29 @@ public class MemberController {
 	
 	@RequestMapping("/empty")
 	public void empty(){}
+	
+	/**
+	 * 인증메일 다시보내기
+	 */
+	@RequestMapping("/sendMail")
+	@ResponseBody
+	public void sendMail(String userId, Integer num){
+		memberService.sendEmail(userId, num);
+	}
+	
+	/**
+	 * 이메일 인증 확인 하기 
+	 * @throws Exception 
+	 */
+	@RequestMapping("/emailOk")
+	public String emailOk(String email, Integer authNum) throws Exception{
+		MemberDTO member = memberService.selectMemberById(email);
+		//인증번호가 다를경우
+
+		if(member.getState().intValue() != authNum.intValue()){
+			throw new Exception("인증번호가 다릅니다!");
+		}
+		memberService.finishEmail(email);
+		return "/user/loginForm";
+	}
 }

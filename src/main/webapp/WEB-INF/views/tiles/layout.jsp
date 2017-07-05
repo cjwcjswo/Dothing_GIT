@@ -29,6 +29,9 @@
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/assets/css/jquery.mCustomScrollbar.css"
 	type="text/css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/sweetalert.css"
+	type="text/css">
 <style>
 /**
 알림 CSS

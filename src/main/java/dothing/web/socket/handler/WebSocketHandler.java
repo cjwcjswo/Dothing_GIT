@@ -68,13 +68,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 		return true;
 	}
 
-	@Override
-	public void handleTransportError(WebSocketSession session, Throwable exception) throws Exception {
-		// TODO Auto-generated method stub
-		System.out.println("익셉션!: " + exception.getMessage());
-		super.handleTransportError(session, exception);
-		System.out.println("익셉션: " + exception.getMessage());
-	}
+
 
 	/**
 	 * 유저의 아이디 가져오기

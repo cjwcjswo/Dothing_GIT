@@ -236,7 +236,7 @@
 		src="${pageContext.request.contextPath}/assets/js/before.load.js"></script>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/assets/js/custom.js"></script>
-
+		<script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/sweetalert.js"></script>
 
 </body>
 </html>

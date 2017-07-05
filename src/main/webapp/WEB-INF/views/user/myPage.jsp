@@ -23,13 +23,18 @@
 	function checkValid() {
 		var form = document.f;
 		if (form.currentPassword.value.trim() == "") {
-			alert("비밀번호를 입력하세요");
+			swal("수정 오류", "비밀번호를 입력하세요", "error");
 			form.currentPassword.focus();
 			return false;
 		}
 		if (form.newPassword.value.trim() != "") {
-			if (form.newPassword.value.length < 4 || form.newPassword.value.length > 8) {
-				alert("패스워드를 4~8자 까지 입력해주세요.")
+			if (form.newPassword.value.length < 4) {
+				swal("수정 오류","패스워드를 4자 이상 입력해주세요.", "error")
+				form.newPassword.focus();
+				return false;
+			}
+			if(form.newPassword.value.trim() != form.renewPassword.value.trim()){
+				swal("수정 오류","패스워드가 같지 않습니다.", "error")
 				form.newPassword.focus();
 				return false;
 			}
@@ -37,7 +42,7 @@
 		}
 		if (form.preAddr.value.trim() != "") {
 			if (form.detailAddr.value.trim() == "") {
-				alert("상세 주소를 입력하세요");
+				swal("수정 오류", "상세 주소를 입력하세요", "error");
 				form.detailAddr.focus();
 				return false;
 			}
@@ -135,7 +140,7 @@
 												</div>
 												<!--/.form-group-->
 											</div>
-											<!--/.col-md-3-->
+											<%-- 											<!--/.col-md-3-->
 											<div class="col-md-6 col-sm-6">
 												<div class="form-group">
 													<label for="email">Email</label> <input type="email"
@@ -154,14 +159,14 @@
 															인증하기</span></a>
 												</div>
 												<!--/.form-group-->
-											</div>
+											</div> --%>
 											<!--/.col-md-3-->
 											<div class="col-md-6 col-sm-6">
 												<div class="form-group">
 													<label for="phone">포인트</label> <input type="text"
 														class="form-control" id="point" name="currentPoint"
 														pattern="\d*" value="${member.point.currentPoint }"
-														disabled> 
+														disabled>
 
 
 												</div>
@@ -175,13 +180,13 @@
 										<h3>
 											<i class="	fa fa-child"></i>자기소개
 										</h3>
-											<div class="form-group">
-												<textarea class="form-control" name="introduce" 
+										<div class="form-group">
+											<textarea class="form-control" name="introduce"
 												id="introduce">${member.introduce}</textarea>
-											</div>
+										</div>
 									</section>
 									<section>
-										
+
 										<h3>
 											<i class="fa fa-map-marker"></i>Address
 										</h3>
@@ -195,7 +200,11 @@
 												<span class="glyphicon glyphicon-home" style="margin: auto"></span>주소찾기
 											</button>
 											<br>현재 등록된 주소:
-											<security:authentication property='principal.addr' />
+											<security:authentication property='principal.preAddr' />
+											<security:authentication property='principal.detailAddr' />
+											<input class="form-control" type="hidden" name="latitude"
+												id="latitude" /> <input class="form-control" type="hidden"
+												name="longitude" id="longitude" />
 										</div>
 									</section>
 
@@ -214,8 +223,8 @@
 											<strong class="pull-left">총 평점</strong>
 											<c:set value="0" var="restotal" />
 											<c:set value="0" var="reqtotal" />
-											<c:set value="0" var="resCount"/>
-											<c:set value="0" var="reqCount"/>
+											<c:set value="0" var="resCount" />
+											<c:set value="0" var="reqCount" />
 											<c:forEach items="${member.gpaList}" var="gpa">
 												<c:if test="${gpa.responseKindness == 0}">
 													<c:set value="${reqtotal + gpa.requestManners}"
@@ -226,24 +235,24 @@
 													<c:set
 														value="${restotal + (gpa.responseKindness + gpa.responseSpeed + gpa.responseAccuracy)/3}"
 														var="restotal" />
-														<c:set value="${resCount + 1}" var="resCount" />
+													<c:set value="${resCount + 1}" var="resCount" />
 												</c:if>
 											</c:forEach>
 											<c:choose>
-											<c:when test="${reqCount == 0 }">
-											<figure class="rating big color pull-right"
-												data-rating="${restotal/resCount}"></figure>
-											</c:when>
-											<c:when test="${resCount == 0 }">
-											<figure class="rating big color pull-right"
-												data-rating="${ (reqtotal/reqCount) }"></figure>
-											</c:when>
-											<c:otherwise>
-											<figure class="rating big color pull-right"
-												data-rating="${((restotal/resCount) + (reqtotal/reqCount)) / 2 }"></figure>
-											</c:otherwise>
+												<c:when test="${reqCount == 0 }">
+													<figure class="rating big color pull-right"
+														data-rating="${restotal/resCount}"></figure>
+												</c:when>
+												<c:when test="${resCount == 0 }">
+													<figure class="rating big color pull-right"
+														data-rating="${ (reqtotal/reqCount) }"></figure>
+												</c:when>
+												<c:otherwise>
+													<figure class="rating big color pull-right"
+														data-rating="${((restotal/resCount) + (reqtotal/reqCount)) / 2 }"></figure>
+												</c:otherwise>
 											</c:choose>
-											
+
 
 
 											<!-- /.rating -->
@@ -270,34 +279,30 @@
 																var="reqtotal" />
 														</c:if>
 														<c:if test="${gpa.requestManners == 0}">
-															<c:set value="${speed + gpa.responseSpeed}" var="speed"/>
-															<c:set value="${kind + gpa.responseKindness}" var="kind"/>
-															<c:set value="${acc + gpa.responseAccuracy}" var="acc"/>
+															<c:set value="${speed + gpa.responseSpeed}" var="speed" />
+															<c:set value="${kind + gpa.responseKindness}" var="kind" />
+															<c:set value="${acc + gpa.responseAccuracy}" var="acc" />
 														</c:if>
 													</c:forEach>
 													<div class="individual-rating">
 														<span>신속도</span>
 
-														<figure class="rating"
-															data-rating="${speed/resCount}"></figure>
+														<figure class="rating" data-rating="${speed/resCount}"></figure>
 													</div>
 													<!-- /.user-rating -->
 													<div class="individual-rating">
 														<span>정확도</span>
-														<figure class="rating"
-															data-rating="${acc/resCount}"></figure>
+														<figure class="rating" data-rating="${acc/resCount}"></figure>
 													</div>
 
 													<div class="individual-rating">
 														<span>친절도</span>
-														<figure class="rating"
-															data-rating="${kind/resCount}"></figure>
+														<figure class="rating" data-rating="${kind/resCount}"></figure>
 													</div>
 
 													<div class="individual-rating">
 														<span>요청매너</span>
-														<figure class="rating"
-															data-rating="${manner/reqCount}"></figure>
+														<figure class="rating" data-rating="${manner/reqCount}"></figure>
 													</div>
 													<!-- /.user-rating -->
 												</div>
@@ -357,9 +362,8 @@
 	</div>
 	<!-- end Page Canvas-->
 
-
 	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/assets/js/jquery-2.1.0.min.js"></script>
+		src="//apis.daum.net/maps/maps3.js?apikey=900302937c725fa5d96ac225cbc2db10&libraries=services"></script>
 	<script>
 	
 		var upload = document.getElementById('upload'),
@@ -385,6 +389,7 @@
 		};
 	
 		function sample5_execDaumPostcode() {
+			var geocoder = new daum.maps.services.Geocoder();
 			new daum.Postcode(
 				{
 					oncomplete : function(data) {
@@ -412,12 +417,25 @@
 	
 						// 주소 정보를 해당 필드에 넣는다.
 						document.getElementById("sample5_address").value = fullAddr;
-	
+						geocoder.addr2coord(data.address, function(status,
+								result) {
+							// 정상적으로 검색이 완료됐으면
+							if (status === daum.maps.services.Status.OK) {
+								// 해당 주소에 대한 좌표를 받아서
+								var coords = new daum.maps.LatLng(
+										result.addr[0].lat,
+										result.addr[0].lng);
+								document.getElementById("latitude").value = result.addr[0].lat;
+								document.getElementById("longitude").value = result.addr[0].lng;
+
+							}
+						});
 					}
 				}).open();
 		}
 	</script>
 	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+
 
 	<!--[if lte IE 9]>
 <script type="text/javascript" src="assets/js/ie-scripts.js"></script>

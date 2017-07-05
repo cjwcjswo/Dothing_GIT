@@ -59,7 +59,7 @@
 					<div id="title-404">
 						<aside> 가입완료!
 						</aside>
-						<h2>가입이 완료되었습니다 로그인해주세요!</h2><br>
+						<h2>가입이 완료되었습니다 이메일 인증을 완료 후 로그인해주세요!</h2><br>
 						<button type="button" class="btn btn-default"
 						onclick="location.href='${pageContext.request.contextPath}/user/loginForm">로그인하기</button>
 							<a href="${pageContext.request.contextPath}/">메인으로 돌아가기</a>

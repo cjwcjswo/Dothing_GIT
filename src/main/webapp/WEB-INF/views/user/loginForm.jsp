@@ -75,7 +75,7 @@
 										});
 
 					} else {
-						alert("권한을 승인하고 로그인해주세요!");
+						swal("권한을 승인하고 로그인해주세요!");
 						return;
 					}
 
@@ -134,7 +134,7 @@
 									<input type="hidden" name="${_csrf.parameterName}"
 										value="${_csrf.token}">
 									<div class="form-group">
-										<label for="form-sign-in-email">아이디 : </label> <input
+										<label for="form-sign-in-email">이메일 : </label> <input
 											type="text" class="form-control" id="form-sign-in-email"
 											name="id" required>
 									</div>

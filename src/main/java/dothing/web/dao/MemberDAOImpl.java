@@ -48,6 +48,7 @@ public class MemberDAOImpl implements MemberDAO {
 
 	@Override
 	public int updateMember(MemberDTO member) {
+		System.out.println("´Ù¿À: " + member.getIntroduce());
 		return sqlSession.update("memberMapper.updateMember", member);
 	}
 
@@ -153,5 +154,10 @@ public class MemberDAOImpl implements MemberDAO {
 	@Override
 	public int countNotification(String id){
 		return sqlSession.selectOne("mapper.notificationMapper.count", id);
+	}
+
+	@Override
+	public int finishEmail(String id) {
+		return sqlSession.update("memberMapper.finishEmail", id);
 	}
 }

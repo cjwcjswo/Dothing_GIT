@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions"  prefix="fn"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,7 +16,27 @@
 	rel='stylesheet' type='text/css'>
 
 <title>ERROR!</title>
+<script type="text/javascript">
+	$(function() {
 
+		$("#remail").click(function() {
+			var email = $("#email").val();
+			var num = $("#num").val();
+			$.ajax({
+				url : "${pageContext.request.contextPath}/user/sendMail",
+				type : "post",
+				data : "userId=" + email + "&num="+num+"&_csrf=${_csrf.token}",
+				dataType : "text",
+				success : function(result) {
+					swal("이메일을 성공적으로 보냈습니다!");
+				},
+				error : function(err) {
+					console.log(err);
+				}
+			})
+		});
+	})
+</script>
 </head>
 
 <body onunload="" class="page-subpage page-404 navigation-off-canvas"
@@ -53,25 +75,35 @@
 		<div id="page-content">
 			<section class="container">
 				<header>
-					<h1 class="page-title">${exception.message}${errorMessage}</h1>
+				<c:set var="em" value="${fn:split(errorMessage,':')}"/>
+					<h1 class="page-title">${exception.message}${em[0]}</h1>
 				</header>
 				<div class="block">
 					<div id="title-404">
-						<aside> ERROR! <img
+						<aside>
+							ERROR! <img
 								src="${pageContext.request.contextPath}/assets/img/scissors.png"
 								alt="">
 						</aside>
-						<h2>${exception.message}
-							${errorMessage}</h2>
+						<h2>${exception.message}${em[0]}</h2>
 						<p>
 							<!-- ${errorMessage} -->
 							<br>
+							
+							<c:if test="${em[0] == '이메일 인증을 확인해주세요.'}">
+								<input type="button" class="btn btn-warning" value="인증메일 다시보내기"
+									style="background-color: skyblue" id="remail">
+									<input type="hidden" id="email" value="${em[1]}"/>
+									<input type="hidden" id="num" value="${em[2]}"/>
+								<br>
+								<br>
+							</c:if>
 							<a href="${pageContext.request.contextPath}/">메인으로 돌아가기</a>
 					</div>
 				</div>
 			</section>
 			<!-- /.block-->
-			
+
 		</div>
 		<!-- end Page Content-->
 	</div>

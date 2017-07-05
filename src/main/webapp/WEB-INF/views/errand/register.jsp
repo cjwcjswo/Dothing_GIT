@@ -32,11 +32,6 @@
 	white-space: nowrap;
 }
 </style>
-<link
-	href="${pageContext.request.contextPath}/assets/fonts/font-awesome.css"
-	rel="stylesheet" type="text/css">
-<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700'
-	rel='stylesheet' type='text/css'>
 
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/assets/css/bootstrap-select.min.css"
@@ -339,17 +334,17 @@
 							<!--end Opening Hours-->
 							<hr>
 							<section>
-								<figure class="pull-left margin-top-15">
+	<!-- 							<figure class="pull-left margin-top-15">
 									<p>
 										<a href="terms-conditions.html" class="link">약관에 동의</a> 하시면
 										“제출하기 및 결제”옆의 제출하기 버튼을 클릭해주세요
 									</p>
-								</figure>
+								</figure> -->
 								<input type="hidden" name="${_csrf.parameterName}"
 									value="${_csrf.token}" />
 								<div class="form-group">
 									<button type="submit" class="btn btn-default pull-right"
-										id="submit">제출 및 결제</button>
+										id="submit">제출하기</button>
 								</div>
 								<!-- /.form-group -->
 							</section>
@@ -391,8 +386,6 @@
 			return false;
 		};
 	</script>
-	<!--[if lte IE 9]>
-<script type="text/javascript" src="assets/js/ie-scripts.js"></script>
-<![endif]-->
+
 </body>
 </html>

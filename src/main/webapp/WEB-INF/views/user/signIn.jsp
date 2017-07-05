@@ -7,25 +7,79 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<link
-	href="${pageContext.request.contextPath}/assets/fonts/font-awesome.css"
-	rel="stylesheet" type="text/css">
-<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700'
-	rel='stylesheet' type='text/css'>
-
-<!-- google platform library -->
-<script src="https://apis.google.com/js/platform.js" async defer></script>
-
-<!-- specify client ID -->
-<meta name="google-signin-client_id"
-	content="852010525738-koadhapuooddd7np0govnv6lfgg5tsqf.apps.googleusercontent.com">
-
-
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/assets/js/jquery-2.1.0.min.js"></script>
 <title>회원가입</title>
 
-
+<script>
+	function checkValid(){
+		var f = document.form;
+		if(f.userId.value.trim() == ""){
+			swal("입력 오류!", "이메일을 입력해주세요.", "error");
+			f.userId.focus();
+			return false;
+		}
+		if(f.password.value.trim() == ""){
+			swal("입력 오류!", "비밀번호를 입력해주세요.", "error");
+			f.password.focus();
+			return false;
+		}
+		if(f.password_repeat.value.trim() == ""){
+			swal("입력 오류!", "비밀번호 확인란을 입력해주세요.", "error");
+			f.password_repeat.focus();
+			return false;
+		}
+		if(f.password.value.trim() != f.password_repeat.value.trim()){
+			swal("입력 오류!", "비밀번호가 같지 않습니다", "error");
+			f.password_repeat.focus();
+			return false;
+		}
+		if(f.name.value.trim() == ""){
+			swal("입력 오류!", "이름을 입력해주세요.", "error");
+			f.name.focus();
+			return false;
+		}
+		if(f.name.value.trim() == ""){
+			swal("입력 오류!", "이름을 입력해주세요.", "error");
+			f.name.focus();
+			return false;
+		}
+		if(f.preAddr.value.trim() == ""){
+			swal("입력 오류!", "주소를 입력해주세요.", "error");
+			f.preAddr.focus();
+			return false;
+		}
+		if(f.detailAddr.value.trim() == ""){
+			swal("입력 오류!", "상세주소를 입력해주세요.", "error");
+			f.detailAddr.focus();
+			return false;
+		}
+		if(f.sex.value.trim() == ""){
+			swal("입력 오류!", "성별을 입력해주세요.", "error");
+			return false;
+		}
+		if(f.introduce.value.trim() == ""){
+			swal("입력 오류!", "자기소개를 입력해주세요.", "error");
+			f.introduce.focus();
+			return false;
+		}
+		if(f.selfImgFile.value.trim() == ""){
+			swal("입력 오류!", "프로필 사진을 넣어주세요.", "error");
+			f.selfImgFile.focus();
+			return false;
+		}
+		if(f.password.value.trim().length < 4){
+			swal("입력 오류!", "비밀번호를 4자 이상으로 만들어주세요.", "error");
+			f.password.focus();
+			return false;
+		}
+		var ext = f.selfImgFile.value.split(".");
+		ext = ext[1].toLowerCase();
+		if(!(ext == "jpg" || ext == "jpeg" || ext == "png" || ext == "gif")){
+			swal("입력 오류!", "파일의 확장자는 jpg, jpeg, png, gif만 가능합니다.", "error");
+			return false;
+		}
+		return true;
+	}
+</script>
 </head>
 
 <body onunload=""
@@ -82,17 +136,13 @@
 
 								</div>
 								<div class="form-group">
-									<label for="form-register-full-name">ID</label> <input
-										type="text" class="form-control" name="userId" id="userId">
+									<label for="form-register-full-name">이메일</label> <input
+										type="email" class="form-control" name="userId" id="userId">
 								</div>
 								<div class="form-group">
-									<span class="form-control" placeholder="ID중복여부" attr="dup">ID중복여부</span>
+									<span class="form-control" placeholder="이메일중복여부" attr="dup">이메일중복여부</span>
 								</div>
-								<!-- /.form-group -->
-								<div class="form-group">
-									<label for="form-register-email">Email:</label> <input
-										type="email" class="form-control" name="email" id="email">
-								</div>
+
 								<!-- /.form-group -->
 								<div class="form-group">
 									<label for="form-register-password">비밀번호:</label> <input
@@ -102,7 +152,7 @@
 								<!-- /.form-group -->
 								<div class="form-group">
 									<label for="form-register-confirm-password">비밀번호 확인 :</label> <input
-										type="password" class="form-control" name="password-repeat"
+										type="password" class="form-control" name="password_repeat"
 										id="password-repeat">
 								</div>
 
@@ -111,13 +161,7 @@
 										type="text" class="form-control" name="name" id="name">
 								</div>
 
-								<div class="form-group">
-									<label for="form-register-full-name">핸드폰 번호</label> <input
-										type="text" class="form-control" id="form-register-full-name"
-										name="phone" id="phone"> <a href="#"><span
-										class="glyphicon glyphicon-phone-alt" style="margin: auto"></span>핸드폰
-										인증하기</a>
-								</div>
+
 								<br>
 								<div class="form-group">
 									<input class="form-control" type="text" name="preAddr"
@@ -145,8 +189,10 @@
 										class="form-control" type="file" name="selfImgFile"
 										id="upload" />
 								</div>
-
-								<div class="center">
+								<input class="form-control" type="hidden" name="latitude"
+									id="latitude" /> <input class="form-control" type="hidden"
+									name="longitude" id="longitude" />
+								<%-- 								<div class="center">
 
 									<figure class="note">
 										<a
@@ -156,7 +202,7 @@
 									</figure>
 
 
-								</div>
+								</div> --%>
 
 								<div class="form-group clearfix">
 									<button type="submit" class="btn pull-right btn-default"
@@ -202,6 +248,7 @@
 		};
 	
 		function sample5_execDaumPostcode() {
+			var geocoder = new daum.maps.services.Geocoder();
 			new daum.Postcode(
 				{
 					oncomplete : function(data) {
@@ -229,12 +276,26 @@
 	
 						// 주소 정보를 해당 필드에 넣는다.
 						document.getElementById("sample5_address").value = fullAddr;
-	
+						geocoder.addr2coord(data.address, function(status,
+								result) {
+							// 정상적으로 검색이 완료됐으면
+							if (status === daum.maps.services.Status.OK) {
+								// 해당 주소에 대한 좌표를 받아서
+								var coords = new daum.maps.LatLng(
+										result.addr[0].lat,
+										result.addr[0].lng);
+								document.getElementById("latitude").value = result.addr[0].lat;
+								document.getElementById("longitude").value = result.addr[0].lng;
+
+							}
+						});
 					}
 				}).open();
 		}
 	</script>
 	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+	<script type="text/javascript"
+		src="//apis.daum.net/maps/maps3.js?apikey=900302937c725fa5d96ac225cbc2db10&libraries=services"></script>
 	<script type="text/javascript">
 	$(function() {
 
@@ -257,160 +318,11 @@
 					$('#form span[attr="dup"]').text(result);
 				},
 				error : function(err) {
-					alert("err = " + err)
+					console.log(err);
 				}
 			})
 		});
 	})
-	function checkValid() {
-		var login_id = document.getElementById("userId"); //html 에서 설정한 id값을 변수login_id 에 저장
-		var login_pw = document.getElementById("password");
-		var login_pw2 = document.getElementById("password-repeat");
-		var login_email = document.getElementById("email");
-		var login_name = document.getElementById("name");
-		var login_pnum = document.getElementById("phone");
-		var login_man = document.getElementById("man");
-		var login_woman = document.getElementById("woman");
-		var login_addr = document.getElementById("sample5_address");
-		var login_daddr = document.getElementById("addr-detail");
-		var login_pic = document.getElementById("upload");
-
-		//아이디 입력여부 검사
-		if (login_id.value == "") { //id의 값이 null이면 창 띄우고 커서 옮김
-			alert("아이디를 입력하세요");
-			login_id.focus();
-			return false;
-		}
-		;
-
-		//아이디 유효성 검사(영어소문자, 숫자만 허용)
-		for (var i = 0; i < login_id.value.length; i++) {
-			ch = login_id.value.charAt(i)
-			if (!(ch >= '0' && ch <= '9') && !(ch >= 'a' && ch <= 'z')) {
-				alert("아이디는 소문자, 숫자만 입력가능합니다.")
-				login_id.focus()
-				login_id.select()
-				login_id.value = ""
-				return false;
-			}
-		}
-		;
-
-		//아이디 길이체크
-		if (login_id.value.length < 3 || login_id.value.length > 20) {
-			alert("아이디를 3~20자 까지 입력해주세요.")
-			login_id.focus()
-			login_id.select()
-			return false;
-		}
-		;
-
-		//패스워드 입력여부 검사
-		if (login_pw.value == "") {
-			alert("비밀번호를 입력하세요");
-			login_pw.focus();
-			return false;
-		}
-		;
-
-		//패스워드 길이체크
-		if (login_pw.value.length < 4 || login_pw.value.length > 8) {
-			alert("패스워드를 4~8자 까지 입력해주세요.")
-			login_pw.focus()
-			login_pw.select()
-			return false;
-		}
-		;
-
-		//패스워드와 패스워드 확인 일치여부 체크
-		if (login_pw.value != login_pw2.value) {
-			alert("패스워드가 일치하지않습니다")
-			login_pw.value = ""
-			login_pw2.value = ""
-			return false;
-		}
-		;
-		//이메일 입력여부 검사
-		if (login_email.value == "") {
-			alert("이메일을 입력하세요");
-			login_email.focus();
-			return false;
-		}
-		;
-
-		//이메일 형식체크 (@,'.' 가 있아야함) 
-		if (((login_email.value.indexOf('@')) <= 0) || (login_email.value.indexOf('.') <= 0)) {
-			alert("정상적인 이메일이 아닙니다.")
-
-			login_email.focus();
-			return false;
-		}
-		;
-		//이름 입력여부 검사
-		if (login_name.value == "") {
-			alert("이름을 입력하세요");
-			login_name.focus();
-			return false;
-		}
-		;
-
-		//전화번호 입력여부 검사
-		if (login_pnum.value == "") {
-			alert("전화번호를 입력하세요");
-			login_pnum.focus();
-			return false;
-		}
-		;
-
-		//전화번호 길이체크
-		if (login_pnum.value.length < 10 || login_pnum.value.length > 11) {
-			alert("전화번호를 다시 입력해 주세요.");
-			login_pnum.focus();
-			return false;
-		}
-		;
-
-		//성별 입력여부 검사
-		var oRadio = document.getElementsByName("sex"); // 객체를 배열로 생성
-		var sCheck = "N"; // 체크박스 체크유무 체크
-		for (i = 0; i < oRadio.length; i++) {
-			if (oRadio[i].checked) {
-				// 체크가 되어있다면 빠져나간다.
-				sCheck = "Y";
-				break;
-			}
-		}
-		// 체크 된게 없다면 메세지 박스를 띄운다
-		if (sCheck == "N") {
-			alert("성별을 선택하세요!")
-			return false;
-		}
-
-		//주소 입력여부 검사
-		if (login_addr.value == "") {
-			alert("주소를 입력하세요");
-			login_addr.focus();
-			return false;
-		}
-		;
-
-		//상세주소 입력여부 검사
-		if (login_daddr.value == "") {
-			alert("상세주소를 입력하세요");
-			login_daddr.focus();
-			return false;
-		}
-		;
-
-		//프로필사진 입력여부 검사
-		if (login_pic.value == "") {
-			alert("프로필사진을 입력하세요");
-			login_pic.focus();
-			return false;
-		}
-		;
-		return true;
-	}
 </script>
 	<!--[if lte IE 9]>
 <script type="text/javascript" src="assets/js/ie-scripts.js"></script>

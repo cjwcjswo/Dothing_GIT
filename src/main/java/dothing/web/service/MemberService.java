@@ -94,4 +94,13 @@ public interface MemberService {
 	
 	 List<GPADTO> averageGPA(String id);
 	 List<MemberHashDTO> selectHashtag(String id);
+	 
+	 /**
+	  * 이메일 보내기
+	  */
+	 void sendEmail(String email, Integer authNum);
+	 /**
+	  * 이메일 인증 완료
+	  */
+	 int finishEmail(String id);
 }

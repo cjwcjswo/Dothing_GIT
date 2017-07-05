@@ -100,4 +100,9 @@ public interface MemberDAO {
 	 */
 	int allRead(String id);
 	int countNotification(String id);
+	
+	/**
+	 * 이메일 인증 완료
+	 */
+	int finishEmail(String id);
 }
