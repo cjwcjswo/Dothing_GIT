@@ -183,11 +183,11 @@ label.star:before {
 							<c:forEach items="${errandsList}" var="errands">
 								<div class="item list admin-view">
 									<div class="image">
-										<c:if test="${errands.errandsPhoto != null}">
+										<c:if test="${errands.errandsPhoto != 'EMPTY'}">
 											<img
 												src="${pageContext.request.contextPath}/errands/${errands.errandsNum}/${errands.errandsPhoto}" />
 										</c:if>
-										<c:if test="${errands.errandsPhoto == null}">
+										<c:if test="${errands.errandsPhoto == 'EMPTY'}">
 											<img
 												src="${pageContext.request.contextPath}/resources/img/errands/img.png" />
 										</c:if>

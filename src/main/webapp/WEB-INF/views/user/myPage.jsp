@@ -302,7 +302,12 @@
 
 													<div class="individual-rating">
 														<span>요청매너</span>
+<<<<<<< HEAD
 														<figure class="rating" data-rating="${manner/reqCount}"></figure>
+=======
+														<figure class="rating"
+															data-rating="${reqtotal/reqCount}"></figure>
+>>>>>>> fdb0664a5ebdcc75c02ac383bb40f8157b9ef963
 													</div>
 													<!-- /.user-rating -->
 												</div>

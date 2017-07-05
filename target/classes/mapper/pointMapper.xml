@@ -49,7 +49,7 @@
 	<!-- 페이징 -->
 	<select id="countPointList" resultType="int">
 		select count(*) from
-		point
+		point where REQUEST_POINT &gt; 0
 	</select>
 
 	<!-- 선택한 유저 리퀘스트 포인트 가져오기 -->
@@ -72,7 +72,7 @@
 	<!-- 포인트 사용내역 조회하기 -->
 	<select id="searchPoint" parameterType="String" resultMap="errandsMap">
 	    select product_price,errands_price,start_time from errands
-	    where start_time is not null and finish_time is not null 
+	    where start_time is not null 
 	    and request_id = #{value} order by start_time desc
 	</select>
 	

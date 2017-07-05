@@ -1,7 +1,6 @@
 package dothing.web.controller;
 
 import java.io.File;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -61,15 +60,22 @@ public class ErrandsController {
 		mv.addObject("errands", errands);
 		if (errands.getResponseUser() != null) {
 			String responseId = errands.getResponseUser().getUserId();
+			String responseUserName = errands.getResponseUser().getName();
 			String responseSelfImg = memberService.selectMemberById(responseId).getSelfImg();
 			mv.addObject("responseSelfImg", responseSelfImg);
+			mv.addObject("responseId", responseId);
+			mv.addObject("responseUserName", responseUserName);
 		}
 		String requestId = errands.getRequestUser().getUserId();
 		
 
 		String requestSelfImg = memberService.selectMemberById(requestId).getSelfImg();
+		String requestUserName = memberService.selectMemberById(requestId).getName();
+		System.out.println("requestUserName : " + requestUserName);
 
+		mv.addObject("requestId", requestId);
 		mv.addObject("requestSelfImg", requestSelfImg);
+		mv.addObject("requestUserName", requestUserName);
 
 		List<String> list = chatService.getContent(num + "");
 		if (list != null) {
@@ -155,7 +161,7 @@ public class ErrandsController {
 			throw new Exception("현재 시간보다 작게 입력하셨습니다.");
 		}
 		memberService.insertNotification(errand.getRequestUser().getUserId(),
-				errand.getErrandsNum() + "번 글에 " + dto.getUser().getUserId() + "님이 댓글을 달았습니다!");
+				errand.getErrandsNum() + "번 글에 " + memberService.selectMemberById(dto.getUser().getUserId()).getName() + "님이 댓글을 달았습니다!");
 		errandsService.insertReply(dto);
 		return "redirect:/errand/detailView?num=" + dto.getErrands().getErrandsNum();
 	}
@@ -182,13 +188,15 @@ public class ErrandsController {
 	}
 
 	@RequestMapping("/search")
-	public ModelAndView search(@RequestParam("minPrice") Integer minPrice, @RequestParam("maxPrice") Integer maxPrice,
+	public ModelAndView search(Authentication aut, @RequestParam("minPrice") Integer minPrice, @RequestParam("maxPrice") Integer maxPrice,
 			@RequestParam("hash") String hash, Integer distance, String sLat, String sLng) {
 		System.out.println(
 				"최소: " + minPrice + " 최대: " + maxPrice + " 해쉬: " + hash + " " + distance + " " + sLat + " " + sLng);
 		if (distance == 0)
 			distance = null;
 		ModelAndView mv = new ModelAndView();
+		String userId = ((MemberDTO)aut.getPrincipal()).getUserId();
+		mv.addObject("notRead", memberService.notReadNoti(userId));
 		mv.addObject("errandsList", errandsService.searchErrands(hash, minPrice, maxPrice, distance, sLat, sLng));
 		mv.setViewName("/errand/errand");
 		return mv;
@@ -265,7 +273,9 @@ public class ErrandsController {
 		}
 		errandsService.updateErrands(num, responseId, requestUser.getUserId(), "startTime", null, null, -totalPrice);
 		requestUser.getPoint().setCurrentPoint((requestUser.getPoint().getCurrentPoint()) - totalPrice);
+		memberService.insertNotification(responseId, num + "번 글의 " + requestUser.getName() + "님과 매칭되었습니다.");
 		mv.addObject("num", num);
+		mv.addObject("responseName", memberService.selectMemberById(responseId).getName());
 		mv.addObject("responseId", responseId);
 		mv.setViewName("/errand/okay");
 		return mv;
@@ -321,7 +331,6 @@ public class ErrandsController {
 	 */
 	@RequestMapping("/listing")
 	public ModelAndView listing(Integer sort, String addr, Integer page) {
-		System.out.println("오냐?");
 		ModelAndView mv = new ModelAndView();
 		if (page == null)
 			page = 1;

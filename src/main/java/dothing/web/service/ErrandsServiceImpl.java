@@ -120,7 +120,7 @@ public class ErrandsServiceImpl implements ErrandsService {
 
 	@Override
 	public Map<String, Integer> requestHash(String hash) {
-		List<ErrandsDTO> list = errandsDAO.searchErrands(hash, null, null, null, null, null);
+		List<ErrandsDTO> list = errandsDAO.searchErrandsAll(hash, null, null, null, null, null);
 		Map<String, Integer> info = new HashMap<String, Integer>();
 		System.out.println("************************************");
 		for (ErrandsDTO dto : list) {

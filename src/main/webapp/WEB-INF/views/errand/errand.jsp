@@ -39,7 +39,7 @@
 			$("#minPrice").focus();
 		});
 		$("#keyword").keyup(function() {
-			if ($(this).val()[0] == "#") {
+			if (($(this).val()[0] == "#") && ($(this).val().length > 1)) {
 				$("#hashDrop li").remove();
 				$.ajax({
 					url : "hash",
@@ -52,7 +52,7 @@
 					success : function(result) {
 						var count = 0;
 						var re = "";
-						if (Object.keys(result.hashList).length <= 1) {
+						if (Object.keys(result.hashList).length < 1) {
 							$("#hashDrop li").remove();
 							$(".dropdown-menu").hide();
 						} else {
@@ -178,7 +178,9 @@
 								<div class="col-sm-6">
 									<h3>검색 결과</h3>
 								</div>
-								<div class="col-sm-6"> <a href="${pageContext.request.contextPath}/errand/listing?sort=1"
+								<div class="col-sm-6">
+									<a
+										href="${pageContext.request.contextPath}/errand/listing?sort=1"
 										class="btn icon"><i class="fa fa-th-list"></i>리스트</a>
 								</div>
 							</div>
@@ -207,11 +209,11 @@
 													</c:if>
 
 												</div>
-												<c:if test="${errands.errandsPhoto != null}">
+												<c:if test="${errands.errandsPhoto != 'EMPTY'}">
 													<img
 														src="${pageContext.request.contextPath}/errands/${errands.errandsNum}/${errands.errandsPhoto}" />
 												</c:if>
-												<c:if test="${errands.errandsPhoto == null}">
+												<c:if test="${errands.errandsPhoto == 'EMPTY'}">
 													<img
 														src="${pageContext.request.contextPath}/resources/img/errands/img.png" />
 												</c:if>
@@ -222,7 +224,7 @@
 											<a href="#" id="' + json.data[a].id + '">
 												<h3>${errands.title}</h3>
 											</a>
-											<figure>${errands.errandsPos.addr}</figure>
+											<figure style="width:100px">${errands.errandsPos.addr}</figure>
 											<div class="price">
 												<fmt:formatNumber value="${errands.errandsPrice}" />
 												원
@@ -266,7 +268,7 @@
 										</c:if>
 										<img
 											src="${pageContext.request.contextPath}/users/${ranked.userId}/${ranked.selfImg}"
-											alt="">
+											alt="" width="100%">
 									</div>
 									<div class="wrapper">
 										<h3>${ranked.name}</h3>
@@ -321,10 +323,10 @@
 														<div class="icon">
 															<i class="fa fa-thumbs-up"></i>
 														</div>
-													</c:if> <c:if test="${money.errandsPhoto != null}">
+													</c:if> <c:if test="${money.errandsPhoto != 'EMPTY'}">
 														<img
 															src="${pageContext.request.contextPath}/errands/${money.errandsNum}/${money.errandsPhoto}" />
-													</c:if> <c:if test="${money.errandsPhoto == null}">
+													</c:if> <c:if test="${money.errandsPhoto == 'EMPTY'}">
 														<img
 															src="${pageContext.request.contextPath}/resources/img/errands/img.png" />
 													</c:if>
@@ -496,7 +498,7 @@
                image : markerImage // 마커 이미지 
             });
             
-            var cContent = "<a href='${pageContext.request.contextPath}/errand/detailView?num="+en[i]+"'><span class='label label-primary'><i class='fa fa-krw'>"+ numberWithCommas(pr[i]) + "원</i></span></a>",
+            var cContent = "<a href='${pageContext.request.contextPath}/errand/detailView?num="+en[i]+"'><span class='label label-danger'><i class='fa fa-krw'>"+ numberWithCommas(pr[i]) + "원</i></span></a>",
       	 	 cPosition = new daum.maps.LatLng(lat[i], lng[i]);
        	 
        		 var customOverlay = new daum.maps.CustomOverlay({

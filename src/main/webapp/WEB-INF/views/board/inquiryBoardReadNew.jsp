@@ -74,7 +74,7 @@ function checkValid() {
 					</thead>
 					<tbody align="left">
 						<tr>
-							<td><div class="comment-text">${board.boardContent}</div></td>
+							<td><div class="comment-text"><pre>${board.boardContent}</pre></div></td>
 						</tr>
 
 
@@ -110,14 +110,14 @@ function checkValid() {
 										<c:forEach items="${requestScope.reply}" var="replyDto">
 
 											<div class="author">
-												<img src="assets/img/default-avatar.png" alt="">
+												<img src="${pageContext.request.contextPath}/assets/img/logo.png" alt="">
 												
 											</div>
 											<!-- /.author-->
 
 											<h5>운영자</h5>
 											<div class="rating big color" data-rating="4"></div>
-											<p>${replyDto.replyContent}</p>
+											<pre><p>${replyDto.replyContent}</p></pre>
 
 										</c:forEach>
 									</c:otherwise>

@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.CloseStatus;
@@ -20,7 +21,7 @@ import dothing.web.service.ChatService;
 
 @Component
 public class WebSocketHandler extends TextWebSocketHandler {
-
+	Logger logger = Logger.getLogger(WebSocketHandler.class);
 	Map<String, List<WebSocketSession>> sessionMap = new HashMap<>();
 	Map<String, WebSocketSession> idMap = new HashMap<>();
 
@@ -111,6 +112,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
 						+ ":" + msg.split(":")[4] + ":" + msg.split(":")[5]));
 		
 		}else {//replyArr == null
+			logger.error("come here");
 			String msgArr[] = msg.split("#/separator/#");
 			// msgArr[0] = errandsNum;
 			// msgArr[1] = sender;
@@ -136,13 +138,13 @@ public class WebSocketHandler extends TextWebSocketHandler {
 			if (msg.length() > 20) {
 				chatService.write(msgArr);
 			}
-
+			logger.error("HOO!!");
 			List<WebSocketSession> list = sessionMap.get(errandsNum);
 			for (WebSocketSession sess : list) {
-
+				logger.error("LIST: " + list + " SESS: " + sess);
 				if (msg.length() > 20) {
 					sess.sendMessage(new TextMessage(msg));
-
+					logger.error("FINISH");
 				}
 			}
 

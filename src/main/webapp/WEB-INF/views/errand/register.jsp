@@ -113,14 +113,12 @@
 				return false;
 			}
 			var ext = (form.errandsPhotoFile.value).split(".")[1];
-			alert(ext);
+
 			if (!(ext == "jpg" || ext == "jpeg" || ext == "gif" || ext == "png")) {
 				alert("확장자가 jpg, jpeg, gif, png인 파일만 업로드 할 수 있습니다");
 				return false;
 			}
 		}
-		alert(form.productPrice.value + " " + form.errandstPrice.value);
-		alert(form.content.value.trim());
 		return true;
 	}
 </script>

@@ -115,10 +115,10 @@
 														<p>${errands.content}</p>
 													</div>
 												</div>
-											</div> <c:if test="${errands.errandsPhoto != null}">
+											</div> <c:if test="${errands.errandsPhoto != 'EMPTY'}">
 												<img
 													src="${pageContext.request.contextPath}/errands/${errands.errandsNum}/${errands.errandsPhoto}" />
-											</c:if> <c:if test="${errands.errandsPhoto == null}">
+											</c:if> <c:if test="${errands.errandsPhoto == 'EMPTY'}">
 												<img
 													src="${pageContext.request.contextPath}/resources/img/errands/img.png" />
 											</c:if>
@@ -153,7 +153,7 @@
 										</div>
 										<div class="info">
 											<div class="type">
-												<span>${errands.requestUser.userId}</span>
+												<span>${errands.requestUser.name}</span>
 												<c:forEach items="${errands.hashes}" var="hash">
 													<span class="label label-info">${hash}</span>
 												</c:forEach>
