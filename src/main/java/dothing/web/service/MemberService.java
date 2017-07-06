@@ -19,8 +19,9 @@ public interface MemberService {
 	int countAll(String id);
 	/**
 	 * 회원가입
+	 * isAPI => true: API false: 일반
 	 * */
-	int joinMember(MemberDTO member);
+	int joinMember(MemberDTO member, boolean isAPI);
 	
 	/**
 	 * ID중복체크

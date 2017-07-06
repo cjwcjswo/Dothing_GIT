@@ -335,8 +335,7 @@
 											<div class="wrapper">
 												<a
 													href="${pageContext.request.contextPath}/errand/detailView?num=${money.errandsNum}"><h3>${money.title}</h3></a>
-												<figure>${money.errandsPos.addr}
-												</figure>
+												<figure>${money.errandsPos.addr}</figure>
 												<div class="price">
 													<fmt:formatNumber value="${money.errandsPrice}" />
 													원
