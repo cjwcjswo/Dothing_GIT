@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.errandsReplyMapper">
+	<resultMap type="errandsReplyDTO" id="errandsReplyMap">
+		<id column="ERRANDS_REPLY_NUM" property="replyNum"/>
+		<result column="REPLY_CONTENT" property="replyContent"/>
+		<result column="ARRIVAL_TIME" property="arrivalTime"/>
+		<result column="REPLY_DATE" property="replyDate"/>
+		<association property="errands" javaType="errandsDTO">
+			<id column="ERRANDS_NUM" property="errandsNum"/>
+		</association>
+		<association property="user" javaType="memberDTO">
+			<id column="MEMBER_ID" property="userId"/>
+		</association>
+	</resultMap>
+
+	<insert id="insertErrandsReply" parameterType="errandsReplyDTO">
+		insert into ERRANDS_REPLY values(ERRANDS_REPLY_NUM.NEXTVAL,
+		#{replyContent}, #{arrivalTime}, to_char(sysdate, 'YYYY-MM-DD HH:MI:SS'),
+		 #{errands.errandsNum}, #{user.userId})
+	</insert>
+	<select id="selectErrandsReply" parameterType="int" resultMap="errandsReplyMap">
+		select * from ERRANDS_REPLY
+		<where>
+			<if test="value != 0">
+				where ERRANDS_REPLY_NUM = #{value}
+			</if>
+		</where>
+	</select>
+	<delete id="deleteErrandsReply" parameterType="int">
+		delete from ERRANDS_REPLY where ERRANDS_REPLY_NUM = #{value}
+	</delete>
+	<select id="selectByErrands" parameterType="int" resultType="errandsReplyDTO">
+		select * from ERRANDS_REPLY where ERRANDS_NUM = #{value}
+	</select>
+</mapper>

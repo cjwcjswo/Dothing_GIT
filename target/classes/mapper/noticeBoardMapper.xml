@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.noticeBoardMapper">
+
+
+<resultMap type="noticeBoardDTO" id="noticeSelectMap">
+<id column="notice_num" property="noticeNum"/>
+<result column="member_id" property="userId"/>
+<result column="notice_title" property="noticeTitle"/>
+<result column="notice_content" property="noticeContent"/>
+<result column="notice_date" property="noticeDate" />
+<result column="readnum" property="readNum" />
+</resultMap>
+
+
+<!-- 공지게시물 등록 -->
+	<insert id="boardInsert" parameterType="NoticeBoardDTO">
+		insert into notice_board(
+		notice_num,member_id,notice_title,notice_content,
+		notice_date,READNUM)
+		values(SEQ_NOTICE_NUM.NEXTVAL,#{userId},#{noticeTitle},#{noticeContent},
+		to_char(sysdate, 'YYYY-MM-DD HH:MI:SS AM'),0)
+	</insert>
+	
+	<!-- 모든레코드 검색 -->
+	<select id="selectAll" resultMap="noticeSelectMap">
+		select 
+		notice_num,member_id,notice_title,notice_content,
+		notice_date,READNUM
+		from notice_board
+		order by notice_num desc
+	</select>
+	
+	<!-- 글번호에 해당하는 레코드 검색 -->
+	<select id="selectByNoticeNum" resultMap="noticeSelectMap" parameterType="int">
+		select 
+		notice_num,member_id,notice_title,notice_content,
+		notice_date,READNUM
+		from notice_board
+		<!-- <where>
+			<if test="_parameter!=null">
+				notice_num=#{_parameter}
+			</if>
+		</where> -->
+		where notice_num=#{_parameter}
+		order by notice_num desc
+	</select>
+	
+	
+	<!-- 조회수 증가 -->
+	<update id="boardReadNumPlus" parameterType="NoticeBoardDTO">
+		update notice_board
+		set readnum = nvl(readnum,0) + 1 
+		where 
+		notice_num=#{noticeNum}
+	</update>
+	
+	<!-- 게시물 삭제(모델번호에 해당하는 레코드) -->
+	<delete id="boardDelete" parameterType="int">
+		delete from notice_board
+		where notice_num = #{_parameter}
+	</delete>
+	
+	<!-- 페이징 -->
+	<select id="countNoticeList" resultType="int">
+		select count(*) from notice_board
+	</select>
+	
+</mapper>
