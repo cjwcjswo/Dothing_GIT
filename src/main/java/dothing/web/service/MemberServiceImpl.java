@@ -39,16 +39,24 @@ public class MemberServiceImpl implements MemberService {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
+	/**
+	 * 회원가입
+	 * boolean -> true: API 가입 / false: 일반 가입
+	 */
 	@Override
 	@Transactional
-	public int joinMember(MemberDTO member) {
+	public int joinMember(MemberDTO member, boolean isAPI) {
 		// 비밀번호 암호화
 		String encodePass = passwordEncoder.encode(member.getPassword());
 
 		member.setPassword(encodePass);
+		if(!isAPI){
 		int authNum = (int)((Math.random() * 99998) + 1);
 		member.setState(authNum);
 		sendEmail(member.getUserId(), authNum);
+		}else{
+			member.setState(0);
+		}
 		memberDao.insertMember(member);
 		memberDao.createPoint(member.getUserId());
 

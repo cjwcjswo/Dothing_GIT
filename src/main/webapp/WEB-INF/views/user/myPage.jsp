@@ -203,8 +203,8 @@
 											<security:authentication property='principal.preAddr' />
 											<security:authentication property='principal.detailAddr' />
 											<input class="form-control" type="hidden" name="latitude"
-												id="latitude" /> <input class="form-control" type="hidden"
-												name="longitude" id="longitude" />
+												id="latitude" value="${member.latitude}"/> <input class="form-control" type="hidden"
+												name="longitude" id="longitude" value="${member.longitude}"/>
 										</div>
 									</section>
 
@@ -302,13 +302,10 @@
 
 													<div class="individual-rating">
 														<span>요청매너</span>
-<<<<<<< HEAD
-														<figure class="rating" data-rating="${manner/reqCount}"></figure>
-=======
+
 														<figure class="rating"
 															data-rating="${reqtotal/reqCount}"></figure>
->>>>>>> fdb0664a5ebdcc75c02ac383bb40f8157b9ef963
-													</div>
+											</div>
 													<!-- /.user-rating -->
 												</div>
 												<!-- /.wrapper-->
