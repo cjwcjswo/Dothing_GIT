@@ -45,27 +45,26 @@
 					url : "hash",
 					type : "post",
 					dataType : "json",
-					data : "hash=" + $(this).val(),
+					data : "hash=" + $(this).val().substring(1, $(this).val().length),
 					beforeSend : function(xhr) { /*데이터를 전송하기 전에 헤더에 csrf값을 설정한다*/
 						xhr.setRequestHeader("${_csrf.headerName}", "${_csrf.token}");
 					},
 					success : function(result) {
-						var count = 0;
 						var re = "";
-						if (Object.keys(result.hashList).length < 1) {
-							$("#hashDrop li").remove();
-							$(".dropdown-menu").hide();
-						} else {
-							$.each(result['hashList'], function(index, item) {
-								count++;
-								var key = index;
-								var value = item;
-								re += "<li role='presentation'><a role='menuitem' tabindex='-1'>#" + key + "</a>[등록 태그 갯수 " + value + "개]</li><li role='presentation' class='divider'></li>";
-								if (count == 5) return false;
-							});
-							count = 0;
-							$("#hashDrop").append(re)
-						}
+						$.each(result, function(index, item) {
+							if(item.length < 1) {
+								$("#hashDrop li").remove();
+								$(".dropdown-menu").hide();
+							} else{
+								for(var i=0; i<item.length; i++){
+									re += "<li role='presentation'><a role='menuitem' tabindex='-1'>#" + item[i].hashtag + "</a>[등록 태그 갯수 " + item[i].count + "개]</li><li role='presentation' class='divider'></li>";
+									if(i == 5) return false;
+								}
+							
+							}
+						});
+						count = 0;
+						$("#hashDrop").append(re)	
 					},
 					error : function(err) {
 						console.log(err);
@@ -224,7 +223,7 @@
 											<a href="#" id="' + json.data[a].id + '">
 												<h3>${errands.title}</h3>
 											</a>
-											<figure style="width:100px">${errands.errandsPos.addr}</figure>
+											<figure style="width: 100px">${errands.errandsPos.addr}</figure>
 											<div class="price">
 												<fmt:formatNumber value="${errands.errandsPrice}" />
 												원

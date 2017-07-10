@@ -3,6 +3,7 @@ package dothing.web.dao;
 import java.util.List;
 
 import dothing.web.dto.ErrandsDTO;
+import dothing.web.dto.ErrandsHashtagDTO;
 import dothing.web.dto.ErrandsPosDTO;
 import dothing.web.dto.ErrandsReplyDTO;
 import dothing.web.dto.GPADTO;
@@ -48,4 +49,17 @@ public interface ErrandsDAO {
 	 * 시간지나고 응답안한 심부름 삭제
 	 */
 	int deleteTimeErrands();
+	
+	/**
+	 * 심부름에 해쉬태그 삽입
+	 */
+	int insertErrandsHashtag(String hashtag);
+	/**
+	 * 심부름 해쉬태그 불러오기
+	 */
+	List<String> selectErrandsHashtag(int errandsNum);
+	/**
+	 * 해시태그 단어검색
+	 */
+	List<ErrandsHashtagDTO> serachErrandsHashtag(String keyword);
 }

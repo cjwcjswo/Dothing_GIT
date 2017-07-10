@@ -1,7 +1,5 @@
 package dothing.web.service;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -16,10 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
 import dothing.web.dao.ErrandsDAO;
 import dothing.web.dao.MemberDAO;
 import dothing.web.dto.ErrandsDTO;
+import dothing.web.dto.ErrandsHashtagDTO;
 import dothing.web.dto.ErrandsReplyDTO;
 import dothing.web.dto.GPADTO;
 import dothing.web.dto.MemberDTO;
-import dothing.web.properties.ErrandsHashProperties;
 
 @Service
 @Transactional
@@ -33,10 +31,12 @@ public class ErrandsServiceImpl implements ErrandsService {
 
 	@Override
 	public List<ErrandsDTO> selectAll() {
-		List<ErrandsDTO> list = errandsDAO.selectAll();
-		calHashes(list);
 		errandsDAO.deleteTimeErrands();
-		return errandsDAO.selectAll();
+		List<ErrandsDTO> list = errandsDAO.selectAll();
+		for(ErrandsDTO dto : list){
+			dto.setHashes(errandsDAO.selectErrandsHashtag(dto.getErrandsNum()));
+		}
+		return list;
 	}
 
 	@Override
@@ -46,7 +46,6 @@ public class ErrandsServiceImpl implements ErrandsService {
 		for (ErrandsReplyDTO reply : replyList) {
 			MemberDTO replyUser = reply.getUser();
 			if (memberDAO.isSafety(replyUser.getUserId())) {
-				System.out.println("OK");
 				replyUser.setAuth(2);
 			}
 			replyUser.setHashList(memberDAO.selectHashtag(replyUser.getUserId()));
@@ -59,19 +58,7 @@ public class ErrandsServiceImpl implements ErrandsService {
 		}
 		request.setGpaList(errandsDAO.selectGPAById(request.getUserId()));
 		request.setHashList(memberDAO.selectHashtag(request.getUserId()));
-		dto.setHashes(new ArrayList<>());
-		List<String> hashes = dto.getHashes();
-		int index = 0;
-		String content = dto.getContent();
-		while ((index = content.indexOf("#", index)) != -1) {
-			int restIndex = content.indexOf(" ", index);
-			if (restIndex == -1) {
-				restIndex = content.length();
-			}
-			String result = content.substring(index + 1, restIndex);
-			hashes.add(result);
-			index = restIndex;
-		}
+		dto.setHashes(errandsDAO.selectErrandsHashtag(errandsNum));
 		return dto;
 	}
 
@@ -79,11 +66,22 @@ public class ErrandsServiceImpl implements ErrandsService {
 	 * 심부름 삽입
 	 */
 	@Override
-	public int insertErrands(ErrandsDTO dto, String path) throws FileNotFoundException, IOException {
-		ErrandsHashProperties hp = new ErrandsHashProperties();
+	public int insertErrands(ErrandsDTO dto, String path) {
+
 		errandsDAO.insertErrands(dto);
 		errandsDAO.insertErrandsPos(dto.getErrandsPos());
-
+		int index = 0;
+		String content = dto.getContent();
+		while ((index = content.indexOf("#", index)) != -1) { // 해쉬태그 삽입
+			int restIndex = content.indexOf(" ", index);
+			if (restIndex == -1) {
+				restIndex = content.length();
+			}
+			String result = content.substring(index + 1, restIndex);
+			errandsDAO.insertErrandsHashtag(result);
+			index = restIndex;
+		}
+		
 		return 1;
 	}
 
@@ -114,38 +112,16 @@ public class ErrandsServiceImpl implements ErrandsService {
 	public List<ErrandsDTO> searchErrands(String hash, Integer minPrice, Integer maxPrice, Integer distance,
 			String latitude, String longitude) {
 		List<ErrandsDTO> list = errandsDAO.searchErrands(hash, minPrice, maxPrice, distance, latitude, longitude);
-		calHashes(list);
+		for(ErrandsDTO dto : list){
+			dto.setHashes(errandsDAO.selectErrandsHashtag(dto.getErrandsNum()));
+		}
 		return list;
 	}
 
 	@Override
-	public Map<String, Integer> requestHash(String hash) {
-		List<ErrandsDTO> list = errandsDAO.searchErrandsAll(hash, null, null, null, null, null);
-		Map<String, Integer> info = new HashMap<String, Integer>();
-		System.out.println("************************************");
-		for (ErrandsDTO dto : list) {
-			int index = 0;
-			String content = dto.getContent();
-			while ((index = content.indexOf(hash, index)) != -1) {
-				int restIndex = content.indexOf(" ", index);
-				if (restIndex == -1) {
-					restIndex = content.length();
-				}
-				String result = content.substring(index + 1, restIndex);
-				if (info.containsKey(result)) {
-					info.put(result, info.get(result) + 1);
-				} else {
-					info.put(result, 1);
-				}
-				index = restIndex;
-			}
-		}
-		System.out.println(hash + "로 검색한 맵");
-		System.out.println(info);
-		System.out.println("************************************");
-		info.remove("");
-
-		return info;
+	public List<ErrandsHashtagDTO> requestHash(String hash) {
+		hash = "%" + hash + "%";
+		return errandsDAO.serachErrandsHashtag(hash);
 	}
 
 	public static List<String> sortByValue(Map<String, Integer> map) {
@@ -172,10 +148,11 @@ public class ErrandsServiceImpl implements ErrandsService {
 	@Override
 	public List<ErrandsDTO> myErrandsRequest(String userId, int page) {
 		List<ErrandsDTO> list = errandsDAO.myRequestErrands(userId, page);
-		calHashes(list);
 		for (ErrandsDTO dto : list) {
-			dto.setErrandsReply(errandsDAO.selectByErrands(dto.getErrandsNum()));
-			dto.setGpa(errandsDAO.selectGPA(dto.getErrandsNum()));
+			int errandsNum = dto.getErrandsNum();
+			dto.setErrandsReply(errandsDAO.selectByErrands(errandsNum));
+			dto.setGpa(errandsDAO.selectGPA(errandsNum));
+			dto.setHashes(errandsDAO.selectErrandsHashtag(errandsNum));
 		}
 		return list;
 	}
@@ -186,10 +163,11 @@ public class ErrandsServiceImpl implements ErrandsService {
 	@Override
 	public List<ErrandsDTO> myErrandsResponse(String userId, int page) {
 		List<ErrandsDTO> list = errandsDAO.myResponseErrands(userId, page);
-		calHashes(list);
 		for (ErrandsDTO dto : list) {
-			dto.setErrandsReply(errandsDAO.selectByErrands(dto.getErrandsNum()));
-			dto.setGpa(errandsDAO.selectGPA(dto.getErrandsNum()));
+			int errandsNum = dto.getErrandsNum();
+			dto.setErrandsReply(errandsDAO.selectByErrands(errandsNum));
+			dto.setGpa(errandsDAO.selectGPA(errandsNum));
+			dto.setHashes(errandsDAO.selectErrandsHashtag(errandsNum));
 		}
 		return list;
 	}
@@ -204,27 +182,7 @@ public class ErrandsServiceImpl implements ErrandsService {
 		return errandsDAO.countMyResponse(id);
 	}
 
-	/**
-	 * 해쉬를 뽑는 메서드
-	 */
-	@Override
-	public void calHashes(List<ErrandsDTO> list) {
-		for (ErrandsDTO dto : list) {
-			dto.setHashes(new ArrayList<>());
-			List<String> hashes = dto.getHashes();
-			int index = 0;
-			String content = dto.getContent();
-			while ((index = content.indexOf("#", index)) != -1) {
-				int restIndex = content.indexOf(" ", index);
-				if (restIndex == -1) {
-					restIndex = content.length();
-				}
-				String result = content.substring(index + 1, restIndex);
-				hashes.add(result);
-				index = restIndex;
-			}
-		}
-	}
+
 
 	@Override
 	public int deleteReply(int num) {
@@ -266,10 +224,10 @@ public class ErrandsServiceImpl implements ErrandsService {
 	@Override
 	public List<ErrandsDTO> moneyErrands() {
 		List<ErrandsDTO> list = errandsDAO.moneyErrands();
-		calHashes(list);
 		for (ErrandsDTO dto : list) {
 			MemberDTO request = dto.getRequestUser();
 			request.setGpaList(memberDAO.averageGPA(request.getUserId()));
+			dto.setHashes(errandsDAO.selectErrandsHashtag(dto.getErrandsNum()));
 		}
 		return list;
 	}
@@ -285,8 +243,8 @@ public class ErrandsServiceImpl implements ErrandsService {
 		for (ErrandsDTO dto : list) {
 			MemberDTO requestUser = dto.getRequestUser();
 			requestUser.setGpaList(errandsDAO.selectGPAById(requestUser.getUserId()));
+			dto.setHashes(errandsDAO.selectErrandsHashtag(dto.getErrandsNum()));
 		}
-		calHashes(list);
 		return list;
 	}
 
@@ -294,5 +252,7 @@ public class ErrandsServiceImpl implements ErrandsService {
 	public int countList(String addr) {
 		return errandsDAO.countList(addr);
 	}
+
+
 
 }

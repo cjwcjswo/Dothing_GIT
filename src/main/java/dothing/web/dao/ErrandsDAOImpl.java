@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import dothing.web.dto.ErrandsDTO;
+import dothing.web.dto.ErrandsHashtagDTO;
 import dothing.web.dto.ErrandsPosDTO;
 import dothing.web.dto.ErrandsReplyDTO;
 import dothing.web.dto.GPADTO;
@@ -165,6 +166,21 @@ public class ErrandsDAOImpl implements ErrandsDAO{
 	@Override
 	public int deleteTimeErrands() {
 		return sqlSession.delete("mapper.errandsMapper.deleteTimeErrands");
+	}
+
+	@Override
+	public int insertErrandsHashtag(String hashtag) {
+		return sqlSession.insert("mapper.errandsHashtagMapper.insert", hashtag);
+	}
+
+	@Override
+	public List<String> selectErrandsHashtag(int errandsNum) {
+		return sqlSession.selectList("mapper.errandsHashtagMapper.select", errandsNum);
+	}
+
+	@Override
+	public List<ErrandsHashtagDTO> serachErrandsHashtag(String keyword) {
+		return sqlSession.selectList("mapper.errandsHashtagMapper.search", keyword);
 	}
 	
 	

@@ -9,7 +9,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
+<link
+	href="${pageContext.request.contextPath}/resources/css/summernote.css"
+	rel="stylesheet">
 <style type="text/css">
 .btn-circle.btn-lg {
 	width: 50px;
@@ -39,7 +42,30 @@
 
 
 <title>심부름 등록</title>
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js"></script> 
 
+<script
+	src="${pageContext.request.contextPath}/resources/js/summernote.js"></script>
+<script>
+	$(document).ready(function() {
+		$('#summernote').summernote({
+			toolbar: false,
+			height: 300,
+	        hint: {
+	            match: /\B#(\w*)$/,
+	            users: function(keyword, callback) {
+	                console.log(keyword);
+	            },
+	            search: function (keyword, callback) {
+	                this.users(keyword, callback); //callback must be an array
+	            },
+	            content: function (item) {
+	                return '@' + item;
+	            }
+	        }
+		});
+	});
+</script>
 <script>
 	var ct = "";
 	function leadingZeros(n, digits) {
@@ -183,8 +209,7 @@
 							<section>
 								<div class="form-group large">
 									<label for="title">심부름 제목</label> <input type="text"
-										class="form-control" id="title" name="title"
-										value="${map.name}">
+										class="form-control" id="title" name="title">
 								</div>
 							</section>
 
@@ -225,6 +250,7 @@
 							<section>
 								<div class="form-group large">
 									<label for="title">상세설명</label>
+									<div id="summernote">Hello Summernote</div>
 									<textarea class="form-control" id="form-review-message"
 										id="comment" name="content" rows="5" placeholder="양상추 까지"></textarea>
 								</div>
@@ -302,7 +328,7 @@
 											<h3>사진</h3>
 											<div id="holder"
 												style="width: 300px; height: 300px; border: 3px dotted gray; box-sizing: content-box;">
-												<img src="${map.img}">
+
 											</div>
 											<input name="errandsPhotoFile" type="file" id="upload">
 											(※확장자가 jpg, jpeg, png, gif인 파일만 업로드 할 수 있습니다.)
@@ -332,7 +358,7 @@
 							<!--end Opening Hours-->
 							<hr>
 							<section>
-	<!-- 							<figure class="pull-left margin-top-15">
+								<!-- 							<figure class="pull-left margin-top-15">
 									<p>
 										<a href="terms-conditions.html" class="link">약관에 동의</a> 하시면
 										“제출하기 및 결제”옆의 제출하기 버튼을 클릭해주세요
@@ -357,10 +383,6 @@
 	</div>
 	<!-- end Page Canvas-->
 
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/assets/js/jquery-2.1.0.min.js"></script>
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/assets/bootstrap/js/bootstrap.min.js"></script>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/assets/js/icheck.min.js"></script>
 	<script>

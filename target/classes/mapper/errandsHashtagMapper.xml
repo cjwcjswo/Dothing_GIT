@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.errandsHashtagMapper">
+	<resultMap type="errandsHashtagDTO" id="hashMap">
+		<result column="ERRANDS_HASHTAG" property="hashtag" />
+		<result column="COUNT" property="count" />
+	</resultMap>
+	<!-- 심부름 해쉬태그 삽입 -->
+	<insert id="insert" parameterType="string">
+		insert into ERRANDS_HASHTAG
+		values(ERRANDS_NUM.CURRVAL, #{hashtag})
+	</insert>
+
+	<!-- 심부름 해쉬태그 불러오기 -->
+	<select id="select" resultType="string" parameterType="int">
+		select
+		ERRANDS_HASHTAG from ERRANDS_HASHTAG where ERRANDS_NUM = #{value}
+	</select>
+
+	<!-- 해시태그 검색 -->
+	<select id="search" resultMap="hashMap" parameterType="string">
+		select ERRANDS_HASHTAG, count(ERRANDS_HASHTAG) as COUNT
+		from ERRANDS_HASHTAG WHERE ERRANDS_HASHTAG like #{value}
+		GROUP BY ERRANDS_HASHTAG ORDER BY COUNT DESC
+	</select>
+</mapper>
