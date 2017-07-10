@@ -85,12 +85,11 @@ public class ErrandsController {
 		return mv;
 	}
 
+	/**
+	 * 심부름 등록페이지로 이동
+	 */
 	@RequestMapping("/register")
-	public ModelAndView register(String img, String name) {
-		Map<String, String> map = new HashMap<>();
-		map.put("name", name);
-		map.put("img", img);
-		return new ModelAndView("/errand/register", "map", map);
+	public void register() {
 	}
 
 	@RequestMapping("/insert")

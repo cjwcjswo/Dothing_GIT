@@ -1,11 +1,10 @@
 package dothing.web.service;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
 import dothing.web.dto.ErrandsDTO;
+import dothing.web.dto.ErrandsHashtagDTO;
 import dothing.web.dto.ErrandsReplyDTO;
 import dothing.web.dto.GPADTO;
 
@@ -22,7 +21,7 @@ public interface ErrandsService {
 	
 	int countMyRequest(String id);
 	int countMyResponse(String id);
-	int insertErrands(ErrandsDTO dto, String path) throws FileNotFoundException, IOException;
+	int insertErrands(ErrandsDTO dto, String path);
 
 	int deleteErrands(int num);
 	int cancleErrands(int num, int point,String id);
@@ -51,10 +50,7 @@ public interface ErrandsService {
 
 	int insertReply(ErrandsReplyDTO dto);
 	int deleteReply(int num);
-	Map<String, Integer> requestHash(String hash);
-	
-	void calHashes(List<ErrandsDTO> list);
-	
+	List<ErrandsHashtagDTO> requestHash(String hash);
 	/**
 	 * GPA»ðÀÔ
 	 */

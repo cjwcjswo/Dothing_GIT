@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.errandsMapper">
+
 	<resultMap type="errandsDTO" id="errandsMap">
 		<id column="ERRANDS_NUM" property="errandsNum" />
 		<result column="TITLE" property="title" />
@@ -14,11 +15,11 @@
 		<result column="START_TIME" property="startTime" />
 		<association property="requestUser" javaType="memberDTO">
 			<id column="REQUEST_ID" property="userId" />
-			<result column="REQUEST_NAME" property="name"/>
+			<result column="REQUEST_NAME" property="name" />
 		</association>
 		<association property="responseUser" javaType="memberDTO">
 			<id column="RESPONSE_ID" property="userId" />
-			<result column="RESPONSE_NAME" property="name"/>
+			<result column="RESPONSE_NAME" property="name" />
 		</association>
 		<association property="errandsPos" javaType="ErrandsPosDTO">
 			<result column="ADDR" property="addr" />
@@ -37,8 +38,8 @@
 			<result column="PREDICT_TIME" property="arrivalTime" />
 			<result column="REPLY_DATE" property="replyDate" />
 			<association property="user" javaType="memberDTO">
-				<id column="MEMBER_ID" property="userId"/>
-				<result column="REPLY_NAME" property="name"/> 
+				<id column="MEMBER_ID" property="userId" />
+				<result column="REPLY_NAME" property="name" />
 				<result column="SELF_IMG" property="selfImg" />
 			</association>
 		</collection>
@@ -84,7 +85,8 @@
 		select count(*) from
 		ERRANDS
 	</select>
-	<select id="searchErrandsAll" resultMap="errandsMap" parameterType="map">
+	<select id="searchErrandsAll" resultMap="errandsMap"
+		parameterType="map">
 		select * from ERRANDS_REPLY_GPA_VIEW
 		<where>
 			<if test="minPrice != null">
