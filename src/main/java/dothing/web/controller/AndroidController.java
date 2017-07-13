@@ -60,4 +60,15 @@ public class AndroidController {
 		System.out.println("접근함");
 		return errandsService.selectAll();
 	}
+	
+	@RequestMapping("/errandSearch")
+	@ResponseBody
+	public List<ErrandsDTO> errandSearch(HttpServletRequest request){
+		String lat = (String)request.getParameter("lat");
+		String lng = (String)request.getParameter("lng");
+		System.out.println(lat + " : " + lng);
+		List<ErrandsDTO> list = errandsService.searchErrands(null, null, null, 3, lat, lng);
+		System.out.println(list.size() +"개 검색됨");
+		return list;
+	}
 }
