@@ -154,9 +154,12 @@ public class MemberServiceImpl implements MemberService {
 	public int updateSafety(MemberDTO dto) {
 		return memberDao.updateSafety(dto);
 	}
-
+	/**
+	 * 안전심부름꾼 등록하기
+	 */
 	@Override
 	public int insertSafety(String id) {
+		insertNotification(id, "안전심부름꾼이 되었습니다!");
 		return memberDao.insertSafety(id);
 	}
 
@@ -195,7 +198,9 @@ public class MemberServiceImpl implements MemberService {
 	public List<NotificationDTO> selectNotificationById(String id, int page) {
 		return memberDao.selectNotificationById(id, page);
 	}
-
+	/**
+	 * 알림보내기
+	 */
 	@Override
 	public int insertNotification(String id, String content) {
 		return memberDao.insertNotification(id, content);
@@ -274,5 +279,13 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int finishEmail(String id) {
 		return memberDao.finishEmail(id);
+	}
+	/**
+	 * 안전맨 권한 거부
+	 */
+	@Override
+	public int cancleSafety(String id) {
+		insertNotification(id, "안전심부름꾼 조건이 만족하지 않아 취소되었습니다");
+		return memberDao.cancleSafety(id);
 	}
 }

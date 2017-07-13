@@ -160,4 +160,9 @@ public class MemberDAOImpl implements MemberDAO {
 	public int finishEmail(String id) {
 		return sqlSession.update("memberMapper.finishEmail", id);
 	}
+
+	@Override
+	public int cancleSafety(String id) {
+		return sqlSession.update("memberMapper.cancleSafety", id);
+	}
 }

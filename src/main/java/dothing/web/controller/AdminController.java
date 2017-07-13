@@ -80,13 +80,23 @@ public class AdminController {
 		mv.addObject("memberList", memberList);
 		return mv;
 	}
-
+	
+	/**
+	 * 안전심부름꾼 승인
+	 */
 	@RequestMapping("/adminSafe/submit")
 	public String submitSafe(String id) {
 		memberService.insertSafety(id);
 		return "redirect:/admin/adminSafe";
 	}
-
+	/**
+	 * 안전심부름꾼 취소
+	 */
+	@RequestMapping("/adminSafe/cancle")
+	public String cancleSafe(String id) {
+		memberService.cancleSafety(id);
+		return "redirect:/admin/adminSafe";
+	}
 	@RequestMapping("/adminUserList")
 	public ModelAndView adminUserList(Integer page, String id) {
 		if (page == null)

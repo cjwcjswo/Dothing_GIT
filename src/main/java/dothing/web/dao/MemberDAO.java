@@ -68,6 +68,10 @@ public interface MemberDAO {
 	 */
 	int insertSafety(String id);
 	/**
+	 * 안전권한취소
+	 */
+	int cancleSafety(String id);
+	/**
 	 * 안전사진은 올렸는데 권한이 없는자
 	 */
 	List<MemberDTO> selectNotSafety(int page);

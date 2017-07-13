@@ -62,6 +62,10 @@ public interface MemberService {
 	 */
 	int insertSafety(String id);
 	/**
+	 * 안전승인취소
+	 */
+	int cancleSafety(String id);
+	/**
 	 * 낫안줜맨들
 	 */
 	List<MemberDTO> selectNotSafety(int page);
