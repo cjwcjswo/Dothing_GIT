@@ -3,16 +3,16 @@ function sample5_execDaumPostcode() {
 	new daum.Postcode(
 			{
 				oncomplete : function(data) {
-					if (data.userSelectedType == "R") {
-						// userSelectedType : 검색 결과에서 사용자가 선택한 주소의 타입
-						// return type : R - roadAddress, J : jibunAddress
-						// TestApp 은 안드로이드에서 등록한 이름
-						window.TestApp.setAddress(data.zonecode,
-								data.roadAddress, data.buildingName);
-					} else {
-						window.TestApp.setAddress(data.zonecode,
-								data.jibunAddress, data.buildingName);
-					}
+//					if (data.userSelectedType == "R") {
+//						// userSelectedType : 검색 결과에서 사용자가 선택한 주소의 타입
+//						// return type : R - roadAddress, J : jibunAddress
+//						// TestApp 은 안드로이드에서 등록한 이름
+//						window.TestApp.setAddress(data.zonecode,
+//								data.roadAddress, data.buildingName);
+//					} else {
+//						window.TestApp.setAddress(data.zonecode,
+//								data.jibunAddress, data.buildingName);
+//					}
 					// 각 주소의 노출 규칙에 따라 주소를 조합한다.
 					// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
 					var fullAddr = data.address; // 최종 주소 변수

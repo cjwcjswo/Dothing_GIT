@@ -63,14 +63,11 @@
 						<header>
 							<ul class="nav nav-pills">
 								<li><a
-									href="${pageContext.request.contextPath}/admin/adminMoney"><h1
-											class="page-title">무통장 입금 확인</h1></a></li>
+									href="${pageContext.request.contextPath}/admin/adminMoney"><h1 class="page-title">무통장 입금 확인</h1></a></li>
 								<li class="active"><a
-									href="${pageContext.request.contextPath}/admin/adminSafe"><h1
-											class="page-title">안전 심부름꾼 승인</h1></a></li>
+									href="${pageContext.request.contextPath}/admin/adminSafe"><h1 class="page-title">안전 심부름꾼 승인</h1></a></li>
 								<li><a
-									href="${pageContext.request.contextPath}/admin/adminUserList"><h1
-											class="page-title">회원관리</h1></a></li>
+									href="${pageContext.request.contextPath}/admin/adminUserList"><h1 class="page-title">회원관리</h1></a></li>
 							</ul>
 						</header>
 						<div class="row">
@@ -94,11 +91,12 @@
 													<div class="media-body">
 														<h4 class="media-heading">아이디: ${member.userId}</h4>
 														<h4 class="media-heading">이름: ${member.name}</h4>
-														<h4 class="media-heading">핸드폰: ${member.phone}</h4>
-														<h4 class="media-heading">주소: ${member.addr}</h4>
+														<h4 class="media-heading">주소: ${member.preAddr} <br>${member.detailAddr}</h4>
 														<div class="form-group">
 												<button type="button" class="btn btn-large btn-default"
 													id="okay" onclick="location.href='${pageContext.request.contextPath}/admin/adminSafe/submit?id=${member.userId}'">확인</button>
+													&nbsp; <button type="button" class="btn btn-large btn-default"
+													id="cancle" onclick="location.href='${pageContext.request.contextPath}/admin/adminSafe/cancle?id=${member.userId}'">취소</button>
 											</div>
 													</div>
 												</div>

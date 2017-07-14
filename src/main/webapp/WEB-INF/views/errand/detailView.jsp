@@ -16,15 +16,8 @@
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/chat/chat.css"
 	type="text/css">
-<link
-	href="${pageContext.request.contextPath}/assets/fonts/font-awesome.css"
-	rel="stylesheet" type="text/css">
-<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700'
-	rel='stylesheet' type='text/css'>
 <link href="${pageContext.request.contextPath}/assets/css/receipt.css"
 	rel="stylesheet" type="text/css">
-<link rel="sheet"
-	href="//netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
 <style>
 div.stars {
 	width: 270px;
@@ -139,7 +132,7 @@ label.star:before {
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/sockjs.js"></script>
 <script type="text/javascript">
-   var sender = '<security:authentication property="principal.userId"/>';
+   var sender = '${currentId}';
    var today = '<%=new java.text.SimpleDateFormat("MM/dd HH시mm분").format(new java.util.Date())%>';
    var receiver ="";
    var receiverPhoto = "";
@@ -151,7 +144,7 @@ label.star:before {
 	   receiverPhoto = "${responseSelfImg}";
    }
 function initChatting(){
-		 ws.send(${errands.errandsNum}+'#/separator/#');
+		 ws.send('${errands.errandsNum}#/separator/#');
 		document.getElementById('chatList').scrollTop = document.getElementById('chatList').scrollHeight;
 	}
    $(function() {
@@ -294,7 +287,7 @@ function initChatting(){
 	      var msg = $('#inputText').val();
 			//separator -> #/separator/#
 			
-		  ws.send(${errands.errandsNum}+"#/separator/#"+sender+"#/separator/#"+msg+"#/separator/#"+today);
+		  ws.send("${errands.errandsNum}#/separator/#"+sender+"#/separator/#"+msg+"#/separator/#"+today);
 			ws.send("알림:"+receiver+":${errands.errandsNum}:"+msg+":"+receiverPhoto+":"+sender);
 		  $('#inputText').val('');
 	      $('#inputText').focus();
@@ -483,7 +476,9 @@ function initChatting(){
 											<h3>Contact</h3>
 										</header>
 										<address>
-										<img src="${pageContext.request.contextPath}/users/${errands.requestUser.userId}/${requestSelfImg}" width="100%">
+											<img
+												src="${pageContext.request.contextPath}/users/${errands.requestUser.userId}/${requestSelfImg}"
+												width="100%">
 											<figure>
 												<div class="info">
 													<i class="fa fa-child"></i> <span>${errands.requestUser.name}</span>
@@ -583,7 +578,9 @@ function initChatting(){
 												</c:if>
 											</header>
 											<p>
-											<div id="comment"><pre>${errands.content}</pre></div>
+											<div id="comment">
+												<pre>${errands.content}</pre>
+											</div>
 											</p>
 										</article>
 										<article class="block">

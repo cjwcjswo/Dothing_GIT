@@ -2,10 +2,9 @@ package dothing.web.controller;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -18,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import dothing.web.dto.ErrandsDTO;
+import dothing.web.dto.ErrandsHashtagDTO;
 import dothing.web.dto.ErrandsReplyDTO;
 import dothing.web.dto.GPADTO;
 import dothing.web.dto.MemberDTO;
@@ -89,7 +89,16 @@ public class ErrandsController {
 	 * 심부름 등록페이지로 이동
 	 */
 	@RequestMapping("/register")
-	public void register() {
+	public ModelAndView register() {
+		ModelAndView mv = new ModelAndView();
+		List<ErrandsHashtagDTO> list = errandsService.requestHash("");
+		List<String> hashList = new ArrayList<>();
+		for(ErrandsHashtagDTO dto:list){
+			hashList.add("'" + dto.getHashtag() + "'");
+		}
+		mv.addObject("hashList", hashList);
+		mv.setViewName("/errand/register");
+		return mv;
 	}
 
 	@RequestMapping("/insert")
@@ -159,8 +168,9 @@ public class ErrandsController {
 		if(upTime.getTime() < currentTime.getTime()){
 			throw new Exception("현재 시간보다 작게 입력하셨습니다.");
 		}
+		int num = errand.getErrandsNum();
 		memberService.insertNotification(errand.getRequestUser().getUserId(),
-				errand.getErrandsNum() + "번 글에 " + memberService.selectMemberById(dto.getUser().getUserId()).getName() + "님이 댓글을 달았습니다!");
+				"<a href='../errand/detailView?num="+num+"'>"+num + "번 글에 " + memberService.selectMemberById(dto.getUser().getUserId()).getName() + "님이 댓글을 달았습니다!</a>");
 		errandsService.insertReply(dto);
 		return "redirect:/errand/detailView?num=" + dto.getErrands().getErrandsNum();
 	}
@@ -200,7 +210,9 @@ public class ErrandsController {
 		mv.setViewName("/errand/errand");
 		return mv;
 	}
-
+	/**
+	 * 검색에서의 해쉬요청
+	 */
 	@RequestMapping("/hash")
 	public ModelAndView requestHash(String hash) {
 		ModelAndView mv = new ModelAndView();
@@ -208,6 +220,7 @@ public class ErrandsController {
 		mv.setViewName("jsonView");
 		return mv;
 	}
+	
 
 	/**
 	 * 심부름 요청내역 확인
@@ -272,7 +285,7 @@ public class ErrandsController {
 		}
 		errandsService.updateErrands(num, responseId, requestUser.getUserId(), "startTime", null, null, -totalPrice);
 		requestUser.getPoint().setCurrentPoint((requestUser.getPoint().getCurrentPoint()) - totalPrice);
-		memberService.insertNotification(responseId, num + "번 글의 " + requestUser.getName() + "님과 매칭되었습니다.");
+		memberService.insertNotification(responseId, "<a href='../errand/detailView?num="+num+"'>"+ num + "번 글의 " + requestUser.getName() + "님과 매칭되었습니다.</a>");
 		mv.addObject("num", num);
 		mv.addObject("responseName", memberService.selectMemberById(responseId).getName());
 		mv.addObject("responseId", responseId);

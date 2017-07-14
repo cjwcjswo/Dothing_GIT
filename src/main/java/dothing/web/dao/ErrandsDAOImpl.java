@@ -66,7 +66,9 @@ public class ErrandsDAOImpl implements ErrandsDAO{
 	public List<ErrandsDTO> searchErrands(String hash, Integer minPrice, Integer maxPrice,
 			Integer distance, String latitude, String longitude) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("hash", "%"+ hash + "%");
+		if(hash != null){
+			map.put("hash", "%"+ hash + "%");
+			}
 		map.put("minPrice", minPrice);
 		map.put("maxPrice", maxPrice);
 		map.put("latitude", latitude);
@@ -78,7 +80,9 @@ public class ErrandsDAOImpl implements ErrandsDAO{
 	public List<ErrandsDTO> searchErrandsAll(String hash, Integer minPrice, Integer maxPrice,
 			Integer distance, String latitude, String longitude) {
 		Map<String, Object> map = new HashMap<String, Object>();
+		if(hash != null){
 		map.put("hash", "%"+ hash + "%");
+		}
 		map.put("minPrice", minPrice);
 		map.put("maxPrice", maxPrice);
 		map.put("latitude", latitude);
