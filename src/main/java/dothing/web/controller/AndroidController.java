@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import dothing.web.dto.ErrandsDTO;
+import dothing.web.dto.MemberDTO;
 import dothing.web.service.AndroidService;
 import dothing.web.service.ErrandsService;
 
@@ -28,7 +29,6 @@ public class AndroidController {
 	public Map<String,String> android(HttpServletRequest request){
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
-		System.out.println("asdjhasd");
 		String result="";
 		if(email != null && password != null)
 			result = androidService.androidLogin(email, password);
@@ -42,18 +42,20 @@ public class AndroidController {
 		return map;
 	}
 	
-<<<<<<< HEAD
+
 	@RequestMapping("/signIn")
 	@ResponseBody
-	public void signIn(HttpServletRequest request){
+	public Map<String,String> signIn(HttpServletRequest request,MemberDTO memberDTO){
 		System.out.println("회원가입");
-		String email = request.getParameter("email");
-		String password = request.getParameter("password");
-		String name = request.getParameter("name");
-		String phone = request.getParameter("phone");
+		System.out.println(memberDTO.getUserId());
+		String result = androidService.androidSignIn(memberDTO)+"";
 		
-		System.out.println(email);
-=======
+		Map<String,String> map = new HashMap<String, String>();
+		
+		map.put("result", result);
+		return map;
+	}
+	
 	@RequestMapping("/test")
 	@ResponseBody
 	public Map<String, String> test(HttpServletRequest request){
@@ -84,6 +86,5 @@ public class AndroidController {
 		List<ErrandsDTO> list = errandsService.searchErrands(null, null, null, 3, lat, lng);
 		System.out.println(list.size() +"개 검색됨");
 		return list;
->>>>>>> a856d5e3098421fb341078e7a72bb5e5b571fe33
 	}
 }

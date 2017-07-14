@@ -1,5 +1,7 @@
 package dothing.web.dao;
 
+import dothing.web.dto.MemberDTO;
+
 public interface AndroidDAO {
 	
 	/**
@@ -7,4 +9,8 @@ public interface AndroidDAO {
 	 */
 	String androidLogin(String email);
 	
+	/**
+	 * 회원가입
+	 */
+	int androidSignIn(MemberDTO memberDTO);
 }

@@ -32,9 +32,6 @@ public class MemberDTO implements Serializable{
 	private List<GPADTO> gpaList;
 	private List<MemberHashDTO> hashList;
 	
-	
-	
-	
 
 	public List<MemberHashDTO> getHashList() {
 		return hashList;
@@ -186,6 +183,7 @@ public class MemberDTO implements Serializable{
 	public void setState(Integer state) {
 		this.state = state;
 	}
+
 
 	public MemberDTO(String userId, String name, String password, String sex, String preAddr, String detailAddr,
 			int auth, String selfImg, String ssnImg, String joinDate, String introduce, String latitude,
