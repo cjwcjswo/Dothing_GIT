@@ -24,15 +24,29 @@ public class AndroidController {
 	public Map<String,String> android(HttpServletRequest request){
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
+		System.out.println("asdjhasd");
+		String result="";
+		if(email != null && password != null)
+			result = androidService.androidLogin(email, password);
 		
-		String result = androidService.androidLogin(email, password);
 		System.out.println(result);
 		
 		Map<String,String> map = new HashMap<String, String>();
 		
-		map.put("test2", "aa");
-		map.put("test3", "bb");
+		map.put("result", result);
 		
 		return map;
+	}
+	
+	@RequestMapping("/signIn")
+	@ResponseBody
+	public void signIn(HttpServletRequest request){
+		System.out.println("회원가입");
+		String email = request.getParameter("email");
+		String password = request.getParameter("password");
+		String name = request.getParameter("name");
+		String phone = request.getParameter("phone");
+		
+		System.out.println(email);
 	}
 }
