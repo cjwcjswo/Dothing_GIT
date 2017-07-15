@@ -1,15 +1,19 @@
 package dothing.web.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import dothing.web.dto.ErrandsDTO;
 import dothing.web.service.AndroidService;
@@ -70,5 +74,25 @@ public class AndroidController {
 		List<ErrandsDTO> list = errandsService.searchErrands(null, null, null, 3, lat, lng);
 		System.out.println(list.size() +"°³ °Ë»öµÊ");
 		return list;
+	}
+	
+	@RequestMapping("/insertErrand")
+	@ResponseBody
+	public Integer uploadImage(HttpSession session, ErrandsDTO dto) throws IllegalStateException, IOException{
+		int result = 0;
+		System.out.println(dto);
+		MultipartFile file = dto.getErrandsPhotoFile();
+		if(file != null){
+			dto.setErrandsPhoto(file.getOriginalFilename());
+			result = errandsService.insertErrands(dto);
+			String path = session.getServletContext().getRealPath("") + "\\errands\\" + errandsService.selectNum();
+			File folder = new File(path);
+			folder.mkdirs();
+			file.transferTo(new File(path + "\\" + dto.getErrandsPhoto()));
+		}else{
+			dto.setErrandsPhoto("EMPTY");
+			result = errandsService.insertErrands(dto);
+		}
+		return result;
 	}
 }

@@ -66,7 +66,7 @@ public class ErrandsServiceImpl implements ErrandsService {
 	 * 심부름 삽입
 	 */
 	@Override
-	public int insertErrands(ErrandsDTO dto, String path) {
+	public int insertErrands(ErrandsDTO dto) {
 
 		errandsDAO.insertErrands(dto);
 		errandsDAO.insertErrandsPos(dto.getErrandsPos());

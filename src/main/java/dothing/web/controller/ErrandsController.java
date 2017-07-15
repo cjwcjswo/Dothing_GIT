@@ -135,7 +135,7 @@ public class ErrandsController {
 			if (!(ext.equals("jpg") || ext.equals("jpeg") || ext.equals("png") || ext.equals("gif"))) {
 				throw new Exception("확장자가 jpg, jpeg, png, gif인 파일만 업로드 할 수 있습니다");
 			}
-			errandsService.insertErrands(dto, session.getServletContext().getRealPath(""));
+			errandsService.insertErrands(dto);
 			String path = session.getServletContext().getRealPath("") + "\\errands\\" + errandsService.selectNum();
 			File folder = new File(path);
 			folder.mkdirs();
@@ -143,7 +143,7 @@ public class ErrandsController {
 
 		} else {
 			dto.setErrandsPhoto("EMPTY");
-			errandsService.insertErrands(dto, session.getServletContext().getRealPath(""));
+			errandsService.insertErrands(dto);
 		}
 		
 
