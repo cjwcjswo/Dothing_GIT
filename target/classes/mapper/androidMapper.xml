@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="androidMapper">
-
+	
+	<resultMap type="MemberDTO" id="memberMap">
+		<id column="member_id" property="userId"/>
+		<result column="password" property="password"/>
+		<result column="sex" property="sex"/>
+		<result column="pre_addr" property="preAddr"/>
+		<result column="detail_addr" property="detailAddr"/>
+		<result column="name" property="name"/>
+	</resultMap>
+	
 	<select id="checkId" parameterType="String" resultType="String">
 		select password from member where member_id=#{value}
 	</select>
+	
+	<insert id="signIn" parameterType="MemberDTO">
+		insert into member(member_id,name,password,sex,pre_addr,detail_addr,self_img,join_date) 
+		values(#{userId},#{name},#{password},#{sex},#{preAddr},#{detailAddr},'default.jpg',sysdate)
+	</insert>
 
 </mapper>

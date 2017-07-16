@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import dothing.web.dto.ErrandsDTO;
+import dothing.web.dto.MemberDTO;
 import dothing.web.service.AndroidService;
 import dothing.web.service.ErrandsService;
 
@@ -32,15 +33,30 @@ public class AndroidController {
 	public Map<String,String> android(HttpServletRequest request){
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
+		String result="";
+		if(email != null && password != null)
+			result = androidService.androidLogin(email, password);
 		
-		String result = androidService.androidLogin(email, password);
 		System.out.println(result);
 		
 		Map<String,String> map = new HashMap<String, String>();
 		
-		map.put("test2", "aa");
-		map.put("test3", "bb");
+		map.put("result", result);
 		
+		return map;
+	}
+	
+
+	@RequestMapping("/signIn")
+	@ResponseBody
+	public Map<String,String> signIn(HttpServletRequest request,MemberDTO memberDTO){
+		System.out.println("회원가입");
+		System.out.println(memberDTO.getUserId());
+		String result = androidService.androidSignIn(memberDTO)+"";
+		
+		Map<String,String> map = new HashMap<String, String>();
+		
+		map.put("result", result);
 		return map;
 	}
 	

@@ -5,6 +5,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import dothing.web.dao.AndroidDAO;
+import dothing.web.dto.MemberDTO;
 
 @Service
 public class AndroidServiceImpl implements AndroidService {
@@ -33,5 +34,15 @@ public class AndroidServiceImpl implements AndroidService {
 		}
 		return result;
 	}
+
+	@Override
+	public int androidSignIn(MemberDTO memberDTO) {
+		String encodePass = passwordEncoder.encode(memberDTO.getPassword());
+		memberDTO.setPassword(encodePass);
+		
+		return androidDAO.androidSignIn(memberDTO);
+	}
+	
+	
 	
 }
