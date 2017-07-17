@@ -21,7 +21,7 @@ public interface ErrandsService {
 	
 	int countMyRequest(String id);
 	int countMyResponse(String id);
-	int insertErrands(ErrandsDTO dto, String path);
+	int insertErrands(ErrandsDTO dto);
 
 	int deleteErrands(int num);
 	int cancleErrands(int num, int point,String id);

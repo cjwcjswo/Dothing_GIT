@@ -1,23 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="androidMapper">
-	
+
 	<resultMap type="MemberDTO" id="memberMap">
-		<id column="member_id" property="userId"/>
-		<result column="password" property="password"/>
-		<result column="sex" property="sex"/>
-		<result column="pre_addr" property="preAddr"/>
-		<result column="detail_addr" property="detailAddr"/>
-		<result column="name" property="name"/>
+		<id column="member_id" property="userId" />
+		<result column="password" property="password" />
+		<result column="sex" property="sex" />
+		<result column="pre_addr" property="preAddr" />
+		<result column="detail_addr" property="detailAddr" />
+		<result column="name" property="name" />
 	</resultMap>
-	
+
 	<select id="checkId" parameterType="String" resultType="String">
-		select password from member where member_id=#{value}
+		select
+		password from member where member_id=#{value}
 	</select>
-	
+
 	<insert id="signIn" parameterType="MemberDTO">
-		insert into member(member_id,name,password,sex,pre_addr,detail_addr,self_img,join_date) 
+		insert into
+		member(member_id,name,password,sex,pre_addr,detail_addr,self_img,join_date)
 		values(#{userId},#{name},#{password},#{sex},#{preAddr},#{detailAddr},'default.jpg',sysdate)
 	</insert>
+
+	<update id="updateToken" parameterType="map">
+		update member set token =
+		#{token} where member_id = #{id}
+	</update>
+
+	<select id="selectTokenByDistance" resultType="string"
+		parameterType="map">
+		select token from member where
+		(6371*acos(cos(radians(#{latitude}))*cos(radians(MEMBER_LATITUDE))*cos(radians(MEMBER_LONGITUDE)
+		-radians(#{longitude}))+sin(radians(#{latitude}))*sin(radians(MEMBER_LATITUDE))))
+		&lt;= #{distance} and token is not null
+	</select>
 
 </mapper>

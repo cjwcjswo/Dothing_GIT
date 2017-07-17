@@ -239,7 +239,7 @@ public class MemberServiceImpl implements MemberService {
 		String host = "smtp.gmail.com";
 		String subject = "Dothing 인증확인 이메일입니다.";
 		String fromName = "DoThing";
-		String from = "chlwlsdn37@gmail.com";
+		String from = "doothing123@gmail.com";
 		String to1 = email;
 		String content = "가입을 축하드립니다! 아래 링크를 누르면 인증이 자동적으로 완료됩니다!" + "<br>" + 
 		"<a href='http://localhost:8000/controller/user/emailOk?email="
@@ -255,7 +255,7 @@ public class MemberServiceImpl implements MemberService {
 			props.put("mail.smtp.auth", "true");
 			Session mailSession = Session.getInstance(props, new Authenticator() {
 				protected PasswordAuthentication getPasswordAuthentication() {
-					return new PasswordAuthentication("chlwlsdn37", "1081abcd");
+					return new PasswordAuthentication("doothing123", "dvorakdoothing");
 				}
 			});
 			Message msg = new MimeMessage(mailSession);

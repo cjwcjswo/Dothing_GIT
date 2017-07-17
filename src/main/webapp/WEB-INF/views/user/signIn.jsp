@@ -82,6 +82,7 @@
 			swal("입력 오류!", "아이디가 중복입니다!", "error");
 			return false;
 		}
+		swal("확인해주세요", "인증메일이 발송됬습니다","success");
 		return true;
 	}
 </script>

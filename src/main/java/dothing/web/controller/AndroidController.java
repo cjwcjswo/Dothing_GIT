@@ -1,20 +1,25 @@
 package dothing.web.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import dothing.web.dto.ErrandsDTO;
 import dothing.web.dto.MemberDTO;
 import dothing.web.service.AndroidService;
 import dothing.web.service.ErrandsService;
+import dothing.web.service.MemberService;
 
 @Controller
 @RequestMapping("/android")
@@ -23,24 +28,10 @@ public class AndroidController {
 	ErrandsService errandsService;
 	@Autowired
 	AndroidService androidService;
+	@Autowired
+	MemberService memberService;
 	
-	@RequestMapping("/checkId")
-	@ResponseBody
-	public Map<String,String> android(HttpServletRequest request){
-		String email = request.getParameter("email");
-		String password = request.getParameter("password");
-		String result="";
-		if(email != null && password != null)
-			result = androidService.androidLogin(email, password);
-		
-		System.out.println(result);
-		
-		Map<String,String> map = new HashMap<String, String>();
-		
-		map.put("result", result);
-		
-		return map;
-	}
+	
 	
 
 	@RequestMapping("/signIn")
@@ -77,14 +68,5 @@ public class AndroidController {
 		return errandsService.selectAll();
 	}
 	
-	@RequestMapping("/errandSearch")
-	@ResponseBody
-	public List<ErrandsDTO> errandSearch(HttpServletRequest request){
-		String lat = (String)request.getParameter("lat");
-		String lng = (String)request.getParameter("lng");
-		System.out.println(lat + " : " + lng);
-		List<ErrandsDTO> list = errandsService.searchErrands(null, null, null, 3, lat, lng);
-		System.out.println(list.size() +"°³ °Ë»öµÊ");
-		return list;
-	}
+
 }
