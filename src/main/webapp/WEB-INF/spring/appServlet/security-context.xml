@@ -13,6 +13,7 @@
 
 	<security:http pattern="/android/**" security="none"/>
 	<security:http pattern="/androidMember/**" security="none"/>
+	<security:http pattern="/androidErrand/**" security="none"/>
 	<security:http use-expressions="true" auto-config="true">
 		<security:headers>
 			<security:frame-options disabled="true"/>

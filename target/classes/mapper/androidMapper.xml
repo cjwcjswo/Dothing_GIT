@@ -30,9 +30,13 @@
 	<select id="selectTokenByDistance" resultType="string"
 		parameterType="map">
 		select token from member where
-		(6371*acos(cos(radians(#{latitude}))*cos(radians(MEMBER_LATITUDE))*cos(radians(MEMBER_LONGITUDE)
-		-radians(#{longitude}))+sin(radians(#{latitude}))*sin(radians(MEMBER_LATITUDE))))
-		&lt;= #{distance} and token is not null
+		(6371*acos(
+        case when (cos(radians(#{latitude}))*cos(radians(MEMBER_LATITUDE))*cos(radians(MEMBER_LONGITUDE)
+		-radians(#{longitude}))+sin(radians(#{latitude}))*sin(radians(MEMBER_LATITUDE))> 1) then '1' 
+        else TO_CHAR(cos(radians(#{latitude}))*cos(radians(MEMBER_LATITUDE))*cos(radians(MEMBER_LONGITUDE)
+		-radians(#{longitude}))+sin(radians(#{latitude}))*sin(radians(MEMBER_LATITUDE))) end
+        ))
+		&lt;= 5 and token is not null
 	</select>
 
 </mapper>
