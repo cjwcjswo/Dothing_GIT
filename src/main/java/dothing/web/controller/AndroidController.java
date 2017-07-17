@@ -19,6 +19,7 @@ import dothing.web.dto.ErrandsDTO;
 import dothing.web.dto.MemberDTO;
 import dothing.web.service.AndroidService;
 import dothing.web.service.ErrandsService;
+import dothing.web.service.MemberService;
 
 @Controller
 @RequestMapping("/android")
@@ -27,24 +28,10 @@ public class AndroidController {
 	ErrandsService errandsService;
 	@Autowired
 	AndroidService androidService;
+	@Autowired
+	MemberService memberService;
 	
-	@RequestMapping("/checkId")
-	@ResponseBody
-	public Map<String,String> android(HttpServletRequest request){
-		String email = request.getParameter("email");
-		String password = request.getParameter("password");
-		String result="";
-		if(email != null && password != null)
-			result = androidService.androidLogin(email, password);
-		
-		System.out.println(result);
-		
-		Map<String,String> map = new HashMap<String, String>();
-		
-		map.put("result", result);
-		
-		return map;
-	}
+	
 	
 
 	@RequestMapping("/signIn")
@@ -81,34 +68,5 @@ public class AndroidController {
 		return errandsService.selectAll();
 	}
 	
-	@RequestMapping("/errandSearch")
-	@ResponseBody
-	public List<ErrandsDTO> errandSearch(HttpServletRequest request){
-		String lat = (String)request.getParameter("lat");
-		String lng = (String)request.getParameter("lng");
-		System.out.println(lat + " : " + lng);
-		List<ErrandsDTO> list = errandsService.searchErrands(null, null, null, 3, lat, lng);
-		System.out.println(list.size() +"°³ °Ë»öµÊ");
-		return list;
-	}
-	
-	@RequestMapping("/insertErrand")
-	@ResponseBody
-	public Integer uploadImage(HttpSession session, ErrandsDTO dto) throws IllegalStateException, IOException{
-		int result = 0;
-		System.out.println(dto);
-		MultipartFile file = dto.getErrandsPhotoFile();
-		if(file != null){
-			dto.setErrandsPhoto(file.getOriginalFilename());
-			result = errandsService.insertErrands(dto);
-			String path = session.getServletContext().getRealPath("") + "\\errands\\" + errandsService.selectNum();
-			File folder = new File(path);
-			folder.mkdirs();
-			file.transferTo(new File(path + "\\" + dto.getErrandsPhoto()));
-		}else{
-			dto.setErrandsPhoto("EMPTY");
-			result = errandsService.insertErrands(dto);
-		}
-		return result;
-	}
+
 }

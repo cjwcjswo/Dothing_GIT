@@ -18,18 +18,26 @@ import org.springframework.web.servlet.ModelAndView;
 
 import dothing.web.dto.ErrandsDTO;
 import dothing.web.dto.ErrandsHashtagDTO;
+import dothing.web.dto.ErrandsPosDTO;
 import dothing.web.dto.ErrandsReplyDTO;
 import dothing.web.dto.GPADTO;
 import dothing.web.dto.MemberDTO;
 import dothing.web.dto.PointDTO;
+import dothing.web.service.AndroidService;
 import dothing.web.service.ChatService;
 import dothing.web.service.ErrandsService;
 import dothing.web.service.MemberService;
+import dothing.web.util.FcmPusher;
 import dothing.web.util.PageMaker;
 
 @Controller
 @RequestMapping("/errand")
 public class ErrandsController {
+	@Autowired
+	FcmPusher fcmPusher;
+	@Autowired
+	AndroidService androidService;
+	
 	@Autowired
 	ErrandsService errandsService;
 
@@ -65,6 +73,10 @@ public class ErrandsController {
 			mv.addObject("responseSelfImg", responseSelfImg);
 			mv.addObject("responseId", responseId);
 			mv.addObject("responseUserName", responseUserName);
+			List<String> list = chatService.getContent(num + "");
+			if (list != null) {
+				mv.addObject("list", chatService.getContent(num + ""));
+			}
 		}
 		String requestId = errands.getRequestUser().getUserId();
 		
@@ -77,10 +89,7 @@ public class ErrandsController {
 		mv.addObject("requestSelfImg", requestSelfImg);
 		mv.addObject("requestUserName", requestUserName);
 
-		List<String> list = chatService.getContent(num + "");
-		if (list != null) {
-			mv.addObject("list", chatService.getContent(num + ""));
-		}
+		
 		mv.setViewName("/errand/detailView");
 		return mv;
 	}
@@ -146,6 +155,9 @@ public class ErrandsController {
 			errandsService.insertErrands(dto);
 		}
 		
+		ErrandsPosDTO posDTO = dto.getErrandsPos();
+		List<String> userTokenList = androidService.selectTokenByDistance(posDTO.getLatitude(), posDTO.getLongitude(), 5);
+		fcmPusher.pushFCMNotification(userTokenList, "두띵", "주변에 새심부름이 등록됬습니다!: " + dto.getTitle());
 
 		mv.addObject("insertNum", errandsService.selectNum());
 		mv.addObject("insertTitle", dto.getTitle());

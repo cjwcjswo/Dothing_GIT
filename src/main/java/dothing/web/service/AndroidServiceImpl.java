@@ -1,5 +1,7 @@
 package dothing.web.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -41,6 +43,16 @@ public class AndroidServiceImpl implements AndroidService {
 		memberDTO.setPassword(encodePass);
 		
 		return androidDAO.androidSignIn(memberDTO);
+	}
+
+	@Override
+	public int insertToken(String memberId, String token) {
+		return androidDAO.insertToken(memberId, token);
+	}
+
+	@Override
+	public List<String> selectTokenByDistance(String latitude, String longitude, Integer distance) {
+		return androidDAO.selectTokenByDistance(latitude, longitude, distance);
 	}
 	
 	
