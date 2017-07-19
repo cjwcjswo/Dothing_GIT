@@ -93,7 +93,8 @@ public class ErrandsDAOImpl implements ErrandsDAO{
 
 	@Override
 	public List<ErrandsDTO> myRequestErrands(String userId, int page) {
-		return sqlSession.selectList("mapper.errandsMapper.myErrandsRequest", userId, new RowBounds((page-1)*5, 5));
+		if(page == 0) return sqlSession.selectList("mapper.errandsMapper.myErrandsRequest", userId);
+		else return sqlSession.selectList("mapper.errandsMapper.myErrandsRequest", userId, new RowBounds((page-1)*5, 5));
 	}
 
 	@Override
@@ -185,6 +186,11 @@ public class ErrandsDAOImpl implements ErrandsDAO{
 	@Override
 	public List<ErrandsHashtagDTO> serachErrandsHashtag(String keyword) {
 		return sqlSession.selectList("mapper.errandsHashtagMapper.search", keyword);
+	}
+
+	@Override
+	public ErrandsPosDTO selectErrandsPos(int errandsNum) {
+		return sqlSession.selectOne("mapper.errandsPosMapper.selectPosByNum", errandsNum);
 	}
 	
 	

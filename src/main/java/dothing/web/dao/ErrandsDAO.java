@@ -21,6 +21,10 @@ public interface ErrandsDAO {
 	ErrandsDTO selectErrands(int errandsNum);
 	int insertErrands(ErrandsDTO dto);
 	int insertErrandsPos(ErrandsPosDTO dto);
+	/**
+	 * 해당하는 num의 위치정보 불러오기
+	 */
+	ErrandsPosDTO selectErrandsPos(int errandsNum);
 	int deleteErrands(int num);
 	int countErrands();
 	int selectNum();
