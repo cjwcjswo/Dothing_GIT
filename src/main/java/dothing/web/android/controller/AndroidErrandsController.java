@@ -3,6 +3,7 @@ package dothing.web.android.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -72,6 +73,7 @@ public class AndroidErrandsController {
 		return result;
 	}
 	
+
 	/**
 	 * 내 심부름 요청목록 가져오기
 	 */
@@ -83,4 +85,16 @@ public class AndroidErrandsController {
 		System.out.println(errandsService.myErrandsRequest(userId,0));
 		return errandsService.myErrandsRequest(userId,0);
 	}
+
+	
+	//주문자 상세정보
+	@RequestMapping("/requesterDetail")
+	@ResponseBody
+	public Map<String, Object> requesterDetail(HttpServletRequest request) throws Exception{
+		String errandNum = (String)request.getParameter("errandNum");
+		return androidService.selectRequesterDetail(Integer.parseInt(errandNum));
+	}
+	
+	
+	
 }

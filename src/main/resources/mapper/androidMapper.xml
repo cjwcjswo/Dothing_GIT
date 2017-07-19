@@ -38,5 +38,45 @@
         ))
 		&lt;= 5 and token is not null
 	</select>
+	
+	<select id="selectRequesterId" resultType="string" parameterType="int">
+		select request_id 
+		from errands 
+		where errands_num = #{value}
+	</select>
+	
+	<select id="selectRequestCount" resultType="int" parameterType="string">
+		select count(*) 
+		from errands 
+		where request_id =#{value}
+	</select>
+	
+	<select id="selectRequestGPA" resultType="int" parameterType="string">
+		select nvl(avg(request_manners),0) 
+		from gpa 
+		where member_id = #{value}
+	</select>
+	
+	<select id="selectRequesterHashtag" resultType="string" parameterType="string">
+		select hashtag 
+		from member_hashtag 
+		where member_id = #{value} 
+		group by hashtag 
+		order by count(*) desc
+	</select>
+	
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 </mapper>
