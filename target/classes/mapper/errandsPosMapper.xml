@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mapper.errandsPosMapper">
+	<resultMap type="ErrandsPosDTO" id="posMap">
+		<id column="ERRANDS_NUM" property="errandsNum" />
+		<result column="addr" property="addr" />
+		<result column="latitude" property="latitude" />
+		<result column="longitude" property="longitude" />
+	</resultMap>
 	<insert id="insertPos" parameterType="errandsPosDTO">
 		insert into ERRANDS_POS values(ERRANDS_NUM.CURRVAL, #{addr},
 		#{latitude}, #{longitude})
 	</insert>
+	<select id="selectPosByNum" parameterType="int" resultMap="posMap">
+		select * from ERRANDS_POS where errands_num = #{value}
+	</select>
 </mapper>

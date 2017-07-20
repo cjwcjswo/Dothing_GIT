@@ -156,8 +156,11 @@ public class ErrandsController {
 		}
 		
 		ErrandsPosDTO posDTO = dto.getErrandsPos();
+		System.out.println(posDTO.getLatitude() +":"+posDTO.getLongitude());
 		List<String> userTokenList = androidService.selectTokenByDistance(posDTO.getLatitude(), posDTO.getLongitude(), 5);
-		fcmPusher.pushFCMNotification(userTokenList, "두띵", "주변에 새심부름이 등록됬습니다!: " + dto.getTitle());
+		if(userTokenList !=  null&&userTokenList.size() > 0  )
+			fcmPusher.pushFCMNotification(userTokenList, "두띵", "주변에 새심부름이 등록됬습니다!: " + dto.getTitle());
+
 
 		mv.addObject("insertNum", errandsService.selectNum());
 		mv.addObject("insertTitle", dto.getTitle());

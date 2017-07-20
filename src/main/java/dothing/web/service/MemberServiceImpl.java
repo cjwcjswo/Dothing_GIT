@@ -28,6 +28,7 @@ import dothing.web.dto.NotificationDTO;
 import dothing.web.util.Constants;
 
 @Service
+@Transactional
 public class MemberServiceImpl implements MemberService {
 
 	@Autowired
@@ -44,7 +45,6 @@ public class MemberServiceImpl implements MemberService {
 	 * boolean -> true: API 가입 / false: 일반 가입
 	 */
 	@Override
-	@Transactional
 	public int joinMember(MemberDTO member, boolean isAPI) {
 		// 비밀번호 암호화
 		String encodePass = passwordEncoder.encode(member.getPassword());

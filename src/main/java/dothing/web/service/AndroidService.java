@@ -1,6 +1,7 @@
 package dothing.web.service;
 
 import java.util.List;
+import java.util.Map;
 
 import dothing.web.dto.MemberDTO;
 
@@ -20,8 +21,14 @@ public interface AndroidService {
 	List<String> selectTokenByDistance(String latitude, String longitude, Integer distance);
 	
 	/**
+<<<<<<< HEAD
 	 * 안드로이드 이메일 인증
 	 */
 	void androidSendEmail(String email,Integer authNum);
+=======
+	 * 심부름번호를 통한 주문자의 상세정보조회
+	 * */
+	Map<String, Object> selectRequesterDetail(int errandNum);
+>>>>>>> 32c623139e85c918471ef4be9701dfde8bbf51ec
 	
 }

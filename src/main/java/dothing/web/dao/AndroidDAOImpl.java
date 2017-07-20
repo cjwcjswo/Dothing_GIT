@@ -40,7 +40,28 @@ public class AndroidDAOImpl implements AndroidDAO {
 		map.put("latitude", latitude);
 		map.put("longitude", longitude);
 		map.put("distance", distance);
+		System.out.println(map);
 		return sqlSession.selectList("androidMapper.selectTokenByDistance", map);
+	}
+
+	@Override
+	public String selectRequesterId(int errandNum) {
+		return sqlSession.selectOne("androidMapper.selectRequesterId", errandNum);
+	}
+
+	@Override
+	public int selectRequestCount(String memberId) {
+		return sqlSession.selectOne("androidMapper.selectRequestCount", memberId);
+	}
+
+	@Override
+	public int selectRequestGPA(String memberId) {
+		return sqlSession.selectOne("androidMapper.selectRequestGPA", memberId);
+	}
+
+	@Override
+	public List<Object> selectMemberHashtag(String memberId) {
+		return sqlSession.selectList("androidMapper.selectRequesterHashtag", memberId);
 	}
 
 }

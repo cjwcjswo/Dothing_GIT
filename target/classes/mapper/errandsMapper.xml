@@ -100,9 +100,13 @@
 			</if>
 			<if test="distance != null">
 				AND
-				(6371*acos(cos(radians(#{latitude}))*cos(radians(LATITUDE))*cos(radians(LONGITUDE)
-				-radians(#{longitude}))+sin(radians(#{latitude}))*sin(radians(LATITUDE))))
-				&lt;= #{distance}
+				(6371*acos(
+        case when (cos(radians(#{latitude}))*cos(radians(LATITUDE))*cos(radians(LONGITUDE)
+		-radians(#{longitude}))+sin(radians(#{latitude}))*sin(radians(LATITUDE))> 1) then '1' 
+        else TO_CHAR(cos(radians(#{latitude}))*cos(radians(LATITUDE))*cos(radians(LONGITUDE)
+		-radians(#{longitude}))+sin(radians(#{latitude}))*sin(radians(LATITUDE))) end
+        ))
+		&lt;= #{distance}
 			</if>
 		</where>
 		order by ERRANDS_NUM desc
@@ -122,9 +126,13 @@
 			</if>
 			<if test="distance != null">
 				AND
-				(6371*acos(cos(radians(#{latitude}))*cos(radians(LATITUDE))*cos(radians(LONGITUDE)
-				-radians(#{longitude}))+sin(radians(#{latitude}))*sin(radians(LATITUDE))))
-				&lt;= #{distance}
+				(6371*acos(
+        case when (cos(radians(#{latitude}))*cos(radians(LATITUDE))*cos(radians(LONGITUDE)
+		-radians(#{longitude}))+sin(radians(#{latitude}))*sin(radians(LATITUDE))> 1) then '1' 
+        else TO_CHAR(cos(radians(#{latitude}))*cos(radians(LATITUDE))*cos(radians(LONGITUDE)
+		-radians(#{longitude}))+sin(radians(#{latitude}))*sin(radians(LATITUDE))) end
+        ))
+		&lt;= #{distance}
 			</if>
 		</where>
 		order by ERRANDS_NUM desc
@@ -157,6 +165,7 @@
 		</where>
 		order by ARRIVAL_TIME desc, FINISH_TIME desc, ERRANDS_NUM desc
 	</select>
+
 	<select id="countResponse" resultType="int" parameterType="string">
 		select count(*) from ERRANDS_REPLY_GPA_VIEW
 		<where>

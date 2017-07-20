@@ -1,6 +1,8 @@
 package dothing.web.service;
 
+import java.util.HashMap;
 import java.util.List;
+<<<<<<< HEAD
 import java.util.Properties;
 
 import javax.mail.Authenticator;
@@ -11,10 +13,14 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeUtility;
+=======
+import java.util.Map;
+>>>>>>> 32c623139e85c918471ef4be9701dfde8bbf51ec
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import dothing.web.dao.AndroidDAO;
 import dothing.web.dao.MemberDAO;
@@ -77,6 +83,7 @@ public class AndroidServiceImpl implements AndroidService {
 	}
 
 	@Override
+<<<<<<< HEAD
 	public void androidSendEmail(String email, Integer authNum) {
 		String host = "smtp.gmail.com";
 		String subject = "Dothing 인증확인 이메일입니다.";
@@ -112,6 +119,24 @@ public class AndroidServiceImpl implements AndroidService {
 		catch (Exception e) {
 			e.printStackTrace();
 		}
+=======
+	@Transactional
+	public Map<String, Object> selectRequesterDetail(int errandNum) {
+		Map<String, Object> map = new HashMap<>();
+		
+		String requesterId = androidDAO.selectRequesterId(errandNum);
+		int requestCount = androidDAO.selectRequestCount(requesterId);
+		int grade = androidDAO.selectRequestGPA(requesterId);
+		List<Object> hashtagList = androidDAO.selectMemberHashtag(requesterId);
+		
+		map.put("requesterId", requesterId);
+		map.put("requestCount", requestCount);
+		map.put("grade", grade);
+		map.put("hashtagList", hashtagList);
+		
+		return map;
+		
+>>>>>>> 32c623139e85c918471ef4be9701dfde8bbf51ec
 	}
 	
 	

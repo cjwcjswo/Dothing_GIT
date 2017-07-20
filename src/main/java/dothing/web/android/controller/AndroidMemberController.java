@@ -1,15 +1,19 @@
 package dothing.web.android.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import dothing.web.dto.MemberDTO;
 import dothing.web.service.AndroidService;
@@ -24,33 +28,68 @@ public class AndroidMemberController {
 	AndroidService androidService;
 	@Autowired
 	PasswordEncoder passwordEncoder;
-	
+
 	@RequestMapping("/checkId")
 	@ResponseBody
-	public MemberDTO android(HttpServletRequest request){
+	public MemberDTO android(HttpServletRequest request) {
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 		String token = request.getParameter("token");
-		if(email == null || password == null){
+		if (email == null || password == null) {
 			System.out.println("입력값 부족");
 			return null;
 		}
 		MemberDTO memberDTO = memberService.selectMemberById(email);
+<<<<<<< HEAD
 		if(memberDTO == null) {
+=======
+
+		if (memberDTO == null) {
+>>>>>>> 32c623139e85c918471ef4be9701dfde8bbf51ec
 			System.out.println("그런얘읎다");
 			return null;
 		}
-		
-		if(!passwordEncoder.matches(password, memberDTO.getPassword())){
+
+		if (!passwordEncoder.matches(password, memberDTO.getPassword())) {
 			System.out.println("비번노일치");
 			return null;
 		}
-		if(token != null){
-		androidService.insertToken(memberDTO.getUserId(), token);
-		System.out.println("토큰 추가: " + token);
+		if (token != null) {
+			androidService.insertToken(memberDTO.getUserId(), token);
+			System.out.println("토큰 추가: " + token);
 		}
 		
 		return memberDTO;
 	}
-	
+
+	@RequestMapping("/isSafety")
+	public Map<String, Object> isSafety(HttpServletRequest request) {
+		String userId = (String) request.getParameter("userId");
+		MemberDTO member = memberService.selectMemberById(userId);
+		boolean isSafety = false;
+		for (String role : memberService.selectAuth(userId)) {
+			if (role.equals("ROLE_SAFETY")) {
+				isSafety = true;
+			}
+		}
+		Map<String, Object> result = new HashMap<>();
+		result.put("ssn", member.getSsnImg());
+		result.put("isSafety", isSafety);
+		return result;
+	}
+
+	@RequestMapping("/submitSafety")
+	public int submitSafety(HttpSession session, MemberDTO member) throws IllegalStateException, IOException {
+		int result = 0;
+		MultipartFile ssnImgFile = member.getSsnImgFile();
+		member.setSsnImg(ssnImgFile.getOriginalFilename());
+		result = memberService.updateSafety(member);
+		if (result > 0) {
+			String path = session.getServletContext().getRealPath("") + "\\users\\" + member.getUserId() + "\\ssn\\";
+			File folder = new File(path);
+			folder.mkdirs();
+			ssnImgFile.transferTo(new File(path + "\\" + member.getSsnImg()));
+		}
+		return result;
+	}
 }
