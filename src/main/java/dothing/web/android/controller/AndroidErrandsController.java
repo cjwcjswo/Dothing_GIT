@@ -16,6 +16,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import dothing.web.dto.ErrandsDTO;
 import dothing.web.dto.ErrandsPosDTO;
+import dothing.web.dto.ErrandsReplyDTO;
+import dothing.web.dto.MemberDTO;
 import dothing.web.service.AndroidService;
 import dothing.web.service.ErrandsService;
 import dothing.web.util.FcmPusher;
@@ -93,6 +95,34 @@ public class AndroidErrandsController {
 		String errandNum = (String)request.getParameter("errandNum");
 		return androidService.selectRequesterDetail(Integer.parseInt(errandNum));
 	}
+	
+	//댓글 등록
+	@RequestMapping("/insertReply")
+	@ResponseBody
+	public String insertReply(HttpServletRequest request) {
+		String memberId = (String)request.getParameter("memberId");
+		String errandNum = (String)request.getParameter("errandNum");
+		String arrivalTime = (String)request.getParameter("arrivalTime");
+		String replyContent = (String)request.getParameter("replyContent");
+		
+		 ErrandsReplyDTO replyDTO = new ErrandsReplyDTO();
+		ErrandsDTO errandsDTO =  new ErrandsDTO();
+		errandsDTO.setErrandsNum(Integer.parseInt(errandNum));
+		replyDTO.setErrands(errandsDTO);
+		replyDTO.setArrivalTime(arrivalTime);
+		replyDTO.setReplyContent(replyContent);
+		MemberDTO memberDTO = new MemberDTO();
+		memberDTO.setUserId(memberId);
+		replyDTO.setUser(memberDTO);
+		
+		int result = errandsService.insertReply(replyDTO);
+		
+		
+		
+		return result+"";
+		
+	}
+	
 	
 	/**
 	 * 내 심부름 수행목록 가져오기
