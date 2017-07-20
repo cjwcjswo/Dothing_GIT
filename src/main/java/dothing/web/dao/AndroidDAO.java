@@ -45,4 +45,5 @@ public interface AndroidDAO {
 	 * 회원ID로 해당 회원에게 달린 해시태그들 조회
 	 * */
 	List<Object> selectMemberHashtag(String memberId);
+
 }

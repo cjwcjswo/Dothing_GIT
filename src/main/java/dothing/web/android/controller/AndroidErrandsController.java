@@ -2,6 +2,7 @@ package dothing.web.android.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +21,7 @@ import dothing.web.dto.ErrandsReplyDTO;
 import dothing.web.dto.MemberDTO;
 import dothing.web.service.AndroidService;
 import dothing.web.service.ErrandsService;
+import dothing.web.service.MemberService;
 import dothing.web.util.FcmPusher;
 
 @Controller
@@ -31,6 +33,9 @@ public class AndroidErrandsController {
 	AndroidService androidService;
 	@Autowired
 	ErrandsService errandsService;
+	@Autowired
+	MemberService memberService;
+
 	
 	/**
 	 * 안드로이드 맵 드래그할때마다 distance만큼 심부름 반경 검색
@@ -93,7 +98,14 @@ public class AndroidErrandsController {
 	@ResponseBody
 	public Map<String, Object> requesterDetail(HttpServletRequest request) throws Exception{
 		String errandNum = (String)request.getParameter("errandNum");
-		return androidService.selectRequesterDetail(Integer.parseInt(errandNum));
+		Map<String, Object> map = androidService.selectRequesterDetail(Integer.parseInt(errandNum));
+		
+		//회원정보가져오기
+		MemberDTO memberDTO = memberService.selectMemberById((String)map.get("requesterId"));
+		map.put("introduce", memberDTO.getIntroduce());
+		map.put("requesterImg", memberDTO.getSelfImg());
+		
+		return map;
 	}
 	
 	//댓글 등록
@@ -133,5 +145,8 @@ public class AndroidErrandsController {
 		String userId = (String)request.getParameter("userId");
 		return errandsService.myErrandsResponse(userId,0);
 	}
+	
+	
+	
 	
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import dothing.web.dao.AndroidDAO;
+import dothing.web.dao.MemberDAO;
 import dothing.web.dto.MemberDTO;
 
 @Service
@@ -17,6 +18,9 @@ public class AndroidServiceImpl implements AndroidService {
 
 	@Autowired
 	AndroidDAO androidDAO;
+	
+	@Autowired
+	MemberDAO memberDAO;
 	
 	@Autowired
 	PasswordEncoder passwordEncoder;
