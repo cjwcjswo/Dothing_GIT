@@ -165,6 +165,7 @@
 		</where>
 		order by ARRIVAL_TIME desc, FINISH_TIME desc, ERRANDS_NUM desc
 	</select>
+
 	<select id="countResponse" resultType="int" parameterType="string">
 		select count(*) from ERRANDS_REPLY_GPA_VIEW
 		<where>

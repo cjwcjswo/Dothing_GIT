@@ -32,6 +32,9 @@ public class AndroidErrandsController {
 	@Autowired
 	ErrandsService errandsService;
 	
+	/**
+	 * 안드로이드 맵 드래그할때마다 distance만큼 심부름 반경 검색
+	 *  */
 	@RequestMapping("/errandSearch")
 	@ResponseBody
 	public List<ErrandsDTO> errandSearch(HttpServletRequest request){
@@ -43,11 +46,14 @@ public class AndroidErrandsController {
 		return list;
 	}
 	
+	/**
+	 * 안드로이드 심부름 등록하기
+	 */
 	@RequestMapping("/insertErrand")
 	@ResponseBody
 	public Integer uploadImage(HttpSession session, ErrandsDTO dto) throws Exception{
 		int result = 0;
-		System.out.println(dto);
+	
 		MultipartFile file = dto.getErrandsPhotoFile();
 		if(file != null){
 			dto.setErrandsPhoto(file.getOriginalFilename());
@@ -69,6 +75,18 @@ public class AndroidErrandsController {
 		return result;
 	}
 	
+
+	/**
+	 * 내 심부름 요청목록 가져오기
+	 */
+	@RequestMapping("/myRequest")
+	@ResponseBody
+	public List<ErrandsDTO> myRequest(HttpServletRequest request){
+		String userId = (String)request.getParameter("userId");
+		System.out.println("요청:" +userId);
+		return errandsService.myErrandsRequest(userId,0);
+	}
+
 	
 	//주문자 상세정보
 	@RequestMapping("/requesterDetail")
@@ -106,5 +124,14 @@ public class AndroidErrandsController {
 	}
 	
 	
+	/**
+	 * 내 심부름 수행목록 가져오기
+	 */
+	@RequestMapping("/myResponse")
+	@ResponseBody
+	public List<ErrandsDTO> myResponse(HttpServletRequest request){
+		String userId = (String)request.getParameter("userId");
+		return errandsService.myErrandsResponse(userId,0);
+	}
 	
 }

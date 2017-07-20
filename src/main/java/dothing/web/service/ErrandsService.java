@@ -15,6 +15,9 @@ public interface ErrandsService {
 
 	ErrandsDTO selectErrands(int errandsNum);
 
+	/**
+	 * 내 요청 심부름목록 (page = 0일경우 페이지 상관없이 가져온다)
+	 */
 	List<ErrandsDTO> myErrandsRequest(String userId, int page);
 	
 	List<ErrandsDTO> myErrandsResponse(String userId, int page);
