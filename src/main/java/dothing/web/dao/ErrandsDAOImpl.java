@@ -99,7 +99,8 @@ public class ErrandsDAOImpl implements ErrandsDAO{
 
 	@Override
 	public List<ErrandsDTO> myResponseErrands(String userId, int page) {
-		return sqlSession.selectList("mapper.errandsMapper.myErrandsResponse", userId, new RowBounds((page-1)*5, 5));
+		if(page == 0)return sqlSession.selectList("mapper.errandsMapper.myErrandsResponse", userId);
+		else return sqlSession.selectList("mapper.errandsMapper.myErrandsResponse", userId, new RowBounds((page-1)*5, 5));
 	}
 
 	@Override

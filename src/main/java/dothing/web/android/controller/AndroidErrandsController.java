@@ -82,7 +82,6 @@ public class AndroidErrandsController {
 	public List<ErrandsDTO> myRequest(HttpServletRequest request){
 		String userId = (String)request.getParameter("userId");
 		System.out.println("요청:" +userId);
-		System.out.println(errandsService.myErrandsRequest(userId,0));
 		return errandsService.myErrandsRequest(userId,0);
 	}
 
@@ -95,6 +94,14 @@ public class AndroidErrandsController {
 		return androidService.selectRequesterDetail(Integer.parseInt(errandNum));
 	}
 	
-	
+	/**
+	 * 내 심부름 수행목록 가져오기
+	 */
+	@RequestMapping("/myResponse")
+	@ResponseBody
+	public List<ErrandsDTO> myResponse(HttpServletRequest request){
+		String userId = (String)request.getParameter("userId");
+		return errandsService.myErrandsResponse(userId,0);
+	}
 	
 }
