@@ -30,15 +30,23 @@ public class AndroidController {
 	AndroidService androidService;
 	@Autowired
 	MemberService memberService;
-	
-	
-	
 
 	@RequestMapping("/signIn")
 	@ResponseBody
-	public Map<String,String> signIn(HttpServletRequest request,MemberDTO memberDTO){
-		System.out.println("회원가입");
-		System.out.println(memberDTO.getUserId());
+	public Map<String,String> signIn(HttpServletRequest request,MemberDTO memberDTO) throws Exception{
+		MultipartFile file = memberDTO.getSelfImgFile();
+		
+		if(file != null){
+			memberDTO.setSelfImg(file.getOriginalFilename());
+			String path = request.getRealPath("/")+"/users/"+memberDTO.getUserId();
+			File createFile = new File(path);
+			if(!createFile.exists()){
+				createFile.mkdirs();
+			}
+			file.transferTo(new File(path+"/"+file.getOriginalFilename()));
+		}
+		
+		
 		String result = androidService.androidSignIn(memberDTO)+"";
 		
 		Map<String,String> map = new HashMap<String, String>();

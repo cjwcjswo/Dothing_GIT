@@ -18,4 +18,10 @@ public interface AndroidService {
 	 * 위도/경도/거리에따른 토큰조회
 	 */
 	List<String> selectTokenByDistance(String latitude, String longitude, Integer distance);
+	
+	/**
+	 * 안드로이드 이메일 인증
+	 */
+	void androidSendEmail(String email,Integer authNum);
+	
 }

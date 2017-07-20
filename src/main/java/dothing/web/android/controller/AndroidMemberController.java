@@ -36,7 +36,6 @@ public class AndroidMemberController {
 			return null;
 		}
 		MemberDTO memberDTO = memberService.selectMemberById(email);
-		
 		if(memberDTO == null) {
 			System.out.println("그런얘읎다");
 			return null;
@@ -50,6 +49,7 @@ public class AndroidMemberController {
 		androidService.insertToken(memberDTO.getUserId(), token);
 		System.out.println("토큰 추가: " + token);
 		}
+		
 		return memberDTO;
 	}
 	
