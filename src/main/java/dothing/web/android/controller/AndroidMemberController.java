@@ -40,12 +40,8 @@ public class AndroidMemberController {
 			return null;
 		}
 		MemberDTO memberDTO = memberService.selectMemberById(email);
-<<<<<<< HEAD
-		if(memberDTO == null) {
-=======
 
 		if (memberDTO == null) {
->>>>>>> 32c623139e85c918471ef4be9701dfde8bbf51ec
 			System.out.println("±×·±¾êŸÁ´Ù");
 			return null;
 		}

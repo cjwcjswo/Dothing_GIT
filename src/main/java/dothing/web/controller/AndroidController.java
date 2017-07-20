@@ -35,7 +35,6 @@ public class AndroidController {
 	@ResponseBody
 	public Map<String,String> signIn(HttpServletRequest request,MemberDTO memberDTO) throws Exception{
 		MultipartFile file = memberDTO.getSelfImgFile();
-		
 		if(file != null){
 			memberDTO.setSelfImg(file.getOriginalFilename());
 			String path = request.getRealPath("/")+"/users/"+memberDTO.getUserId();

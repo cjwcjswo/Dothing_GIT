@@ -2,7 +2,7 @@ package dothing.web.service;
 
 import java.util.HashMap;
 import java.util.List;
-<<<<<<< HEAD
+import java.util.Map;
 import java.util.Properties;
 
 import javax.mail.Authenticator;
@@ -13,15 +13,10 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeUtility;
-=======
-import java.util.Map;
->>>>>>> 32c623139e85c918471ef4be9701dfde8bbf51ec
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import dothing.web.dao.AndroidDAO;
 import dothing.web.dao.MemberDAO;
 import dothing.web.dto.MemberDTO;
@@ -81,9 +76,8 @@ public class AndroidServiceImpl implements AndroidService {
 	public List<String> selectTokenByDistance(String latitude, String longitude, Integer distance) {
 		return androidDAO.selectTokenByDistance(latitude, longitude, distance);
 	}
-
+	
 	@Override
-<<<<<<< HEAD
 	public void androidSendEmail(String email, Integer authNum) {
 		String host = "smtp.gmail.com";
 		String subject = "Dothing 인증확인 이메일입니다.";
@@ -101,11 +95,13 @@ public class AndroidServiceImpl implements AndroidService {
 			props.put("mail.smtp.port", "465");
 			props.put("mail.smtp.user", from);
 			props.put("mail.smtp.auth", "true");
+			
 			Session mailSession = Session.getInstance(props, new Authenticator() {
 				protected PasswordAuthentication getPasswordAuthentication() {
 					return new PasswordAuthentication("doothing123", "dvorakdoothing");
 				}
 			});
+			
 			Message msg = new MimeMessage(mailSession);
 			msg.setFrom(new InternetAddress(from, MimeUtility.encodeText(fromName, "UTF-8", "B")));
 			InternetAddress[] address1 = { new InternetAddress(to1) };
@@ -119,7 +115,7 @@ public class AndroidServiceImpl implements AndroidService {
 		catch (Exception e) {
 			e.printStackTrace();
 		}
-=======
+	}
 	@Transactional
 	public Map<String, Object> selectRequesterDetail(int errandNum) {
 		Map<String, Object> map = new HashMap<>();
@@ -135,10 +131,5 @@ public class AndroidServiceImpl implements AndroidService {
 		map.put("hashtagList", hashtagList);
 		
 		return map;
-		
->>>>>>> 32c623139e85c918471ef4be9701dfde8bbf51ec
 	}
-	
-	
-	
 }
