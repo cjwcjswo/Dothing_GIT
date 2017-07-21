@@ -242,7 +242,7 @@ public class MemberServiceImpl implements MemberService {
 		String from = "doothing123@gmail.com";
 		String to1 = email;
 		String content = "가입을 축하드립니다! 아래 링크를 누르면 인증이 자동적으로 완료됩니다!" + "<br>" + 
-		"<a href='http://localhost:8000/controller/user/emailOk?email="
+		"<a href='http://localhost:8088/controller/user/emailOk?email="
 				+ email + "&authNum=" + authNum +"'> 인증 확인하기 </a>";
 		try {
 			Properties props = new Properties();
