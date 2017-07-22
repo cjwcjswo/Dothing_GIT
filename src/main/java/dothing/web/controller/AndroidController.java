@@ -75,5 +75,9 @@ public class AndroidController {
 		return errandsService.selectAll();
 	}
 	
-
+	@RequestMapping("/sendEmail")
+	@ResponseBody
+	public String sendEmail(String email){
+		return androidService.androidSendEmail(email);
+	}
 }
