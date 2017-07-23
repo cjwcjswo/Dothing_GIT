@@ -2,10 +2,9 @@ package dothing.web.controller;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -18,18 +17,27 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import dothing.web.dto.ErrandsDTO;
+import dothing.web.dto.ErrandsHashtagDTO;
+import dothing.web.dto.ErrandsPosDTO;
 import dothing.web.dto.ErrandsReplyDTO;
 import dothing.web.dto.GPADTO;
 import dothing.web.dto.MemberDTO;
 import dothing.web.dto.PointDTO;
+import dothing.web.service.AndroidService;
 import dothing.web.service.ChatService;
 import dothing.web.service.ErrandsService;
 import dothing.web.service.MemberService;
+import dothing.web.util.FcmPusher;
 import dothing.web.util.PageMaker;
 
 @Controller
 @RequestMapping("/errand")
 public class ErrandsController {
+	@Autowired
+	FcmPusher fcmPusher;
+	@Autowired
+	AndroidService androidService;
+	
 	@Autowired
 	ErrandsService errandsService;
 
@@ -65,6 +73,10 @@ public class ErrandsController {
 			mv.addObject("responseSelfImg", responseSelfImg);
 			mv.addObject("responseId", responseId);
 			mv.addObject("responseUserName", responseUserName);
+			List<String> list = chatService.getContent(num + "");
+			if (list != null) {
+				mv.addObject("list", chatService.getContent(num + ""));
+			}
 		}
 		String requestId = errands.getRequestUser().getUserId();
 		
@@ -77,10 +89,7 @@ public class ErrandsController {
 		mv.addObject("requestSelfImg", requestSelfImg);
 		mv.addObject("requestUserName", requestUserName);
 
-		List<String> list = chatService.getContent(num + "");
-		if (list != null) {
-			mv.addObject("list", chatService.getContent(num + ""));
-		}
+		
 		mv.setViewName("/errand/detailView");
 		return mv;
 	}
@@ -89,7 +98,16 @@ public class ErrandsController {
 	 * 심부름 등록페이지로 이동
 	 */
 	@RequestMapping("/register")
-	public void register() {
+	public ModelAndView register() {
+		ModelAndView mv = new ModelAndView();
+		List<ErrandsHashtagDTO> list = errandsService.requestHash("");
+		List<String> hashList = new ArrayList<>();
+		for(ErrandsHashtagDTO dto:list){
+			hashList.add("'" + dto.getHashtag() + "'");
+		}
+		mv.addObject("hashList", hashList);
+		mv.setViewName("/errand/register");
+		return mv;
 	}
 
 	@RequestMapping("/insert")
@@ -126,7 +144,7 @@ public class ErrandsController {
 			if (!(ext.equals("jpg") || ext.equals("jpeg") || ext.equals("png") || ext.equals("gif"))) {
 				throw new Exception("확장자가 jpg, jpeg, png, gif인 파일만 업로드 할 수 있습니다");
 			}
-			errandsService.insertErrands(dto, session.getServletContext().getRealPath(""));
+			errandsService.insertErrands(dto);
 			String path = session.getServletContext().getRealPath("") + "\\errands\\" + errandsService.selectNum();
 			File folder = new File(path);
 			folder.mkdirs();
@@ -134,9 +152,15 @@ public class ErrandsController {
 
 		} else {
 			dto.setErrandsPhoto("EMPTY");
-			errandsService.insertErrands(dto, session.getServletContext().getRealPath(""));
+			errandsService.insertErrands(dto);
 		}
 		
+		ErrandsPosDTO posDTO = dto.getErrandsPos();
+		System.out.println(posDTO.getLatitude() +":"+posDTO.getLongitude());
+		List<String> userTokenList = androidService.selectTokenByDistance(posDTO.getLatitude(), posDTO.getLongitude(), 5);
+		if(userTokenList !=  null&&userTokenList.size() > 0  )
+			fcmPusher.pushFCMNotification(userTokenList, "두띵", "주변에 새심부름이 등록됬습니다!: " + dto.getTitle());
+
 
 		mv.addObject("insertNum", errandsService.selectNum());
 		mv.addObject("insertTitle", dto.getTitle());
@@ -159,8 +183,9 @@ public class ErrandsController {
 		if(upTime.getTime() < currentTime.getTime()){
 			throw new Exception("현재 시간보다 작게 입력하셨습니다.");
 		}
+		int num = errand.getErrandsNum();
 		memberService.insertNotification(errand.getRequestUser().getUserId(),
-				errand.getErrandsNum() + "번 글에 " + memberService.selectMemberById(dto.getUser().getUserId()).getName() + "님이 댓글을 달았습니다!");
+				"<a href='../errand/detailView?num="+num+"'>"+num + "번 글에 " + memberService.selectMemberById(dto.getUser().getUserId()).getName() + "님이 댓글을 달았습니다!</a>");
 		errandsService.insertReply(dto);
 		return "redirect:/errand/detailView?num=" + dto.getErrands().getErrandsNum();
 	}
@@ -200,7 +225,9 @@ public class ErrandsController {
 		mv.setViewName("/errand/errand");
 		return mv;
 	}
-
+	/**
+	 * 검색에서의 해쉬요청
+	 */
 	@RequestMapping("/hash")
 	public ModelAndView requestHash(String hash) {
 		ModelAndView mv = new ModelAndView();
@@ -208,6 +235,7 @@ public class ErrandsController {
 		mv.setViewName("jsonView");
 		return mv;
 	}
+	
 
 	/**
 	 * 심부름 요청내역 확인
@@ -272,7 +300,7 @@ public class ErrandsController {
 		}
 		errandsService.updateErrands(num, responseId, requestUser.getUserId(), "startTime", null, null, -totalPrice);
 		requestUser.getPoint().setCurrentPoint((requestUser.getPoint().getCurrentPoint()) - totalPrice);
-		memberService.insertNotification(responseId, num + "번 글의 " + requestUser.getName() + "님과 매칭되었습니다.");
+		memberService.insertNotification(responseId, "<a href='../errand/detailView?num="+num+"'>"+ num + "번 글의 " + requestUser.getName() + "님과 매칭되었습니다.</a>");
 		mv.addObject("num", num);
 		mv.addObject("responseName", memberService.selectMemberById(responseId).getName());
 		mv.addObject("responseId", responseId);

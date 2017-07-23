@@ -66,7 +66,7 @@ public class ErrandsServiceImpl implements ErrandsService {
 	 * ½ÉºÎ¸§ »ðÀÔ
 	 */
 	@Override
-	public int insertErrands(ErrandsDTO dto, String path) {
+	public int insertErrands(ErrandsDTO dto) {
 
 		errandsDAO.insertErrands(dto);
 		errandsDAO.insertErrandsPos(dto.getErrandsPos());
@@ -150,6 +150,7 @@ public class ErrandsServiceImpl implements ErrandsService {
 		List<ErrandsDTO> list = errandsDAO.myRequestErrands(userId, page);
 		for (ErrandsDTO dto : list) {
 			int errandsNum = dto.getErrandsNum();
+			dto.setErrandsPos(errandsDAO.selectErrandsPos(errandsNum));
 			dto.setErrandsReply(errandsDAO.selectByErrands(errandsNum));
 			dto.setGpa(errandsDAO.selectGPA(errandsNum));
 			dto.setHashes(errandsDAO.selectErrandsHashtag(errandsNum));

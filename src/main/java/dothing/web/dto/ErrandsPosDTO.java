@@ -1,11 +1,18 @@
 package dothing.web.dto;
 
 public class ErrandsPosDTO {
+	private int errandsNum;
 	private String addr;
 	private String latitude;
 	private String longitude;
 	
 
+	public int getErrandsNum() {
+		return errandsNum;
+	}
+	public void setErrandsNum(int errandsNum) {
+		this.errandsNum = errandsNum;
+	}
 	@Override
 	public String toString() {
 		return "ErrandsPosDTO [addr=" + addr + ", latitude=" + latitude + ", longitude=" + longitude + "]";

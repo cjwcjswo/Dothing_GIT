@@ -66,7 +66,9 @@ public class ErrandsDAOImpl implements ErrandsDAO{
 	public List<ErrandsDTO> searchErrands(String hash, Integer minPrice, Integer maxPrice,
 			Integer distance, String latitude, String longitude) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("hash", "%"+ hash + "%");
+		if(hash != null){
+			map.put("hash", "%"+ hash + "%");
+			}
 		map.put("minPrice", minPrice);
 		map.put("maxPrice", maxPrice);
 		map.put("latitude", latitude);
@@ -78,7 +80,9 @@ public class ErrandsDAOImpl implements ErrandsDAO{
 	public List<ErrandsDTO> searchErrandsAll(String hash, Integer minPrice, Integer maxPrice,
 			Integer distance, String latitude, String longitude) {
 		Map<String, Object> map = new HashMap<String, Object>();
+		if(hash != null){
 		map.put("hash", "%"+ hash + "%");
+		}
 		map.put("minPrice", minPrice);
 		map.put("maxPrice", maxPrice);
 		map.put("latitude", latitude);
@@ -89,12 +93,14 @@ public class ErrandsDAOImpl implements ErrandsDAO{
 
 	@Override
 	public List<ErrandsDTO> myRequestErrands(String userId, int page) {
-		return sqlSession.selectList("mapper.errandsMapper.myErrandsRequest", userId, new RowBounds((page-1)*5, 5));
+		if(page == 0) return sqlSession.selectList("mapper.errandsMapper.myErrandsRequest", userId);
+		else return sqlSession.selectList("mapper.errandsMapper.myErrandsRequest", userId, new RowBounds((page-1)*5, 5));
 	}
 
 	@Override
 	public List<ErrandsDTO> myResponseErrands(String userId, int page) {
-		return sqlSession.selectList("mapper.errandsMapper.myErrandsResponse", userId, new RowBounds((page-1)*5, 5));
+		if(page == 0)return sqlSession.selectList("mapper.errandsMapper.myErrandsResponse", userId);
+		else return sqlSession.selectList("mapper.errandsMapper.myErrandsResponse", userId, new RowBounds((page-1)*5, 5));
 	}
 
 	@Override
@@ -181,6 +187,11 @@ public class ErrandsDAOImpl implements ErrandsDAO{
 	@Override
 	public List<ErrandsHashtagDTO> serachErrandsHashtag(String keyword) {
 		return sqlSession.selectList("mapper.errandsHashtagMapper.search", keyword);
+	}
+
+	@Override
+	public ErrandsPosDTO selectErrandsPos(int errandsNum) {
+		return sqlSession.selectOne("mapper.errandsPosMapper.selectPosByNum", errandsNum);
 	}
 	
 	

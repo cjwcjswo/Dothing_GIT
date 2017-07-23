@@ -47,20 +47,21 @@
 <script
 	src="${pageContext.request.contextPath}/resources/js/summernote.js"></script>
 <script>
+	var hashList = ${hashList};
 	$(document).ready(function() {
 		$('#summernote').summernote({
 			toolbar: false,
 			height: 300,
 	        hint: {
-	            match: /\B#(\w*)$/,
-	            users: function(keyword, callback) {
-	                console.log(keyword);
-	            },
+	            match: /\B\#(\S*)$/,
+	            mentions: hashList,
 	            search: function (keyword, callback) {
-	                this.users(keyword, callback); //callback must be an array
+	                callback($.grep(this.mentions, function (item) {
+	                  return item.indexOf(keyword) == 0;
+	                }));
 	            },
 	            content: function (item) {
-	                return '@' + item;
+	                return '#' + item;
 	            }
 	        }
 		});
@@ -87,61 +88,62 @@
 	}
 	function checkValid() {
 		var form = document.f;
+		form.content.value = $("#summernote").summernote('code');
 		if (form.title.value.trim() == "") {
-			alert("제목을 입력하세요");
+			swal("입력 오류", "제목을 입력하세요", "error");
 			form.title.focus();
 			return false;
 		}
 		if (form.content.value.trim() == "") {
-			alert("내용을 입력하세요");
+			swal("입력 오류", "내용을 입력하세요", "error");
 			form.content.focus();
 			return false;
 		}
 		if (form.productPrice.value.trim() == "") {
-			alert("물품 가격을 입력하세요.")
+			swal("입력 오류", "물품 가격을 입력하세요", "error");
 			form.productPrice.focus();
 			return false;
 		}
 		if (form.errandsPrice.value.trim() == "") {
-			alert("심부름 가격을 입력하세요.")
+			swal("입력 오류", "심부름 가격을 입력하세요", "error");
 			form.errandsPrice.focus();
 			return false;
 		}
 		if (form.endTime.value.trim() == "") {
-			alert("시간을 입력하세요");
+			swal("입력 오류", "시간을 입력하세요", "error");
 			form.endTime.focus();
 			return false;
 		}
 		currentTime();
 		if (form.endTime.value < ct) {
-			alert("시간이 현재 시간보다 작습니다");
+			swal("입력 오류", "시간이 현재시간보다 작습니다", "error");
 			form.endTime.focus();
 			return false;
 		}
 
 		if (form.productPrice.value < 0 || form.errandsPrice.value < 0) {
-			alert("가격이 올바르지 않습니다");
+			swal("입력 오류", "가격이 올바르지 않습니다", "error");
 			return false;
 		}
 		if (form.preAddress.value.trim() == "") {
-			alert("주소를 입력하세요");
+			swal("입력 오류", "주소를 입력하세요", "error");
 			form.preAddress.focus();
 			return false;
 		}
 		if (form.detailAddress.value.trim() == "") {
-			alert("상세 주소를 입력하세요");
+			swal("입력 오류", "상세주소를 입력하세요", "error");
 			form.detailAddress.focus();
 			return false;
 		}
 		if (form.errandsPhotoFile.value != "") {
 			if (form.errandsPhotoFile.value > 15) {
-				alert("파일 이름은 15자 이내로 해주세요");
+				swal("입력 오류", "파일 이름은 15자이내로 하세요", "error");
 				return false;
 			}
 			var ext = (form.errandsPhotoFile.value).split(".")[1];
 
 			if (!(ext == "jpg" || ext == "jpeg" || ext == "gif" || ext == "png")) {
-				alert("확장자가 jpg, jpeg, gif, png인 파일만 업로드 할 수 있습니다");
+				swal("입력 오류", "확장자가 jpg, jpeg, gif, png인 파일만 업로드 할 수 있습니다", "error");
 				return false;
 			}
 		}
@@ -250,9 +252,9 @@
 							<section>
 								<div class="form-group large">
 									<label for="title">상세설명</label>
-									<div id="summernote">Hello Summernote</div>
-									<textarea class="form-control" id="form-review-message"
-										id="comment" name="content" rows="5" placeholder="양상추 까지"></textarea>
+									<div id="summernote"></div>
+									<input type="hidden"
+										id="comment" name="content"></input>
 								</div>
 							</section>
 							<!--Menu-->

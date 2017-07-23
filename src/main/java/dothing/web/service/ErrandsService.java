@@ -15,13 +15,16 @@ public interface ErrandsService {
 
 	ErrandsDTO selectErrands(int errandsNum);
 
+	/**
+	 * 내 요청 심부름목록 (page = 0일경우 페이지 상관없이 가져온다)
+	 */
 	List<ErrandsDTO> myErrandsRequest(String userId, int page);
 	
 	List<ErrandsDTO> myErrandsResponse(String userId, int page);
 	
 	int countMyRequest(String id);
 	int countMyResponse(String id);
-	int insertErrands(ErrandsDTO dto, String path);
+	int insertErrands(ErrandsDTO dto);
 
 	int deleteErrands(int num);
 	int cancleErrands(int num, int point,String id);

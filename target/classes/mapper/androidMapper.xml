@@ -2,8 +2,77 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="androidMapper">
 
-	<select id="checkId" parameterType="String" resultType="String">
-		select password from member where member_id=#{value}
+	<resultMap type="MemberDTO" id="memberMap">
+		<id column="member_id" property="userId" />
+		<result column="password" property="password" />
+		<result column="sex" property="sex" />
+		<result column="pre_addr" property="preAddr" />
+		<result column="detail_addr" property="detailAddr" />
+		<result column="name" property="name" />
+	</resultMap>
+
+	<insert id="signIn" parameterType="MemberDTO">
+		insert into
+		member(member_id,name,password,sex,pre_addr,detail_addr,self_img,join_date,state,member_latitude,member_longitude)
+		values(#{userId},#{name},#{password},#{sex},#{preAddr},#{detailAddr},#{selfImg},sysdate,#{state},#{latitude},#{longitude})
+	</insert>
+
+	<update id="updateToken" parameterType="map">
+		update member set token =
+		#{token} where member_id = #{id}
+	</update>
+
+	<select id="selectTokenByDistance" resultType="string"
+		parameterType="map">
+		select token from member where
+		(6371*acos(
+        case when (cos(radians(#{latitude}))*cos(radians(MEMBER_LATITUDE))*cos(radians(MEMBER_LONGITUDE)
+		-radians(#{longitude}))+sin(radians(#{latitude}))*sin(radians(MEMBER_LATITUDE))> 1) then '1' 
+        else TO_CHAR(cos(radians(#{latitude}))*cos(radians(MEMBER_LATITUDE))*cos(radians(MEMBER_LONGITUDE)
+		-radians(#{longitude}))+sin(radians(#{latitude}))*sin(radians(MEMBER_LATITUDE))) end
+        ))
+		&lt;= 5 and token is not null
 	</select>
+	
+	<select id="selectRequesterId" resultType="string" parameterType="int">
+		select request_id 
+		from errands 
+		where errands_num = #{value}
+	</select>
+	
+	<select id="selectRequestCount" resultType="int" parameterType="string">
+		select count(*) 
+		from errands 
+		where request_id =#{value}
+	</select>
+	
+	<select id="selectRequestGPA" resultType="int" parameterType="string">
+		select nvl(avg(request_manners),0) 
+		from gpa 
+		where member_id = #{value}
+	</select>
+	
+	<select id="selectRequesterHashtag" resultType="string" parameterType="string">
+		select hashtag 
+		from member_hashtag 
+		where member_id = #{value} 
+		group by hashtag 
+		order by count(*) desc
+	</select>
+	
+	
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 </mapper>

@@ -57,10 +57,13 @@
 					<input type="hidden" name="userId" value="${id}"> <input
 						type="hidden" name="name" value="${name}"> <input
 						type="hidden" name="photo" value="${photo}"> <input
-						type="hidden" name="sex" value="${gender}">
-						<input type="hidden" name="password" value="${pw}"/>
+						type="hidden" name="sex" value="${gender}"> <input
+						type="hidden" name="password" value="${pw}" />
 					<div class="block">
 						<div class="form-group">
+							<div class="alert alert-danger">
+								<strong>메모해두세요!</strong> 로그인 API로 로그인하셨을 때 최초의 비밀번호는 ${pw} 입니다!(비밀번호는 회원정보 수정등에 사용됩니다.)
+							</div>
 							<input class="form-control" type="text" name="preAddr"
 								id="sample5_address" placeholder="주소" readonly="readonly" /> <input
 								class="form-control" type="text" name="detailAddr"
@@ -112,7 +115,7 @@
 
 			//상세주소 입력여부 검사
 			if (login_daddr.value == "") {
-				alert("입력 오류!", "상세주소를 입력하세요", "error");
+				swal("입력 오류!", "상세주소를 입력하세요", "error");
 				login_daddr.focus();
 				return false;
 			}

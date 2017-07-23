@@ -28,6 +28,7 @@ import dothing.web.dto.NotificationDTO;
 import dothing.web.util.Constants;
 
 @Service
+@Transactional
 public class MemberServiceImpl implements MemberService {
 
 	@Autowired
@@ -44,7 +45,6 @@ public class MemberServiceImpl implements MemberService {
 	 * boolean -> true: API 가입 / false: 일반 가입
 	 */
 	@Override
-	@Transactional
 	public int joinMember(MemberDTO member, boolean isAPI) {
 		// 비밀번호 암호화
 		String encodePass = passwordEncoder.encode(member.getPassword());
@@ -154,9 +154,12 @@ public class MemberServiceImpl implements MemberService {
 	public int updateSafety(MemberDTO dto) {
 		return memberDao.updateSafety(dto);
 	}
-
+	/**
+	 * 안전심부름꾼 등록하기
+	 */
 	@Override
 	public int insertSafety(String id) {
+		insertNotification(id, "안전심부름꾼이 되었습니다!");
 		return memberDao.insertSafety(id);
 	}
 
@@ -195,7 +198,9 @@ public class MemberServiceImpl implements MemberService {
 	public List<NotificationDTO> selectNotificationById(String id, int page) {
 		return memberDao.selectNotificationById(id, page);
 	}
-
+	/**
+	 * 알림보내기
+	 */
 	@Override
 	public int insertNotification(String id, String content) {
 		return memberDao.insertNotification(id, content);
@@ -234,10 +239,10 @@ public class MemberServiceImpl implements MemberService {
 		String host = "smtp.gmail.com";
 		String subject = "Dothing 인증확인 이메일입니다.";
 		String fromName = "DoThing";
-		String from = "chlwlsdn37@gmail.com";
+		String from = "doothing123@gmail.com";
 		String to1 = email;
 		String content = "가입을 축하드립니다! 아래 링크를 누르면 인증이 자동적으로 완료됩니다!" + "<br>" + 
-		"<a href='http://localhost:8000/controller/user/emailOk?email="
+		"<a href='http://localhost:8088/controller/user/emailOk?email="
 				+ email + "&authNum=" + authNum +"'> 인증 확인하기 </a>";
 		try {
 			Properties props = new Properties();
@@ -250,7 +255,7 @@ public class MemberServiceImpl implements MemberService {
 			props.put("mail.smtp.auth", "true");
 			Session mailSession = Session.getInstance(props, new Authenticator() {
 				protected PasswordAuthentication getPasswordAuthentication() {
-					return new PasswordAuthentication("chlwlsdn37", "1081abcd");
+					return new PasswordAuthentication("doothing123", "dvorakdoothing");
 				}
 			});
 			Message msg = new MimeMessage(mailSession);
@@ -274,5 +279,13 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public int finishEmail(String id) {
 		return memberDao.finishEmail(id);
+	}
+	/**
+	 * 안전맨 권한 거부
+	 */
+	@Override
+	public int cancleSafety(String id) {
+		insertNotification(id, "안전심부름꾼 조건이 만족하지 않아 취소되었습니다");
+		return memberDao.cancleSafety(id);
 	}
 }

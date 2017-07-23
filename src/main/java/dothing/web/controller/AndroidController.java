@@ -1,19 +1,25 @@
 package dothing.web.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import dothing.web.dto.ErrandsDTO;
+import dothing.web.dto.MemberDTO;
 import dothing.web.service.AndroidService;
 import dothing.web.service.ErrandsService;
+import dothing.web.service.MemberService;
 
 @Controller
 @RequestMapping("/android")
@@ -22,21 +28,29 @@ public class AndroidController {
 	ErrandsService errandsService;
 	@Autowired
 	AndroidService androidService;
-	
-	@RequestMapping("/checkId")
+	@Autowired
+	MemberService memberService;
+
+	@RequestMapping("/signIn")
 	@ResponseBody
-	public Map<String,String> android(HttpServletRequest request){
-		String email = request.getParameter("email");
-		String password = request.getParameter("password");
+	public Map<String,String> signIn(HttpServletRequest request,MemberDTO memberDTO) throws Exception{
+		MultipartFile file = memberDTO.getSelfImgFile();
+		if(file != null){
+			memberDTO.setSelfImg(file.getOriginalFilename());
+			String path = request.getRealPath("/")+"/users/"+memberDTO.getUserId();
+			File createFile = new File(path);
+			if(!createFile.exists()){
+				createFile.mkdirs();
+			}
+			file.transferTo(new File(path+"/"+file.getOriginalFilename()));
+		}
 		
-		String result = androidService.androidLogin(email, password);
-		System.out.println(result);
+		
+		String result = androidService.androidSignIn(memberDTO)+"";
 		
 		Map<String,String> map = new HashMap<String, String>();
 		
-		map.put("test2", "aa");
-		map.put("test3", "bb");
-		
+		map.put("result", result);
 		return map;
 	}
 	
@@ -59,5 +73,11 @@ public class AndroidController {
 	public List<ErrandsDTO> errand(){
 		System.out.println("Á¢±ÙÇÔ");
 		return errandsService.selectAll();
+	}
+	
+	@RequestMapping("/sendEmail")
+	@ResponseBody
+	public String sendEmail(String email){
+		return androidService.androidSendEmail(email);
 	}
 }
