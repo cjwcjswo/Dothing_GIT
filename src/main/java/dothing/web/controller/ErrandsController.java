@@ -304,6 +304,8 @@ public class ErrandsController {
 		mv.addObject("num", num);
 		mv.addObject("responseName", memberService.selectMemberById(responseId).getName());
 		mv.addObject("responseId", responseId);
+		androidService.initLocation(num, requestUser.getUserId());
+		androidService.initLocation(num, responseId);
 		mv.setViewName("/errand/okay");
 		return mv;
 	}

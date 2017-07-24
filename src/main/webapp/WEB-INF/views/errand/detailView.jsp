@@ -147,8 +147,9 @@ function initChatting(){
 		 ws.send('${errands.errandsNum}#/separator/#');
 		document.getElementById('chatList').scrollTop = document.getElementById('chatList').scrollHeight;
 	}
-   $(function() {
 	setTimeout("initChatting()", 500);
+   $(function() {
+	
 	
 	   $('#inputText').keyup(function(e) {
 	          if (e.keyCode == 13)
@@ -163,6 +164,7 @@ function initChatting(){
 			if ("${currentId}" != "") {
 				ws = new SockJS("${pageContext.request.contextPath}/websocket");
 				settingWS();
+				//setTimeout("initChatting()", 500);
 			}
 		}
 	   

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import dothing.web.dto.ChatPosDTO;
 import dothing.web.dto.MemberDTO;
 import dothing.web.service.AndroidService;
 import dothing.web.service.MemberService;
@@ -58,6 +59,7 @@ public class AndroidMemberController {
 	}
 
 	@RequestMapping("/isSafety")
+	@ResponseBody
 	public Map<String, Object> isSafety(HttpServletRequest request) {
 		String userId = (String) request.getParameter("userId");
 		MemberDTO member = memberService.selectMemberById(userId);
@@ -74,6 +76,7 @@ public class AndroidMemberController {
 	}
 
 	@RequestMapping("/submitSafety")
+	@ResponseBody
 	public int submitSafety(HttpSession session, MemberDTO member) throws IllegalStateException, IOException {
 		int result = 0;
 		MultipartFile ssnImgFile = member.getSsnImgFile();
@@ -87,4 +90,28 @@ public class AndroidMemberController {
 		}
 		return result;
 	}
+
+	@RequestMapping("/updateLocation")
+	@ResponseBody
+	public Integer updateLocation(HttpServletRequest request) {
+		int result = 0;
+		String memberId = (String) request.getParameter("id");
+		String latitude = (String) request.getParameter("latitude");
+		String longitude = (String) request.getParameter("longitude");
+		result = androidService.updateLocation(memberId, latitude, longitude);
+		System.out.println(result + "µî·Ï µÊ, " + latitude + ":" + longitude);
+		return result;
+	}
+
+	@RequestMapping("/requestLocation")
+	@ResponseBody
+	public ChatPosDTO requestLocation(HttpServletRequest request) {
+		int errandsNum = Integer.parseInt(request.getParameter("errandsNum"));
+		String memberId = request.getParameter("id");
+		System.out.println(errandsNum + " " + memberId + " -> requestLocation");
+		ChatPosDTO chatPosDTO = androidService.selectLocation(errandsNum, memberId);
+		System.out.println(chatPosDTO);
+		return chatPosDTO;
+	}
+
 }
