@@ -19,6 +19,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import dothing.web.dao.AndroidDAO;
 import dothing.web.dao.MemberDAO;
+import dothing.web.dto.ChatPosDTO;
+import dothing.web.dto.ErrandsDTO;
 import dothing.web.dto.MemberDTO;
 
 @Service
@@ -133,4 +135,27 @@ public class AndroidServiceImpl implements AndroidService {
 		
 		return map;
 	}
+
+	@Override
+	public List<ErrandsDTO> selectChatList(String memberId) {
+		return androidDAO.selectChatList(memberId);
+	}
+
+	@Override
+	public int initLocation(int errandsNum, String memberId) {
+		return androidDAO.initLocation(errandsNum, memberId);
+	}
+
+	@Override
+	public int updateLocation(String memberId, String latitude, String longitude) {
+		return androidDAO.updateLocation(memberId, latitude, longitude);
+	}
+
+	@Override
+	public ChatPosDTO selectLocation(int errandsNum, String memberId) {
+		return androidDAO.selectLocation(errandsNum, memberId);
+	}
+	
+	
+	
 }

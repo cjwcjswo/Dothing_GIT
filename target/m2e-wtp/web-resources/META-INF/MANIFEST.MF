@@ -1,5 +1,10 @@
 Manifest-Version: 1.0
+<<<<<<< HEAD
 Built-By: crw12
 Build-Jdk: 1.8.0_131
+=======
+Built-By: YTK
+Build-Jdk: 1.8.0_111
+>>>>>>> f9a5ed812a9c46bb5abf87bc767bcd24be395a63
 Created-By: Maven Integration for Eclipse
 
