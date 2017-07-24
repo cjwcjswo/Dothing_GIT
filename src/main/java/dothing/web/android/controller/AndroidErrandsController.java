@@ -105,6 +105,13 @@ public class AndroidErrandsController {
 		map.put("introduce", memberDTO.getIntroduce());
 		map.put("requesterImg", memberDTO.getSelfImg());
 		
+		List<String> list = (List<String>) map.get("hashtagList");
+		
+		System.out.println("size : " + list.size());
+		for(int i=0; i<list.size(); i++) {
+			System.out.println(list.get(i));
+		}
+		
 		return map;
 	}
 	
@@ -163,7 +170,20 @@ public class AndroidErrandsController {
 		map.put("errandContent", errandsDTO.getContent());
 		map.put("errandImg", errandsDTO.getErrandsPhotoFile());
 		map.put("replyList", errandsDTO.getErrandsReply());
+	/*	
+		System.out.println("productPrice : " + errandsDTO.getProductPrice());
+		System.out.println("errandsPrice : " + errandsDTO.getErrandsPrice());
+		System.out.println("address : " + errandsDTO.getErrandsPos().getAddr());
+		System.out.println("errandContent : " + errandsDTO.getContent());
+		System.out.println("errandImg : " + errandsDTO.getErrandsPhotoFile());
 		
+		List<ErrandsReplyDTO> replyList = errandsDTO.getErrandsReply();
+		for(int i=0; i<replyList.size(); i++) {
+			ErrandsReplyDTO reply =  replyList.get(i);
+			System.out.println(reply.getArrivalTime() + " " + reply.getReplyContent() + " " + reply.getReplyDate() + " " + 
+			reply.getUser().getUserId() + " " + reply.getUser().getName() + " " + reply.getUser().getSelfImg());
+		}
+		*/
 		return map;
 	}
 	
