@@ -108,7 +108,7 @@ public class AndroidErrandsController {
 		MemberDTO memberDTO = memberService.selectMemberById((String) map.get("requesterId"));
 		map.put("introduce", memberDTO.getIntroduce());
 		map.put("requesterImg", memberDTO.getSelfImg());
-
+		System.out.println(map);
 		return map;
 	}
 
