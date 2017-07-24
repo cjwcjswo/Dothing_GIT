@@ -231,4 +231,9 @@
 			and response_id is null
 		</where>
 	</select>
+	
+	<!-- 채팅목록 가져오기 -->
+	<select id="selectChat" resultMap="errandsMap" parameterType="string">
+	select * from errands_reply_gpa_view where response_id is not null and (response_id = #{value} or request_id = #{value}) and (arrival_time is null or finish_time is null)
+	</select>
 </mapper>

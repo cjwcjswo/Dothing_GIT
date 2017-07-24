@@ -19,6 +19,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import dothing.web.dao.AndroidDAO;
 import dothing.web.dao.MemberDAO;
+import dothing.web.dto.ChatPosDTO;
+import dothing.web.dto.ErrandsDTO;
 import dothing.web.dto.MemberDTO;
 
 @Service
@@ -57,9 +59,7 @@ public class AndroidServiceImpl implements AndroidService {
 		String encodePass = passwordEncoder.encode(memberDTO.getPassword());
 		memberDTO.setPassword(encodePass);
 		
-		int authNum = (int)((Math.random() * 99998) + 1);
-		memberDTO.setState(authNum);
-		androidSendEmail(memberDTO.getUserId(), authNum);
+		memberDTO.setState(0);
 		
 		int result = androidDAO.androidSignIn(memberDTO);
 		memberDAO.createPoint(memberDTO.getUserId());
@@ -78,7 +78,9 @@ public class AndroidServiceImpl implements AndroidService {
 	}
 	
 	@Override
-	public void androidSendEmail(String email, Integer authNum) {
+	public String androidSendEmail(String email) {
+		int authNum = (int)((Math.random() * 99998) + 1);
+		
 		String host = "smtp.gmail.com";
 		String subject = "Dothing 인증확인 이메일입니다.";
 		String fromName = "DoThing";
@@ -115,6 +117,7 @@ public class AndroidServiceImpl implements AndroidService {
 		catch (Exception e) {
 			e.printStackTrace();
 		}
+		return authNum+"";
 	}
 	@Transactional
 	public Map<String, Object> selectRequesterDetail(int errandNum) {
@@ -134,4 +137,27 @@ public class AndroidServiceImpl implements AndroidService {
 		
 		return map;
 	}
+
+	@Override
+	public List<ErrandsDTO> selectChatList(String memberId) {
+		return androidDAO.selectChatList(memberId);
+	}
+
+	@Override
+	public int initLocation(int errandsNum, String memberId) {
+		return androidDAO.initLocation(errandsNum, memberId);
+	}
+
+	@Override
+	public int updateLocation(String memberId, String latitude, String longitude) {
+		return androidDAO.updateLocation(memberId, latitude, longitude);
+	}
+
+	@Override
+	public ChatPosDTO selectLocation(int errandsNum, String memberId) {
+		return androidDAO.selectLocation(errandsNum, memberId);
+	}
+	
+	
+	
 }

@@ -2,6 +2,8 @@ package dothing.web.dao;
 
 import java.util.List;
 
+import dothing.web.dto.ChatPosDTO;
+import dothing.web.dto.ErrandsDTO;
 import dothing.web.dto.MemberDTO;
 
 public interface AndroidDAO {
@@ -45,5 +47,24 @@ public interface AndroidDAO {
 	 * 회원ID로 해당 회원에게 달린 해시태그들 조회
 	 * */
 	List<Object> selectMemberHashtag(String memberId);
-
+	
+	/**
+	 * 채팅 리스트 조회
+	 */
+	List<ErrandsDTO> selectChatList(String memberId);
+	
+	/**
+	 * 내 위치 초기화(매칭될때 최초 등록)
+	 */
+	int initLocation(int errandsNum, String memberId);
+	
+	/**
+	 * 위치 업데이트
+	 */
+	int updateLocation(String memberId, String latitude, String longitude);
+	
+	/**
+	 * 위치 불러오기
+	 */
+	ChatPosDTO selectLocation(int errandsNum, String memberId);
 }
