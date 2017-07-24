@@ -41,8 +41,7 @@ public class MemberServiceImpl implements MemberService {
 	private PasswordEncoder passwordEncoder;
 
 	/**
-	 * 회원가입
-	 * boolean -> true: API 가입 / false: 일반 가입
+	 * 회원가입 boolean -> true: API 가입 / false: 일반 가입
 	 */
 	@Override
 	public int joinMember(MemberDTO member, boolean isAPI) {
@@ -50,11 +49,11 @@ public class MemberServiceImpl implements MemberService {
 		String encodePass = passwordEncoder.encode(member.getPassword());
 
 		member.setPassword(encodePass);
-		if(!isAPI){
-		int authNum = (int)((Math.random() * 99998) + 1);
-		member.setState(authNum);
-		sendEmail(member.getUserId(), authNum);
-		}else{
+		if (!isAPI) {
+			int authNum = (int) ((Math.random() * 99998) + 1);
+			member.setState(authNum);
+			sendEmail(member.getUserId(), authNum);
+		} else {
 			member.setState(0);
 		}
 		memberDao.insertMember(member);
@@ -89,17 +88,18 @@ public class MemberServiceImpl implements MemberService {
 			member.setPassword(null);
 		}
 		String updatePreAddr = member.getPreAddr();
-		if(updatePreAddr != null && !updatePreAddr.trim().equals("")){
+		if (updatePreAddr != null && !updatePreAddr.trim().equals("")) {
 			original.setPreAddr(updatePreAddr);
 			original.setDetailAddr(member.getDetailAddr());
 		}
-		if(member.getIntroduce() != null){
+		if (member.getIntroduce() != null) {
 			System.out.println(member.getIntroduce());
 			original.setIntroduce(member.getIntroduce());
 			System.out.println(original.getIntroduce());
-			
+
 		}
-		if (member.getPassword() == null && member.getSelfImg() == null && member.getPreAddr() == null && member.getIntroduce() == null) { 
+		if (member.getPassword() == null && member.getSelfImg() == null && member.getPreAddr() == null
+				&& member.getIntroduce() == null) {
 			return 0;
 		}
 		memberDao.updateMember(member);
@@ -122,10 +122,14 @@ public class MemberServiceImpl implements MemberService {
 	 * 해쉬태그 삽입
 	 */
 	@Override
-	public int insertHashtag(int errandsNum, String id, String evalTag) {
-		String[] tagList = evalTag.split(",");
-		for (String tag : tagList) {
-			memberDao.insertHashtag(new MemberHashDTO(errandsNum, id, tag.trim()));
+	public int insertHashtag(int errandsNum, String id, String evalTag, boolean isAndroid) {
+		if (isAndroid) {
+			memberDao.insertHashtag(new MemberHashDTO(errandsNum, id, evalTag));
+		} else {
+			String[] tagList = evalTag.split(",");
+			for (String tag : tagList) {
+				memberDao.insertHashtag(new MemberHashDTO(errandsNum, id, tag.trim()));
+			}
 		}
 		return 1;
 	}
@@ -154,6 +158,7 @@ public class MemberServiceImpl implements MemberService {
 	public int updateSafety(MemberDTO dto) {
 		return memberDao.updateSafety(dto);
 	}
+
 	/**
 	 * 안전심부름꾼 등록하기
 	 */
@@ -198,6 +203,7 @@ public class MemberServiceImpl implements MemberService {
 	public List<NotificationDTO> selectNotificationById(String id, int page) {
 		return memberDao.selectNotificationById(id, page);
 	}
+
 	/**
 	 * 알림보내기
 	 */
@@ -230,7 +236,7 @@ public class MemberServiceImpl implements MemberService {
 	public List<MemberHashDTO> selectHashtag(String id) {
 		return memberDao.selectHashtag(id);
 	}
-	
+
 	/**
 	 * 이메일 보내기
 	 */
@@ -241,9 +247,9 @@ public class MemberServiceImpl implements MemberService {
 		String fromName = "DoThing";
 		String from = "doothing123@gmail.com";
 		String to1 = email;
-		String content = "가입을 축하드립니다! 아래 링크를 누르면 인증이 자동적으로 완료됩니다!" + "<br>" + 
-		"<a href='http://localhost:8088/controller/user/emailOk?email="
-				+ email + "&authNum=" + authNum +"'> 인증 확인하기 </a>";
+		String content = "가입을 축하드립니다! 아래 링크를 누르면 인증이 자동적으로 완료됩니다!" + "<br>"
+				+ "<a href='http://www.doothing.com/user/emailOk?email=" + email + "&authNum=" + authNum
+				+ "'> 인증 확인하기 </a>";
 		try {
 			Properties props = new Properties();
 			props.put("mail.smtp.starttls.enable", "true");
@@ -272,7 +278,7 @@ public class MemberServiceImpl implements MemberService {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * 이메일 인증 완료
 	 */
@@ -280,6 +286,7 @@ public class MemberServiceImpl implements MemberService {
 	public int finishEmail(String id) {
 		return memberDao.finishEmail(id);
 	}
+
 	/**
 	 * 안전맨 권한 거부
 	 */

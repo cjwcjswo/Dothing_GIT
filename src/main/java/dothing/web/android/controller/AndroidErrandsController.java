@@ -1,7 +1,7 @@
 package dothing.web.android.controller;
 
 import java.io.File;
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import dothing.web.dto.ErrandsDTO;
 import dothing.web.dto.ErrandsPosDTO;
 import dothing.web.dto.ErrandsReplyDTO;
+import dothing.web.dto.GPADTO;
 import dothing.web.dto.MemberDTO;
 import dothing.web.service.AndroidService;
 import dothing.web.service.ChatService;
@@ -38,6 +39,7 @@ public class AndroidErrandsController {
 	MemberService memberService;
 	@Autowired
 	ChatService chatService;
+
 	/**
 	 * 안드로이드 맵 드래그할때마다 distance만큼 심부름 반경 검색
 	 */
@@ -162,37 +164,102 @@ public class AndroidErrandsController {
 		}
 		return list;
 	}
-	
+
 	/**
 	 * 채팅 내역 가져오기
 	 */
 	@RequestMapping("/loadChat")
 	@ResponseBody
-	public List<String> loadChat(HttpServletRequest request){
+	public List<String> loadChat(HttpServletRequest request) {
 		String errandsNum = request.getParameter("errandsNum");
 		return chatService.getContent(errandsNum);
 	}
+
 	/*
 	 * 심부름 상세정보 가져오기
-	 * */
+	 */
 	@RequestMapping("/errandsDetail")
 	@ResponseBody
-	public Map<String, Object> errandsDetail(HttpServletRequest request) throws Exception{
-		String errandNum = (String)request.getParameter("errandNum");
-		
+	public Map<String, Object> errandsDetail(HttpServletRequest request) throws Exception {
+		String errandNum = (String) request.getParameter("errandNum");
+
 		Map<String, Object> map = new HashMap<>();
 		ErrandsDTO errandsDTO = errandsService.selectErrands(Integer.parseInt(errandNum));
-		
+
 		map.put("productPrice", errandsDTO.getProductPrice());
 		map.put("errandsPrice", errandsDTO.getErrandsPrice());
 		map.put("address", errandsDTO.getErrandsPos().getAddr());
 		map.put("errandContent", errandsDTO.getContent());
 		map.put("errandImg", errandsDTO.getErrandsPhotoFile());
 		map.put("replyList", errandsDTO.getErrandsReply());
-		
+
 		return map;
 	}
-	
-	
+
+	/**
+	 * 심부름 완료 요청
+	 * 
+	 * @throws Exception
+	 */
+	@RequestMapping("/errandsFinish")
+	@ResponseBody
+	public boolean errandsFinishi(GPADTO gpaDTO, String isRequest, String hashContext) throws Exception {
+		boolean result = false;
+		System.out.println(gpaDTO + ":" + isRequest + ":" + hashContext);
+		ErrandsDTO errands = errandsService.selectErrands(gpaDTO.getErrandsNum()); // 해당
+		// 심부름
+		// 불러오기
+		String responseUserId = errands.getResponseUser().getUserId();
+		String requestUserId = errands.getRequestUser().getUserId();
+		if (isRequest.equals("true")) { // 요청자가 확인할 경우
+			errandsService.updateErrands(gpaDTO.getErrandsNum(), null, null, null, null, "finish", 0);
+			gpaDTO.setRequestManners(0);
+			gpaDTO.setUserId(responseUserId);
+			errandsService.okRequest(gpaDTO, responseUserId, hashContext, true);
+			String token = androidService.selectTokenById(responseUserId);
+			if (token != null) {
+				List<String> tokenList = new ArrayList<String>();
+				tokenList.add(token);
+				fcmPusher.pushFCMNotification(tokenList, "심부름 완료 요청!", requestUserId + "님이 심부름 완료를 눌렀습니다!");
+			}
+
+		} else { // 심부름꾼이 확인할 경우
+			errandsService.updateErrands(gpaDTO.getErrandsNum(), null, null, null, "arrival", null, 0);
+			gpaDTO.setResponseAccuracy(0);
+			gpaDTO.setResponseKindness(0);
+			gpaDTO.setResponseSpeed(0);
+			gpaDTO.setUserId(requestUserId);
+			errandsService.okRequest(gpaDTO, requestUserId, hashContext, true);
+			String token = androidService.selectTokenById(requestUserId);
+			if (token != null) {
+				List<String> tokenList = new ArrayList<String>();
+				tokenList.add(token);
+				fcmPusher.pushFCMNotification(tokenList, "심부름 완료 요청!", responseUserId + "님이 심부름 완료를 눌렀습니다!");
+			}
+		}
+
+		ErrandsDTO upErrands = errandsService.selectErrands(gpaDTO.getErrandsNum()); // 해당
+		// 심부름
+		// 불러오기
+		// 심부름꾼과 요청자가 모두 확인했을 경우
+		if (upErrands.getArrivalTime() != null && upErrands.getFinishTime() != null) {
+			// 포인트 업데이뚜
+			int totalPrice = upErrands.getErrandsPrice() + upErrands.getProductPrice();
+			System.out.println(totalPrice + " 토탈프라이스 ");
+			memberService.updatePoint(totalPrice, upErrands.getResponseUser().getUserId());
+			String requestToken = androidService.selectTokenById(requestUserId);
+			String responseToken = androidService.selectTokenById(responseUserId);
+			List<String> tokenList = new ArrayList<String>();
+			if (requestToken != null) {
+				tokenList.add(requestToken);
+			}
+			if(responseToken != null){
+				tokenList.add(responseToken);
+			}
+			fcmPusher.pushFCMNotification(tokenList, "심부름 완료!", errands.getTitle() + ": 심부름이 성공적으로 끝났습니다.");
+		}
+		result = true;
+		return result;
+	}
 
 }

@@ -155,6 +155,11 @@ public class AndroidServiceImpl implements AndroidService {
 	public ChatPosDTO selectLocation(int errandsNum, String memberId) {
 		return androidDAO.selectLocation(errandsNum, memberId);
 	}
+
+	@Override
+	public String selectTokenById(String memberId) {
+		return androidDAO.selectTokenById(memberId);
+	}
 	
 	
 	

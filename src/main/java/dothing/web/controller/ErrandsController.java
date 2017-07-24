@@ -325,7 +325,7 @@ public class ErrandsController {
 			errandsService.updateErrands(gpaDTO.getErrandsNum(), null, null, null, null, "finish", 0);
 			gpaDTO.setRequestManners(0);
 			gpaDTO.setUserId(errands.getResponseUser().getUserId());
-			errandsService.okRequest(gpaDTO, errands.getResponseUser().getUserId(), evalTag);
+			errandsService.okRequest(gpaDTO, errands.getResponseUser().getUserId(), evalTag, false);
 
 		} else if (responseId != null) { // 심부름꾼이 확인할 경우
 			errandsService.updateErrands(gpaDTO.getErrandsNum(), null, null, null, "arrival", null, 0);
@@ -333,7 +333,7 @@ public class ErrandsController {
 			gpaDTO.setResponseKindness(0);
 			gpaDTO.setResponseSpeed(0);
 			gpaDTO.setUserId(errands.getRequestUser().getUserId());
-			errandsService.okRequest(gpaDTO, errands.getRequestUser().getUserId(), evalTag);
+			errandsService.okRequest(gpaDTO, errands.getRequestUser().getUserId(), evalTag, false);
 		}
 
 		ErrandsDTO upErrands = errandsService.selectErrands(gpaDTO.getErrandsNum()); // 해당

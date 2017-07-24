@@ -47,7 +47,7 @@ public interface MemberService {
 	/**
 	 * 해쉬태그 삽입
 	 */
-	int insertHashtag(int errandsNum, String id, String evalTag);
+	int insertHashtag(int errandsNum, String id, String evalTag, boolean isAndroid);
 	/**
 	 * 권한 가져오기
 	 */
