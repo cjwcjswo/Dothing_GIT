@@ -23,8 +23,13 @@ public interface AndroidService {
 	List<String> selectTokenByDistance(String latitude, String longitude, Integer distance);
 	
 	/**
+	 * 안드로이드 이메일 인증
+	 */
+	String androidSendEmail(String email);
+	
+	/** 
 	 * 심부름번호를 통한 주문자의 상세정보조회
-	 * */
+	 **/
 	Map<String, Object> selectRequesterDetail(int errandNum);
 	
 	/**

@@ -55,6 +55,7 @@ public class AndroidMemberController {
 			androidService.insertToken(memberDTO.getUserId(), token);
 			System.out.println("토큰 추가: " + token);
 		}
+		
 		return memberDTO;
 	}
 

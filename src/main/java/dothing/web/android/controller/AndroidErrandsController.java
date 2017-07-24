@@ -172,4 +172,27 @@ public class AndroidErrandsController {
 		String errandsNum = request.getParameter("errandsNum");
 		return chatService.getContent(errandsNum);
 	}
+	/*
+	 * 심부름 상세정보 가져오기
+	 * */
+	@RequestMapping("/errandsDetail")
+	@ResponseBody
+	public Map<String, Object> errandsDetail(HttpServletRequest request) throws Exception{
+		String errandNum = (String)request.getParameter("errandNum");
+		
+		Map<String, Object> map = new HashMap<>();
+		ErrandsDTO errandsDTO = errandsService.selectErrands(Integer.parseInt(errandNum));
+		
+		map.put("productPrice", errandsDTO.getProductPrice());
+		map.put("errandsPrice", errandsDTO.getErrandsPrice());
+		map.put("address", errandsDTO.getErrandsPos().getAddr());
+		map.put("errandContent", errandsDTO.getContent());
+		map.put("errandImg", errandsDTO.getErrandsPhotoFile());
+		map.put("replyList", errandsDTO.getErrandsReply());
+		
+		return map;
+	}
+	
+	
+
 }
