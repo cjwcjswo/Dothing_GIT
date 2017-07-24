@@ -45,12 +45,11 @@ public class AndroidErrandsController {
 	 */
 	@RequestMapping("/errandSearch")
 	@ResponseBody
-	public List<ErrandsDTO> errandSearch(HttpServletRequest request) {
+	public List<ErrandsDTO> errandSearch(HttpServletRequest request, int distance) {
 		String lat = (String) request.getParameter("lat");
 		String lng = (String) request.getParameter("lng");
-		System.out.println(lat + " : " + lng);
-		List<ErrandsDTO> list = errandsService.searchErrands(null, null, null, 3, lat, lng);
-		System.out.println(list.size() + "개 검색됨");
+		List<ErrandsDTO> list = errandsService.searchErrands(null, null, null, distance, lat, lng);
+		System.out.println(distance + "반경으로" + list.size() + "개 검색됨");
 		return list;
 	}
 

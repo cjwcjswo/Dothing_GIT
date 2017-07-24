@@ -127,7 +127,8 @@ public class AndroidServiceImpl implements AndroidService {
 		int requestCount = androidDAO.selectRequestCount(requesterId);
 		int grade = androidDAO.selectRequestGPA(requesterId);
 		List<Object> hashtagList = androidDAO.selectMemberHashtag(requesterId);
-		
+		System.out.println("해시태그 리스트: " + hashtagList);
+		System.out.println("해시태그 사이즈: " + hashtagList.size());
 		map.put("requesterId", requesterId);
 		map.put("requestCount", requestCount);
 		map.put("grade", grade);
