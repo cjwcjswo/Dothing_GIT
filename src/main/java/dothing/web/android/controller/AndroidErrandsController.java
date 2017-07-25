@@ -2,6 +2,7 @@ package dothing.web.android.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import dothing.web.dto.ErrandsDTO;
 import dothing.web.dto.ErrandsPosDTO;
 import dothing.web.dto.ErrandsReplyDTO;
+import dothing.web.dto.GPADTO;
 import dothing.web.dto.MemberDTO;
 import dothing.web.service.AndroidService;
 import dothing.web.service.ChatService;
@@ -195,22 +197,31 @@ public class AndroidErrandsController {
 		map.put("errandsPrice", errandsDTO.getErrandsPrice());
 		map.put("address", errandsDTO.getErrandsPos().getAddr());
 		map.put("errandContent", errandsDTO.getContent());
-		map.put("errandImg", errandsDTO.getErrandsPhotoFile());
+		map.put("errandImg", errandsDTO.getErrandsPhoto());
 		map.put("replyList", errandsDTO.getErrandsReply());
-	/*	
-		System.out.println("productPrice : " + errandsDTO.getProductPrice());
-		System.out.println("errandsPrice : " + errandsDTO.getErrandsPrice());
-		System.out.println("address : " + errandsDTO.getErrandsPos().getAddr());
-		System.out.println("errandContent : " + errandsDTO.getContent());
-		System.out.println("errandImg : " + errandsDTO.getErrandsPhotoFile());
+		
+		List<Integer> avgGpaList = new ArrayList<>();
 		
 		List<ErrandsReplyDTO> replyList = errandsDTO.getErrandsReply();
 		for(int i=0; i<replyList.size(); i++) {
 			ErrandsReplyDTO reply =  replyList.get(i);
-			System.out.println(reply.getArrivalTime() + " " + reply.getReplyContent() + " " + reply.getReplyDate() + " " + 
-			reply.getUser().getUserId() + " " + reply.getUser().getName() + " " + reply.getUser().getSelfImg());
+			/*System.out.println(reply.getArrivalTime() + " " + reply.getReplyContent() + " " + reply.getReplyDate() + " " + 
+			reply.getUser().getUserId() + " " + reply.getUser().getName() + " " + reply.getUser().getSelfImg());*/
+			
+			List<GPADTO> gpaList = memberService.averageGPA(reply.getUser().getUserId());
+			int sum = 0;
+			for(int j=0; j<gpaList.size(); j++) {
+				GPADTO gpa = gpaList.get(j);
+				sum += Math.round((gpa.getResponseAccuracy()+gpa.getResponseKindness()+gpa.getResponseSpeed()) / 3);
+			}
+			int avg = Math.round(sum / gpaList.size());
+			avgGpaList.add(avg);
+			
 		}
-		*/
+		map.put("avgGpaList", avgGpaList);
+		
+	
+		
 		return map;
 	}
 	
