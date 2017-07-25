@@ -60,12 +60,13 @@ public class AndroidErrandsController {
 	@ResponseBody
 	public Integer uploadImage(HttpSession session, ErrandsDTO dto) throws Exception {
 		int result = 0;
-
+		int errandsNum = 0;
 		MultipartFile file = dto.getErrandsPhotoFile();
 		if (file != null) {
 			dto.setErrandsPhoto(file.getOriginalFilename());
 			System.out.println("파일이 있을경우" + dto + " 삽입");
 			result = errandsService.insertErrands(dto);
+			errandsNum = errandsService.selectNum();
 			String path = session.getServletContext().getRealPath("") + "\\errands\\" + errandsService.selectNum();
 			File folder = new File(path);
 			folder.mkdirs();
@@ -74,13 +75,14 @@ public class AndroidErrandsController {
 			dto.setErrandsPhoto("EMPTY");
 			System.out.println("파일이 없을경우" + dto + " 삽입");
 			result = errandsService.insertErrands(dto);
+			errandsNum = errandsService.selectNum();
 		}
 		if (result > 0) {
 			ErrandsPosDTO posDTO = dto.getErrandsPos();
 			List<String> userTokenList = androidService.selectTokenByDistance(posDTO.getLatitude(),
 					posDTO.getLongitude(), 5);
 			if (userTokenList != null && userTokenList.size() > 0)
-				fcmPusher.pushFCMNotification(userTokenList, "두띵", "주변에 새심부름이 등록됬습니다!: " + dto.getTitle());
+				fcmPusher.pushFCMNotification(userTokenList, "두띵", "주변에 새심부름이 등록됬습니다!: " + dto.getTitle(), "DETAIL_ACTIVITY", errandsNum +"");
 		}
 		return result;
 	}
@@ -115,31 +117,34 @@ public class AndroidErrandsController {
 		for(int i=0; i<list.size(); i++) {
 			System.out.println(list.get(i));
 		}
-		
+		System.out.println("리퀘스트 디테일: " + map);
 		return map;
 	}
 
 	// 댓글 등록
 	@RequestMapping("/insertReply")
 	@ResponseBody
-	public String insertReply(HttpServletRequest request) {
+	public String insertReply(HttpServletRequest request) throws Exception {
 		String memberId = (String) request.getParameter("memberId");
 		String errandNum = (String) request.getParameter("errandNum");
 		String arrivalTime = (String) request.getParameter("arrivalTime");
 		String replyContent = (String) request.getParameter("replyContent");
 
 		ErrandsReplyDTO replyDTO = new ErrandsReplyDTO();
-		ErrandsDTO errandsDTO = new ErrandsDTO();
-		errandsDTO.setErrandsNum(Integer.parseInt(errandNum));
+		ErrandsDTO errandsDTO = errandsService.selectErrands(Integer.parseInt(errandNum));
 		replyDTO.setErrands(errandsDTO);
 		replyDTO.setArrivalTime(arrivalTime);
 		replyDTO.setReplyContent(replyContent);
 		MemberDTO memberDTO = new MemberDTO();
 		memberDTO.setUserId(memberId);
 		replyDTO.setUser(memberDTO);
-
+		
 		int result = errandsService.insertReply(replyDTO);
-
+		
+		String token = androidService.selectTokenById(errandsDTO.getRequestUser().getUserId());
+		List<String> tokenList = new ArrayList<>();
+		tokenList.add(token);
+		fcmPusher.pushFCMNotification(tokenList, "댓글이 등록됨!", errandsDTO.getTitle() +"글에 댓글이 등록됬습니다!", "DETAIL_ACTIVITY", errandNum);
 		return result + "";
 
 	}
@@ -199,8 +204,7 @@ public class AndroidErrandsController {
 		map.put("errandContent", errandsDTO.getContent());
 		map.put("errandImg", errandsDTO.getErrandsPhoto());
 		map.put("replyList", errandsDTO.getErrandsReply());
-
-		
+		map.put("errandTime", errandsDTO.getEndTime());
 		List<Integer> avgGpaList = new ArrayList<>();
 		
 		List<ErrandsReplyDTO> replyList = errandsDTO.getErrandsReply();
@@ -215,7 +219,9 @@ public class AndroidErrandsController {
 				GPADTO gpa = gpaList.get(j);
 				sum += Math.round((gpa.getResponseAccuracy()+gpa.getResponseKindness()+gpa.getResponseSpeed()) / 3);
 			}
-			int avg = Math.round(sum / gpaList.size());
+			int avg = 0;
+			if(gpaList.size() == 0) avg = 0; 
+			else avg = Math.round(sum / gpaList.size());
 			avgGpaList.add(avg);
 			
 		}
@@ -250,7 +256,7 @@ public class AndroidErrandsController {
 			if (token != null) {
 				List<String> tokenList = new ArrayList<String>();
 				tokenList.add(token);
-				fcmPusher.pushFCMNotification(tokenList, "심부름 완료 요청!", requestUserId + "님이 심부름 완료를 눌렀습니다!");
+				fcmPusher.pushFCMNotification(tokenList, "심부름 완료 요청!", requestUserId + "님이 심부름 완료를 눌렀습니다!", "CHAT_ACTIVITY", gpaDTO.getErrandsNum() +"");
 			}
 
 		} else { // 심부름꾼이 확인할 경우
@@ -264,7 +270,7 @@ public class AndroidErrandsController {
 			if (token != null) {
 				List<String> tokenList = new ArrayList<String>();
 				tokenList.add(token);
-				fcmPusher.pushFCMNotification(tokenList, "심부름 완료 요청!", responseUserId + "님이 심부름 완료를 눌렀습니다!");
+				fcmPusher.pushFCMNotification(tokenList, "심부름 완료 요청!", responseUserId + "님이 심부름 완료를 눌렀습니다!", "CHAT_ACTIVITY", gpaDTO.getErrandsNum() +"");
 			}
 		}
 
@@ -286,7 +292,7 @@ public class AndroidErrandsController {
 			if(responseToken != null){
 				tokenList.add(responseToken);
 			}
-			fcmPusher.pushFCMNotification(tokenList, "심부름 완료!", errands.getTitle() + ": 심부름이 성공적으로 끝났습니다.");
+			fcmPusher.pushFCMNotification(tokenList, "심부름 완료!", errands.getTitle() + ": 심부름이 성공적으로 끝났습니다.", null, null);
 		}
 		result = true;
 		return result;

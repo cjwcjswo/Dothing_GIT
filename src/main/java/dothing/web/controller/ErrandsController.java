@@ -132,7 +132,7 @@ public class ErrandsController {
 		Date upTime = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(dto.getEndTime());
 		Date currentTime = new Date();
 		
-	
+	int errandsNum = 0;
 		if(upTime.getTime() < currentTime.getTime()){
 			throw new Exception("마감 시간이 현재 시간보다 빠릅니다");
 		}
@@ -145,7 +145,8 @@ public class ErrandsController {
 				throw new Exception("확장자가 jpg, jpeg, png, gif인 파일만 업로드 할 수 있습니다");
 			}
 			errandsService.insertErrands(dto);
-			String path = session.getServletContext().getRealPath("") + "\\errands\\" + errandsService.selectNum();
+			errandsNum = errandsService.selectNum();
+			String path = session.getServletContext().getRealPath("") + "\\errands\\" + errandsNum;
 			File folder = new File(path);
 			folder.mkdirs();
 			file.transferTo(new File(path + "\\" + dto.getErrandsPhoto()));
@@ -153,13 +154,14 @@ public class ErrandsController {
 		} else {
 			dto.setErrandsPhoto("EMPTY");
 			errandsService.insertErrands(dto);
+			errandsNum = errandsService.selectNum();
 		}
 		
 		ErrandsPosDTO posDTO = dto.getErrandsPos();
 		System.out.println(posDTO.getLatitude() +":"+posDTO.getLongitude());
 		List<String> userTokenList = androidService.selectTokenByDistance(posDTO.getLatitude(), posDTO.getLongitude(), 5);
 		if(userTokenList !=  null&&userTokenList.size() > 0  )
-			fcmPusher.pushFCMNotification(userTokenList, "두띵", "주변에 새심부름이 등록됬습니다!: " + dto.getTitle());
+			fcmPusher.pushFCMNotification(userTokenList, "두띵", "주변에 새심부름이 등록됬습니다!: " + dto.getTitle(), "DETAIL_ACTIVITY", errandsNum +"");
 
 
 		mv.addObject("insertNum", errandsService.selectNum());
