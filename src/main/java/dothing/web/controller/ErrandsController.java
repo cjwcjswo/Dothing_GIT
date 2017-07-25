@@ -372,7 +372,7 @@ public class ErrandsController {
 				addr = null;
 		}
 		pm.start();
-		mv.addObject("errandsList", errandsService.selectList(sort, addr, page));
+		mv.addObject("errandsList", errandsService.selectList(sort, addr, null, page));
 		mv.addObject("pm", pm);
 		mv.addObject("sort", sort);
 		mv.addObject("addr", addr);

@@ -59,7 +59,7 @@
 	<select id="selectRequesterHashtag" resultType="string" parameterType="string">
 		select hashtag 
 		from member_hashtag 
-		where member_id = #{value} 
+		where member_id = #{_parameter}
 		group by hashtag 
 		order by count(*) desc
 	</select>

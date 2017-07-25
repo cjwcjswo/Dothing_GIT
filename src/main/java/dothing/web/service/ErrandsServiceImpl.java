@@ -252,12 +252,15 @@ public class ErrandsServiceImpl implements ErrandsService {
 	}
 
 	@Override
-	public List<ErrandsDTO> selectList(Integer sort, String addr, int page) {
-		List<ErrandsDTO> list = errandsDAO.selectList(sort, addr, page);
+	public List<ErrandsDTO> selectList(Integer sort, String addr, String title, int page) {
+		List<ErrandsDTO> list = errandsDAO.selectList(sort, addr, title, page);
 		for (ErrandsDTO dto : list) {
+			int errandsNum = dto.getErrandsNum();
 			MemberDTO requestUser = dto.getRequestUser();
 			requestUser.setGpaList(errandsDAO.selectGPAById(requestUser.getUserId()));
 			dto.setHashes(errandsDAO.selectErrandsHashtag(dto.getErrandsNum()));
+			dto.setErrandsPos(errandsDAO.selectErrandsPos(errandsNum));
+			dto.setErrandsReply(errandsDAO.selectByErrands(errandsNum));
 		}
 		return list;
 	}

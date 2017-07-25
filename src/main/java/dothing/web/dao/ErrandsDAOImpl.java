@@ -156,11 +156,14 @@ public class ErrandsDAOImpl implements ErrandsDAO{
 	}
 
 	@Override
-	public List<ErrandsDTO> selectList(Integer sort, String addr, int page) {
+	public List<ErrandsDTO> selectList(Integer sort, String addr, String title, int page) {
 		Map<String, Object> map = new HashMap<>();
 		map.put("sort", sort);
 		if(addr != null) map.put("addr", "%"+addr+"%");
-		return sqlSession.selectList("mapper.errandsMapper.selectList", map, new RowBounds((page-1) * 10, 10));
+		if(title != null) map.put("title", "%"+title+"%");
+		System.out.println(map);
+		if(page == 0) return sqlSession.selectList("mapper.errandsMapper.selectList", map);
+		else return sqlSession.selectList("mapper.errandsMapper.selectList", map, new RowBounds((page-1) * 10, 10));
 	}
 	@Override
 	public int countList(String addr){

@@ -107,7 +107,15 @@ public class AndroidErrandsController {
 		MemberDTO memberDTO = memberService.selectMemberById((String) map.get("requesterId"));
 		map.put("introduce", memberDTO.getIntroduce());
 		map.put("requesterImg", memberDTO.getSelfImg());
-		System.out.println(map);
+
+
+		List<String> list = (List<String>) map.get("hashtagList");
+		
+		System.out.println("size : " + list.size());
+		for(int i=0; i<list.size(); i++) {
+			System.out.println(list.get(i));
+		}
+		
 		return map;
 	}
 
@@ -189,9 +197,23 @@ public class AndroidErrandsController {
 		map.put("errandsPrice", errandsDTO.getErrandsPrice());
 		map.put("address", errandsDTO.getErrandsPos().getAddr());
 		map.put("errandContent", errandsDTO.getContent());
-		map.put("errandImg", errandsDTO.getErrandsPhotoFile());
+		map.put("errandImg", errandsDTO.getErrandsPhoto());
 		map.put("replyList", errandsDTO.getErrandsReply());
 
+	/*	
+		System.out.println("productPrice : " + errandsDTO.getProductPrice());
+		System.out.println("errandsPrice : " + errandsDTO.getErrandsPrice());
+		System.out.println("address : " + errandsDTO.getErrandsPos().getAddr());
+		System.out.println("errandContent : " + errandsDTO.getContent());
+		System.out.println("errandImg : " + errandsDTO.getErrandsPhotoFile());
+		
+		List<ErrandsReplyDTO> replyList = errandsDTO.getErrandsReply();
+		for(int i=0; i<replyList.size(); i++) {
+			ErrandsReplyDTO reply =  replyList.get(i);
+			System.out.println(reply.getArrivalTime() + " " + reply.getReplyContent() + " " + reply.getReplyDate() + " " + 
+			reply.getUser().getUserId() + " " + reply.getUser().getName() + " " + reply.getUser().getSelfImg());
+		}
+		*/
 		return map;
 	}
 
@@ -261,4 +283,10 @@ public class AndroidErrandsController {
 		return result;
 	}
 
+	@RequestMapping("/errandListSearch")
+	@ResponseBody
+	public List<ErrandsDTO> searchErrandsList(String keyword, int sort){
+		List<ErrandsDTO> list = errandsService.selectList(sort, keyword, keyword, 0);
+		return list;
+	}
 }
