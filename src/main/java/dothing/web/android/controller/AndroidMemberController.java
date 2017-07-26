@@ -86,8 +86,6 @@ public class AndroidMemberController {
 			return null;
 		}
 		if(facebook != null){
-			System.out.println("*********"+password);
-			System.out.println("facebook µé¾î¿È");
 			URL url = new URL(memberDTO.getSelfImg());
 			BufferedImage img = ImageIO.read(url);
 			memberDTO.setSelfImg("profile.jpg");
