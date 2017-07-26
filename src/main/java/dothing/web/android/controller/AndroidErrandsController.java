@@ -332,7 +332,7 @@ public class AndroidErrandsController {
 		androidService.initLocation(errandNum, requestUser.getUserId());
 		androidService.initLocation(errandNum, responseUserId);
 		//mv.setViewName("/errand/okay");
-		map.put("result", "성공적으로 매칭되었습니다!!");
+		map.put("result", "성공");
 		return map;
 	}
 	
