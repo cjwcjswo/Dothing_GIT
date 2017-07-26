@@ -33,7 +33,7 @@ public class ErrandsServiceImpl implements ErrandsService {
 	public List<ErrandsDTO> selectAll() {
 		errandsDAO.deleteTimeErrands();
 		List<ErrandsDTO> list = errandsDAO.selectAll();
-		for(ErrandsDTO dto : list){
+		for (ErrandsDTO dto : list) {
 			dto.setHashes(errandsDAO.selectErrandsHashtag(dto.getErrandsNum()));
 		}
 		return list;
@@ -81,7 +81,7 @@ public class ErrandsServiceImpl implements ErrandsService {
 			errandsDAO.insertErrandsHashtag(result);
 			index = restIndex;
 		}
-		
+
 		return 1;
 	}
 
@@ -112,7 +112,7 @@ public class ErrandsServiceImpl implements ErrandsService {
 	public List<ErrandsDTO> searchErrands(String hash, Integer minPrice, Integer maxPrice, Integer distance,
 			String latitude, String longitude) {
 		List<ErrandsDTO> list = errandsDAO.searchErrands(hash, minPrice, maxPrice, distance, latitude, longitude);
-		for(ErrandsDTO dto : list){
+		for (ErrandsDTO dto : list) {
 			dto.setHashes(errandsDAO.selectErrandsHashtag(dto.getErrandsNum()));
 		}
 		return list;
@@ -183,8 +183,6 @@ public class ErrandsServiceImpl implements ErrandsService {
 		return errandsDAO.countMyResponse(id);
 	}
 
-
-
 	@Override
 	public int deleteReply(int num) {
 		return errandsDAO.deleteReply(num);
@@ -206,10 +204,25 @@ public class ErrandsServiceImpl implements ErrandsService {
 	}
 
 	@Override
-	public int okRequest(GPADTO gpaDTO, String id, String evalTag) {
+	public int okRequest(GPADTO gpaDTO, String id, String evalTag, boolean isAndroid) {
 		insertGPA(gpaDTO);
-		if (evalTag != null && evalTag.length() > 0) {
-			memberService.insertHashtag(gpaDTO.getErrandsNum(), id, evalTag);
+		if (isAndroid) {
+			if(evalTag != null && !evalTag.trim().equals("")){
+			int index = 0;
+			while ((index = evalTag.indexOf("#", index)) != -1) { // 해쉬태그 삽입
+				int restIndex = evalTag.indexOf(" ", index);
+				if (restIndex == -1) {
+					restIndex = evalTag.length();
+				}
+				String result = evalTag.substring(index + 1, restIndex);
+				memberService.insertHashtag(gpaDTO.getErrandsNum(), id, result, true);
+				index = restIndex;
+			}
+			}
+		} else {
+			if (evalTag != null && evalTag.length() > 0) {
+				memberService.insertHashtag(gpaDTO.getErrandsNum(), id, evalTag, false);
+			}
 		}
 		memberService.insertNotification(id, gpaDTO.getErrandsNum() + "번의 게시물 상대방이 거래완료를 눌렀습니다");
 		return 1;
@@ -239,12 +252,15 @@ public class ErrandsServiceImpl implements ErrandsService {
 	}
 
 	@Override
-	public List<ErrandsDTO> selectList(Integer sort, String addr, int page) {
-		List<ErrandsDTO> list = errandsDAO.selectList(sort, addr, page);
+	public List<ErrandsDTO> selectList(Integer sort, String addr, String title, int page) {
+		List<ErrandsDTO> list = errandsDAO.selectList(sort, addr, title, page);
 		for (ErrandsDTO dto : list) {
+			int errandsNum = dto.getErrandsNum();
 			MemberDTO requestUser = dto.getRequestUser();
 			requestUser.setGpaList(errandsDAO.selectGPAById(requestUser.getUserId()));
 			dto.setHashes(errandsDAO.selectErrandsHashtag(dto.getErrandsNum()));
+			dto.setErrandsPos(errandsDAO.selectErrandsPos(errandsNum));
+			dto.setErrandsReply(errandsDAO.selectByErrands(errandsNum));
 		}
 		return list;
 	}
@@ -253,7 +269,5 @@ public class ErrandsServiceImpl implements ErrandsService {
 	public int countList(String addr) {
 		return errandsDAO.countList(addr);
 	}
-
-
 
 }

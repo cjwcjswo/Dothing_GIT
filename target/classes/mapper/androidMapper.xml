@@ -34,6 +34,10 @@
 		&lt;= 5 and token is not null
 	</select>
 	
+	<select id="selectTokenById" resultType="string" parameterType="string">
+		select token from member where member_id = #{value}
+	</select>
+	
 	<select id="selectRequesterId" resultType="string" parameterType="int">
 		select request_id 
 		from errands 
@@ -55,24 +59,19 @@
 	<select id="selectRequesterHashtag" resultType="string" parameterType="string">
 		select hashtag 
 		from member_hashtag 
-		where member_id = #{value} 
+		where member_id = #{_parameter}
 		group by hashtag 
 		order by count(*) desc
 	</select>
 	
-	
-
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
+	<insert id="initLocation" parameterType="map">
+		insert into CHAT_LOCATION values(#{num}, #{id}, 0, 0, to_char(sysdate, 'YYYY-MM-DD HH:MI:SS'))
+	</insert>
+	<update id="updateLocation" parameterType="map">
+		update CHAT_LOCATION set LATITUDE=#{latitude}, LONGITUDE=#{longitude}, TIME = to_char(sysdate, 'YYYY-MM-DD HH:MI:SS')
+		where MEMBER_ID=#{id}
+	</update>
+	<select id="selectLocation" parameterType="map" resultType="chatPosDTO">
+		select * from CHAT_LOCATION WHERE MEMBER_ID = #{id} and ERRANDS_NUM = #{num}
+	</select>
 </mapper>

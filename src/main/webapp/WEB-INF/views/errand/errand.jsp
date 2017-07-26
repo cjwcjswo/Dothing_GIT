@@ -272,7 +272,7 @@
 									<div class="wrapper">
 										<h3>${ranked.name}</h3>
 										</a>
-										<figure>${ranked.addr}
+										<figure>${ranked.preAddr}
 										</figure>
 										${ranked.introduce}
 										<div class="info">

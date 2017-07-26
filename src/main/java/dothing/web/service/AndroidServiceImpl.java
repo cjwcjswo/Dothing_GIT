@@ -19,6 +19,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import dothing.web.dao.AndroidDAO;
 import dothing.web.dao.MemberDAO;
+import dothing.web.dto.ChatPosDTO;
+import dothing.web.dto.ErrandsDTO;
 import dothing.web.dto.MemberDTO;
 
 @Service
@@ -122,9 +124,12 @@ public class AndroidServiceImpl implements AndroidService {
 		Map<String, Object> map = new HashMap<>();
 		
 		String requesterId = androidDAO.selectRequesterId(errandNum);
+		System.out.println("requesterId : " + requesterId);
 		int requestCount = androidDAO.selectRequestCount(requesterId);
 		int grade = androidDAO.selectRequestGPA(requesterId);
 		List<Object> hashtagList = androidDAO.selectMemberHashtag(requesterId);
+
+		System.out.println("length : " + hashtagList.size());
 		
 		map.put("requesterId", requesterId);
 		map.put("requestCount", requestCount);
@@ -133,4 +138,32 @@ public class AndroidServiceImpl implements AndroidService {
 		
 		return map;
 	}
+
+	@Override
+	public List<ErrandsDTO> selectChatList(String memberId) {
+		return androidDAO.selectChatList(memberId);
+	}
+
+	@Override
+	public int initLocation(int errandsNum, String memberId) {
+		return androidDAO.initLocation(errandsNum, memberId);
+	}
+
+	@Override
+	public int updateLocation(String memberId, String latitude, String longitude) {
+		return androidDAO.updateLocation(memberId, latitude, longitude);
+	}
+
+	@Override
+	public ChatPosDTO selectLocation(int errandsNum, String memberId) {
+		return androidDAO.selectLocation(errandsNum, memberId);
+	}
+
+	@Override
+	public String selectTokenById(String memberId) {
+		return androidDAO.selectTokenById(memberId);
+	}
+	
+	
+	
 }
