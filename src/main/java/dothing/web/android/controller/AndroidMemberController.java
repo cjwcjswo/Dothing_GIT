@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import dothing.web.dto.ChatPosDTO;
+import dothing.web.dto.ErrandsDTO;
 import dothing.web.dto.MemberDTO;
 import dothing.web.service.AndroidService;
+import dothing.web.service.ErrandsService;
 import dothing.web.service.MemberService;
 
 @Controller
@@ -27,6 +29,8 @@ public class AndroidMemberController {
 	MemberService memberService;
 	@Autowired
 	AndroidService androidService;
+	@Autowired
+	ErrandsService errandsService;
 	@Autowired
 	PasswordEncoder passwordEncoder;
 
@@ -115,6 +119,7 @@ public class AndroidMemberController {
 		return chatPosDTO;
 	}
 	
+<<<<<<< HEAD
 	@RequestMapping("/myinfoUpdate")
 	@ResponseBody
 	public MemberDTO pwConfirm(HttpServletRequest request){
@@ -129,4 +134,24 @@ public class AndroidMemberController {
 		return null;
 	}
 
+=======
+	@RequestMapping("/isEvalFinish")
+	@ResponseBody
+	public boolean isEvalFinish(HttpServletRequest request){
+		String errandsNum = request.getParameter("errandsNum");
+		String isRequest = request.getParameter("isRequest");
+		System.out.println("[isEvalFinish] " + errandsNum + ":" + isRequest);
+		ErrandsDTO dto = errandsService.selectErrands(Integer.parseInt(errandsNum));
+		System.out.println(dto);
+		if(isRequest.equals("true")){
+			String finishTime = dto.getFinishTime();
+			if(finishTime == null) return true;
+			else return false;
+		}else{
+			String arrivalTime = dto.getArrivalTime();
+			if(arrivalTime == null) return true;
+			else return false;
+		}
+	}
+>>>>>>> 2c6efd28c077b580d2910d115e8ba24f3ba7adb0
 }

@@ -67,4 +67,6 @@ public interface AndroidDAO {
 	 * 위치 불러오기
 	 */
 	ChatPosDTO selectLocation(int errandsNum, String memberId);
+	
+	String selectTokenById(String memberId);
 }

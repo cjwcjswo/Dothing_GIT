@@ -1,5 +1,9 @@
 Manifest-Version: 1.0
+<<<<<<< HEAD
 Built-By: crw12
+=======
+Built-By: Administrator
+>>>>>>> 2c6efd28c077b580d2910d115e8ba24f3ba7adb0
 Build-Jdk: 1.8.0_131
 Created-By: Maven Integration for Eclipse
 

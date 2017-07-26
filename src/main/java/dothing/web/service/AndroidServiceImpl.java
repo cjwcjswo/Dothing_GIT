@@ -124,9 +124,12 @@ public class AndroidServiceImpl implements AndroidService {
 		Map<String, Object> map = new HashMap<>();
 		
 		String requesterId = androidDAO.selectRequesterId(errandNum);
+		System.out.println("requesterId : " + requesterId);
 		int requestCount = androidDAO.selectRequestCount(requesterId);
 		int grade = androidDAO.selectRequestGPA(requesterId);
 		List<Object> hashtagList = androidDAO.selectMemberHashtag(requesterId);
+
+		System.out.println("length : " + hashtagList.size());
 		
 		map.put("requesterId", requesterId);
 		map.put("requestCount", requestCount);
@@ -154,6 +157,11 @@ public class AndroidServiceImpl implements AndroidService {
 	@Override
 	public ChatPosDTO selectLocation(int errandsNum, String memberId) {
 		return androidDAO.selectLocation(errandsNum, memberId);
+	}
+
+	@Override
+	public String selectTokenById(String memberId) {
+		return androidDAO.selectTokenById(memberId);
 	}
 	
 	

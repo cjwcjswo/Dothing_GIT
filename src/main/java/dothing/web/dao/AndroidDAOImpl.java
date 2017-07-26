@@ -96,4 +96,9 @@ public class AndroidDAOImpl implements AndroidDAO {
 		return sqlSession.selectOne("androidMapper.selectLocation", map);
 	}
 
+	@Override
+	public String selectTokenById(String memberId) {
+		return sqlSession.selectOne("androidMapper.selectTokenById", memberId);
+	}
+
 }

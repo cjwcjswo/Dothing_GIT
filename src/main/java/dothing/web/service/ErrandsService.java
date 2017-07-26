@@ -62,10 +62,10 @@ public interface ErrandsService {
 	/**
 	 * 요청자 확인
 	 */
-	int okRequest(GPADTO gpaDTO, String id, String evalTag);
+	int okRequest(GPADTO gpaDTO, String id, String evalTag, boolean isAndroid);
 	
 	List<GPADTO> selectGPAById(String id);
 	
-	List<ErrandsDTO> selectList(Integer sort, String addr, int page);
+	List<ErrandsDTO> selectList(Integer sort, String addr, String title, int page);
 	int countList(String addr);
 }

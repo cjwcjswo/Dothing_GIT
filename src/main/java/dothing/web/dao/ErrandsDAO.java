@@ -46,7 +46,7 @@ public interface ErrandsDAO {
 	/**
 	 * 리스트에서 검색
 	 */
-	List<ErrandsDTO> selectList(Integer sort, String addr, int page);
+	List<ErrandsDTO> selectList(Integer sort, String addr, String title, int page);
 	int countList(String addr);
 	
 	/**

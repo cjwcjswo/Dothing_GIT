@@ -22,7 +22,7 @@ public class FcmPusher {
 
     // userDeviceIdKey is the device id you will query from your database
 
-    public void pushFCMNotification(List<String> userDeviceIdKey, String title, String body)
+    public void pushFCMNotification(List<String> userDeviceIdKey, String title, String body, String action, String errandsNum)
             throws Exception {
         String authKey = AUTH_KEY_FCM; // You FCM AUTH key
         String FMCurl = API_URL_FCM;
@@ -39,10 +39,12 @@ public class FcmPusher {
   
         JSONObject json = new JSONObject();
         JSONObject info = new JSONObject();
+        
         info.put("body", body); // Notification body
         info.put("title", title);
+        if(errandsNum != null) info.put("errandNum", errandsNum);
+        if(action != null) info.put("click_action", action);
         json.put("data", info);
-        
         json.put("registration_ids", userDeviceIdKey); // deviceID
         System.out.println(json);
         try(OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream(), "UTF-8")){
