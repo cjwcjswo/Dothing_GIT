@@ -10,10 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import dothing.web.dto.ErrandsDTO;
 import dothing.web.dto.ErrandsPosDTO;
@@ -304,4 +306,47 @@ public class AndroidErrandsController {
 		List<ErrandsDTO> list = errandsService.selectList(sort, keyword, keyword, 0);
 		return list;
 	}
+	
+	
+	/**
+	 * 심부름 수행 프로세스(심부름꾼 선택했을 때)
+	 */
+	@RequestMapping("/startErrand")
+	public Map<String, Object> startErrand(String requestUserId, String strErrandNum, String responseUserId) throws Exception {
+		//ModelAndView mv = new ModelAndView();
+		Map<String, Object> map = new HashMap<>();
+		int errandNum = Integer.parseInt(strErrandNum);
+		MemberDTO requestUser = memberService.selectMemberById(requestUserId);
+		ErrandsDTO currentErrand = errandsService.selectErrands(errandNum);
+		int totalPrice = currentErrand.getProductPrice() + currentErrand.getErrandsPrice();
+		if (totalPrice > requestUser.getPoint().getCurrentPoint()) {
+			map.put("result", "포인트가 부족합니다! 충전해주세요.");
+			throw new Exception("포인트가 부족합니다! 충전해주세요.");
+		}
+		errandsService.updateErrands(errandNum, responseUserId, requestUser.getUserId(), "startTime", null, null, -totalPrice);
+		requestUser.getPoint().setCurrentPoint((requestUser.getPoint().getCurrentPoint()) - totalPrice);
+		memberService.insertNotification(responseUserId, "<a href='../errand/detailView?num="+errandNum+"'>"+ errandNum + "번 글의 " + requestUser.getName() + "님과 매칭되었습니다.</a>");
+		//mv.addObject("num", num);
+		//mv.addObject("responseName", memberService.selectMemberById(responseId).getName());
+		//mv.addObject("responseId", responseId);
+		androidService.initLocation(errandNum, requestUser.getUserId());
+		androidService.initLocation(errandNum, responseUserId);
+		//mv.setViewName("/errand/okay");
+		map.put("result", "성공적으로 매칭되었습니다!!");
+		return map;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
