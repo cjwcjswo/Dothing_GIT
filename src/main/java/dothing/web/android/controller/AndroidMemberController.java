@@ -59,26 +59,17 @@ public class AndroidMemberController {
 			androidService.insertToken(memberDTO.getUserId(), token);
 			System.out.println("토큰 추가: " + token);
 		}
-		
-		return memberDTO;
-	}
-
-	@RequestMapping("/isSafety")
-	@ResponseBody
-	public Map<String, Object> isSafety(HttpServletRequest request) {
-		String userId = (String) request.getParameter("userId");
-		MemberDTO member = memberService.selectMemberById(userId);
 		boolean isSafety = false;
-		for (String role : memberService.selectAuth(userId)) {
+		for (String role : memberService.selectAuth(email)) {
 			if (role.equals("ROLE_SAFETY")) {
 				isSafety = true;
 			}
 		}
-		Map<String, Object> result = new HashMap<>();
-		result.put("ssn", member.getSsnImg());
-		result.put("isSafety", isSafety);
-		return result;
+		if(isSafety) memberDTO.setAuth(2);
+		return memberDTO;
 	}
+
+	
 
 	@RequestMapping("/submitSafety")
 	@ResponseBody
