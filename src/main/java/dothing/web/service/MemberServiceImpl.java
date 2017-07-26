@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import dothing.web.dao.AuthorityDAO;
+import dothing.web.dao.ErrandsDAO;
 import dothing.web.dao.MemberDAO;
 import dothing.web.dto.AuthorityDTO;
 import dothing.web.dto.GPADTO;
@@ -31,6 +32,8 @@ import dothing.web.util.Constants;
 @Transactional
 public class MemberServiceImpl implements MemberService {
 
+	@Autowired
+	private ErrandsDAO errandsDAO;
 	@Autowired
 	private MemberDAO memberDao;
 
@@ -108,6 +111,8 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public MemberDTO selectMemberById(String id) {
+		MemberDTO member = memberDao.selectMemberById(id);
+		member.setGpaList(errandsDAO.selectGPAById(id));
 		return memberDao.selectMemberById(id);
 	}
 
