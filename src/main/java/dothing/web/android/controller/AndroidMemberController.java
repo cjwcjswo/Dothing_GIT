@@ -114,5 +114,19 @@ public class AndroidMemberController {
 		System.out.println(chatPosDTO);
 		return chatPosDTO;
 	}
+	
+	@RequestMapping("/myinfoUpdate")
+	@ResponseBody
+	public MemberDTO pwConfirm(HttpServletRequest request){
+		
+		String id = request.getParameter("id");
+		String pw = request.getParameter("pw");
+		String test = request.getParameter("test");
+		
+		System.out.println(id+" || "+ pw);
+		System.out.println("test = "+ test);
+		
+		return null;
+	}
 
 }
