@@ -18,10 +18,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import dothing.web.dao.AndroidDAO;
+import dothing.web.dao.AuthorityDAO;
 import dothing.web.dao.MemberDAO;
+import dothing.web.dto.AuthorityDTO;
 import dothing.web.dto.ChatPosDTO;
 import dothing.web.dto.ErrandsDTO;
 import dothing.web.dto.MemberDTO;
+import dothing.web.util.Constants;
 
 @Service
 public class AndroidServiceImpl implements AndroidService {
@@ -34,6 +37,9 @@ public class AndroidServiceImpl implements AndroidService {
 	
 	@Autowired
 	PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	AuthorityDAO authorityDAO;
 	
 	@Override
 	public String androidLogin(String email,String password) {
@@ -63,7 +69,7 @@ public class AndroidServiceImpl implements AndroidService {
 		
 		int result = androidDAO.androidSignIn(memberDTO);
 		memberDAO.createPoint(memberDTO.getUserId());
-		
+		authorityDAO.insertAuthority(new AuthorityDTO(memberDTO.getUserId(), Constants.ROLE_MEMBER));
 		return result;
 	}
 

@@ -112,7 +112,8 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public MemberDTO selectMemberById(String id) {
 		MemberDTO member = memberDao.selectMemberById(id);
-		member.setGpaList(errandsDAO.selectGPAById(id));
+		if(member != null) member.setGpaList(errandsDAO.selectGPAById(id));
+
 		return memberDao.selectMemberById(id);
 	}
 

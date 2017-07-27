@@ -39,7 +39,7 @@ public class ErrandsController {
 	FcmPusher fcmPusher;
 	@Autowired
 	AndroidService androidService;
-	
+
 	@Autowired
 	ErrandsService errandsService;
 
@@ -81,7 +81,6 @@ public class ErrandsController {
 			}
 		}
 		String requestId = errands.getRequestUser().getUserId();
-		
 
 		String requestSelfImg = memberService.selectMemberById(requestId).getSelfImg();
 		String requestUserName = memberService.selectMemberById(requestId).getName();
@@ -91,7 +90,6 @@ public class ErrandsController {
 		mv.addObject("requestSelfImg", requestSelfImg);
 		mv.addObject("requestUserName", requestUserName);
 
-		
 		mv.setViewName("/errand/detailView");
 		return mv;
 	}
@@ -104,7 +102,7 @@ public class ErrandsController {
 		ModelAndView mv = new ModelAndView();
 		List<ErrandsHashtagDTO> list = errandsService.requestHash("");
 		List<String> hashList = new ArrayList<>();
-		for(ErrandsHashtagDTO dto:list){
+		for (ErrandsHashtagDTO dto : list) {
 			hashList.add("'" + dto.getHashtag() + "'");
 		}
 		mv.addObject("hashList", hashList);
@@ -117,28 +115,28 @@ public class ErrandsController {
 			String detailAddress) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		dto.setEndTime(dto.getEndTime().replaceAll("T", " "));
-		if(dto.getTitle() == null){
+		if (dto.getTitle() == null) {
 			throw new Exception("제목을 입력하세요");
 		}
-		if(dto.getContent() == null){
+		if (dto.getContent() == null) {
 			throw new Exception("내용을 입력하세요");
 		}
-		if(preAddress == null || detailAddress == null){
+		if (preAddress == null || detailAddress == null) {
 			throw new Exception("주소를 입력하세요");
 		}
-		
+
 		dto.getErrandsPos().setAddr(preAddress + " " + detailAddress);
 		MultipartFile file = dto.getErrandsPhotoFile();
 		dto.setErrandsPhoto(file.getOriginalFilename());
-		
+
 		Date upTime = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(dto.getEndTime());
 		Date currentTime = new Date();
-		
-	int errandsNum = 0;
-		if(upTime.getTime() < currentTime.getTime()){
+
+		int errandsNum = 0;
+		if (upTime.getTime() < currentTime.getTime()) {
 			throw new Exception("마감 시간이 현재 시간보다 빠릅니다");
 		}
-		//파일이 확장자가 맞지 않을 경우 예외처리
+		// 파일이 확장자가 맞지 않을 경우 예외처리
 		if (dto.getErrandsPhoto() != null && !dto.getErrandsPhoto().trim().equals("")) {
 			System.out.println(dto.getErrandsPhoto());
 			String ext = (dto.getErrandsPhoto().split("\\."))[1];
@@ -158,16 +156,17 @@ public class ErrandsController {
 			errandsService.insertErrands(dto);
 			errandsNum = errandsService.selectNum();
 		}
-		
-		ErrandsPosDTO posDTO = dto.getErrandsPos();
-		System.out.println(posDTO.getLatitude() +":"+posDTO.getLongitude());
-		List<String> userTokenList = androidService.selectTokenByDistance(posDTO.getLatitude(), posDTO.getLongitude(), 5);
-		Map<String, String> params = new HashMap<>();
-		params.put("errandsNum", errandsNum +"");
-		params.put("requestUserId", dto.getRequestUser().getUserId());
-		if(userTokenList !=  null&&userTokenList.size() > 0  )
-			fcmPusher.pushFCMNotification(userTokenList, "두띵", "주변에 새심부름이 등록됬습니다!: " + dto.getTitle(), "DETAIL_ACTIVITY", params);
 
+		ErrandsPosDTO posDTO = dto.getErrandsPos();
+		System.out.println(posDTO.getLatitude() + ":" + posDTO.getLongitude());
+		List<String> userTokenList = androidService.selectTokenByDistance(posDTO.getLatitude(), posDTO.getLongitude(),
+				5);
+		Map<String, String> params = new HashMap<>();
+		params.put("errandsNum", errandsNum + "");
+		params.put("requestUserId", dto.getRequestUser().getUserId());
+		if (userTokenList != null && userTokenList.size() > 0)
+			fcmPusher.pushFCMNotification(userTokenList, "두띵", "주변에 새심부름이 등록됬습니다!: " + dto.getTitle(),
+					"DETAIL_ACTIVITY", params);
 
 		mv.addObject("insertNum", errandsService.selectNum());
 		mv.addObject("insertTitle", dto.getTitle());
@@ -184,16 +183,28 @@ public class ErrandsController {
 		Date endTime = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(errand.getEndTime());
 		Date upTime = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(dto.getArrivalTime());
 		System.out.println(upTime.getTime() + " " + endTime.getTime());
-		if(upTime.getTime() > endTime.getTime()){
+		if (upTime.getTime() > endTime.getTime()) {
 			throw new Exception("도착시간이 마감시간보다 느립니다");
 		}
-		if(upTime.getTime() < currentTime.getTime()){
+		if (upTime.getTime() < currentTime.getTime()) {
 			throw new Exception("현재 시간보다 작게 입력하셨습니다.");
 		}
 		int num = errand.getErrandsNum();
+		String requestUserId = errand.getRequestUser().getUserId();
 		memberService.insertNotification(errand.getRequestUser().getUserId(),
-				"<a href='../errand/detailView?num="+num+"'>"+num + "번 글에 " + memberService.selectMemberById(dto.getUser().getUserId()).getName() + "님이 댓글을 달았습니다!</a>");
+				"<a href='../errand/detailView?num=" + num + "'>" + num + "번 글에 "
+						+ memberService.selectMemberById(dto.getUser().getUserId()).getName() + "님이 댓글을 달았습니다!</a>");
 		errandsService.insertReply(dto);
+		Map<String, String> params = new HashMap<>();
+		String token = androidService.selectTokenById(requestUserId);
+		if (token != null) {
+			List<String> userTokenList = new ArrayList<>();
+			userTokenList.add(token);
+			params.put("errandsNum", num + "");
+			params.put("requestUserId", requestUserId);
+			fcmPusher.pushFCMNotification(userTokenList, "두띵", errand.getTitle()+" 글에 댓글이 달렸습니다!",
+					"DETAIL_ACTIVITY", params);
+		}
 		return "redirect:/errand/detailView?num=" + dto.getErrands().getErrandsNum();
 	}
 
@@ -219,19 +230,21 @@ public class ErrandsController {
 	}
 
 	@RequestMapping("/search")
-	public ModelAndView search(Authentication aut, @RequestParam("minPrice") Integer minPrice, @RequestParam("maxPrice") Integer maxPrice,
-			@RequestParam("hash") String hash, Integer distance, String sLat, String sLng) {
+	public ModelAndView search(Authentication aut, @RequestParam("minPrice") Integer minPrice,
+			@RequestParam("maxPrice") Integer maxPrice, @RequestParam("hash") String hash, Integer distance,
+			String sLat, String sLng) {
 		System.out.println(
 				"최소: " + minPrice + " 최대: " + maxPrice + " 해쉬: " + hash + " " + distance + " " + sLat + " " + sLng);
 		if (distance == 0)
 			distance = null;
 		ModelAndView mv = new ModelAndView();
-		String userId = ((MemberDTO)aut.getPrincipal()).getUserId();
+		String userId = ((MemberDTO) aut.getPrincipal()).getUserId();
 		mv.addObject("notRead", memberService.notReadNoti(userId));
 		mv.addObject("errandsList", errandsService.searchErrands(hash, minPrice, maxPrice, distance, sLat, sLng));
 		mv.setViewName("/errand/errand");
 		return mv;
 	}
+
 	/**
 	 * 검색에서의 해쉬요청
 	 */
@@ -242,7 +255,6 @@ public class ErrandsController {
 		mv.setViewName("jsonView");
 		return mv;
 	}
-	
 
 	/**
 	 * 심부름 요청내역 확인
@@ -307,32 +319,49 @@ public class ErrandsController {
 		}
 		errandsService.updateErrands(num, responseId, requestUser.getUserId(), "startTime", null, null, -totalPrice);
 		requestUser.getPoint().setCurrentPoint((requestUser.getPoint().getCurrentPoint()) - totalPrice);
-		memberService.insertNotification(responseId, "<a href='../errand/detailView?num="+num+"'>"+ num + "번 글의 " + requestUser.getName() + "님과 매칭되었습니다.</a>");
+		memberService.insertNotification(responseId, "<a href='../errand/detailView?num=" + num + "'>" + num + "번 글의 "
+				+ requestUser.getName() + "님과 매칭되었습니다.</a>");
 		mv.addObject("num", num);
 		mv.addObject("responseName", memberService.selectMemberById(responseId).getName());
 		mv.addObject("responseId", responseId);
 		androidService.initLocation(num, requestUser.getUserId());
 		androidService.initLocation(num, responseId);
 		mv.setViewName("/errand/okay");
+		String responseToken = androidService.selectTokenById(responseId);
+		List<String> tokenList = new ArrayList<String>();
+		if(responseToken != null){
+			tokenList.add(responseToken);
+		}
+		fcmPusher.pushFCMNotification(tokenList, "심부름 매칭됨!",currentErrand.getTitle() + "심부름에 매칭되었습니다!", null, null);
 		return mv;
 	}
 
 	/**
 	 * 심부름 확인 프로세스
+	 * @throws Exception 
 	 */
 	@RequestMapping("/confirmErrand")
 	public ModelAndView confirmErrand(Authentication aut, String requestId, String responseId, GPADTO gpaDTO,
-			String evalTag) {
+			String evalTag) throws Exception {
 		ModelAndView mv = new ModelAndView();
 		ErrandsDTO errands = errandsService.selectErrands(gpaDTO.getErrandsNum()); // 해당
 																					// 심부름
 																					// 불러오기
-
+		String responseUserId = errands.getResponseUser().getUserId();
+		String requestUserId = errands.getRequestUser().getUserId();
 		if (requestId != null) { // 요청자가 확인할 경우
 			errandsService.updateErrands(gpaDTO.getErrandsNum(), null, null, null, null, "finish", 0);
 			gpaDTO.setRequestManners(0);
 			gpaDTO.setUserId(errands.getResponseUser().getUserId());
 			errandsService.okRequest(gpaDTO, errands.getResponseUser().getUserId(), evalTag, false);
+			String token = androidService.selectTokenById(responseUserId);
+			if (token != null) {
+				List<String> tokenList = new ArrayList<String>();
+				tokenList.add(token);
+				Map<String, String> params = new HashMap<>();
+				params.put("errandsNum", gpaDTO.getErrandsNum() +"");
+				fcmPusher.pushFCMNotification(tokenList, "심부름 완료 요청!", requestUserId + "님이 심부름 완료를 눌렀습니다!", "CHAT_ACTIVITY", params);
+			}
 
 		} else if (responseId != null) { // 심부름꾼이 확인할 경우
 			errandsService.updateErrands(gpaDTO.getErrandsNum(), null, null, null, "arrival", null, 0);
@@ -341,6 +370,14 @@ public class ErrandsController {
 			gpaDTO.setResponseSpeed(0);
 			gpaDTO.setUserId(errands.getRequestUser().getUserId());
 			errandsService.okRequest(gpaDTO, errands.getRequestUser().getUserId(), evalTag, false);
+			String token = androidService.selectTokenById(requestUserId);
+			if (token != null) {
+				List<String> tokenList = new ArrayList<String>();
+				tokenList.add(token);
+				Map<String, String> params = new HashMap<>();
+				params.put("errandsNum", gpaDTO.getErrandsNum() +"");
+				fcmPusher.pushFCMNotification(tokenList, "심부름 완료 요청!", responseUserId + "님이 심부름 완료를 눌렀습니다!", "CHAT_ACTIVITY", params);
+			}
 		}
 
 		ErrandsDTO upErrands = errandsService.selectErrands(gpaDTO.getErrandsNum()); // 해당
@@ -356,7 +393,16 @@ public class ErrandsController {
 			if (loginUser.getUserId().equals(upErrands.getResponseUser().getUserId())) {
 				loginUser.getPoint().setCurrentPoint(loginUser.getPoint().getCurrentPoint() + totalPrice);
 			}
-
+			String requestToken = androidService.selectTokenById(requestUserId);
+			String responseToken = androidService.selectTokenById(responseUserId);
+			List<String> tokenList = new ArrayList<String>();
+			if (requestToken != null) {
+				tokenList.add(requestToken);
+			}
+			if(responseToken != null){
+				tokenList.add(responseToken);
+			}
+			fcmPusher.pushFCMNotification(tokenList, "심부름 완료!", errands.getTitle() + ": 심부름이 성공적으로 끝났습니다.", null, null);
 		}
 		mv.setViewName("redirect:/errand/detailView?num=" + gpaDTO.getErrandsNum());
 		return mv;

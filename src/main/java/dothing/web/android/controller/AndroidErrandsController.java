@@ -344,6 +344,12 @@ public class AndroidErrandsController {
 		androidService.initLocation(errandNum, responseUserId);
 		//mv.setViewName("/errand/okay");
 		map.put("result", "성공적으로 매칭되었습니다!!");
+		String responseToken = androidService.selectTokenById(responseUserId);
+		List<String> tokenList = new ArrayList<String>();
+		if(responseToken != null){
+			tokenList.add(responseToken);
+		}
+		fcmPusher.pushFCMNotification(tokenList, "심부름 매칭됨!",currentErrand.getTitle() + "심부름에 매칭되었습니다!", null, null);
 		return map;
 	}
 	

@@ -288,7 +288,9 @@ public class MemberController {
 	public ModelAndView loginAPI(String id, String photo, String email, String gender, String name){
 
 		ModelAndView mv = new ModelAndView();
+		System.out.println("여긴오지");
 		MemberDTO member = memberService.selectMemberById(email);
+		System.out.println("여기냐?");
 		if(member == null) { // 기존에 연동된 회원이 가입되어있지 않다?
 			mv.addObject("id", email);
 			mv.addObject("photo", photo);

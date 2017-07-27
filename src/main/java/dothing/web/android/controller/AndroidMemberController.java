@@ -37,6 +37,35 @@ public class AndroidMemberController {
 	@Autowired
 	PasswordEncoder passwordEncoder;
 
+	@RequestMapping("/signIn")
+	@ResponseBody
+	public Map<String,String> signIn(HttpServletRequest request,MemberDTO memberDTO) throws Exception{
+		MultipartFile file = memberDTO.getSelfImgFile();
+		if(file != null){
+			memberDTO.setSelfImg(file.getOriginalFilename());
+			String path = request.getRealPath("/")+"/users/"+memberDTO.getUserId();
+			File createFile = new File(path);
+			if(!createFile.exists()){
+				createFile.mkdirs();
+			}
+			file.transferTo(new File(path+"/"+file.getOriginalFilename()));
+		}
+		
+		
+		String result = androidService.androidSignIn(memberDTO)+"";
+		
+		Map<String,String> map = new HashMap<String, String>();
+		
+		map.put("result", result);
+		return map;
+	}
+	
+	
+	@RequestMapping("/sendEmail")
+	@ResponseBody
+	public String sendEmail(String email){
+		return androidService.androidSendEmail(email);
+	}
 	@RequestMapping("/checkId")
 	@ResponseBody
 	public MemberDTO android(HttpServletRequest request) {
