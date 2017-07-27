@@ -77,7 +77,9 @@ public class AndroidMemberController {
 		int result = 0;
 		MultipartFile ssnImgFile = member.getSsnImgFile();
 		member.setSsnImg(ssnImgFile.getOriginalFilename());
+		
 		result = memberService.updateSafety(member);
+		
 		if (result > 0) {
 			String path = session.getServletContext().getRealPath("") + "\\users\\" + member.getUserId() + "\\ssn\\";
 			File folder = new File(path);

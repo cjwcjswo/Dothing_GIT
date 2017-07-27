@@ -98,6 +98,7 @@ public class MemberDAOImpl implements MemberDAO {
 
 	@Override
 	public int updateSafety(MemberDTO dto) {
+		System.out.println(dto.getSsnImg());
 		return sqlSession.update("memberMapper.updateSafety", dto);
 	}
 

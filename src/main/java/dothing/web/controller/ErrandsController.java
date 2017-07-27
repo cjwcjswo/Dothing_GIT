@@ -4,7 +4,9 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -160,8 +162,11 @@ public class ErrandsController {
 		ErrandsPosDTO posDTO = dto.getErrandsPos();
 		System.out.println(posDTO.getLatitude() +":"+posDTO.getLongitude());
 		List<String> userTokenList = androidService.selectTokenByDistance(posDTO.getLatitude(), posDTO.getLongitude(), 5);
+		Map<String, String> params = new HashMap<>();
+		params.put("errandsNum", errandsNum +"");
+		params.put("requestUserId", dto.getRequestUser().getUserId());
 		if(userTokenList !=  null&&userTokenList.size() > 0  )
-			fcmPusher.pushFCMNotification(userTokenList, "두띵", "주변에 새심부름이 등록됬습니다!: " + dto.getTitle(), "DETAIL_ACTIVITY", errandsNum +"");
+			fcmPusher.pushFCMNotification(userTokenList, "두띵", "주변에 새심부름이 등록됬습니다!: " + dto.getTitle(), "DETAIL_ACTIVITY", params);
 
 
 		mv.addObject("insertNum", errandsService.selectNum());

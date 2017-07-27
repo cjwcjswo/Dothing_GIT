@@ -83,8 +83,11 @@ public class AndroidErrandsController {
 			ErrandsPosDTO posDTO = dto.getErrandsPos();
 			List<String> userTokenList = androidService.selectTokenByDistance(posDTO.getLatitude(),
 					posDTO.getLongitude(), 5);
+			Map<String, String> params = new HashMap<>();
+			params.put("errandsNum", errandsNum + "");
+			params.put("requestUserId", dto.getRequestUser().getUserId());
 			if (userTokenList != null && userTokenList.size() > 0)
-				fcmPusher.pushFCMNotification(userTokenList, "두띵", "주변에 새심부름이 등록됬습니다!: " + dto.getTitle(), "DETAIL_ACTIVITY", errandsNum +"");
+				fcmPusher.pushFCMNotification(userTokenList, "두띵", "주변에 새심부름이 등록됬습니다!: " + dto.getTitle(), "DETAIL_ACTIVITY", params);
 		}
 		return result;
 	}
@@ -146,7 +149,10 @@ public class AndroidErrandsController {
 		String token = androidService.selectTokenById(errandsDTO.getRequestUser().getUserId());
 		List<String> tokenList = new ArrayList<>();
 		tokenList.add(token);
-		fcmPusher.pushFCMNotification(tokenList, "댓글이 등록됨!", errandsDTO.getTitle() +"글에 댓글이 등록됬습니다!", "DETAIL_ACTIVITY", errandNum);
+		Map<String, String> params = new HashMap<>();
+		params.put("errandsNum", errandNum);
+		params.put("requestUserId",errandsDTO.getRequestUser().getUserId());
+		fcmPusher.pushFCMNotification(tokenList, "댓글이 등록됨!", errandsDTO.getTitle() +"글에 댓글이 등록됬습니다!", "DETAIL_ACTIVITY", params);
 		return result + "";
 
 	}
@@ -258,7 +264,9 @@ public class AndroidErrandsController {
 			if (token != null) {
 				List<String> tokenList = new ArrayList<String>();
 				tokenList.add(token);
-				fcmPusher.pushFCMNotification(tokenList, "심부름 완료 요청!", requestUserId + "님이 심부름 완료를 눌렀습니다!", "CHAT_ACTIVITY", gpaDTO.getErrandsNum() +"");
+				Map<String, String> params = new HashMap<>();
+				params.put("errandsNum", gpaDTO.getErrandsNum() +"");
+				fcmPusher.pushFCMNotification(tokenList, "심부름 완료 요청!", requestUserId + "님이 심부름 완료를 눌렀습니다!", "CHAT_ACTIVITY", params);
 			}
 
 		} else { // 심부름꾼이 확인할 경우
@@ -272,7 +280,9 @@ public class AndroidErrandsController {
 			if (token != null) {
 				List<String> tokenList = new ArrayList<String>();
 				tokenList.add(token);
-				fcmPusher.pushFCMNotification(tokenList, "심부름 완료 요청!", responseUserId + "님이 심부름 완료를 눌렀습니다!", "CHAT_ACTIVITY", gpaDTO.getErrandsNum() +"");
+				Map<String, String> params = new HashMap<>();
+				params.put("errandsNum", gpaDTO.getErrandsNum() +"");
+				fcmPusher.pushFCMNotification(tokenList, "심부름 완료 요청!", responseUserId + "님이 심부름 완료를 눌렀습니다!", "CHAT_ACTIVITY", params);
 			}
 		}
 
@@ -312,6 +322,7 @@ public class AndroidErrandsController {
 	 * 심부름 수행 프로세스(심부름꾼 선택했을 때)
 	 */
 	@RequestMapping("/startErrand")
+	@ResponseBody
 	public Map<String, Object> startErrand(String requestUserId, String strErrandNum, String responseUserId) throws Exception {
 		//ModelAndView mv = new ModelAndView();
 		Map<String, Object> map = new HashMap<>();
@@ -321,7 +332,7 @@ public class AndroidErrandsController {
 		int totalPrice = currentErrand.getProductPrice() + currentErrand.getErrandsPrice();
 		if (totalPrice > requestUser.getPoint().getCurrentPoint()) {
 			map.put("result", "포인트가 부족합니다! 충전해주세요.");
-			throw new Exception("포인트가 부족합니다! 충전해주세요.");
+			return map;
 		}
 		errandsService.updateErrands(errandNum, responseUserId, requestUser.getUserId(), "startTime", null, null, -totalPrice);
 		requestUser.getPoint().setCurrentPoint((requestUser.getPoint().getCurrentPoint()) - totalPrice);
@@ -332,7 +343,7 @@ public class AndroidErrandsController {
 		androidService.initLocation(errandNum, requestUser.getUserId());
 		androidService.initLocation(errandNum, responseUserId);
 		//mv.setViewName("/errand/okay");
-		map.put("result", "성공");
+		map.put("result", "성공적으로 매칭되었습니다!!");
 		return map;
 	}
 	
