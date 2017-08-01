@@ -1,6 +1,12 @@
 package dothing.web.dto;
 
-public class PointDTO {
+import java.io.Serializable;
+
+public class PointDTO implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private MemberDTO user;
 	private int currentPoint;
 	private int requestPoint;

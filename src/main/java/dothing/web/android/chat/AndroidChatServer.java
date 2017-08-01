@@ -19,9 +19,7 @@ public class AndroidChatServer {
 	    		 socket = server.accept();
 	    		 System.out.println(socket.getInetAddress()+" 접속되었습니다.");
 	    		 ServerThread st = new ServerThread(socket);
-	    		 st.start();
-	    	 
-	    	 }
+	    		 }
 	    	 
 	    	}catch (Exception e) {
 				e.printStackTrace();

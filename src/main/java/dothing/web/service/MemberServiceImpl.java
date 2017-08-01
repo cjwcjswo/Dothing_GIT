@@ -43,22 +43,24 @@ public class MemberServiceImpl implements MemberService {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
-	/**
-	 * 회원가입 boolean -> true: API 가입 / false: 일반 가입
-	 */
+
 	@Override
 	public int joinMember(MemberDTO member, boolean isAPI) {
 		// 비밀번호 암호화
 		String encodePass = passwordEncoder.encode(member.getPassword());
 
 		member.setPassword(encodePass);
+		
+		// API를 이용한 회원가입이 아닐 경우
 		if (!isAPI) {
+			//인증번호 랜덤 생성후 인증메일을 보낸다
 			int authNum = (int) ((Math.random() * 99998) + 1);
 			member.setState(authNum);
 			sendEmail(member.getUserId(), authNum);
 		} else {
 			member.setState(0);
 		}
+		
 		memberDao.insertMember(member);
 		memberDao.createPoint(member.getUserId());
 
@@ -70,10 +72,8 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public String selectSearch(String userId) {
 		MemberDTO dto = memberDao.selectSearch(userId);
-		if (dto == null)
-			return "사용가능합니다.";
-		else
-			return "사용중입니다";
+		if (dto == null) return "사용가능합니다.";
+		else return "사용중입니다";
 	}
 
 	/**
@@ -81,26 +81,32 @@ public class MemberServiceImpl implements MemberService {
 	 */
 	@Override
 	public int updateMember(MemberDTO member, MemberDTO original) {
-		if (!(member.getPassword() == null || member.getPassword().equals(""))) { // 비밀번호를
-																					// 바꾸고자
-																					// 한다면
+		//비밀번호를 바꾸고자 할 때
+		if (!(member.getPassword() == null || member.getPassword().equals(""))) { 
 			String encodePass = passwordEncoder.encode(member.getPassword());
 			member.setPassword(encodePass);
 			original.setPassword(encodePass);
 		} else {
 			member.setPassword(null);
 		}
+		
 		String updatePreAddr = member.getPreAddr();
+		
+		// 주소를 바꾸고자 할 때
 		if (updatePreAddr != null && !updatePreAddr.trim().equals("")) {
 			original.setPreAddr(updatePreAddr);
 			original.setDetailAddr(member.getDetailAddr());
 		}
+		
+		// 자기소개를 바꾸고자 할 때
 		if (member.getIntroduce() != null) {
 			System.out.println(member.getIntroduce());
 			original.setIntroduce(member.getIntroduce());
 			System.out.println(original.getIntroduce());
 
 		}
+		
+		// 정보 수정할 것이 없다면
 		if (member.getPassword() == null && member.getSelfImg() == null && member.getPreAddr() == null
 				&& member.getIntroduce() == null) {
 			return 0;
@@ -113,7 +119,6 @@ public class MemberServiceImpl implements MemberService {
 	public MemberDTO selectMemberById(String id) {
 		MemberDTO member = memberDao.selectMemberById(id);
 		if(member != null) member.setGpaList(errandsDAO.selectGPAById(id));
-
 		return memberDao.selectMemberById(id);
 	}
 
@@ -129,10 +134,11 @@ public class MemberServiceImpl implements MemberService {
 	 */
 	@Override
 	public int insertHashtag(int errandsNum, String id, String evalTag, boolean isAndroid) {
+		// 안드로이드에서 해쉬태그를 삽입 할 경우
 		if (isAndroid) {
 			memberDao.insertHashtag(new MemberHashDTO(errandsNum, id, evalTag));
-		} else {
-			String[] tagList = evalTag.split(",");
+		} else { // 웹에서 해쉬태그를 삽입 할 경우
+			String[] tagList = evalTag.split(","); // 해쉬태그 구분자가 ","로 이루어짐
 			for (String tag : tagList) {
 				memberDao.insertHashtag(new MemberHashDTO(errandsNum, id, tag.trim()));
 			}
@@ -178,6 +184,7 @@ public class MemberServiceImpl implements MemberService {
 	public List<MemberDTO> selectNotSafety(int page) {
 		List<MemberDTO> memberList = new ArrayList<>();
 		for (MemberDTO dto : memberDao.selectNotSafety(page)) {
+			//안전심부름군이 아닌 유저만 추가
 			if (!memberDao.isSafety(dto.getUserId())) {
 				memberList.add(dto);
 			}
@@ -248,6 +255,7 @@ public class MemberServiceImpl implements MemberService {
 	 */
 	@Override
 	public void sendEmail(String email, Integer authNum) {
+		// 인증메일을 보내기위한 세팅
 		String host = "smtp.gmail.com";
 		String subject = "Dothing 인증확인 이메일입니다.";
 		String fromName = "DoThing";
@@ -277,7 +285,7 @@ public class MemberServiceImpl implements MemberService {
 			msg.setSubject(subject);
 			msg.setSentDate(new java.util.Date());
 			msg.setContent(content, "text/html;charset=UTF-8");
-			Transport.send(msg);
+			Transport.send(msg); // 이메일 보내기
 		}
 
 		catch (Exception e) {

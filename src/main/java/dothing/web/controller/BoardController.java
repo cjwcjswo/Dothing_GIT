@@ -42,7 +42,7 @@ public class BoardController {
 		if (page == null)
 			page = new Integer(1);
 		
-		PageMaker pm = new PageMaker(page, boardService.countNoticeList()/ 6 + 1);
+		PageMaker pm = new PageMaker(page, boardService.countList()/ 6 + 1);
 		pm.start();
 
 		String userId = ((MemberDTO) auth.getPrincipal()).getUserId();

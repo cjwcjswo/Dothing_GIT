@@ -47,11 +47,6 @@ public class BoardDAOImpl implements BoardDAO {
 		return sqlSession.delete("mapper.boardMapper.boardDelete", inquiryNum);
 	}
 
-	/*@Override
-	public int update(BoardDTO boardDTO) {
-		return sqlSession.update("mapper.boardMapper.boardUpdate", boardDTO);
-	}*/
-	
 	@Override
 	public int insertReply(BoardReplyDTO brDTO){
 		return sqlSession.insert("mapper.boardMapper.insertReply", brDTO);
@@ -63,7 +58,7 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 	
 	@Override
-	public int countNoticeList() {
+	public int countList() {
 		return sqlSession.selectOne("mapper.boardMapper.countNoticeList");
 	}
 

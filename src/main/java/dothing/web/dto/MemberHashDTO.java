@@ -1,6 +1,12 @@
 package dothing.web.dto;
 
-public class MemberHashDTO {
+import java.io.Serializable;
+
+public class MemberHashDTO implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int errandsNum;
 	private String memberId;
 	private String hashtag;

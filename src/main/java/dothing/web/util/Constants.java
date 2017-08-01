@@ -2,7 +2,7 @@ package dothing.web.util;
 
 
 /**
- * 권한 관련 상수필드 정의 
+ * @breif: 권한 관련 상수필드 인터페이스
  * */
 public interface Constants {
 	
@@ -14,10 +14,6 @@ public interface Constants {
 	/**
 	 * 회원 권한
 	 * */
-	String ROLE_MEMBER = "ROLE_MEMBER";
-	
-	
-	
-	
-	
+	String ROLE_MEMBER = "ROLE_MEMBER";		
+
 }

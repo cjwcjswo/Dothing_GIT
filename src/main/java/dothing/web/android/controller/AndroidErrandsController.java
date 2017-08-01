@@ -64,25 +64,24 @@ public class AndroidErrandsController {
 		int result = 0;
 		int errandsNum = 0;
 		MultipartFile file = dto.getErrandsPhotoFile();
-		if (file != null) {
+		if (file != null) { // 심부름 상세 이미지가 있을경우
 			dto.setErrandsPhoto(file.getOriginalFilename());
-			System.out.println("파일이 있을경우" + dto + " 삽입");
 			result = errandsService.insertErrands(dto);
 			errandsNum = errandsService.selectNum();
 			String path = session.getServletContext().getRealPath("") + "\\errands\\" + errandsService.selectNum();
 			File folder = new File(path);
 			folder.mkdirs();
 			file.transferTo(new File(path + "\\" + dto.getErrandsPhoto()));
-		} else {
+		} else { // 없을 경우
 			dto.setErrandsPhoto("EMPTY");
 			System.out.println("파일이 없을경우" + dto + " 삽입");
 			result = errandsService.insertErrands(dto);
 			errandsNum = errandsService.selectNum();
 		}
-		if (result > 0) {
+		if (result > 0) { // 심부름이 성공적으로 insert 됬을 경우 푸쉬메세지 전송
 			ErrandsPosDTO posDTO = dto.getErrandsPos();
 			List<String> userTokenList = androidService.selectTokenByDistance(posDTO.getLatitude(),
-					posDTO.getLongitude(), 5);
+					posDTO.getLongitude(), 5); // 심부름 등록 주소의 5km반경에 있는 사용자 토큰을 불러온다
 			Map<String, String> params = new HashMap<>();
 			params.put("errandsNum", errandsNum + "");
 			params.put("requestUserId", dto.getRequestUser().getUserId());
@@ -225,11 +224,11 @@ public class AndroidErrandsController {
 			int sum = 0;
 			for(int j=0; j<gpaList.size(); j++) {
 				GPADTO gpa = gpaList.get(j);
-				sum += Math.round((gpa.getResponseAccuracy()+gpa.getResponseKindness()+gpa.getResponseSpeed()) / 3);
+				sum += Math.round((gpa.getResponseAccuracy()+gpa.getResponseKindness()+gpa.getResponseSpeed()) / 3.0);
 			}
 			int avg = 0;
 			if(gpaList.size() == 0) avg = 0; 
-			else avg = Math.round(sum / gpaList.size());
+			else avg = Math.round(sum / (float)gpaList.size());
 			avgGpaList.add(avg);
 			
 		}

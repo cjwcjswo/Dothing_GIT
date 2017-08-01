@@ -3,7 +3,6 @@ package dothing.web.service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,10 +30,10 @@ public class ErrandsServiceImpl implements ErrandsService {
 
 	@Override
 	public List<ErrandsDTO> selectAll() {
-		errandsDAO.deleteTimeErrands();
+		errandsDAO.deleteTimeErrands(); // 심부름을 불러올 때 마다 요청시간이 지난 심부름들을 삭제한다
 		List<ErrandsDTO> list = errandsDAO.selectAll();
 		for (ErrandsDTO dto : list) {
-			dto.setHashes(errandsDAO.selectErrandsHashtag(dto.getErrandsNum()));
+			dto.setHashes(errandsDAO.selectErrandsHashtag(dto.getErrandsNum())); // 심부름의 해쉬태그 불러오기
 		}
 		return list;
 	}
@@ -43,8 +42,10 @@ public class ErrandsServiceImpl implements ErrandsService {
 	public ErrandsDTO selectErrands(int errandsNum) {
 		ErrandsDTO dto = errandsDAO.selectErrands(errandsNum);
 		List<ErrandsReplyDTO> replyList = dto.getErrandsReply();
+		// 댓글 단사람에 대한 정보 세팅
 		for (ErrandsReplyDTO reply : replyList) {
 			MemberDTO replyUser = reply.getUser();
+			// 댓글 단사람이 안전심부름꾼일우 권한을 2로 세팅
 			if (memberDAO.isSafety(replyUser.getUserId())) {
 				replyUser.setAuth(2);
 			}
@@ -53,18 +54,20 @@ public class ErrandsServiceImpl implements ErrandsService {
 		}
 		MemberDTO request = dto.getRequestUser();
 		MemberDTO response = dto.getResponseUser();
+		
+		//심부름꾼이 있을경우 심부름꾼에 대한 정보 추가
 		if (response != null) {
 			response = memberDAO.selectMemberById(response.getUserId());
 		}
+		
+		// 요청자에 대한 정보 추가
 		request.setGpaList(errandsDAO.selectGPAById(request.getUserId()));
 		request.setHashList(memberDAO.selectHashtag(request.getUserId()));
 		dto.setHashes(errandsDAO.selectErrandsHashtag(errandsNum));
 		return dto;
 	}
 
-	/**
-	 * 심부름 삽입
-	 */
+	
 	@Override
 	public int insertErrands(ErrandsDTO dto) {
 
@@ -72,7 +75,9 @@ public class ErrandsServiceImpl implements ErrandsService {
 		errandsDAO.insertErrandsPos(dto.getErrandsPos());
 		int index = 0;
 		String content = dto.getContent();
-		while ((index = content.indexOf("#", index)) != -1) { // 해쉬태그 삽입
+		
+		// 해쉬태그를 찾는 알고리즘으로 찾아서 있을 경우 해쉬태그 삽입
+		while ((index = content.indexOf("#", index)) != -1) {
 			int restIndex = content.indexOf(" ", index);
 			if (restIndex == -1) {
 				restIndex = content.length();
@@ -85,9 +90,6 @@ public class ErrandsServiceImpl implements ErrandsService {
 		return 1;
 	}
 
-	/**
-	 * 해당 심부름의 심부름 번호 셀렉트
-	 */
 	@Override
 	public int selectNum() {
 		return errandsDAO.selectNum();
@@ -111,6 +113,7 @@ public class ErrandsServiceImpl implements ErrandsService {
 	@Override
 	public List<ErrandsDTO> searchErrands(String hash, Integer minPrice, Integer maxPrice, Integer distance,
 			String latitude, String longitude) {
+		errandsDAO.deleteTimeErrands(); // 시간이 지난 심부름들 삭제
 		List<ErrandsDTO> list = errandsDAO.searchErrands(hash, minPrice, maxPrice, distance, latitude, longitude);
 		for (ErrandsDTO dto : list) {
 			dto.setHashes(errandsDAO.selectErrandsHashtag(dto.getErrandsNum()));
@@ -124,30 +127,11 @@ public class ErrandsServiceImpl implements ErrandsService {
 		return errandsDAO.serachErrandsHashtag(hash);
 	}
 
-	public static List<String> sortByValue(Map<String, Integer> map) {
-		List<String> list = new ArrayList<>();
-		list.addAll(map.keySet());
-
-		Collections.sort(list, new Comparator<Object>() {
-
-			public int compare(Object o1, Object o2) {
-				Object v1 = map.get(o1);
-				Object v2 = map.get(o2);
-
-				return ((Comparable) v1).compareTo(v2);
-			}
-
-		});
-		Collections.reverse(list); // 주석시 오름차순
-		return list;
-	}
-
-	/**
-	 * 내 요청 심부름 조회
-	 */
+	
 	@Override
 	public List<ErrandsDTO> myErrandsRequest(String userId, int page) {
 		List<ErrandsDTO> list = errandsDAO.myRequestErrands(userId, page);
+		// 내 요청 심부름 세부 사항들 세팅
 		for (ErrandsDTO dto : list) {
 			int errandsNum = dto.getErrandsNum();
 			dto.setErrandsPos(errandsDAO.selectErrandsPos(errandsNum));
@@ -158,12 +142,11 @@ public class ErrandsServiceImpl implements ErrandsService {
 		return list;
 	}
 
-	/**
-	 * 내 응답 심부름 조회
-	 */
+
 	@Override
 	public List<ErrandsDTO> myErrandsResponse(String userId, int page) {
 		List<ErrandsDTO> list = errandsDAO.myResponseErrands(userId, page);
+		// 내 수행 심부름 세부 사항들 세팅
 		for (ErrandsDTO dto : list) {
 			int errandsNum = dto.getErrandsNum();
 			dto.setErrandsReply(errandsDAO.selectByErrands(errandsNum));
@@ -191,9 +174,7 @@ public class ErrandsServiceImpl implements ErrandsService {
 	@Override
 	public int updateErrands(int errandsNum, String responseId, String requestId, String startTime, String arrivalTime,
 			String finishTime, int point) {
-		if (startTime != null) {
-			memberDAO.updatePoint(point, requestId);
-		}
+		if (startTime != null) memberDAO.updatePoint(point, requestId); // 심부름이 매칭된 경우 요청자의 포인트를 깎는다
 		System.out.println(arrivalTime + " " + finishTime);
 		return errandsDAO.updateErrands(errandsNum, responseId, startTime, arrivalTime, finishTime);
 	}
@@ -206,10 +187,14 @@ public class ErrandsServiceImpl implements ErrandsService {
 	@Override
 	public int okRequest(GPADTO gpaDTO, String id, String evalTag, boolean isAndroid) {
 		insertGPA(gpaDTO);
+		
+		// 안드로일 경우
 		if (isAndroid) {
+			// 해쉬태그가 있다면
 			if(evalTag != null && !evalTag.trim().equals("")){
 			int index = 0;
-			while ((index = evalTag.indexOf("#", index)) != -1) { // 해쉬태그 삽입
+			// 해쉬태그를 찾는 알고리즘을 통해 찾은 후 삽입
+			while ((index = evalTag.indexOf("#", index)) != -1) { 
 				int restIndex = evalTag.indexOf(" ", index);
 				if (restIndex == -1) {
 					restIndex = evalTag.length();
@@ -219,7 +204,7 @@ public class ErrandsServiceImpl implements ErrandsService {
 				index = restIndex;
 			}
 			}
-		} else {
+		} else { // 웹일 경우
 			if (evalTag != null && evalTag.length() > 0) {
 				memberService.insertHashtag(gpaDTO.getErrandsNum(), id, evalTag, false);
 			}
@@ -229,7 +214,7 @@ public class ErrandsServiceImpl implements ErrandsService {
 	}
 
 	@Override
-	public int cancleErrands(int num, int point, String id) {
+	public int cancelErrands(int num, int point, String id) {
 		memberDAO.updatePoint(point, id);
 		errandsDAO.deleteErrands(num);
 		return 1;
@@ -238,6 +223,7 @@ public class ErrandsServiceImpl implements ErrandsService {
 	@Override
 	public List<ErrandsDTO> moneyErrands() {
 		List<ErrandsDTO> list = errandsDAO.moneyErrands();
+		// 돈 되는 심부름 세부사항 세팅
 		for (ErrandsDTO dto : list) {
 			MemberDTO request = dto.getRequestUser();
 			request.setGpaList(memberDAO.averageGPA(request.getUserId()));
@@ -254,6 +240,7 @@ public class ErrandsServiceImpl implements ErrandsService {
 	@Override
 	public List<ErrandsDTO> selectList(Integer sort, String addr, String title, int page) {
 		List<ErrandsDTO> list = errandsDAO.selectList(sort, addr, title, page);
+		//리스트로 검색한 심부름 세부사항 세팅
 		for (ErrandsDTO dto : list) {
 			int errandsNum = dto.getErrandsNum();
 			MemberDTO requestUser = dto.getRequestUser();

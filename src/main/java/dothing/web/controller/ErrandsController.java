@@ -299,7 +299,7 @@ public class ErrandsController {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("redirect:/errand/myRequest");
 		MemberDTO currentMember = (MemberDTO) aut.getPrincipal();
-		errandsService.cancleErrands(num, point, currentMember.getUserId());
+		errandsService.cancelErrands(num, point, currentMember.getUserId());
 		PointDTO currentPoint = currentMember.getPoint();
 		currentPoint.setCurrentPoint(currentPoint.getCurrentPoint() + point);
 		return mv;

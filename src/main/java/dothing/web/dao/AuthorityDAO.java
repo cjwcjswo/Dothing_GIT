@@ -7,15 +7,18 @@ import dothing.web.dto.AuthorityDTO;
 public interface AuthorityDAO {
 
 	/**
-	 * 사용자 권한 등록
-	 * (한 USER(ID)가 여러개의 권한을 가질 수 있다.
+	 * 회원에게 권한 등록
+	 * @param AuthorityDTO authorityDTO: 권한정보에 대한 DTO
+	 * @return int: 성공 여부
 	 * */
 	int insertAuthority(AuthorityDTO authorityDTO);
 	
 	/**
-	 * ID에 해당하는 권한 검색
+	 * 해당하는 회원에 대한 권한 정보 불러오기
+	 * @param String userName: 회원 아이디
+	 * @return List<AuthorityDTO>: 권한정보에 대한 DTO 리스트
 	 * */
-	List<AuthorityDTO> selectAuthorityByUserName(String userName);
+	List<AuthorityDTO> selectAuthorityByUserName(String userId);
 	
 	
 	

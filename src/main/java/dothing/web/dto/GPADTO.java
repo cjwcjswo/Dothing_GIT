@@ -1,6 +1,12 @@
 package dothing.web.dto;
 
-public class GPADTO {
+import java.io.Serializable;
+
+public class GPADTO implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int errandsNum;
 	private String userId;
 	private Integer responseAccuracy;

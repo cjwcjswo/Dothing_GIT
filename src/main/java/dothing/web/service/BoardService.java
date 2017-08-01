@@ -7,50 +7,59 @@ import dothing.web.dto.BoardReplyDTO;
 
 public interface BoardService {
 	/**
-	 * 레코드 전체 검색
-	 */
+	 * 게시글 전체 가져오기(운영자권한으로 보기)
+	 * @param int page: 해당하는 페이지
+	 * @return List<BoardDTO>: 게시글 DTO 리스트
+	 * */
 	List<BoardDTO> selectAll(int page);
 	
 	/**
-	 * 레코드 전체 검색 일반회원권한으로 보기
-	 */
+	 * 게시글 전체 가져오기(유저 권한으로 보기)
+	 * @param int page: 해당하는 페이지
+	 * @param String userId: 유저 아이디
+	 * @return List<BoardDTO>: 게시글 DTO 리스트
+	 * */
 	List<BoardDTO> selectAllMember(int page, String userId);
 
 	/**
-	 * 보드번호에 해당하는 레코드 검색
-	 * 
-	 * @param: state
-	 *             true이면 조회수증가, false이면 조회증가안함.
-	 */
+	 * 게시글 번호에 해당하는 게시글 가져오기
+	 * @param int inquiryNum: 게시글 번호
+	 * @param boolean state: true일 경우 조회수 증가, false일 경우 그대로
+	 * @return BoardDTO: 게시글 DTO
+	 * */
 	BoardDTO selectByBoardNum(int inquiryNum, boolean state) throws Exception;
 
 	/**
-	 * 레코드 삽입
-	 */
+	 * 게시글 등록하기
+	 * @param BoardDTO boardDTO: 게시글 DTO
+	 * @return int: 성공 여부
+	 * */
 	int insert(BoardDTO boardDTO);
 
 	/**
-	 * 보드번호에 해당하는 레코드 삭제
-	 */
+	 * 게시글 삭제하기
+	 * @param int inquiryNum: 게시글 번호
+	 * @return int: 성공 여부
+	 * */
 	int delete(int inquiryNum) throws Exception;
-
+	
 	/**
-	 * 보드번호에 해당하는 레코드 수정
-	 */
-	/* int update(BoardDTO boardDTO) throws Exception; */
-
-	/**
-	 * 댓글 삽입
-	 */
+	 * 게시글에 댓글 등록하기
+	 * @param BoardReplyDTO brDTO: 댓글 DTO
+	 * @return int: 성공 여부
+	 * */
 	int insertReply(BoardReplyDTO brDTO)throws Exception;
 
 	/**
-	 * 게시판 번호에 해당하는 댓글 불러오기
-	 */
+	 * 게시글에 해당하는 댓글 리스트 가져오기
+	 * @param int inquiryNum: 게시글 번호
+	 * @return List<BoardReplyDTO> 댓글 DTO 리스트
+	 * */
 	List<BoardReplyDTO> selectReply(int inquiryNum);
 	
 	/**
-	 * 페이징
-	 */
-	int countNoticeList();
+	 * 전체 게시글 갯수 가져오기
+	 * @return int: 전체 공지게시글 count
+	 * */
+	int countList();
 }
