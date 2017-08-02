@@ -4,33 +4,32 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
-
+/**
+ * 유저 DTO
+ */
 public class MemberDTO implements Serializable{
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-	private String userId;
-	private String name;
-	private String password;
-	private String sex;
-	private String preAddr;
-	private String detailAddr;
-	private int auth;
-	private String selfImg;
-	private String ssnImg;
-	private String joinDate;
-	private String introduce;
-	private String latitude;
-	private String longitude;
-	private String userType;
-	private Integer state;
-	MultipartFile selfImgFile;
-	MultipartFile ssnImgFile;
+	private String userId; // 유저 아이디
+	private String name; // 이름
+	private String password; // 비밀번호
+	private String sex; // 성별
+	private String preAddr; // 주소
+	private String detailAddr; // 상세주소
+	private int auth; // 권한
+	private String selfImg; // 프로필 사진
+	private String ssnImg; // 안전 심부름꾼 사진
+	private String joinDate; // 가입 날짜
+	private String introduce; // 자기소개
+	private String latitude; // 위도
+	private String longitude; // 경도
+	private String userType; // 유저 타입
+	private Integer state; // 인증 번호
+	MultipartFile selfImgFile; // 프로필사진 파일
+	MultipartFile ssnImgFile; // 안전심부름꾼 사진 파일
 	
-	private PointDTO point;
-	private List<GPADTO> gpaList;
-	private List<MemberHashDTO> hashList;
+	private PointDTO point; // 포인트 dto
+	private List<GPADTO> gpaList; // 평점 리스트
+	private List<MemberHashDTO> hashList; // 해시태그 리스트
 	
 
 	public List<MemberHashDTO> getHashList() {

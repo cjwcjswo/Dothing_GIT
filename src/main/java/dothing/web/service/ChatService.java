@@ -30,7 +30,7 @@ public class ChatService {
 	
 	/**
 	 * 채팅메세지를 서버폴더로 저장하기
-	 * @param String[] msg: 저장하고자 하는 메세지의 배열(0=아이디, 1=내용, 2=시간)
+	 * @param msg 저장하고자 하는 메세지의 배열(0=아이디, 1=내용, 2=시간)
 	 */
 	public void write(String [] msg) throws UnsupportedEncodingException, FileNotFoundException{
 		
@@ -66,8 +66,8 @@ public class ChatService {
 	
 	/**
 	 * 해당하는 채팅방으로부터 채팅 내역 가져오기
-	 * @param int errandsNum: 해당하는 채팅방 번호
-	 * @return List<String>: 채팅 내역
+	 * @param errandsNum 해당하는 채팅방 번호
+	 * @return 채팅 내역
 	 */
 	public List<String> getContent(String errandsNum){
 		List<String> list = new ArrayList<>();

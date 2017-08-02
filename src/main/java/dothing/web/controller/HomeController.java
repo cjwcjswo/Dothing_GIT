@@ -8,17 +8,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * Handles requests for the application home page.
+ * 기본 페이지 컨트롤러
  */
 @Controller
 public class HomeController {
 
-
+	/**
+	 * 홈화면으로 이동
+	 */
 	@RequestMapping("/")
-	public String home(HttpSession session) {
+	public String home() {
 		return "main/home";
 	}
 
+	/**
+	 * 에러페이지 처리
+	 * @param request 에러메세지를 담기 위함
+	 */
 	@RequestMapping("/error")
 	public ModelAndView error(HttpServletRequest request){
 		ModelAndView mv = new ModelAndView();
@@ -28,12 +34,7 @@ public class HomeController {
 	}
 
 	
-	@RequestMapping("/errand/chat")
-	public ModelAndView chat(String errandsNum, HttpSession session){
-		session.setAttribute("errandsNum", errandsNum);
-		return new ModelAndView("/errand/chat", "errandsNum", errandsNum);
-	}
-	
+
 
 	@RequestMapping("/etc/about-us")
 	public String aboutUs(){

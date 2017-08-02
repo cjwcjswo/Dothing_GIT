@@ -71,10 +71,10 @@ public class AndroidServiceImpl implements AndroidService {
 		int authNum = (int)((Math.random() * 99998) + 1); // 랜덤한 인증번호 생성
 		
 		// 인증 메일 정보 셋팅
-		String host = "smtp.gmail.com";
-		String subject = "Dothing 인증확인 이메일입니다.";
+		String host = Constants.SMTP_HOST;
+		String subject = Constants.SMTP_TITLE;
 		String fromName = "DoThing";
-		String from = "doothing123@gmail.com";
+		String from = Constants.SMTP_FROM;
 		String to1 = email;
 		String content = "[DoThing] Email 인증번호는 "+authNum+" 입니다. 정확히 입력해주세요.";
 		

@@ -33,23 +33,32 @@ public class ServerThread extends Thread {
 			br = new BufferedReader(new InputStreamReader(socket.getInputStream(), "UTF-8"));
 			// 접속된 클라이언트에게 데이터 보내기.
 			pw = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), "UTF-8"), true);
-			String initStr = br.readLine(); // 대화명읽기
+			String initStr = br.readLine(); // 채팅방 정보 읽기
 			if(initStr == null) return;
 			String initArr[] = initStr.split(":"); // 상대방 id : 채팅방 번호
 			threadId = initArr[0]; errandsNum = initArr[1];
 			List<ServerThread> list = AndroidChatServer.socketMap.get(errandsNum);
+			
 			if (list == null) { // 채팅방이 아직 안만들어졌을 경우
 				AndroidChatServer.socketMap.put(errandsNum, new ArrayList<ServerThread>());
 			}
+			
+			// 채팅방에 유저 추가
 			List<ServerThread> realList = AndroidChatServer.socketMap.get(errandsNum);
 			realList.add(this);
 			System.out.println(errandsNum + "방의 사용자: " + realList);
+			
+		
 			String data = "";
 			while ((data = br.readLine()) != null) {
 				String dataArr[] = data.split(":");
-				if (dataArr[0].equals("EXIT") && threadId.equals(dataArr[1])) { // 방을 나간다는 메세지가 왔을 경우
+				
+				// 방을 나간다는 메세지가 왔을 경우
+				if (dataArr[0].equals("EXIT") && threadId.equals(dataArr[1])) { 
 					throw new Exception("방 나감");
-				} else {
+				} 
+				// 채팅 메세지일 경우
+				else {
 					String sendMessage = errandsNum + "#/separator/#" + dataArr[0] + "#/separator/#" + dataArr[1]
 							+ "#/separator/#" + dataArr[2];
 					for (ServerThread st : realList) {

@@ -1,6 +1,6 @@
 package dothing.web.util;
 /**
- * @brief: 웹페이지에서 페이징 처리를 하기 위한 클래스
+ * 웹페이지에서 페이징 처리를 하기 위한 클래스
  */
 public class PageMaker {
 	/**
@@ -85,7 +85,8 @@ public class PageMaker {
 	}
 	
 	/**
-	 * @brief: 현재 페이지(currentPage)를 기준으로 시작,마지막 페이지와 다음, 이전 페이지의 유무를 계산해줌
+	 * 현재 페이지(currentPage)를 기준으로 시작,마지막 페이지와 다음, 
+	 * 이전 페이지의 유무를 계산해줌
 	 */
 	public void start(){
 		// 시작페이지와 마지막 페이지를 계산하는 알고리즘

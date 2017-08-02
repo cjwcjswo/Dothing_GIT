@@ -1,10 +1,13 @@
 package dothing.web.dto;
 
+/**
+ * 심부름 위치 DTO
+ */
 public class ErrandsPosDTO {
-	private int errandsNum;
-	private String addr;
-	private String latitude;
-	private String longitude;
+	private int errandsNum; // 해당하는 심부름 번호
+	private String addr; // 주소
+	private String latitude; // 위도
+	private String longitude; // 경도
 	
 
 	public int getErrandsNum() {

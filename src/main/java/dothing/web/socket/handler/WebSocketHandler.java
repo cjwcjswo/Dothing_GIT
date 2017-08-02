@@ -22,20 +22,20 @@ import dothing.web.android.chat.ServerThread;
 import dothing.web.service.ChatService;
 
 /**
- * @brief: 클라이언트로부터 웹소켓 메세지가 왔을때 처리하는 Handler
+ * 클라이언트로부터 웹소켓 메세지가 왔을때 처리하는 Handler
  */
 @Component
 public class WebSocketHandler extends TextWebSocketHandler {
 	
 	/**
 	 * 웹에서 1:1 채팅에서 상대방의 세션정보를 저장하는 Map
-	 * Map<String, List<webSocketsession>: String 채팅방 번호, List<WebSocketSession> 웹소켓세션 리스트
+	 * Map String 채팅방 번호, List 웹소켓세션 리스트
 	 */
 	public static Map<String, List<WebSocketSession>> sessionMap = new HashMap<>();
 	
 	/**
 	 * 웹에서 특정 사용자에게 알림을 보낼때 상대방의 세션정보를 저장하는 Map
-	 * Map<String, WebSocketSession>: String 상대방 id, WebSocketSession 해당하는 웹소켓세션
+	 * Map String 상대방 id, WebSocketSession 해당하는 웹소켓세션
 	 */
 	public static Map<String, WebSocketSession> idMap = new HashMap<>();
 
@@ -44,9 +44,9 @@ public class WebSocketHandler extends TextWebSocketHandler {
 	private String errandsNum; // 심부름 번호(채팅방 번호)
 
 	/**
-	 * @brief: 해당하는 웹소켓세션이 현재 웹사이트에서 로그인 되었는가 처리
-	 * @param WebSocketSession session: 클라이언트의 웹소켓 세션
-	 * @return boolean: true 로그인 됨, false 로그인 안됨
+	 * 해당하는 웹소켓세션이 현재 웹사이트에서 로그인 되었는가 처리
+	 * @param session 클라이언트의 웹소켓 세션
+	 * @return true 로그인 됨, false 로그인 안됨
 	 */
 	private boolean isAuthenticated(WebSocketSession session) {
 		if (session.getPrincipal() == null) return false; // 로그인이 안됬을 경우
@@ -54,9 +54,9 @@ public class WebSocketHandler extends TextWebSocketHandler {
 	}
 	
 	/**
-	 * @brief: Principal로 부터 id값을 return하는 메소드
-	 * @param Principal principal: 해당하는 유저의 principal 값
-	 * @return String: 유저의 아이디
+	 * Principal로 부터 id값을 return하는 메소드
+	 * @param principal 해당하는 유저의 principal 값
+	 * @return 유저의 아이디
 	 */
 	private String getUserId(Principal principal) {
 		String[] idArr = principal.getName().split("=");
@@ -65,8 +65,8 @@ public class WebSocketHandler extends TextWebSocketHandler {
 	}
 	
 	/**
-	 * @brief: 클라이언트가 웹서버로 웹소켓을 통해 접속했을 경우 처리
-	 * @param WebSocketSession session: 클라이언트의 웹소켓 세션
+	 * 클라이언트가 웹서버로 웹소켓을 통해 접속했을 경우 처리
+	 * @param session 클라이언트의 웹소켓 세션
 	 */
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
@@ -78,9 +78,9 @@ public class WebSocketHandler extends TextWebSocketHandler {
 	}
 
 	/**
-	 * @brief: 클라이언트가 소켓연결을 끊었을경우(페이지 이동..)
-	 * @param WebSocketSession session: 클라이언트의 웹소켓 세션
-	 * @param status: 종료 상태 정보
+	 * 클라이언트가 소켓연결을 끊었을경우(페이지 이동..)
+	 * @param session 클라이언트의 웹소켓 세션
+	 * @param status 종료 상태 정보
 	 */
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
@@ -101,8 +101,8 @@ public class WebSocketHandler extends TextWebSocketHandler {
 
 	
 	/**
-	 * @brief: 안드로이드 채팅 서버로부터 웹소켓으로 채팅메세지를 보내기 위한 메소드
-	 * @param String msg: 소켓의 메세지 값
+	 * 안드로이드 채팅 서버로부터 웹소켓으로 채팅메세지를 보내기 위한 메소드
+	 * @param msg 소켓의 메세지 값
 	 */
 	public static void sendWebsocketMessage(String msg) throws IOException {
 		String msgArr[] = msg.split("#/separator/#");
@@ -127,8 +127,8 @@ public class WebSocketHandler extends TextWebSocketHandler {
 	}
 
 	/**
-	 * @brief: 안드로이드 채팅서버로부터 웹소켓으로 채팅이 왔다는 알림메세지를 보내기 위한 메소드
-	 * @param String msg: 소켓의 메세지 값
+	 * 안드로이드 채팅서버로부터 웹소켓으로 채팅이 왔다는 알림메세지를 보내기 위한 메소드
+	 * @param msg 소켓의 메세지 값
 	 */
 	public static void sendAlert(String msg) throws IOException {
 		String msgArr[] = msg.split(":");
@@ -144,40 +144,63 @@ public class WebSocketHandler extends TextWebSocketHandler {
 		}
 	}
 
+	/**
+	 * 웹 클라이언트로부터 웹소켓 메시지가 왔을때 처리하는 메소드
+	 * @param session 메세지를 보낸 클라이언트 세션
+	 * @param message 해당하는 메세지
+	 */
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-		String msg = message.getPayload();
+		String msg = message.getPayload(); // 메세지에 담긴 payload 불러오기
 		System.out.println("msg: " + msg);
 
-		String replyArr[] = msg.split(":"); // 
-		if (replyArr[0].equals("심부름")) { // 심부름 알림메세지
+		String replyArr[] = msg.split(":"); // 메세지를 ":"구분자로 분리함
+		//replyArr[0] = 심부름 종류
+		
+		// 심부름 알림메세지일 경우
+		if (replyArr[0].equals("심부름")) { 
 			Iterator<String> iter = idMap.keySet().iterator();
+			// idMap에 저장된 모든 세션에게 알림메세지를 보낸다
 			while (iter.hasNext()) {
 				WebSocketSession wb = idMap.get(iter.next());
 				if ((wb != null) && !wb.getId().equals(session.getId())) {
 					wb.sendMessage(new TextMessage("심부름:" + replyArr[1] + ":" + replyArr[2] + ":" + replyArr[3]));
 				}
 			}
-		} else if (replyArr[0].equals("선택")) { // 심부름 매칭 알림 메세지
-			if(idMap.get(msg.split(":")[2]) != null){
-			idMap.get(msg.split(":")[2]).sendMessage(new TextMessage("선택:" + msg.split(":")[1]));
+		} 
+		// 심부름 매칭 알림 메세지일 경우
+		else if (replyArr[0].equals("선택")) { 
+			//replyArr[1] = 매칭한 사람
+			//replyArr[2] = 매칭된 상태방
+			if(idMap.get(replyArr[2]) != null){
+			idMap.get(replyArr[2]).sendMessage(new TextMessage("선택:" + replyArr[1]));
 			}
-		} else if (replyArr.length == 3 && replyArr[0].equals("댓글")) { // 댓글 알림 메세지
-			if(idMap.get(msg.split(":")[1]) != null){
-			idMap.get(msg.split(":")[1]).sendMessage(new TextMessage("댓글:" + msg.split(":")[2]));
+		}
+		// 댓글 알림 메세지일 경우
+		else if (replyArr.length == 3 && replyArr[0].equals("댓글")) {
+			// replyArr[1] = 글쓴이
+			// replyArr[2] = 댓글 단 사람
+			if(idMap.get(replyArr[1]) != null){
+			idMap.get(replyArr[1]).sendMessage(new TextMessage("댓글:" + replyArr[2]));
 			}
-		} else if (replyArr[0].equals("알림")) { // 채팅 알림메세지
-			if(idMap.get(msg.split(":")[1]) != null){
-			idMap.get(msg.split(":")[1]).sendMessage(new TextMessage("알림:" + msg.split(":")[2] + ":" + msg.split(":")[3]
-					+ ":" + msg.split(":")[4] + ":" + msg.split(":")[5]));
+		}
+		// 채팅 알림메세지일 경우
+		else if (replyArr[0].equals("알림")) {
+			//replyArr[1] = 채팅 받는사람
+			if(idMap.get(replyArr[1]) != null){
+			idMap.get(replyArr[1]).sendMessage(new TextMessage("알림:" + replyArr[2] + ":" + replyArr[3]
+					+ ":" + replyArr[4] + ":" + replyArr[5]));
 			}
-		} else {// 상대방과의 채팅
+		}
+		// 상대방과의 1:1 채팅 내용일 경우
+		else {
 			String msgArr[] = msg.split("#/separator/#");
-			// msgArr[0] = errandsNum;
-			// msgArr[1] = sender;
-			// msgArr[2] = msg;
-			// msgArr[3] = writeday;
+			// msgArr[0] = errandsNum(심부름 번호);
+			// msgArr[1] = sender(보내는 사람);
+			// msgArr[2] = msg(메세지 내용);
+			// msgArr[3] = writeday(보낸 시간);
 			errandsNum = msgArr[0];
+			
 			if (sessionMap.get(errandsNum) == null) { // 채팅방이 만들어지지 않았다면
 				List<WebSocketSession> list = new ArrayList<>();
 				list.add(session);

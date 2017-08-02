@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 import net.sf.json.JSONObject;
 
 /**
- * @brief FCM서버로 스마트폰으로 푸쉬메세지를 보내기 위한 클래스
+ * FCM서버로 스마트폰으로 푸쉬메세지를 보내기 위한 클래스
  */
 @Component
 public class FcmPusher {
@@ -29,12 +29,12 @@ public class FcmPusher {
 	public final static String API_URL_FCM = "https://fcm.googleapis.com/fcm/send";
 
 	/**
-	 * @brief DoThing 서버에서 FCM서버로 푸쉬메세지를 날리기 위한 메소드
-	 * @param List<String> userDeiceIdKey:  유저들의 스마트폰 토큰 값
-	 * @param String title: 푸쉬메세지의 제목
-	 * @param String body: 푸쉬메세지의 내용
-	 * @param String action: 시작되는 액티비티의 종류(DETAIL_ACTIVITY, CHAT_ACTIVITY ...) (null일 경우 기본 액티비티)
-	 * @param Map<String, String> params: intent 시작될 때 불러 올 extras 값들
+	 * DoThing 서버에서 FCM서버로 푸쉬메세지를 날리기 위한 메소드
+	 * @param userDeviceIdKey  유저들의 스마트폰 토큰 값
+	 * @param title 푸쉬메세지의 제목
+	 * @param body 푸쉬메세지의 내용
+	 * @param action 시작되는 액티비티의 종류(DETAIL_ACTIVITY, CHAT_ACTIVITY ...) (null일 경우 기본 액티비티)
+	 * @param params intent 시작될 때 불러 올 extras 값들
 	 */
 	public void pushFCMNotification(List<String> userDeviceIdKey, String title, String body, String action,
 			Map<String, String> params) throws Exception {

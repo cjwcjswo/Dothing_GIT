@@ -9,7 +9,9 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-
+/**
+ * XSS 공격을 막기위한 필터
+ */
 public class SimpleFilter implements Filter{
 
 	@Override
@@ -19,6 +21,7 @@ public class SimpleFilter implements Filter{
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		
+		// Request메세지를 XSSRequestWrapper로 감싼다
 		 XSSRequestWrapper xss =  new XSSRequestWrapper((HttpServletRequest)request);
 		 chain.doFilter(xss, response);
 		

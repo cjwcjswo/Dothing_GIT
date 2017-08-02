@@ -1,9 +1,11 @@
 package dothing.web.dto;
 
+/**
+ * 유저 권한 DTO
+ */
 public class AuthorityDTO {
-
-	private String username;
-	private String role;
+	private String username; // 유저 아이디
+	private String role; // 권한 내용
 	
 	public AuthorityDTO() {
 		super();

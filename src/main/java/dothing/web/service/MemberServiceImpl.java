@@ -201,6 +201,7 @@ public class MemberServiceImpl implements MemberService {
 	public List<MemberDTO> selectRanked() {
 		List<GPADTO> gpaList = memberDao.averageGPA(null);
 		List<MemberDTO> memberList = new ArrayList<MemberDTO>();
+		// 평점이 높은 유저들의 세부사항 세팅
 		for (GPADTO dto : gpaList) {
 			List<GPADTO> newList = new ArrayList<GPADTO>();
 			newList.add(dto);
@@ -256,10 +257,10 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void sendEmail(String email, Integer authNum) {
 		// 인증메일을 보내기위한 세팅
-		String host = "smtp.gmail.com";
-		String subject = "Dothing 인증확인 이메일입니다.";
+		String host = Constants.SMTP_HOST;
+		String subject = Constants.SMTP_TITLE;
 		String fromName = "DoThing";
-		String from = "doothing123@gmail.com";
+		String from = Constants.SMTP_FROM;
 		String to1 = email;
 		String content = "가입을 축하드립니다! 아래 링크를 누르면 인증이 자동적으로 완료됩니다!" + "<br>"
 				+ "<a href='http://www.doothing.com/user/emailOk?email=" + email + "&authNum=" + authNum
@@ -293,17 +294,13 @@ public class MemberServiceImpl implements MemberService {
 		}
 	}
 
-	/**
-	 * 이메일 인증 완료
-	 */
+
 	@Override
 	public int finishEmail(String id) {
 		return memberDao.finishEmail(id);
 	}
 
-	/**
-	 * 안전맨 권한 거부
-	 */
+
 	@Override
 	public int cancleSafety(String id) {
 		insertNotification(id, "안전심부름꾼 조건이 만족하지 않아 취소되었습니다");

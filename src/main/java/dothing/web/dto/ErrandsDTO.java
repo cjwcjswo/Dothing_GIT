@@ -3,29 +3,31 @@ package dothing.web.dto;
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
-
+/**
+ * 심부름 DTO
+ */
 public class ErrandsDTO {
-	private int errandsNum;
-	private MemberDTO requestUser;
-	private MemberDTO responseUser;
-	private String startTime;
-	private String endTime;
-	private String arrivalTime;
-	private String finishTime;
-	private int productPrice;
-	private int errandsPrice;
-	private String errandsPhoto;
-	private String title;
-	private String content;
-	private MultipartFile errandsPhotoFile;
+	private int errandsNum; // 심부름 번호
+	private MemberDTO requestUser; // 요청 유저 DTO
+	private MemberDTO responseUser; // 응답 유저 DTO
+	private String startTime; // 심부름 시작 시간
+	private String endTime; // 요청 종료 시간
+	private String arrivalTime; // 심부름꾼 완료 시간
+	private String finishTime; // 요청자 완료 시간
+	private int productPrice; // 물건 가격
+	private int errandsPrice; // 심부름 가격
+	private String errandsPhoto; // 심부름 이미지(DB에 저장되는 문자)
+	private String title; // 심부름 제목
+	private String content; // 심부름 내용
+	private MultipartFile errandsPhotoFile; // 심부름 이미지(파일)
 
-	private List<ErrandsReplyDTO> errandsReply;
+	private List<ErrandsReplyDTO> errandsReply; // 심부름에 달린 댓글들
 	
-	private ErrandsPosDTO errandsPos;
+	private ErrandsPosDTO errandsPos; // 심부름의 위치 DTO
 	
-	private List<GPADTO> gpa;
+	private List<GPADTO> gpa; // 심부름의 평점 DTO 리스트
 	
-	private List<String> hashes;
+	private List<String> hashes; // 심부름 해시태그 리스트
 
 	
 	

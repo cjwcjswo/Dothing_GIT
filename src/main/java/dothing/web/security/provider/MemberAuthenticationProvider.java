@@ -19,6 +19,9 @@ import dothing.web.dao.MemberDAO;
 import dothing.web.dto.AuthorityDTO;
 import dothing.web.dto.MemberDTO;
 
+/**
+ * 스프링 시큐리티 인증을 처리하는 Provider
+ */
 @Service //id="memberAuthenticationProvider"
 public class MemberAuthenticationProvider implements AuthenticationProvider{
 		
@@ -34,6 +37,7 @@ public class MemberAuthenticationProvider implements AuthenticationProvider{
 	@Override
 	public Authentication authenticate(Authentication auth) throws AuthenticationException {
 		
+		// 인증 처리를 할 수 없을 경우
 		if(!supports(auth.getClass())){
 			return null;
 		}
@@ -76,12 +80,10 @@ public class MemberAuthenticationProvider implements AuthenticationProvider{
 	}
 
 	/**
-	 * 해당 타입의 authentication 객체를 이용해서 인증 처리를
-	 * 할 수 있는지 여부를 리턴해주는 메소드
+	 * 해당 타입의 authentication 객체를 이용해서 인증 처리를 할 수 있는지 여부를 리턴해주는 메소드
 	 * */
 	@Override
 	public boolean supports(Class<?> authentication) {
-		
 		return UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication);
 	}
 

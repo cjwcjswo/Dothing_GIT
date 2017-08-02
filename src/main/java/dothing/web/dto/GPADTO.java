@@ -1,18 +1,17 @@
 package dothing.web.dto;
 
 import java.io.Serializable;
-
+/**
+ * 평점 DTO
+ */
 public class GPADTO implements Serializable{
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-	private int errandsNum;
-	private String userId;
-	private Integer responseAccuracy;
-	private Integer responseSpeed;
-	private Integer responseKindness;
-	private Integer requestManners;
+	private int errandsNum; // 평점이 달린 심부름 번호
+	private String userId; // 평가 받은 유저 아이디
+	private Integer responseAccuracy; // 배달 정확성
+	private Integer responseSpeed; // 배달 속도
+	private Integer responseKindness; // 배달 친절함
+	private Integer requestManners; // 요청 친절함
 
 	public Integer getResponseAccuracy() {
 		return responseAccuracy;

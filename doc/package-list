@@ -1,0 +1,12 @@
+dothing.web.android.chat
+dothing.web.android.controller
+dothing.web.controller
+dothing.web.dao
+dothing.web.dto
+dothing.web.filter
+dothing.web.listener
+dothing.web.security.handler
+dothing.web.security.provider
+dothing.web.service
+dothing.web.socket.handler
+dothing.web.util

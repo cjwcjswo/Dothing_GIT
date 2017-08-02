@@ -10,43 +10,43 @@ public interface NoticeBoardDAO {
 	
 	/**
 	 * 페이지에 해당하는 공지게시판 게시글 불러오기
-	 * @param int page: 해당하는 페이지
-	 * @return List<NoticeBoardDTO> 공지게시글 리스트
+	 * @param page 해당하는 페이지
+	 * @return 공지게시글 리스트
 	 */
 	List<NoticeBoardDTO> selectAll(int page);
 
 	/**
 	 * 공지게시글 번호에 해당하는 게시글 정보 가져오기
-	 * @param int noticeNum: 공기게시글 번호
-	 * @return NoticeBoardDTO: 게시글 정보
+	 * @param noticeNum 공기게시글 번호
+	 * @return 게시글 정보
 	 */
 	NoticeBoardDTO selectByBoardNum(int noticeNum);
 
 	/**
 	 * 공지게시글 조회수 증가시키기
-	 * @param int noticeNum: 해당하는 공지게시글 번호
-	 * @return int: 성공 여부
+	 * @param noticeNum 해당하는 공지게시글 번호
+	 * @return 성공 여부
 	 */
 	int readnumUpdate(int noticeNum);
 
 	/**
 	 * 공지게시글 등록하기
-	 * @param NoticeBoardDTO boardDTO: 등록하고자하는 공지게시글 정보 dto
-	 * @return int: 성공여부
+	 * @param boardDTO 등록하고자하는 공지게시글 정보 dto
+	 * @return 성공여부
 	 */
 	int insert(NoticeBoardDTO boardDTO);
 
 	/**
 	 * 공지게시글 삭제하기
-	 * @param int noticeNum: 해당하는 공지 게시글 번호
-	 * @return int: 성공 여부
+	 * @param noticeNum 해당하는 공지 게시글 번호
+	 * @return 성공 여부
 	 */
 	int delete(int noticeNum);
 
 	
 	/**
 	 * 공지게시글 갯수 가져오기
-	 * @return int: 공지게시글 갯수
+	 * @return 공지게시글 갯수
 	 * 	 */
 	int countNoticeList();
 

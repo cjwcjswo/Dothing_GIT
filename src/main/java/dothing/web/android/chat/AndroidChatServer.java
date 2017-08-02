@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 안드로이드 채팅 서버
+ */
 public class AndroidChatServer {
 	
 	public static Map<String, List<ServerThread>> socketMap = new HashMap<>();
