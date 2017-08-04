@@ -119,22 +119,25 @@ public class AndroidMemberController {
 		return chatPosDTO;
 	}
 	
-<<<<<<< HEAD
-	@RequestMapping("/myinfoUpdate")
+
+	@RequestMapping("/pwConfirm")
 	@ResponseBody
 	public MemberDTO pwConfirm(HttpServletRequest request){
 		
 		String id = request.getParameter("id");
 		String pw = request.getParameter("pw");
-		String test = request.getParameter("test");
 		
-		System.out.println(id+" || "+ pw);
-		System.out.println("test = "+ test);
+		MemberDTO memberDTO = memberService.selectMemberById(id);
 		
-		return null;
+		if(!passwordEncoder.matches(pw, memberDTO.getPassword())){
+			return null;
+		}
+		
+		memberDTO.setPassword(pw);
+			
+		return memberDTO;
 	}
 
-=======
 	@RequestMapping("/isEvalFinish")
 	@ResponseBody
 	public boolean isEvalFinish(HttpServletRequest request){
@@ -153,5 +156,62 @@ public class AndroidMemberController {
 			else return false;
 		}
 	}
->>>>>>> 2c6efd28c077b580d2910d115e8ba24f3ba7adb0
+	
+	@RequestMapping("/myinfoUpdate")
+	@ResponseBody
+	public Map<String, String> myInfoUpdate(HttpServletRequest request, MemberDTO memberDTO) throws Exception{
+		
+		MultipartFile file = memberDTO.getSelfImgFile();
+		
+		if(file != null){
+			memberDTO.setSelfImg(file.getOriginalFilename());
+			String path = request.getRealPath("/")+"/users/"+memberDTO.getUserId();
+			File createFile = new File(path);
+			if(!createFile.exists()){
+				createFile.mkdirs();
+			}
+			file.transferTo(new File(path+"/"+file.getOriginalFilename()));
+		}
+		
+		
+		System.out.println(memberDTO.getIntroduce());
+		System.out.println(memberDTO.getDetailAddr());
+		System.out.println(memberDTO.getName());
+		System.out.println(memberDTO.getPassword());
+		System.out.println(memberDTO.getLatitude());
+		System.out.println(memberDTO.getPreAddr());
+		System.out.println(memberDTO.getSelfImg());
+		
+		//int result = memberService.myInfoUpdate(memberDTO);
+		int result = 0;
+		String result2 = "";
+		
+		
+		Map<String,String> map = new HashMap<String, String>();
+		if(result==1){
+			result2 = "성공";
+		}else{
+			result2= "실패";
+		}
+		
+		map.put("result2", result2);
+		
+		return map;
+		
+		/*String id = request.getParameter("id");
+		String password = request.getParameter("password");
+		
+		
+		
+		MemberDTO memberDTO = memberService.selectMemberById(id);
+		
+		if(!passwordEncoder.matches(pw, memberDTO.getPassword())){
+			return null;
+		}
+			
+		return memberDTO;*/
+	}
+	
+	
+
 }

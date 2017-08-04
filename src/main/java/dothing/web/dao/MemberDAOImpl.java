@@ -165,4 +165,9 @@ public class MemberDAOImpl implements MemberDAO {
 	public int cancleSafety(String id) {
 		return sqlSession.update("memberMapper.cancleSafety", id);
 	}
+	
+	@Override
+	public int myInfoUpdate(MemberDTO memberDTO) {
+		return sqlSession.update("memberMapper.updateMember", memberDTO);
+	}
 }

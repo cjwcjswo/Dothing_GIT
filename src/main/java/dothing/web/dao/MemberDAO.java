@@ -109,4 +109,9 @@ public interface MemberDAO {
 	 * 이메일 인증 완료
 	 */
 	int finishEmail(String id);
+	
+	/**
+	  * App 회원 정보 수정
+	  * */
+	 int myInfoUpdate(MemberDTO memberDTO);
 }

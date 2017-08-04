@@ -113,7 +113,7 @@
 			<if test="selfImg != null">
 				SELF_IMG = #{selfImg},
 			</if>
-			<if test="introduce != null">
+			<!-- <if test="introduce != null">
 				introduce = #{introduce},
 			</if>
 			<if test="latitude != null">
@@ -121,7 +121,7 @@
 			</if>
 			<if test="longitude != null">
 				MEMBER_LONGITUDE = #{longitude}
-			</if>
+			</if> -->
 		</set>
 		where MEMBER_ID = #{userId}
 	</update>

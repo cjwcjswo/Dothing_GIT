@@ -300,4 +300,17 @@ public class MemberServiceImpl implements MemberService {
 		insertNotification(id, "안전심부름꾼 조건이 만족하지 않아 취소되었습니다");
 		return memberDao.cancleSafety(id);
 	}
+	
+	@Override
+	public int myInfoUpdate(MemberDTO memberDTO) {
+		String encodePass = passwordEncoder.encode(memberDTO.getPassword());
+		memberDTO.setPassword(encodePass);
+		
+		if (memberDTO.getPassword() == null && memberDTO.getSelfImg() == null && memberDTO.getPreAddr() == null
+				&& memberDTO.getIntroduce() == null) {
+			return 0;
+		}
+		
+		return memberDao.myInfoUpdate(memberDTO);
+	}
 }
