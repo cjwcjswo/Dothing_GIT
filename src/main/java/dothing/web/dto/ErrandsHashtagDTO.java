@@ -1,8 +1,11 @@
 package dothing.web.dto;
 
+/**
+ * 심부름 해시태그 DTO
+ */
 public class ErrandsHashtagDTO {
-	private String hashtag;
-	private int count;
+	private String hashtag; // 해시태그 내용
+	private int count; // 등록된 수
 	
 	public String getHashtag() {
 		return hashtag;

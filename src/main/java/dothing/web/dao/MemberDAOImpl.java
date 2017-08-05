@@ -31,12 +31,8 @@ public class MemberDAOImpl implements MemberDAO {
 		return sqlSession.selectOne("memberMapper.selectMemberById",id);
 	}
 
-	/**
-	 * 아이디 중복체크
-	 * */
 	@Override
 	public MemberDTO selectSearch(String userId) {
-		
 		return sqlSession.selectOne("memberMapper.memberSelect",userId);
 		
 	}
@@ -48,7 +44,6 @@ public class MemberDAOImpl implements MemberDAO {
 
 	@Override
 	public int updateMember(MemberDTO member) {
-		System.out.println("다오: " + member.getIntroduce());
 		return sqlSession.update("memberMapper.updateMember", member);
 	}
 
@@ -98,6 +93,7 @@ public class MemberDAOImpl implements MemberDAO {
 
 	@Override
 	public int updateSafety(MemberDTO dto) {
+		System.out.println(dto.getSsnImg());
 		return sqlSession.update("memberMapper.updateSafety", dto);
 	}
 

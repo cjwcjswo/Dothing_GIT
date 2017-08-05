@@ -1,12 +1,15 @@
 package dothing.web.dto;
 
+/**
+ * 심부름 댓글 DTO
+ */
 public class ErrandsReplyDTO {
-	private int replyNum;
-	private ErrandsDTO errands;
-	private String replyContent;
-	private String arrivalTime;
-	private String replyDate;
-	private MemberDTO user;
+	private int replyNum; // 댓글 번호
+	private ErrandsDTO errands; // 댓글 달린 심부름 DTO
+	private String replyContent; // 댓글 내용
+	private String arrivalTime; // 예상 도착 시간
+	private String replyDate; // 날짜
+	private MemberDTO user; // 댓글 쓴 사람
 	
 	
 	@Override

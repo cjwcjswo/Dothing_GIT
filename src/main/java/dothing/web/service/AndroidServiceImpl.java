@@ -18,12 +18,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import dothing.web.dao.AndroidDAO;
+import dothing.web.dao.AuthorityDAO;
 import dothing.web.dao.MemberDAO;
+import dothing.web.dto.AuthorityDTO;
 import dothing.web.dto.ChatPosDTO;
 import dothing.web.dto.ErrandsDTO;
 import dothing.web.dto.MemberDTO;
+import dothing.web.util.Constants;
 
 @Service
+@Transactional
 public class AndroidServiceImpl implements AndroidService {
 
 	@Autowired
@@ -35,34 +39,19 @@ public class AndroidServiceImpl implements AndroidService {
 	@Autowired
 	PasswordEncoder passwordEncoder;
 	
-	@Override
-	public String androidLogin(String email,String password) {
-		String dbPassword = androidDAO.androidLogin(email);
-		String result="";
-		
-		//ID가 존재하지 않을때
-		if(dbPassword == null){
-			result = "fail";
-		} else { //ID가 존재할때
-		
-			if(passwordEncoder.matches(password, dbPassword)){
-				result = "success";
-			} else {
-				result = "fail";
-			}
-		}
-		return result;
-	}
+	@Autowired
+	AuthorityDAO authorityDAO;
+	
 
 	@Override
 	public int androidSignIn(MemberDTO memberDTO) {
-		String encodePass = passwordEncoder.encode(memberDTO.getPassword());
+		String encodePass = passwordEncoder.encode(memberDTO.getPassword()); // 비밀번호 암호화
 		memberDTO.setPassword(encodePass);
-		
-		memberDTO.setState(0);
+		memberDTO.setState(0); // 안드로이드로 회원 가입 시 state(웹에서의 인증값)가 0이다.
 		
 		int result = androidDAO.androidSignIn(memberDTO);
 		memberDAO.createPoint(memberDTO.getUserId());
+		authorityDAO.insertAuthority(new AuthorityDTO(memberDTO.getUserId(), Constants.ROLE_MEMBER));
 		
 		return result;
 	}
@@ -79,12 +68,13 @@ public class AndroidServiceImpl implements AndroidService {
 	
 	@Override
 	public String androidSendEmail(String email) {
-		int authNum = (int)((Math.random() * 99998) + 1);
+		int authNum = (int)((Math.random() * 99998) + 1); // 랜덤한 인증번호 생성
 		
-		String host = "smtp.gmail.com";
-		String subject = "Dothing 인증확인 이메일입니다.";
+		// 인증 메일 정보 셋팅
+		String host = Constants.SMTP_HOST;
+		String subject = Constants.SMTP_TITLE;
 		String fromName = "DoThing";
-		String from = "doothing123@gmail.com";
+		String from = Constants.SMTP_FROM;
 		String to1 = email;
 		String content = "[DoThing] Email 인증번호는 "+authNum+" 입니다. 정확히 입력해주세요.";
 		
@@ -111,7 +101,7 @@ public class AndroidServiceImpl implements AndroidService {
 			msg.setSubject(subject);
 			msg.setSentDate(new java.util.Date());
 			msg.setContent(content, "text/html;charset=UTF-8");
-			Transport.send(msg);
+			Transport.send(msg); // 메일 보내기
 		}
 
 		catch (Exception e) {
@@ -119,7 +109,8 @@ public class AndroidServiceImpl implements AndroidService {
 		}
 		return authNum+"";
 	}
-	@Transactional
+	
+	@Override
 	public Map<String, Object> selectRequesterDetail(int errandNum) {
 		Map<String, Object> map = new HashMap<>();
 		
@@ -131,6 +122,7 @@ public class AndroidServiceImpl implements AndroidService {
 
 		System.out.println("length : " + hashtagList.size());
 		
+		// map에 주문자 정보 추가
 		map.put("requesterId", requesterId);
 		map.put("requestCount", requestCount);
 		map.put("grade", grade);

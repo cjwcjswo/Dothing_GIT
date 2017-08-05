@@ -43,22 +43,24 @@ public class MemberServiceImpl implements MemberService {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
-	/**
-	 * 회원가입 boolean -> true: API 가입 / false: 일반 가입
-	 */
+
 	@Override
 	public int joinMember(MemberDTO member, boolean isAPI) {
 		// 비밀번호 암호화
 		String encodePass = passwordEncoder.encode(member.getPassword());
 
 		member.setPassword(encodePass);
+		
+		// API를 이용한 회원가입이 아닐 경우
 		if (!isAPI) {
+			//인증번호 랜덤 생성후 인증메일을 보낸다
 			int authNum = (int) ((Math.random() * 99998) + 1);
 			member.setState(authNum);
 			sendEmail(member.getUserId(), authNum);
 		} else {
 			member.setState(0);
 		}
+		
 		memberDao.insertMember(member);
 		memberDao.createPoint(member.getUserId());
 
@@ -70,10 +72,8 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public String selectSearch(String userId) {
 		MemberDTO dto = memberDao.selectSearch(userId);
-		if (dto == null)
-			return "사용가능합니다.";
-		else
-			return "사용중입니다";
+		if (dto == null) return "사용가능합니다.";
+		else return "사용중입니다";
 	}
 
 	/**
@@ -81,26 +81,32 @@ public class MemberServiceImpl implements MemberService {
 	 */
 	@Override
 	public int updateMember(MemberDTO member, MemberDTO original) {
-		if (!(member.getPassword() == null || member.getPassword().equals(""))) { // 비밀번호를
-																					// 바꾸고자
-																					// 한다면
+		//비밀번호를 바꾸고자 할 때
+		if (!(member.getPassword() == null || member.getPassword().equals(""))) { 
 			String encodePass = passwordEncoder.encode(member.getPassword());
 			member.setPassword(encodePass);
 			original.setPassword(encodePass);
 		} else {
 			member.setPassword(null);
 		}
+		
 		String updatePreAddr = member.getPreAddr();
+		
+		// 주소를 바꾸고자 할 때
 		if (updatePreAddr != null && !updatePreAddr.trim().equals("")) {
 			original.setPreAddr(updatePreAddr);
 			original.setDetailAddr(member.getDetailAddr());
 		}
+		
+		// 자기소개를 바꾸고자 할 때
 		if (member.getIntroduce() != null) {
 			System.out.println(member.getIntroduce());
 			original.setIntroduce(member.getIntroduce());
 			System.out.println(original.getIntroduce());
 
 		}
+		
+		// 정보 수정할 것이 없다면
 		if (member.getPassword() == null && member.getSelfImg() == null && member.getPreAddr() == null
 				&& member.getIntroduce() == null) {
 			return 0;
@@ -112,7 +118,7 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public MemberDTO selectMemberById(String id) {
 		MemberDTO member = memberDao.selectMemberById(id);
-		member.setGpaList(errandsDAO.selectGPAById(id));
+		if(member != null) member.setGpaList(errandsDAO.selectGPAById(id));
 		return memberDao.selectMemberById(id);
 	}
 
@@ -128,10 +134,11 @@ public class MemberServiceImpl implements MemberService {
 	 */
 	@Override
 	public int insertHashtag(int errandsNum, String id, String evalTag, boolean isAndroid) {
+		// 안드로이드에서 해쉬태그를 삽입 할 경우
 		if (isAndroid) {
 			memberDao.insertHashtag(new MemberHashDTO(errandsNum, id, evalTag));
-		} else {
-			String[] tagList = evalTag.split(",");
+		} else { // 웹에서 해쉬태그를 삽입 할 경우
+			String[] tagList = evalTag.split(","); // 해쉬태그 구분자가 ","로 이루어짐
 			for (String tag : tagList) {
 				memberDao.insertHashtag(new MemberHashDTO(errandsNum, id, tag.trim()));
 			}
@@ -177,6 +184,7 @@ public class MemberServiceImpl implements MemberService {
 	public List<MemberDTO> selectNotSafety(int page) {
 		List<MemberDTO> memberList = new ArrayList<>();
 		for (MemberDTO dto : memberDao.selectNotSafety(page)) {
+			//안전심부름군이 아닌 유저만 추가
 			if (!memberDao.isSafety(dto.getUserId())) {
 				memberList.add(dto);
 			}
@@ -193,6 +201,7 @@ public class MemberServiceImpl implements MemberService {
 	public List<MemberDTO> selectRanked() {
 		List<GPADTO> gpaList = memberDao.averageGPA(null);
 		List<MemberDTO> memberList = new ArrayList<MemberDTO>();
+		// 평점이 높은 유저들의 세부사항 세팅
 		for (GPADTO dto : gpaList) {
 			List<GPADTO> newList = new ArrayList<GPADTO>();
 			newList.add(dto);
@@ -247,10 +256,11 @@ public class MemberServiceImpl implements MemberService {
 	 */
 	@Override
 	public void sendEmail(String email, Integer authNum) {
-		String host = "smtp.gmail.com";
-		String subject = "Dothing 인증확인 이메일입니다.";
+		// 인증메일을 보내기위한 세팅
+		String host = Constants.SMTP_HOST;
+		String subject = Constants.SMTP_TITLE;
 		String fromName = "DoThing";
-		String from = "doothing123@gmail.com";
+		String from = Constants.SMTP_FROM;
 		String to1 = email;
 		String content = "가입을 축하드립니다! 아래 링크를 누르면 인증이 자동적으로 완료됩니다!" + "<br>"
 				+ "<a href='http://www.doothing.com/user/emailOk?email=" + email + "&authNum=" + authNum
@@ -276,7 +286,7 @@ public class MemberServiceImpl implements MemberService {
 			msg.setSubject(subject);
 			msg.setSentDate(new java.util.Date());
 			msg.setContent(content, "text/html;charset=UTF-8");
-			Transport.send(msg);
+			Transport.send(msg); // 이메일 보내기
 		}
 
 		catch (Exception e) {
@@ -284,17 +294,13 @@ public class MemberServiceImpl implements MemberService {
 		}
 	}
 
-	/**
-	 * 이메일 인증 완료
-	 */
+
 	@Override
 	public int finishEmail(String id) {
 		return memberDao.finishEmail(id);
 	}
 
-	/**
-	 * 안전맨 권한 거부
-	 */
+
 	@Override
 	public int cancleSafety(String id) {
 		insertNotification(id, "안전심부름꾼 조건이 만족하지 않아 취소되었습니다");

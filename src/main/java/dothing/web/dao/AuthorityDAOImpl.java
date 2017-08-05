@@ -16,14 +16,12 @@ public class AuthorityDAOImpl implements AuthorityDAO {
 	
 	@Override
 	public int insertAuthority(AuthorityDTO authorityDTO) {
-
 		return sqlSession.insert("authorityMapper.insertAuthority",authorityDTO);
 	}
 
 	@Override
-	public List<AuthorityDTO> selectAuthorityByUserName(String userName) {
-		
-		return sqlSession.selectList("authorityMapper.selectAuthorityByUserName",userName);
+	public List<AuthorityDTO> selectAuthorityByUserName(String userId) {
+		return sqlSession.selectList("authorityMapper.selectAuthorityByUserName",userId);
 	}
 
 }

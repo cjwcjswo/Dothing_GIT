@@ -19,11 +19,6 @@ public class AndroidDAOImpl implements AndroidDAO {
 	SqlSession sqlSession;
 	
 	@Override
-	public String androidLogin(String email) {
-		return sqlSession.selectOne("androidMapper.checkId", email);
-	}
-
-	@Override
 	public int androidSignIn(MemberDTO memberDTO) {
 		return sqlSession.insert("androidMapper.signIn", memberDTO);
 	}

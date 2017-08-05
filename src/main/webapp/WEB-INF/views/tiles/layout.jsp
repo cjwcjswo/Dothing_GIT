@@ -158,57 +158,41 @@
 			settingWS();
 		}
 	}
-
 	ws.onmessage = function(e) {
 		var alertArr = e.data.split(':');
 		if (alertArr[0] == "댓글") {
 			sendAlert("<a href='${pageContext.request.contextPath}/errand/detailView?num="
 					+ alertArr[1].split("번")[0] + "'>" + alertArr[1] + "</a>");
 
-		} else if (alertArr[0] == "심부름") {
+		}else if (alertArr[0] == "심부름") {
 			//이미지가 없는경우
 			var imgAttr = "";
 			if (alertArr[3] == "EMPTY") {
 				imgAttr = "${pageContext.request.contextPath}/resources/img/errands/img.png";
 			} else {
-				imgAttr = "${pageContext.request.contextPath}/errands/"
-						+ alertArr[1] + "/" + alertArr[3];
+				imgAttr = "${pageContext.request.contextPath}/errands/"+ alertArr[1] + "/" + alertArr[3];
 			}
-			$(document)
-					.on(
-							"click",
-							".writeAlert",
+			$(document).on("click",".writeAlert",
 							function() {
 								location.href = "${pageContext.request.contextPath}/errand/detailView?num="
-										+ alertArr[1];
-							});
+										+ alertArr[1];});
 			$("#writeImg").attr("src", imgAttr);
-			$("#writeDes").html(
-					"<h4>" + alertArr[1] + "번 심부름이 등록됬습니다.</h4> <br>"
-							+ alertArr[2]);
+			$("#writeDes").html("<h4>" + alertArr[1] + "번 심부름이 등록됬습니다.</h4> <br>"+ alertArr[2]);
 			$('.writeAlert').fadeIn(400).delay(5000).fadeOut(400);
-
 		} else if (alertArr[0] == "선택") {
 			sendAlert("<a href='${pageContext.request.contextPath}/errand/detailView?num="
 					+ alertArr[1].split("번")[0] + "'>" + alertArr[1] + "</a>");
 		} else if (alertArr[0] == "알림") {
 			if ("${currentId}" == "") {
-				$(document)
-						.on(
-								"click",
-								"#chatAlert",
-								function() {
-									location.href = "${pageContext.request.contextPath}/errand/detailView?num="
+				$(document).on("click", "#chatAlert",
+								function() {location.href = "${pageContext.request.contextPath}/errand/detailView?num="
 											+ alertArr[1];
 								});
 				$("#balloon").html("<span>" + alertArr[2] + "</span>")
-				$("#balloonImg").attr(
-						"src",
-						"${pageContext.request.contextPath}/users/"
+				$("#balloonImg").attr("src","${pageContext.request.contextPath}/users/"
 								+ alertArr[4] + "/" + alertArr[3]);
 				$('#chatAlert').fadeIn(400).delay(5000).fadeOut(400);
 			}
-
 		}
 	}
 </script>

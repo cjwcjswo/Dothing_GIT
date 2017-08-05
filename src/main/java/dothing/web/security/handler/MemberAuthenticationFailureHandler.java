@@ -13,9 +13,8 @@ import org.springframework.stereotype.Component;
 
 /**
  * 스프링 시큐리티에서 로그인 실패시 호출되는 EventHandler
- * 
- * springBean 설정문서에서 <security:form-login 태그에
- * authentication-failure-handler-ref 추가하면
+ * springBean 설정문서에서
+ *  security:form-login 태그에 authentication-failure-handler-ref 추가하면
  * 로그인 실패시 onAuthenticationFailure 메소드 자동 호출
  * */
 @Component //id="memberAuthenticationFailureHandler"
@@ -24,8 +23,8 @@ public class MemberAuthenticationFailureHandler implements AuthenticationFailure
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest req, HttpServletResponse res, AuthenticationException auth)
 			throws IOException, ServletException {
-		req.setAttribute("errorMessage", auth.getMessage());
-		req.getRequestDispatcher("/error").forward(req, res);
+		req.setAttribute("errorMessage", auth.getMessage()); // 에러메세지 추가
+		req.getRequestDispatcher("/error").forward(req, res); // error페이지로 forward 형태로 이동
 		
 	}
 
